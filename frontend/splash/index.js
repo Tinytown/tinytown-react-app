@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Animated, Image, View, StyleSheet } from "react-native";
 
-class Splash extends Component {
+export default class Splash extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,5 +46,3 @@ const styles = StyleSheet.create({
     resizeMode: "contain"
   }
 });
-
-export default Splash;
