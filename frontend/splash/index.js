@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Animated, Image, View, StyleSheet } from "react-native";
+import React, { Component } from 'react';
+import { Animated, Image, View, StyleSheet } from 'react-native';
 
 export default class Splash extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class Splash extends Component {
           opacity: this.state.fadeAnim
         }]}>
           <Image 
-            source={require("../../assets/images/logo.png")}
+            source={require('../../assets/images/logo.png')}
             style={styles.logo}>
           </Image>
         </Animated.View>
@@ -32,17 +32,17 @@ export default class Splash extends Component {
 
 const styles = StyleSheet.create({
   landscape: {
-    backgroundColor: "black",
-    height: "100%"
+    backgroundColor: 'black',
+    height: '100%'
   },
   fadingContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   logo: {
-    width: "85%",
-    height: "85%",
-    resizeMode: "contain"
+    width: '85%',
+    height: '85%',
+    resizeMode: 'contain'
   }
 });

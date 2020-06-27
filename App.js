@@ -15,7 +15,7 @@ import Map from './frontend/mapbox';
 
 const App = () =>
   <>
-    <StatusBar barStyle="dark-content" />
+    <StatusBar barStyle='dark-content' />
     <SafeAreaView>
       {/* <Splash></Splash> */}
       <Map></Map>
