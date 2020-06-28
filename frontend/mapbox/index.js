@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CurrentLocationIcon from './fixtures/current-location-icon';
+import Geolocation from 'react-native-geolocation-service';
+import {bindMethods} from '../component-ops';
+
 const {MapView, Camera} = MapboxGL;
 
 MapboxGL.setAccessToken('pk.eyJ1IjoiYWxmYWxjb24iLCJhIjoiY2tibWxsZjRvMDJwNTMwbDN6ZHM5eDMxZCJ9.p-E83hPUo23G5D5USjR_QA');
@@ -58,15 +61,61 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
 
-    this.onCurrentLocation = this.onCurrentLocation.bind(this);
+    bindMethods(['setUserCoordinates', 'goToCurrentLocation'], this);
+    this.state = {
+      currentLocation: null,
+      locationToShow: { // minneapolis to begin with
+        latitude: 44.986656,
+        longitude: -93.258133
+      }
+    };
   }
 
+  setUserCoordinates(position) {
+    const {latitude, longitude} = position.coords;
+    this.setState({
+      currentLocation: {
+        latitude,
+        longitude
+      }
+    });
+  }
+  
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
+
+    const updatingLocationParameters = [
+      this.setUserCoordinates,
+      error => {
+       console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
+     },
+     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
+    ]
+
+    Geolocation.requestAuthorization('always')
+      .then(status => {
+        if (status === 'granted') {
+          Geolocation.getCurrentPosition(
+            ...updatingLocationParameters
+          );
+          
+          Geolocation.watchPosition(
+            ...updatingLocationParameters
+          )
+        }
+      });
   }
 
-  onCurrentLocation() {
+  componentWillUnmount() {
+    Geolocation.stopObserving();
+  }
 
+  goToCurrentLocation() {
+    this.setState({
+      locationToShow: {
+        ...this.state.currentLocation
+      }
+    });
   }
 
   render() {
@@ -74,10 +123,7 @@ export default class Map extends Component {
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const minneapolisCoordinates = {
-      latitude: 44.986656,
-      longitude: -93.258133
-    };
+    const {locationToShow} = this.state; 
     return (
       <View style={styles.landscape}>
         <View style={styles.page}>
@@ -85,13 +131,13 @@ export default class Map extends Component {
             <MapView style={styles.map}>
               <Camera
                 zoomLevel={14}
-                centerCoordinate={[minneapolisCoordinates.longitude, minneapolisCoordinates.latitude]}
+                centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
                 >
               </Camera>
               <View style={styles.containerCurrentLocation}>
               <TouchableOpacity
                 style={styles.buttonCurrentLocation}
-                onPress={this.onCurrentLocation}
+                onPress={this.goToCurrentLocation}
               >
                 <View style={styles.messageCurrentLocation}>
                   <CurrentLocationIcon style={styles.iconCurrentLocation} />
