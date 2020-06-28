@@ -13,6 +13,7 @@
     "@react-native-mapbox-gl/maps": "^8.1.0-rc.1",
     "react": "16.11.0",
     "react-native": "0.62.2",
+    "react-native-geolocation-service": "^5.0.0",
     "react-native-svg": "^12.1.0"
   },
   "devDependencies": {

@@ -194,7 +194,6 @@
 				CD99AD4C3908477F3473F28B /* Pods-tinytown-tvOSTests.debug.xcconfig */,
 				AD2F06B1D8FDDCF0C2526CE4 /* Pods-tinytown-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
