@@ -17,3 +17,10 @@ Move out and run the iOS simulator:
 ```
 npx react-native run-ios
 ```
+
+Move out and run the Android simulator:
+```
+npx react-native run-android
+```
+
+More on setting up your React Native dev environment can be found here: https://reactnative.dev/docs/environment-setup
