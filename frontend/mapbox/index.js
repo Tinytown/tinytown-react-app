@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CurrentLocationIcon from './fixtures/current-location-icon';
 import Geolocation from 'react-native-geolocation-service';
@@ -8,6 +8,8 @@ import {bindMethods} from '../component-ops';
 const {MapView, Camera} = MapboxGL;
 
 MapboxGL.setAccessToken('pk.eyJ1IjoiYWxmYWxjb24iLCJhIjoiY2tibWxsZjRvMDJwNTMwbDN6ZHM5eDMxZCJ9.p-E83hPUo23G5D5USjR_QA');
+
+const isAndroid = Platform.OS === 'android';
 
 const styles = StyleSheet.create({
   landscape: {
@@ -35,6 +37,8 @@ const styles = StyleSheet.create({
   },
   buttonCurrentLocation: {
     backgroundColor: '#000000',
+    height: 30,
+    width: 30,
     paddingLeft: 10,
     paddingRight: 15,
     paddingVertical: 10,
@@ -81,6 +85,16 @@ export default class Map extends Component {
     });
   }
   
+  subscribeToUserLocation() {
+    Geolocation.getCurrentPosition(
+      ...updatingLocationParameters
+    );
+    
+    Geolocation.watchPosition(
+      ...updatingLocationParameters
+    )
+  }
+  
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
 
@@ -92,16 +106,21 @@ export default class Map extends Component {
      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
     ]
 
+    if (isAndroid) {
+      PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+      .then(status => {
+        if (status === PermissionsAndroid.RESULTS_GRANTED) {
+          this.subscribeToUserLocation();
+        }
+      });
+      return null;
+    }
+
+    // assume iOS
     Geolocation.requestAuthorization('always')
       .then(status => {
         if (status === 'granted') {
-          Geolocation.getCurrentPosition(
-            ...updatingLocationParameters
-          );
-          
-          Geolocation.watchPosition(
-            ...updatingLocationParameters
-          )
+          this.subscribeToUserLocation();
         }
       });
   }
