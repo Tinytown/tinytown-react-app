@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
   },
   buttonCurrentLocation: {
     backgroundColor: '#000000',
-    height: 30,
-    width: 30,
+    height: 48,
+    width: 180,
     paddingLeft: 10,
     paddingRight: 15,
     paddingVertical: 10,
@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
   },
   messageCurrentLocation: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center'
   },
   iconCurrentLocation: {
@@ -86,11 +85,19 @@ export default class Map extends Component {
   }
   
   subscribeToUserLocation() {
+    const updatingLocationParameters = [
+      this.setUserCoordinates,
+      error => {
+       console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
+     },
+     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
+    ];
+
     Geolocation.getCurrentPosition(
       ...updatingLocationParameters
     );
     
-    Geolocation.watchPosition(
+    this.watchId = Geolocation.watchPosition(
       ...updatingLocationParameters
     )
   }
@@ -98,18 +105,16 @@ export default class Map extends Component {
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
 
-    const updatingLocationParameters = [
-      this.setUserCoordinates,
-      error => {
-       console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
-     },
-     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
-    ]
-
     if (isAndroid) {
-      PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+      PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          'title': 'Location Request',
+          'message': 'Tinytown needs access to your location'
+        }
+      )
       .then(status => {
-        if (status === PermissionsAndroid.RESULTS_GRANTED) {
+        if (status === PermissionsAndroid.RESULTS.GRANTED) {
           this.subscribeToUserLocation();
         }
       });
@@ -126,6 +131,7 @@ export default class Map extends Component {
   }
 
   componentWillUnmount() {
+    Geolocation.clearWatch(this.watchId);
     Geolocation.stopObserving();
   }
 
@@ -153,18 +159,18 @@ export default class Map extends Component {
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
                 >
               </Camera>
-              <View style={styles.containerCurrentLocation}>
-              <TouchableOpacity
-                style={styles.buttonCurrentLocation}
-                onPress={this.goToCurrentLocation}
-              >
-                <View style={styles.messageCurrentLocation}>
-                  <CurrentLocationIcon style={styles.iconCurrentLocation} />
-                  <Text style={styles.textCurrentLocation}>Go to my location</Text>  
-                </View>
-              </TouchableOpacity>
-              </View>
             </MapView>
+            <View style={styles.containerCurrentLocation}>
+                <TouchableOpacity
+                  style={styles.buttonCurrentLocation}
+                  onPress={this.goToCurrentLocation}
+                >
+                  <View style={styles.messageCurrentLocation}>
+                    <CurrentLocationIcon style={styles.iconCurrentLocation} />
+                    <Text style={styles.textCurrentLocation}>Go to my location</Text>  
+                  </View>
+                </TouchableOpacity>
+              </View>
           </View>
         </View>
       </View>
