@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CurrentLocationIcon from './fixtures/current-location-icon';
 import Geolocation from 'react-native-geolocation-service';
@@ -8,6 +8,8 @@ import {bindMethods} from '../component-ops';
 const {MapView, Camera} = MapboxGL;
 
 MapboxGL.setAccessToken('pk.eyJ1IjoiYWxmYWxjb24iLCJhIjoiY2tibWxsZjRvMDJwNTMwbDN6ZHM5eDMxZCJ9.p-E83hPUo23G5D5USjR_QA');
+
+const isAndroid = Platform.OS === 'android';
 
 const styles = StyleSheet.create({
   landscape: {
@@ -35,6 +37,8 @@ const styles = StyleSheet.create({
   },
   buttonCurrentLocation: {
     backgroundColor: '#000000',
+    height: 48,
+    width: 180,
     paddingLeft: 10,
     paddingRight: 15,
     paddingVertical: 10,
@@ -49,7 +53,6 @@ const styles = StyleSheet.create({
   },
   messageCurrentLocation: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center'
   },
   iconCurrentLocation: {
@@ -81,32 +84,54 @@ export default class Map extends Component {
     });
   }
   
-  componentDidMount() {
-    MapboxGL.setTelemetryEnabled(false);
-
+  subscribeToUserLocation() {
     const updatingLocationParameters = [
       this.setUserCoordinates,
       error => {
        console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
      },
      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
-    ]
+    ];
 
+    Geolocation.getCurrentPosition(
+      ...updatingLocationParameters
+    );
+    
+    this.watchId = Geolocation.watchPosition(
+      ...updatingLocationParameters
+    )
+  }
+  
+  componentDidMount() {
+    MapboxGL.setTelemetryEnabled(false);
+
+    if (isAndroid) {
+      PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          'title': 'Location Request',
+          'message': 'Tinytown needs access to your location'
+        }
+      )
+      .then(status => {
+        if (status === PermissionsAndroid.RESULTS.GRANTED) {
+          this.subscribeToUserLocation();
+        }
+      });
+      return null;
+    }
+
+    // assume iOS
     Geolocation.requestAuthorization('always')
       .then(status => {
         if (status === 'granted') {
-          Geolocation.getCurrentPosition(
-            ...updatingLocationParameters
-          );
-          
-          Geolocation.watchPosition(
-            ...updatingLocationParameters
-          )
+          this.subscribeToUserLocation();
         }
       });
   }
 
   componentWillUnmount() {
+    Geolocation.clearWatch(this.watchId);
     Geolocation.stopObserving();
   }
 
@@ -134,18 +159,18 @@ export default class Map extends Component {
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
                 >
               </Camera>
-              <View style={styles.containerCurrentLocation}>
-              <TouchableOpacity
-                style={styles.buttonCurrentLocation}
-                onPress={this.goToCurrentLocation}
-              >
-                <View style={styles.messageCurrentLocation}>
-                  <CurrentLocationIcon style={styles.iconCurrentLocation} />
-                  <Text style={styles.textCurrentLocation}>Go to my location</Text>  
-                </View>
-              </TouchableOpacity>
-              </View>
             </MapView>
+            <View style={styles.containerCurrentLocation}>
+                <TouchableOpacity
+                  style={styles.buttonCurrentLocation}
+                  onPress={this.goToCurrentLocation}
+                >
+                  <View style={styles.messageCurrentLocation}>
+                    <CurrentLocationIcon style={styles.iconCurrentLocation} />
+                    <Text style={styles.textCurrentLocation}>Go to my location</Text>  
+                  </View>
+                </TouchableOpacity>
+              </View>
           </View>
         </View>
       </View>
