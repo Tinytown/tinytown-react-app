@@ -64,7 +64,7 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
 
-    bindMethods(['setUserCoordinates', 'goToCurrentLocation'], this);
+    bindMethods(['setUserCoordinates', 'goToCurrentLocation', 'handleRegionChange'], this);
     this.state = {
       currentLocation: null,
       locationToShow: { // minneapolis to begin with
@@ -72,6 +72,8 @@ export default class Map extends Component {
         longitude: -93.258133
       }
     };
+
+    this.map = React.createRef();
   }
 
   setUserCoordinates(position) {
@@ -135,6 +137,17 @@ export default class Map extends Component {
     Geolocation.stopObserving();
   }
 
+  handleRegionChange() {
+    this.map.current.getCenter().then(([latitude, longitude]) => {
+      this.setState({
+        locationToShow: {
+          longitude,
+          latitude
+        }
+      })
+    });
+  }
+
   goToCurrentLocation() {
     this.setState({
       locationToShow: {
@@ -153,7 +166,7 @@ export default class Map extends Component {
       <View style={styles.landscape}>
         <View style={styles.page}>
           <View style={styles.container}>
-            <MapView style={styles.map}>
+            <MapView style={styles.map} ref={this.map} onRegionDidChange={this.handleRegionChange}>
               <Camera
                 zoomLevel={14}
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
