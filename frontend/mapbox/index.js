@@ -153,7 +153,11 @@ export default class Map extends Component {
       <View style={styles.landscape}>
         <View style={styles.page}>
           <View style={styles.container}>
-            <MapView style={styles.map} styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}>
+            <MapView
+                style={styles.map}
+                styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+                logoEnabled={false}
+            >
               <Camera
                 zoomLevel={14}
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
