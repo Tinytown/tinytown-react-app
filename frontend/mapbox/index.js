@@ -1,5 +1,12 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform } from 'react-native';
+import React, {Component} from 'react';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  PermissionsAndroid,
+  Platform,
+} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CurrentLocationIcon from './fixtures/current-location-icon';
 import Geolocation from 'react-native-geolocation-service';
@@ -7,33 +14,35 @@ import {bindMethods} from '../component-ops';
 
 const {MapView, Camera} = MapboxGL;
 
-MapboxGL.setAccessToken('pk.eyJ1IjoiYWxmYWxjb24iLCJhIjoiY2tibWxsZjRvMDJwNTMwbDN6ZHM5eDMxZCJ9.p-E83hPUo23G5D5USjR_QA');
+MapboxGL.setAccessToken(
+  'pk.eyJ1IjoiYWxmYWxjb24iLCJhIjoiY2tibWxsZjRvMDJwNTMwbDN6ZHM5eDMxZCJ9.p-E83hPUo23G5D5USjR_QA',
+);
 
 const isAndroid = Platform.OS === 'android';
 
 const styles = StyleSheet.create({
   landscape: {
-    height: '100%'
+    height: '100%',
   },
   page: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#F5FCFF',
   },
   container: {
     height: '100%',
     width: '100%',
   },
   map: {
-    flex: 1
+    flex: 1,
   },
   containerCurrentLocation: {
     position: 'absolute',
     width: '100%',
     bottom: 50,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   buttonCurrentLocation: {
     backgroundColor: '#000000',
@@ -49,15 +58,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     lineHeight: 24,
-    color: 'white'
+    color: 'white',
   },
   messageCurrentLocation: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   iconCurrentLocation: {
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 });
 
 export default class Map extends Component {
@@ -67,10 +76,11 @@ export default class Map extends Component {
     bindMethods(['setUserCoordinates', 'goToCurrentLocation'], this);
     this.state = {
       currentLocation: null,
-      locationToShow: { // minneapolis to begin with
+      locationToShow: {
+        // minneapolis to begin with
         latitude: 44.986656,
-        longitude: -93.258133
-      }
+        longitude: -93.258133,
+      },
     };
   }
 
@@ -79,29 +89,25 @@ export default class Map extends Component {
     this.setState({
       currentLocation: {
         latitude,
-        longitude
-      }
+        longitude,
+      },
     });
   }
-  
+
   subscribeToUserLocation() {
     const updatingLocationParameters = [
       this.setUserCoordinates,
       error => {
-       console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
-     },
-     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
+        console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     ];
 
-    Geolocation.getCurrentPosition(
-      ...updatingLocationParameters
-    );
-    
-    this.watchId = Geolocation.watchPosition(
-      ...updatingLocationParameters
-    )
+    Geolocation.getCurrentPosition(...updatingLocationParameters);
+
+    this.watchId = Geolocation.watchPosition(...updatingLocationParameters);
   }
-  
+
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
 
@@ -109,11 +115,10 @@ export default class Map extends Component {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          'title': 'Location Request',
-          'message': 'Tinytown needs access to your location'
-        }
-      )
-      .then(status => {
+          title: 'Location Request',
+          message: 'Tinytown needs access to your location',
+        },
+      ).then(status => {
         if (status === PermissionsAndroid.RESULTS.GRANTED) {
           this.subscribeToUserLocation();
         }
@@ -122,12 +127,11 @@ export default class Map extends Component {
     }
 
     // assume iOS
-    Geolocation.requestAuthorization('always')
-      .then(status => {
-        if (status === 'granted') {
-          this.subscribeToUserLocation();
-        }
-      });
+    Geolocation.requestAuthorization('always').then(status => {
+      if (status === 'granted') {
+        this.subscribeToUserLocation();
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -138,8 +142,8 @@ export default class Map extends Component {
   goToCurrentLocation() {
     this.setState({
       locationToShow: {
-        ...this.state.currentLocation
-      }
+        ...this.state.currentLocation,
+      },
     });
   }
 
@@ -148,33 +152,36 @@ export default class Map extends Component {
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {locationToShow} = this.state; 
+    const {locationToShow} = this.state;
     return (
       <View style={styles.landscape}>
         <View style={styles.page}>
           <View style={styles.container}>
             <MapView
-                style={styles.map}
-                styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
-                logoEnabled={false}
-            >
+              style={styles.map}
+              styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+              logoEnabled={false}
+              attributionEnabled={false}>
               <Camera
                 zoomLevel={14}
-                centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
-                >
-              </Camera>
+                centerCoordinate={[
+                  locationToShow.longitude,
+                  locationToShow.latitude,
+                ]}
+              />
             </MapView>
             <View style={styles.containerCurrentLocation}>
-                <TouchableOpacity
-                  style={styles.buttonCurrentLocation}
-                  onPress={this.goToCurrentLocation}
-                >
-                  <View style={styles.messageCurrentLocation}>
-                    <CurrentLocationIcon style={styles.iconCurrentLocation} />
-                    <Text style={styles.textCurrentLocation}>Go to my location</Text>  
-                  </View>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                style={styles.buttonCurrentLocation}
+                onPress={this.goToCurrentLocation}>
+                <View style={styles.messageCurrentLocation}>
+                  <CurrentLocationIcon style={styles.iconCurrentLocation} />
+                  <Text style={styles.textCurrentLocation}>
+                    Go to my location
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
