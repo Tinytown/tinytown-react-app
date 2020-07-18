@@ -157,6 +157,7 @@ export default class Map extends Component {
                 style={styles.map}
                 styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
                 logoEnabled={false}
+                attributionEnabled={false}
             >
               <Camera
                 zoomLevel={14}
