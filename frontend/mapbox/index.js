@@ -3,9 +3,9 @@ import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform 
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CurrentLocationIcon from './fixtures/current-location-icon';
 import Geolocation from 'react-native-geolocation-service';
-import { bindMethods } from '../component-ops';
+import {bindMethods} from '../component-ops';
 
-const { MapView, Camera } = MapboxGL;
+const {MapView, Camera} = MapboxGL;
 
 MapboxGL.setAccessToken('pk.eyJ1IjoiYWxmYWxjb24iLCJhIjoiY2tibWxsZjRvMDJwNTMwbDN6ZHM5eDMxZCJ9.p-E83hPUo23G5D5USjR_QA');
 
@@ -75,7 +75,7 @@ export default class Map extends Component {
   }
 
   setUserCoordinates(position) {
-    const { latitude, longitude } = position.coords;
+    const {latitude, longitude} = position.coords;
     this.setState({
       currentLocation: {
         latitude,
@@ -83,25 +83,25 @@ export default class Map extends Component {
       }
     });
   }
-
+  
   subscribeToUserLocation() {
     const updatingLocationParameters = [
       this.setUserCoordinates,
       error => {
-        console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+       console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
+     },
+     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
     ];
 
     Geolocation.getCurrentPosition(
       ...updatingLocationParameters
     );
-
+    
     this.watchId = Geolocation.watchPosition(
       ...updatingLocationParameters
     )
   }
-
+  
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
 
@@ -113,11 +113,11 @@ export default class Map extends Component {
           'message': 'Tinytown needs access to your location'
         }
       )
-        .then(status => {
-          if (status === PermissionsAndroid.RESULTS.GRANTED) {
-            this.subscribeToUserLocation();
-          }
-        });
+      .then(status => {
+        if (status === PermissionsAndroid.RESULTS.GRANTED) {
+          this.subscribeToUserLocation();
+        }
+      });
       return null;
     }
 
@@ -148,34 +148,33 @@ export default class Map extends Component {
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const { locationToShow } = this.state;
+    const {locationToShow} = this.state; 
     return (
       <View style={styles.landscape}>
         <View style={styles.page}>
           <View style={styles.container}>
             <MapView
-              style={styles.map}
-              styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
-              logoEnabled={false}
-              attributionEnabled={false}
+                style={styles.map}
+                styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+                logoEnabled={false}
             >
               <Camera
                 zoomLevel={14}
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
-              >
+                >
               </Camera>
             </MapView>
             <View style={styles.containerCurrentLocation}>
-              <TouchableOpacity
-                style={styles.buttonCurrentLocation}
-                onPress={this.goToCurrentLocation}
-              >
-                <View style={styles.messageCurrentLocation}>
-                  <CurrentLocationIcon style={styles.iconCurrentLocation} />
-                  <Text style={styles.textCurrentLocation}>Go to my location</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  style={styles.buttonCurrentLocation}
+                  onPress={this.goToCurrentLocation}
+                >
+                  <View style={styles.messageCurrentLocation}>
+                    <CurrentLocationIcon style={styles.iconCurrentLocation} />
+                    <Text style={styles.textCurrentLocation}>Go to my location</Text>  
+                  </View>
+                </TouchableOpacity>
+              </View>
           </View>
         </View>
       </View>
