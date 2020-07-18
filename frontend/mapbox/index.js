@@ -138,7 +138,7 @@ export default class Map extends Component {
   }
 
   handleRegionChange() {
-    this.map.current.getCenter().then(([latitude, longitude]) => {
+    this.map.current.getCenter().then(([longitude, latitude]) => {
       this.setState({
         locationToShow: {
           longitude,
