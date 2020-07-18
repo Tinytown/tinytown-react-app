@@ -64,16 +64,31 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
 
-    bindMethods(['setUserCoordinates', 'goToCurrentLocation', 'handleRegionChange'], this);
+    bindMethods(['setUserCoordinatesFirstTime', 'updateShow', 'subscribeToUserLocation', 'goToCurrentLocation', 'handleRegionChange', 'setUserCoordinates', 'onDidFinishRenderingMapFully', 'onWillStartRenderingMap'], this);
     this.state = {
       currentLocation: null,
       locationToShow: { // minneapolis to begin with
         latitude: 44.986656,
         longitude: -93.258133
-      }
+      },
+      isMapLoading: false, // axiom: loading only applies to an existing map
     };
 
     this.map = React.createRef();
+  }
+
+  setUserCoordinatesFirstTime(position) {
+    const {latitude, longitude} = position.coords;
+    this.setState({
+      currentLocation: {
+        latitude,
+        longitude
+      },
+      locationToShow: {
+        latitude,
+        longitude
+      }
+    });
   }
 
   setUserCoordinates(position) {
@@ -88,7 +103,6 @@ export default class Map extends Component {
   
   subscribeToUserLocation() {
     const updatingLocationParameters = [
-      this.setUserCoordinates,
       error => {
        console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
      },
@@ -96,17 +110,60 @@ export default class Map extends Component {
     ];
 
     Geolocation.getCurrentPosition(
-      ...updatingLocationParameters
+      this.setUserCoordinatesFirstTime, ...updatingLocationParameters
     );
     
     this.watchId = Geolocation.watchPosition(
-      ...updatingLocationParameters
+      this.setUserCoordinates, ...updatingLocationParameters
     )
+  }
+
+  onWillStartRenderingMap() {
+    this.setState({
+      isMapLoading: true
+    })
+  }
+
+  onDidFinishRenderingMapFully() {
+    this.setState({
+      isMapLoading: false
+    })
   }
   
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
+  }
 
+  componentWillUnmount() {
+    Geolocation.clearWatch(this.watchId);
+    Geolocation.stopObserving();
+  }
+
+  handleRegionChange() {
+    if (this.state.isMapLoading) {
+      return
+    }
+    this.map.current.getCenter().then(([longitude, latitude]) => {
+      this.updateShow({longitude,latitude});
+    });
+  }
+
+  updateShow({longitude, latitude}) {
+    this.setState({
+      locationToShow: {
+        longitude,
+        latitude
+      }
+    })
+  }
+
+  goToCurrentLocation() {
+    this.state.currentLocation ?
+      this.updateShow(this.state.currentLocation) :
+      this.firstTimeLocationUpdate() // assumption: only on first time is currentLocation in state null
+  }
+
+  firstTimeLocationUpdate() {
     if (isAndroid) {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -132,30 +189,6 @@ export default class Map extends Component {
       });
   }
 
-  componentWillUnmount() {
-    Geolocation.clearWatch(this.watchId);
-    Geolocation.stopObserving();
-  }
-
-  handleRegionChange() {
-    this.map.current.getCenter().then(([longitude, latitude]) => {
-      this.setState({
-        locationToShow: {
-          longitude,
-          latitude
-        }
-      })
-    });
-  }
-
-  goToCurrentLocation() {
-    this.setState({
-      locationToShow: {
-        ...this.state.currentLocation
-      }
-    });
-  }
-
   render() {
     /* 
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
@@ -166,7 +199,7 @@ export default class Map extends Component {
       <View style={styles.landscape}>
         <View style={styles.page}>
           <View style={styles.container}>
-            <MapView style={styles.map} ref={this.map} onRegionDidChange={this.handleRegionChange}>
+            <MapView style={styles.map} ref={this.map} onRegionDidChange={this.handleRegionChange} onDidFinishRenderingMapFully={this.onDidFinishRenderingMapFully} onWillStartRenderingMap={this.onWillStartRenderingMap}>
               <Camera
                 zoomLevel={14}
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
