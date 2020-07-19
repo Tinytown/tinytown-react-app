@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform } from 'react-native';
+import config from '../../config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CurrentLocationIcon from './fixtures/current-location-icon';
 import Geolocation from 'react-native-geolocation-service';
@@ -7,7 +8,7 @@ import {bindMethods} from '../component-ops';
 
 const {MapView, Camera} = MapboxGL;
 
-MapboxGL.setAccessToken('pk.eyJ1IjoiYWxmYWxjb24iLCJhIjoiY2tibWxsZjRvMDJwNTMwbDN6ZHM5eDMxZCJ9.p-E83hPUo23G5D5USjR_QA');
+MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const isAndroid = Platform.OS === 'android';
 
