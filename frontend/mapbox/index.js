@@ -64,16 +64,32 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
 
-    bindMethods(['setUserCoordinates', 'goToCurrentLocation', 'handleRegionChange'], this);
+    bindMethods(['setUserCoordinatesFirstTime', 'updateShow', 'subscribeToUserLocation', 'goToCurrentLocation', 'handleRegionChange', 'setUserCoordinates', 'onDidFinishRenderingMapFully', 'onWillStartRenderingMap'], this);
     this.state = {
       currentLocation: null,
       locationToShow: { // minneapolis to begin with
         latitude: 44.986656,
         longitude: -93.258133
-      }
+      },
+      zoom: 14,
+      isMapLoading: false, // axiom: loading only applies to an existing map
     };
 
     this.map = React.createRef();
+  }
+
+  setUserCoordinatesFirstTime(position) {
+    const {latitude, longitude} = position.coords;
+    this.setState({
+      currentLocation: {
+        latitude,
+        longitude
+      },
+      locationToShow: {
+        latitude,
+        longitude
+      }
+    });
   }
 
   setUserCoordinates(position) {
@@ -88,7 +104,6 @@ export default class Map extends Component {
   
   subscribeToUserLocation() {
     const updatingLocationParameters = [
-      this.setUserCoordinates,
       error => {
        console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
      },
@@ -96,17 +111,71 @@ export default class Map extends Component {
     ];
 
     Geolocation.getCurrentPosition(
-      ...updatingLocationParameters
+      this.setUserCoordinatesFirstTime, ...updatingLocationParameters
     );
     
     this.watchId = Geolocation.watchPosition(
-      ...updatingLocationParameters
+      this.setUserCoordinates, ...updatingLocationParameters
     )
+  }
+
+  onWillStartRenderingMap() {
+    this.setState({
+      isMapLoading: true
+    })
+  }
+
+  onDidFinishRenderingMapFully() {
+    this.setState({
+      isMapLoading: false
+    })
   }
   
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
+  }
 
+  componentWillUnmount() {
+    Geolocation.clearWatch(this.watchId);
+    Geolocation.stopObserving();
+  }
+
+  getUpdatedCenter() {
+    return this.map.current.getCenter();
+  }
+
+  getUpdatedZoom() {
+    return this.map.current.getZoom();
+  }
+
+  handleRegionChange() {
+    if (this.state.isMapLoading) {
+      return
+    }
+    Promise.all([this.getUpdatedCenter(), this.getUpdatedZoom()])
+      .then(([[longitude, latitude], zoom]) => {
+        this.updateShow({longitude, latitude, zoom});
+      })
+  }
+
+  updateShow({longitude: newLongitude, latitude: newLatitude, zoom: newZoom}) {
+    const {longitude: oldLongitude, latitude: oldLatitude, zoom: oldZoom} = this.state;
+    this.setState({
+      locationToShow: {
+        longitude: newLongitude ? newLongitude : oldLongitude,
+        latitude: newLatitude ? newLatitude : oldLatitude,
+      },
+      zoom: newZoom ? newZoom : oldZoom
+    });
+  }
+
+  goToCurrentLocation() {
+    this.state.currentLocation ?
+      this.updateShow(this.state.currentLocation) :
+      this.firstTimeLocationUpdate() // assumption: only on first time is currentLocation in state null
+  }
+
+  firstTimeLocationUpdate() {
     if (isAndroid) {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -132,36 +201,12 @@ export default class Map extends Component {
       });
   }
 
-  componentWillUnmount() {
-    Geolocation.clearWatch(this.watchId);
-    Geolocation.stopObserving();
-  }
-
-  handleRegionChange() {
-    this.map.current.getCenter().then(([longitude, latitude]) => {
-      this.setState({
-        locationToShow: {
-          longitude,
-          latitude
-        }
-      })
-    });
-  }
-
-  goToCurrentLocation() {
-    this.setState({
-      locationToShow: {
-        ...this.state.currentLocation
-      }
-    });
-  }
-
   render() {
     /* 
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {locationToShow} = this.state; 
+    const {locationToShow, zoom} = this.state; 
     return (
       <View style={styles.landscape}>
         <View style={styles.page}>
@@ -173,9 +218,11 @@ export default class Map extends Component {
                 attributionEnabled={false}
                 onRegionDidChange={this.handleRegionChange}
                 ref={this.map}
+                onDidFinishRenderingMapFully={this.onDidFinishRenderingMapFully}
+                onWillStartRenderingMap={this.onWillStartRenderingMap}
             >
               <Camera
-                zoomLevel={14}
+                zoomLevel={zoom}
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
                 >
               </Camera>
