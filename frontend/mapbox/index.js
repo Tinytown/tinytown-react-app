@@ -71,6 +71,7 @@ export default class Map extends Component {
         latitude: 44.986656,
         longitude: -93.258133
       },
+      zoom: 14,
       isMapLoading: false, // axiom: loading only applies to an existing map
     };
 
@@ -139,22 +140,33 @@ export default class Map extends Component {
     Geolocation.stopObserving();
   }
 
+  getUpdatedCenter() {
+    return this.map.current.getCenter();
+  }
+
+  getUpdatedZoom() {
+    return this.map.current.getZoom();
+  }
+
   handleRegionChange() {
     if (this.state.isMapLoading) {
       return
     }
-    this.map.current.getCenter().then(([longitude, latitude]) => {
-      this.updateShow({longitude,latitude});
-    });
+    Promise.all([this.getUpdatedCenter(), this.getUpdatedZoom()])
+      .then(([[longitude, latitude], zoom]) => {
+        this.updateShow({longitude, latitude, zoom});
+      })
   }
 
-  updateShow({longitude, latitude}) {
+  updateShow({longitude: newLongitude, latitude: newLatitude, zoom: newZoom}) {
+    const {longitude: oldLongitude, latitude: oldLatitude, zoom: oldZoom} = this.state;
     this.setState({
       locationToShow: {
-        longitude,
-        latitude
-      }
-    })
+        longitude: newLongitude ? newLongitude : oldLongitude,
+        latitude: newLatitude ? newLatitude : oldLatitude,
+      },
+      zoom: newZoom ? newZoom : oldZoom
+    });
   }
 
   goToCurrentLocation() {
@@ -194,14 +206,14 @@ export default class Map extends Component {
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {locationToShow} = this.state; 
+    const {locationToShow, zoom} = this.state; 
     return (
       <View style={styles.landscape}>
         <View style={styles.page}>
           <View style={styles.container}>
             <MapView style={styles.map} ref={this.map} onRegionDidChange={this.handleRegionChange} onDidFinishRenderingMapFully={this.onDidFinishRenderingMapFully} onWillStartRenderingMap={this.onWillStartRenderingMap}>
               <Camera
-                zoomLevel={14}
+                zoomLevel={zoom}
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
                 >
               </Camera>
