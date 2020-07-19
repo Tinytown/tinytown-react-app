@@ -211,7 +211,16 @@ export default class Map extends Component {
       <View style={styles.landscape}>
         <View style={styles.page}>
           <View style={styles.container}>
-            <MapView style={styles.map} ref={this.map} onRegionDidChange={this.handleRegionChange} onDidFinishRenderingMapFully={this.onDidFinishRenderingMapFully} onWillStartRenderingMap={this.onWillStartRenderingMap}>
+            <MapView
+                style={styles.map}
+                styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+                logoEnabled={false}
+                attributionEnabled={false}
+                onRegionDidChange={this.handleRegionChange}
+                ref={this.map}
+                onDidFinishRenderingMapFully={this.onDidFinishRenderingMapFully}
+                onWillStartRenderingMap={this.onWillStartRenderingMap}
+            >
               <Camera
                 zoomLevel={zoom}
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
