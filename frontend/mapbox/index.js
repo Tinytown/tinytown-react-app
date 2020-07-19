@@ -64,7 +64,7 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
 
-    bindMethods(['setUserCoordinates', 'goToCurrentLocation'], this);
+    bindMethods(['setUserCoordinates', 'goToCurrentLocation', 'handleRegionChange'], this);
     this.state = {
       currentLocation: null,
       locationToShow: { // minneapolis to begin with
@@ -72,6 +72,8 @@ export default class Map extends Component {
         longitude: -93.258133
       }
     };
+
+    this.map = React.createRef();
   }
 
   setUserCoordinates(position) {
@@ -135,6 +137,17 @@ export default class Map extends Component {
     Geolocation.stopObserving();
   }
 
+  handleRegionChange() {
+    this.map.current.getCenter().then(([longitude, latitude]) => {
+      this.setState({
+        locationToShow: {
+          longitude,
+          latitude
+        }
+      })
+    });
+  }
+
   goToCurrentLocation() {
     this.setState({
       locationToShow: {
@@ -158,6 +171,8 @@ export default class Map extends Component {
                 styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
                 logoEnabled={false}
                 attributionEnabled={false}
+                onRegionDidChange={this.handleRegionChange}
+                ref={this.map}
             >
               <Camera
                 zoomLevel={14}
