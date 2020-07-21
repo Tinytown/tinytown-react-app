@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>93374358023-c65g40gelvd6mike58eer8lbeqcnpfde.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.93374358023-c65g40gelvd6mike58eer8lbeqcnpfde</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBdmh4U9od6ndH2P475Q9HlXW8AhUQ8oYw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>93374358023</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.tinytown</string>
+	<key>PROJECT_ID</key>
+	<string>tinytown-1b288</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tinytown-1b288.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:93374358023:ios:d708d6d3acee34291400a2</string>
+	<key>DATABASE_URL</key>
+	<string>https://tinytown-1b288.firebaseio.com</string>
+</dict>
+</plist>

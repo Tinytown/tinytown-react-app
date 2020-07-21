@@ -408,10 +408,16 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tinytown/Pods-tinytown-resources.sh",
 				"${PODS_ROOT}/MapboxMobileEvents/MapboxMobileEvents/Resources/logger.html",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/logger.html",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Cpp.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -506,10 +512,16 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tinytown-tinytownTests/Pods-tinytown-tinytownTests-resources.sh",
 				"${PODS_ROOT}/MapboxMobileEvents/MapboxMobileEvents/Resources/logger.html",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/logger.html",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Cpp.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -535,6 +547,8 @@
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -550,6 +564,8 @@
 				"${BUILT_PRODUCTS_DIR}/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
 				"${BUILT_PRODUCTS_DIR}/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
 				"${BUILT_PRODUCTS_DIR}/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -575,6 +591,8 @@
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -590,6 +608,8 @@
 				"${BUILT_PRODUCTS_DIR}/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
 				"${BUILT_PRODUCTS_DIR}/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
 				"${BUILT_PRODUCTS_DIR}/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
