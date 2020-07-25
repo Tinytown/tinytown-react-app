@@ -22,3 +22,18 @@ Welcome to Tinytown! Thanks for taking the time to check us out.
 
 4. On GitHub, [create a new pull request](https://yangsu.github.io/pull-request-tutorial/), and assign the appropriate reviewer.
 5. On [Linear](https://linear.app/tinytown/team/TIN/board), move your task from “In Progress” to “In Review.”
+
+## Best Practices ##
+
+### Code Style ###
+* Make explicit side-effects in arrow functions by using braces and to prevent returning of unused values:
+```
+someFunction()
+  .then((result) => {
+    console.log(result);
+  });
+```
+or using Ramda for a more point-free syntax
+```
+someFunction().then(R.tap(console.log))
+```
