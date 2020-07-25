@@ -6,7 +6,8 @@ Welcome to Tinytown! Thanks for taking the time to check us out.
 
 ## Your First Code Contribution ##
 
-1. Open [Linear](https://linear.app/tinytown/team/TIN/board) and click on the code item you’re working on. In the top right corner you should see a branch icon, click on it to copy a default branch name to your clipboard.
+1. Open [Linear](https://linear.app/tinytown/team/TIN/board) and click on the code item you’re working on. In the top right corner you should see a branch icon, click on it to copy a default branch name to your clipboard. Prepend the former branch name with either 'feature' (including bugs) or 'hotfix'. For instance, feature/**[linear username]/tin-[issue number]-[short task description]**.
+    * <a href="#appendix_1">branch name reasoning</a>
 
 ![Image](https://i.imgur.com/rRV1lja.png)
 
@@ -22,3 +23,8 @@ Welcome to Tinytown! Thanks for taking the time to check us out.
 
 4. On GitHub, [create a new pull request](https://yangsu.github.io/pull-request-tutorial/), and assign the appropriate reviewer.
 5. On [Linear](https://linear.app/tinytown/team/TIN/board), move your task from “In Progress” to “In Review.”
+
+# Appendix
+
+1. Another [Branch naming guideline](https://nvie.com/posts/a-successful-git-branching-model/) _(e.g., why only feature and hotfix, not, say, bugfix?)_ <a id="appendix_1"></a>
+
