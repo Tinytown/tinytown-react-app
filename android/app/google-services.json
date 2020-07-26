@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "93374358023",
+    "firebase_url": "https://tinytown-1b288.firebaseio.com",
+    "project_id": "tinytown-1b288",
+    "storage_bucket": "tinytown-1b288.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93374358023:android:9fd6270e1eb94e6c1400a2",
+        "android_client_info": {
+          "package_name": "com.tinytown"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93374358023-n3m69q4ucjs6j9j9qam69k8m2dc14pu3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tinytown",
+            "certificate_hash": "0ae586bbf341c9870d7e6b6ad77e0e65242d9a48"
+          }
+        },
+        {
+          "client_id": "93374358023-cnivjdic8qgk0ou44fdt13l7uc0jcehh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdc90RYyPRDxj4uZ_Sc1OSXRQZXMXcvTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93374358023-cnivjdic8qgk0ou44fdt13l7uc0jcehh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93374358023-c65g40gelvd6mike58eer8lbeqcnpfde.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.tinytown"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

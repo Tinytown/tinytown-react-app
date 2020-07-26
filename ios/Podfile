@@ -76,12 +76,10 @@ target 'tinytown' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-  pod 'TwitterKit', '~> 3.3.0'
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
 
-  pod 'react-native-twitter-signin', :path => '../node_modules/react-native-twitter-signin'
 
 
   target 'tinytownTests' do

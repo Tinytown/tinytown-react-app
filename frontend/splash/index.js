@@ -1,26 +1,31 @@
 import React, {Component} from 'react';
-import { Animated, Button, Image, NativeModules, View, StyleSheet} from 'react-native';
-import onTwitterButtonPress from '../TwitterButtonPress';
-import config from '../../config';
+import { Text, TouchableOpacity, Animated, Image, NativeModules, View, StyleSheet} from 'react-native';
+import * as twitterApi from '../@@vendor/twitter';
 
 export default class Splash extends Component {
   constructor(props) {
     super(props);
-    const {RNTwitterSignIn} = NativeModules;
-
-    RNTwitterSignIn.init(config.TWITTER_COMSUMER_KEY, config.TWITTER_CONSUMER_SECRET)
-      .then(() => {
-        console.log('Twitter SDK initialized');
-      });
 
     this.state = {
-      fadeAnim: new Animated.Value(0),
+      isLoggedIn: false,
+      fadeAnim: new Animated.Value(0)
     };
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 2000,
       useNativeDriver: true
     }).start();
+  }
+
+  twitterLogin = async () => {
+    try {
+      await twitterApi.login();
+      this.setState({
+        isLoggedIn: true
+      });
+    } catch(e) {
+      return;
+    }
   }
 
   render() {
@@ -31,15 +36,17 @@ export default class Splash extends Component {
             source={require('../../assets/images/logo.png')}
             style={styles.logo}
           />
+          <TouchableOpacity
+            onPress={() =>
+              this.twitterLogin().then(() =>
+                console.log('Signed in with Twitter!')
+              )}
+          >
+            <Text>
+              Twitter Sign-In
+            </Text>
+        </TouchableOpacity>
         </Animated.View>
-        <Button
-          title="Twitter Sign-In"
-          onPress={() =>
-            onTwitterButtonPress().then(() =>
-              console.log('Signed in with Twitter!')
-            )
-          }
-        />
       </View>
     );
   }

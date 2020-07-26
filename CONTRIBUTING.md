@@ -37,3 +37,5 @@ or using Ramda for a more point-free syntax
 ```
 someFunction().then(R.tap(console.log))
 ```
+
+* Bias towards TouchableOpacity instead of the native Button component since the latter is not very compatible with Android.
