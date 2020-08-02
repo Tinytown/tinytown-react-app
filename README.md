@@ -4,7 +4,7 @@ The main application codebase.
 ## Instructions:
 From root directory, issue:
 ```
-npm install
+yarn install
 ```
 
 Then, go into the iOS folder and install appropriate pods:
@@ -15,12 +15,12 @@ pod install
 
 **For iOS** Move out and run the iOS simulator:
 ```
-npx react-native run-ios
+yarn react-native run-ios
 ```
 
 **For Android** Move out and run the Android simulator:
 ```
-npx react-native run-android
+yarn react-native run-android
 ```
 
 More on setting up your React Native dev environment can be found here: https://reactnative.dev/docs/environment-setup

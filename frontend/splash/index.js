@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import { Text, TouchableOpacity, Animated, Image, NativeModules, View, StyleSheet} from 'react-native';
 import * as twitterApi from '../@@vendor/twitter';
+import config from '../../config';
+
+const {RNTwitterSignIn} = NativeModules;
 
 export default class Splash extends Component {
   constructor(props) {
@@ -15,6 +18,8 @@ export default class Splash extends Component {
       duration: 2000,
       useNativeDriver: true
     }).start();
+
+    RNTwitterSignIn.init('oh3ny6vzN7v43Lt5R7VUbS39I', config.TWITTER_CONSUMER_SECRET);
   }
 
   twitterLogin = async () => {
