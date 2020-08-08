@@ -40,6 +40,7 @@ someFunction().then(R.tap(console.log))
 ```
 
 * Bias towards TouchableOpacity instead of the native Button component since the latter is not very compatible with Android.
+
 ### Security ###
 
 1. Whenever you must use confidential credentials (e.g., access tokens), please write these inside _.env_ in the root directory and incorporate it using **react-native-config**. Please look at _config.js_ and how MAPBOX_ACCESS_TOKEN is incorporated for inspiration. Furthermore, for instructions on how the .env file should be written, please look at the _README<span></span>.md_ file in the root repository.
