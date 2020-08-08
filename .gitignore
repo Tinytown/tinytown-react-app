@@ -63,3 +63,4 @@ buck-out/
 
 # Configuration for Firebase
 ios/tinytown/GoogleService-Info.plist
+ios/GoogleService-Info.plist
