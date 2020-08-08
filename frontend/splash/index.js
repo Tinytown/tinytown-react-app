@@ -19,7 +19,7 @@ export default class Splash extends Component {
       useNativeDriver: true
     }).start();
 
-    RNTwitterSignIn.init('oh3ny6vzN7v43Lt5R7VUbS39I', config.TWITTER_CONSUMER_SECRET);
+    RNTwitterSignIn.init('wZPh7dfzEkEWNtxpuHaKZtCdt', config.TWITTER_CONSUMER_SECRET);
   }
 
   twitterLogin = async () => {
