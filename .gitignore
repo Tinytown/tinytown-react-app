@@ -60,3 +60,7 @@ buck-out/
 
 # Secrets
 .env
+
+# Firebase Configuration Files
+ios/GoogleService-Info.plist
+ios/tinytown/GoogleService-Info.plist
