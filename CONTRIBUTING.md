@@ -30,6 +30,10 @@ Welcome to Tinytown! Thanks for taking the time to check us out.
 
 1. Whenever you must use confidential credentials (e.g., access tokens), please write these inside _.env_ in the root directory and incorporate it using **react-native-config**. Please look at _config.js_ and how MAPBOX_ACCESS_TOKEN is incorporated for inspiration. Furthermore, for instructions on how the .env file should be written, please look at the _README<span></span>.md_ file in the root repository.
 
+### PR ###
+
+1. Avoid creating dependency chains of PRs (i.e., PRs that share non-negligible overlaps). It's likely that a PR which others depend on in the chain will need changing. This will likely cause repetitive and unnecessary work for a host of reasons: reviewers have to keep track of if they already made a comment in another PR on the chain; developers have to make the change in the parent PR and then execute a non-nullable amount of work to propagate that change to the children PRs.
+
 # Appendix
 
 1. Another [Branch naming guideline](https://nvie.com/posts/a-successful-git-branching-model/) _(e.g., why only feature and hotfix, not, say, bugfix?)_ <a id="appendix_1"></a>
