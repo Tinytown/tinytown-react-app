@@ -11,7 +11,6 @@ export async function login() {
 
     return auth().signInWithCredential(credential);
   } catch (e) {
-    console.log('error: ', e);
     throw new Error('Failed to login to twitter');
   }
 }
