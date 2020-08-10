@@ -42,12 +42,13 @@ export default class Splash extends Component {
             style={styles.logo}
           />
           <TouchableOpacity
+            style={styles.twitterButton}
             onPress={() =>
               this.twitterLogin().then(() =>
                 console.log('Signed in with Twitter!')
               )}
           >
-            <Text>
+            <Text style={styles.twitterButtonText}>
               Twitter Sign-In
             </Text>
         </TouchableOpacity>
@@ -71,5 +72,15 @@ const styles = StyleSheet.create({
     width: '85%',
     height: '85%',
     resizeMode: 'contain'
+  },
+  twitterButton: {
+    backgroundColor: '#1b95e0',
+    color: 'white',
+    width: 200,
+    height: 50
+  },
+  twitterButtonText: {
+    textAlign: 'center',
+    marginTop: 14
   }
 });
