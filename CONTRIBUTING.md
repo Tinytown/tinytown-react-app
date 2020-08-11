@@ -33,6 +33,7 @@ Welcome to Tinytown! Thanks for taking the time to check us out.
 ### PR ###
 
 1. Avoid creating dependency chains of PRs (i.e., PRs that share non-negligible overlaps). It's likely that a PR which others depend on in the chain will need changing. This will likely cause repetitive and unnecessary work for a host of reasons: reviewers have to keep track of if they already made a comment in another PR on the chain; developers have to make the change in the parent PR and then execute a non-nullable amount of work to propagate that change to the children PRs.
+    - Clarification: _You're more than welcome to have a chain of PR dependencies, so long as the independent PR is the only PR that's an offical PR and the rest are drafts._
 
 # Appendix
 
