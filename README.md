@@ -1,7 +1,7 @@
 # Tinytown
 The main application codebase.
 
-## Instructions:
+## Instructions
 From root directory, issue:
 ```
 npm install
@@ -13,12 +13,20 @@ cd ios
 pod install
 ```
 
-**For iOS** Move out and run the iOS simulator:
+**For iOS**
+Move out and run the iOS simulator:
 ```
 npx react-native run-ios
 ```
 
-**For Android** Move out and run the Android simulator:
+If you get an error that says `EMFILE: too many open files`, run these commands. (In case you're curious, here's [an explanation](https://github.com/facebook/create-react-app/issues/4540#issuecomment-393268543) of the error and its solution.)
+```
+brew update
+brew install watchman
+```
+
+**For Android**
+Move out and run the Android simulator:
 ```
 npx react-native run-android
 ```
