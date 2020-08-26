@@ -72,6 +72,12 @@
 	<array>
 		<string>twitter</string>
 		<string>twitterauth</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Nunito-BlackItalic.ttf</string>
+		<string>Nunito-Bold.ttf</string>
+		<string>Nunito-Regular.ttf</string>
+		<string>NunitoSans-Black.ttf</string>
 	</array>
 </dict>
 </plist>
