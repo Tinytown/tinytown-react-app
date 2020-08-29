@@ -7,16 +7,12 @@ From root directory, issue:
 yarn install
 ```
 
-Then, go into the iOS folder and install appropriate pods:
-```
-cd ios
-pod install
-```
-
-**For iOS** Move out and run the iOS simulator:
-```
-yarn react-native run-ios
-```
+**For iOS**
+1. Go into the iOS folder: `cd ios`
+2. Install appropriate pods: `pod install`
+3. Download [_GoogleService-Info.plist_](https://console.firebase.google.com/m/mobilesdk/projects/93374358023/clients/ios%3ATinytownReactApp/artifacts/1?param=%5B%22getArtifactRequest%22%2Cnull%2C%22ios%3ATinytownReactApp%22%2C%221%22%2C%2293374358023%22%5D&authuser=0) from Firebase and relative to current location, place it in the directory _tinytown_.
+3. Move out of current directory: `cd ../`
+4. Run the iOS simulator: `yarn react-native run-ios`
 
 **For Android** Move out and run the Android simulator:
 ```
