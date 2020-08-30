@@ -1,30 +1,29 @@
 # Contributing to Tinytown 🏘️
 
-Welcome to Tinytown! Thanks for taking the time to check us out. 
+Thank you for your interest in Tinytown. 
 
-🚧 This document is very much under construction. Feel free to edit or ping us on [Slack](https://tinytownhq.slack.com/archives/C013BMG6LV9) if you'd like to add content.
+🚧 This document is very much under construction. Feel free to message us on [Discord](http://bit.ly/ttown-discord) if you'd like to add content.
 
 ## Your First Code Contribution ##
 
-1. Open [Linear](https://linear.app/tinytown/team/TIN/board) and click on the code item you’re working on. In the top right corner you should see a branch icon, click on it to copy a default branch name to your clipboard. Prepend the former branch name with either 'feature' (including bugs) or 'hotfix'. For instance, feature/**[linear username|initials]/[(tin-issue number)]-[short task description]**. A situation where it's acceptable to use initials and omit the *tin-issue number* part is appropriate, for instance, when performing a chore, such as editing this contribution markdown file.
-    * <a href="#appendix_1">branch name reasoning</a>
-
-![Image](https://i.imgur.com/rRV1lja.png)
-
-2. While in the *tinytown-react-app* directory, create and switch to your new branch.
-
-> git checkout -b new-branch name
-
-3. Stage desired file(s), commit, and push your changes.
-
-> git add file-name 
-> git commit -m “commit-message-here”
-> git push origin HEAD: new-branch-name
-
-4. On GitHub, [create a new pull request](https://yangsu.github.io/pull-request-tutorial/), and assign the appropriate reviewer.
-5. On [Linear](https://linear.app/tinytown/team/TIN/board), move your task from “In Progress” to “In Review.”
+Work in progress
 
 ## Best Practices ##
+
+### Code Style ###
+* Make explicit side-effects in arrow functions by using braces and to prevent returning of unused values:
+```
+someFunction()
+  .then((result) => {
+    console.log(result);
+  });
+```
+or using Ramda for a more point-free syntax
+```
+someFunction().then(R.tap(console.log))
+```
+
+* Bias towards TouchableOpacity instead of the native Button component since the latter is not very compatible with Android.
 
 ### Security ###
 
