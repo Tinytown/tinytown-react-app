@@ -28,7 +28,7 @@ TWITTER_CONSUMER_SECRET=<TWITTER_CONSUMER_SECRET_VALUE>
 ```
 3. Ping the #vault channel in Discord to get the keys
 
-## Potential Errors
+## Troubleshooting
 **EMFILE: too many open files**\
 Caught by @keedyc\
 Platform: Android\
