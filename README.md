@@ -14,8 +14,8 @@ The main codebase for the Tinytown React Native app.
 3. Move out of current directory: `cd ../`
 4. Run the iOS simulator: `yarn react-native run-ios`
 
-**For Android** 
-Move out and run the Android simulator: `yarn react-native run-android`
+**For Android**
+1. Move out and run the Android simulator: `yarn react-native run-android`
 
 **Credentials**
 1. Create a new `.env` file in the root directory
@@ -27,9 +27,9 @@ TWITTER_CONSUMER_SECRET=<TWITTER_CONSUMER_SECRET_VALUE>
 3. Ping the #vault channel in Discord to get the keys
 
 ## Potential Errors
-**EMFILE: too many open files**
-Caught by @keedyc
-Platform: Android
+**EMFILE: too many open files**\
+Caught by @keedyc\
+Platform: Android\
 Solution: Run these commands from root directory
 ```
 brew update
@@ -37,8 +37,8 @@ brew install watchman
 ```
 More info: https://github.com/facebook/create-react-app/issues/4540#issuecomment-393268543
 
-**fatal error: module map file '/.../YogaKit/YogaKit.modulemap' not found**
-Caught by @alfalcon90
-Platform: iOS
-Solution: Open the /ios/tinytown.xcworkspace file instead of the .xcodeproj one.
+**fatal error: module map file '/.../YogaKit/YogaKit.modulemap' not found**\
+Caught by @alfalcon90\
+Platform: iOS\
+Solution: Open the /ios/tinytown.xcworkspace file instead of the .xcodeproj one.\
 More info: https://github.com/facebook/react-native/issues/28503
