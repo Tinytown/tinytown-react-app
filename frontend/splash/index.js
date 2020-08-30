@@ -60,7 +60,7 @@ export default class Splash extends Component {
 
 const styles = StyleSheet.create({
   landscape: {
-    backgroundColor: 'black',
+    backgroundColor: '#FE4963',
     height: '100%'
   },
   fadingContainer: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   twitterButton: {
-    backgroundColor: '#1b95e0',
+    backgroundColor: 'white',
     color: 'white',
     width: 200,
     height: 50
