@@ -26,8 +26,7 @@ The main codebase for the Tinytown React Native app.
 MAPBOX_ACCESS_TOKEN=<MAPBOX_ACCESS_TOKEN_VALUE>
 TWITTER_CONSUMER_SECRET=<TWITTER_CONSUMER_SECRET_VALUE>
 ```
-- MAPBOX_ACCESS_TOKEN_VALUE: Ping the #vault channel in Discord to get the keys
-- TWITTER_CONSUMER_SECRET_VALUE: API Secret under Twitter Authentication on Firebase Console
+3. Ping the #vault channel in Discord to get the keys
 
 ## Potential Errors
 **EMFILE: too many open files**\
