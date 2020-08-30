@@ -28,6 +28,4 @@ More on setting up your React Native dev environment can be found here: https://
 MAPBOX_ACCESS_TOKEN=<MAPBOX_ACCESS_TOKEN_VALUE>
 TWITTER_CONSUMER_SECRET=<TWITTER_CONSUMER_SECRET_VALUE>
 ```
-
-- MAPBOX_ACCESS_TOKEN_VALUE: Ping us in the [#mvp](https://tinytownhq.slack.com/archives/C014PUN9F71) Slack channel to get a token
-- TWITTER_CONSUMER_SECRET_VALUE: API Secret from Firebase console's twitter authentication
+3. Ping the #vault channel in Discord to get the keys
