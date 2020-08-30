@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 
 import Splash from './frontend/splash';
-import Map from './frontend/mapbox';
+// import Map from './frontend/mapbox';
 
 const App = () =>
   <>
     <StatusBar barStyle='dark-content' />
     <SafeAreaView>
-      {/* <Splash></Splash> */}
-      <Map></Map>
+      <Splash></Splash>
+      {/* <Map></Map> */}
     </SafeAreaView>
   </>
 ;
