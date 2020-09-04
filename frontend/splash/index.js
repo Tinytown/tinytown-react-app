@@ -37,10 +37,7 @@ export default class Splash extends Component {
     return (
       <View style={styles.landscape}>
         <Animated.View style={[ styles.fadingContainer, { opacity: this.state.fadeAnim }]}>
-          <Image
-            source={require('../../assets/images/logo.png')}
-            style={styles.logo}
-          />
+          
           <TouchableOpacity
             style={styles.twitterButton}
             onPress={() =>
@@ -60,18 +57,13 @@ export default class Splash extends Component {
 
 const styles = StyleSheet.create({
   landscape: {
-    backgroundColor: '#FE4963',
+    backgroundColor: '#000000',
     height: '100%'
   },
   fadingContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  logo: {
-    width: '85%',
-    height: '85%',
-    resizeMode: 'contain'
   },
   twitterButton: {
     backgroundColor: 'white',
