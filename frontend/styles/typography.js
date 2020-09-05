@@ -137,7 +137,7 @@ export const caption = {
 	letterSpacing: 0.3,
 };
 
-// BUTTON
+// BUTTON LABEL
 export const button = {
 	fontFamily: 'Nunito-BlackItalic',
 	fontSize: 16,
