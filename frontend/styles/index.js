@@ -2,8 +2,10 @@
 
 import * as COLORS from './color';
 import * as TYPOGRAPHY from './typography';
+import * as SHAPES from './shapes';
 
 export {
   COLORS,
-  TYPOGRAPHY
+  TYPOGRAPHY,
+  SHAPES,
 }

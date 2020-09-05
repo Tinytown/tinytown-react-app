@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { Text, TouchableOpacity, Animated, Image, NativeModules, View, StyleSheet} from 'react-native';
 import * as twitterApi from '../@@vendor/twitter';
 import config from '../../config';
+import { COLORS, SHAPES } from '../styles'
+
 
 const {RNTwitterSignIn} = NativeModules;
 
@@ -60,7 +62,7 @@ export default class Splash extends Component {
 
 const styles = StyleSheet.create({
   landscape: {
-    backgroundColor: '#FE4963',
+    backgroundColor: COLORS.justWhite,
     height: '100%'
   },
   fadingContainer: {
@@ -74,13 +76,15 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   twitterButton: {
-    backgroundColor: 'white',
-    color: 'white',
+    backgroundColor: COLORS.bubblegumRed600,
+    borderRadius: SHAPES.allRadius,
     width: 200,
-    height: 50
+    height: 50,
+    ...SHAPES.elevRed5,
   },
   twitterButtonText: {
     textAlign: 'center',
-    marginTop: 14
+    marginTop: 14,
+    color: COLORS.justWhite
   }
 });
