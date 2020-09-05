@@ -1,7 +1,7 @@
-import * as Color from './color';
-import * as Typography from './typography';
+import * as COLORS from './color';
+import * as TYPOGRAPHY from './typography';
 
 export {
-	Color,
-	Typography
+	COLORS,
+	TYPOGRAPHY
 }
