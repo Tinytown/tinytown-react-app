@@ -5,6 +5,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import CurrentLocationIcon from './fixtures/current-location-icon';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../component-ops';
+import userLocationIcon from '../../assets/images/user-location.png';
 
 const {MapView, Camera} = MapboxGL;
 
@@ -74,6 +75,10 @@ export default class Map extends Component {
       },
       zoom: 14,
       isMapLoading: false, // axiom: loading only applies to an existing map
+      featureCollection: {
+        type: 'FeatureCollection',
+        features: []
+      }
     };
 
     this.map = React.createRef();
@@ -94,11 +99,25 @@ export default class Map extends Component {
   }
 
   setUserCoordinates(position) {
+    const {featureCollection} = this.state;
     const {latitude, longitude} = position.coords;
     this.setState({
       currentLocation: {
         latitude,
         longitude
+      },
+      featureCollection: {
+        ...featureCollection,
+        features: [
+          {
+            type: 'Feature',
+            id: 'userLocation',
+            geometry: {
+              coordinates: [longitude, latitude],
+              type: 'Point'
+            }
+          }
+        ]
       }
     });
   }
@@ -114,7 +133,7 @@ export default class Map extends Component {
     Geolocation.getCurrentPosition(
       this.setUserCoordinatesFirstTime, ...updatingLocationParameters
     );
-    
+
     this.watchId = Geolocation.watchPosition(
       this.setUserCoordinates, ...updatingLocationParameters
     )
@@ -207,7 +226,9 @@ export default class Map extends Component {
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {locationToShow, zoom} = this.state; 
+    const {locationToShow, zoom, featureCollection} = this.state;
+    console.log('featureCollection: ', featureCollection);
+    const feature = featureCollection.features.length === 1 ? featureCollection.features[0] : null;
     return (
       <View style={styles.landscape}>
         <View style={styles.page}>
@@ -227,6 +248,22 @@ export default class Map extends Component {
                 centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
                 >
               </Camera>
+              <MapboxGL.ShapeSource
+                id='markersShape'
+                shape={featureCollection}
+              >
+                {feature
+                  ? <MapboxGL.SymbolLayer
+                      id={feature.id}
+                      style={{
+                        iconAllowOverlap: true,
+                        iconImage: userLocationIcon
+                      }}
+                      minZoomLevel={1}
+                    />
+                    : null  
+                }
+              </MapboxGL.ShapeSource>
             </MapView>
             <View style={styles.containerCurrentLocation}>
                 <TouchableOpacity
