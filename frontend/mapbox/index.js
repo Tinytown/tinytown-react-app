@@ -227,7 +227,6 @@ export default class Map extends Component {
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
     const {locationToShow, zoom, featureCollection} = this.state;
-    console.log('featureCollection: ', featureCollection);
     const feature = featureCollection.features.length === 1 ? featureCollection.features[0] : null;
     return (
       <View style={styles.landscape}>
