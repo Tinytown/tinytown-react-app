@@ -49,7 +49,9 @@ export default class Splash extends Component {
 const styles = StyleSheet.create({
   landscape: {
     backgroundColor: '#000000',
-    height: '100%'
+    height: '100%',
+    alignItems: 'center',	
+    justifyContent: 'center'
   },
   twitterButton: {
     backgroundColor: 'gray',

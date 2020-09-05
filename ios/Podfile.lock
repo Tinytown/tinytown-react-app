@@ -655,7 +655,7 @@ PODS:
   - RNFBApp (8.4.1):
     - Firebase/CoreOnly (~> 6.30.0)
     - React
-  - RNFBAuth (9.1.2):
+  - RNFBAuth (9.2.1):
     - Firebase/Auth (~> 6.30.0)
     - React
     - RNFBApp
@@ -897,7 +897,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
   RNFBApp: e4321cad5dd23b43b3b4f0ca060300b9f85cb7a4
-  RNFBAuth: e0b72882353a6280f0885ca8011804cef3c33cc8
+  RNFBAuth: 09c6ceda66777758b6ffebf464f3226399e5732a
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit5: 64095dfefcf39be2355711ef27112d55e340d90e
