@@ -1,11 +1,11 @@
 // Combines all style variables under one file: import { TYPOGRAPHY, COLORS } from './frontend/styles' 
 
-import * as COLORS from './color';
-import * as TYPOGRAPHY from './typography';
-import * as SHAPES from './shapes';
+import * as colors from './color';
+import * as typography from './typography';
+import * as shapes from './shapes';
 
 export {
-  COLORS,
-  TYPOGRAPHY,
-  SHAPES,
+  colors,
+  typography,
+  shapes,
 }

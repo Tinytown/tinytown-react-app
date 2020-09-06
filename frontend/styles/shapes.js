@@ -1,13 +1,13 @@
-import { COLORS } from './'
+import { colors } from './'
 
 // ELEVATION - GRAYS
 export const elevHairline = {
   borderWidth: 2,
-  borderColor: COLORS.snowGray,
+  borderColor: colors.snowGray,
 };
 
 export const elevGray1 = {
-  shadowColor: COLORS.asphaltGray,
+  shadowColor: colors.asphaltGray,
   shadowOffset: {
     width: 0,
     height: 1,
@@ -19,7 +19,7 @@ export const elevGray1 = {
 };
 
 export const elevGray2 = {
-  shadowColor: COLORS.asphaltGray,
+  shadowColor: colors.asphaltGray,
   shadowOffset: {
     width: 0,
     height: 2,
@@ -31,7 +31,7 @@ export const elevGray2 = {
 };
 
 export const elevGray3 = {
-  shadowColor: COLORS.asphaltGray,
+  shadowColor: colors.asphaltGray,
   shadowOffset: {
     width: 0,
     height: 3,
@@ -43,7 +43,7 @@ export const elevGray3 = {
 };
 
 export const elevGray4 = {
-  shadowColor: COLORS.asphaltGray,
+  shadowColor: colors.asphaltGray,
   shadowOffset: {
     width: 0,
     height: 4,
@@ -55,7 +55,7 @@ export const elevGray4 = {
 };
 
 export const elevGray5 = {
-  shadowColor: COLORS.asphaltGray,
+  shadowColor: colors.asphaltGray,
   shadowOffset: {
     width: 0,
     height: 6,
@@ -68,7 +68,7 @@ export const elevGray5 = {
 
 // ELEVATION - COLORS
 export const elevRed5 = {
-  shadowColor: COLORS.bubblegumRed600,
+  shadowColor: colors.bubblegumRed600,
   shadowOffset: {
     width: 0,
     height: 6,
@@ -80,7 +80,7 @@ export const elevRed5 = {
 };
 
 export const elevPurple5 = {
-  shadowColor: COLORS.flowerPurple600,
+  shadowColor: colors.flowerPurple600,
   shadowOffset: {
     width: 0,
     height: 6,
@@ -92,7 +92,7 @@ export const elevPurple5 = {
 };
 
 export const elevLime5 = {
-  shadowColor: COLORS.funLime600,
+  shadowColor: colors.funLime600,
   shadowOffset: {
     width: 0,
     height: 6,
@@ -104,7 +104,7 @@ export const elevLime5 = {
 };
 
 export const elevGreen5 = {
-  shadowColor: COLORS.grassGreen600,
+  shadowColor: colors.grassGreen600,
   shadowOffset: {
     width: 0,
     height: 6,
@@ -116,7 +116,7 @@ export const elevGreen5 = {
 };
 
 export const elevOrange5 = {
-  shadowColor: COLORS.trafficOrange600,
+  shadowColor: colors.trafficOrange600,
   shadowOffset: {
     width: 0,
     height: 6,
@@ -128,7 +128,7 @@ export const elevOrange5 = {
 };
 
 export const elevBlue5 = {
-  shadowColor: COLORS.skyBlue600,
+  shadowColor: colors.skyBlue600,
   shadowOffset: {
     width: 0,
     height: 6,

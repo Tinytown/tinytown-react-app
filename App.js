@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import { TYPOGRAPHY, COLORS } from './frontend/styles'
+import { typography, colors } from './frontend/styles'
 import React from 'react';
 import {
   Text,
@@ -29,8 +29,8 @@ const App = () =>
 const styles = StyleSheet.create({
   test: {
     backgroundColor: '#FE4963',
-    color: COLORS.asphaltGray,
-    ...TYPOGRAPHY.button,
+    color: colors.asphaltGray,
+    ...typography.button,
   },
 });
 
