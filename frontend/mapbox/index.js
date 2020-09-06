@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform } from 'react-native';
 import config from '../../config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import CurrentLocationIcon from './fixtures/current-location-icon';
+import { CrosshairsIcon } from '../../assets/svg';
+import userMarker from '../../assets/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../component-ops';
-import userLocationIcon from '../../assets/images/user-location.png';
 
 const {MapView, Camera} = MapboxGL;
 
@@ -256,7 +256,8 @@ export default class Map extends Component {
                       id={feature.id}
                       style={{
                         iconAllowOverlap: true,
-                        iconImage: userLocationIcon
+                        iconImage: userMarker,
+                        iconSize: 0.25 
                       }}
                       minZoomLevel={1}
                     />
@@ -270,7 +271,7 @@ export default class Map extends Component {
                   onPress={this.goToCurrentLocation}
                 >
                   <View style={styles.messageCurrentLocation}>
-                    <CurrentLocationIcon style={styles.iconCurrentLocation} />
+                    <CrosshairsIcon style={styles.iconCurrentLocation} />
                     <Text style={styles.textCurrentLocation}>Go to my location</Text>  
                   </View>
                 </TouchableOpacity>
