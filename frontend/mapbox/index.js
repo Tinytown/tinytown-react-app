@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform } from 'react-native';
 import config from '../../config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import { CrosshairsIcon } from '../../assets/svg';
-import userMarker from '../../assets/img/user_marker.png';
+import { CrosshairsIcon } from '../assets/svg';
+import userMarker from '../assets/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../component-ops';
 

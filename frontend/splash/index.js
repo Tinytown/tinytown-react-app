@@ -38,7 +38,7 @@ export default class Splash extends Component {
       <View style={styles.landscape}>
         <Animated.View style={[ styles.fadingContainer, { opacity: this.state.fadeAnim }]}>
           <Image
-            source={require('../../assets/images/logo.png')}
+            source={require('../assets/images/logo.png')}
             style={styles.logo}
           />
           <TouchableOpacity
