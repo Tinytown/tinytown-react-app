@@ -138,7 +138,7 @@ export const caption = {
 };
 
 // BUTTON LABEL
-export const button = {
+export const brandedButton = {
   fontFamily: 'Nunito-BlackItalic',
   fontSize: 16,
   lineHeight: 24,

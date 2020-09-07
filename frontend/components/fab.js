@@ -1,46 +1,119 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { typography, colors, shapes } from '../styles'
-import PlaceholderIcon from '../assets/svg/ic_placeholder'
-
-const FAB = props => {
-  return (
-    <TouchableOpacity style={styles.container} onPress={props.onPress}>
-      <View style={{ ...styles.fab, ...props.style }}>
-        <PlaceholderIcon color={colors.asphaltGray} style={{ ...styles.fabIcon, ...props.iconStyling }}/>
-        <Text style={{ ...styles.fabText, ...props.textStyling }}>
-          {props.label}
-        </Text>
-      </View>
-    </TouchableOpacity>  
-  )
-}
+import Icon from '../assets/svg'
 
 const styles = StyleSheet.create({
+  
+  // CONTAINER STYLES
   container: {
     position: 'absolute',
     alignSelf: 'center',
     bottom: 16,
-  },
-
-  fab: {
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: shapes.allRadius,
+    backgroundColor: colors.asphaltGray,
+    ...shapes.elevGray5
+  },
+
+  containerGreen: {
     backgroundColor: colors.grassGreen600,
     ...shapes.elevGreen5
   },
 
-  fabText: {
+  containerBlue: {
+    backgroundColor: colors.skyBlue600,
+    ...shapes.elevBlue5
+  },
+
+  containerRed: {
+    backgroundColor: colors.bubblegumRed600,
+    ...shapes.elevRed5
+  },
+
+  // ICON STYLES
+  icon: {
+    marginRight: 12,
+  },
+
+  // TEXT STYLES
+  text: {
     bottom: 1,
-    color: colors.asphaltGray,
+    color: colors.justWhite,
     ...typography.subheader3
   },
 
-  fabIcon: {
-    marginRight: 12,
+  textGray: {
+    color: colors.asphaltGray,
+  },
+
+  textBranded: {
+    ...typography.brandedButton
   }
 })
+
+const getStyles = ({
+  theme, branded
+}) => {
+  const containerStyles = [styles.container];
+  const iconStyles = [styles.icon];
+  const textStyles = [styles.text];
+  let iconColor = colors.justWhite;
+
+  if (theme === 'green') {
+    containerStyles.push(styles.containerGreen);
+    textStyles.push(styles.textGray);
+    iconColor = colors.asphaltGray;
+  } else if (theme === 'blue') {
+    containerStyles.push(styles.containerBlue);
+    textStyles.push(styles.textGray);
+    iconColor = colors.asphaltGray;
+  } else if (theme === 'red') {
+    containerStyles.push(styles.containerRed);
+  }
+
+  if (branded) {
+    textStyles.push(styles.textBranded);
+  }
+
+  return { containerStyles, iconStyles, iconColor, textStyles };
+};
+
+
+class FAB extends React.Component {
+  static propTypes = {
+    label: PropTypes.string.isRequired,
+    theme: PropTypes.oneOf(['green', 'blue', 'red']),
+    branded: PropTypes.bool,
+    onPress: PropTypes.func.isRequired,
+
+  };
+
+  static defaultProps = {
+    label: 'Button Label',
+    theme: 'default',
+    branded: false
+  };
+
+  render() {
+    const {
+      label,
+      theme,
+      branded,
+      onPress
+    } = this.props;
+    const { containerStyles, iconStyles, iconColor, textStyles } = getStyles({ theme, branded });
+
+    return (
+      <TouchableOpacity onPress={onPress} style={containerStyles} >
+        <Icon icon={this.props.icon} style={iconStyles} color={iconColor} />
+        <Text style={textStyles}>{label}</Text>
+      </TouchableOpacity>
+    );
+  }
+}
 
 export default FAB;
