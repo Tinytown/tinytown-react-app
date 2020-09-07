@@ -12,26 +12,17 @@ import {
   StyleSheet
 } from 'react-native';
 
-import Splash from './frontend/splash';
-// import Map from './frontend/mapbox';
+// import Splash from './frontend/splash';
+import Map from './frontend/mapbox';
 
 const App = () =>
   <>
     <StatusBar barStyle='dark-content' />
     <SafeAreaView>
-      <Text style={styles.test}>This is a piece of text</Text>
-      <Splash></Splash>
-      {/* <Map></Map> */}
+      {/* <Splash></Splash> */}
+      <Map></Map>
     </SafeAreaView>
   </>
 ;
-
-const styles = StyleSheet.create({
-  test: {
-    backgroundColor: '#FE4963',
-    color: colors.asphaltGray,
-    ...typography.button,
-  },
-});
 
 export default App;

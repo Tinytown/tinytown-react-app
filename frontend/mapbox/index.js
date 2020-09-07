@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform } from 'react-native';
 import config from '../../config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import CurrentLocationIcon from './fixtures/current-location-icon';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../component-ops';
+import FAB from '../components/fab'
 
 const {MapView, Camera} = MapboxGL;
 
@@ -29,36 +29,6 @@ const styles = StyleSheet.create({
   map: {
     flex: 1
   },
-  containerCurrentLocation: {
-    position: 'absolute',
-    width: '100%',
-    bottom: 50,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  buttonCurrentLocation: {
-    backgroundColor: '#000000',
-    height: 48,
-    width: 180,
-    paddingLeft: 10,
-    paddingRight: 15,
-    paddingVertical: 10,
-    borderRadius: 30,
-  },
-  textCurrentLocation: {
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: 16,
-    lineHeight: 24,
-    color: 'white'
-  },
-  messageCurrentLocation: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  iconCurrentLocation: {
-    marginRight: 5
-  }
 });
 
 export default class Map extends Component {
@@ -228,17 +198,7 @@ export default class Map extends Component {
                 >
               </Camera>
             </MapView>
-            <View style={styles.containerCurrentLocation}>
-                <TouchableOpacity
-                  style={styles.buttonCurrentLocation}
-                  onPress={this.goToCurrentLocation}
-                >
-                  <View style={styles.messageCurrentLocation}>
-                    <CurrentLocationIcon style={styles.iconCurrentLocation} />
-                    <Text style={styles.textCurrentLocation}>Go to my location</Text>  
-                  </View>
-                </TouchableOpacity>
-              </View>
+            <FAB label='Go to my location' onPress={this.goToCurrentLocation}></FAB>
           </View>
         </View>
       </View>
