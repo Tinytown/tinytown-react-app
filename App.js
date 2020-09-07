@@ -5,21 +5,21 @@
 
 import React from 'react';
 import {
-  SafeAreaView,
   StatusBar,
-  StyleSheet
+  StyleSheet,
+  View
 } from 'react-native';
 
-import Splash from './frontend/splash';
-// import Map from './frontend/mapbox';
+// import Splash from './frontend/splash';
+import Map from './frontend/mapbox';
 
 const App = () =>
   <>
-    <StatusBar barStyle='dark-content' />
-    <SafeAreaView>
-      <Splash></Splash>
-      {/* <Map></Map> */}
-    </SafeAreaView>
+    <View>
+      <StatusBar barStyle = "light-content" translucent = {true} backgroundColor="#00000099"/>
+      {/* <Splash></Splash>*/}
+      <Map></Map>
+    </View>
   </>
 ;
 
