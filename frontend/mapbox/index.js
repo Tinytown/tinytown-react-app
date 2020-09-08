@@ -199,8 +199,6 @@ export default class Map extends Component {
               </Camera>
             </MapView>
             <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToCurrentLocation}/>
-            <FAB label='Log in with Twitter' theme='blue' icon='twitter' onPress={this.goToCurrentLocation}/>
-            <FAB label='Shout' theme='red' icon='megaphone' branded onPress={this.goToCurrentLocation}/> 
           </View>
         </View>
       </View>
