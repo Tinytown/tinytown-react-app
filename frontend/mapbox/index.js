@@ -69,10 +69,7 @@ export default class Map extends Component {
     bindMethods(['setUserCoordinatesFirstTime', 'updateShow', 'subscribeToUserLocation', 'goToCurrentLocation', 'handleRegionChange', 'setUserCoordinates', 'onDidFinishRenderingMapFully', 'onWillStartRenderingMap'], this);
     this.state = {
       currentLocation: null,
-      locationToShow: { // minneapolis to begin with
-        latitude: 44.986656,
-        longitude: -93.258133
-      },
+      locationToShow: null,
       zoom: 14,
       isMapLoading: false, // axiom: loading only applies to an existing map
       featureCollection: {
@@ -174,24 +171,22 @@ export default class Map extends Component {
     }
     Promise.all([this.getUpdatedCenter(), this.getUpdatedZoom()])
       .then(([[longitude, latitude], zoom]) => {
-        this.updateShow({longitude, latitude, zoom});
+        this.updateShow({newLocationToShow: {longitude, latitude}, zoom});
       })
   }
 
-  updateShow({longitude: newLongitude, latitude: newLatitude, zoom: newZoom}) {
-    const {longitude: oldLongitude, latitude: oldLatitude, zoom: oldZoom} = this.state;
+  updateShow({newLocationToShow, zoom: newZoom}) {
+    // assumption: completely update locationToShow if there's a newLongitude
+    const {locationToShow: oldLocationToShow, zoom: oldZoom} = this.state;
     this.setState({
-      locationToShow: {
-        longitude: newLongitude ? newLongitude : oldLongitude,
-        latitude: newLatitude ? newLatitude : oldLatitude,
-      },
+      locationToShow: newLocationToShow ? newLocationToShow : oldLocationToShow,
       zoom: newZoom ? newZoom : oldZoom
     });
   }
 
   goToCurrentLocation() {
     this.state.currentLocation ?
-      this.updateShow(this.state.currentLocation) :
+      this.updateShow({newLocationToShow: this.state.currentLocation}) :
       this.firstTimeLocationUpdate() // assumption: only on first time is currentLocation in state null
   }
 
@@ -226,7 +221,7 @@ export default class Map extends Component {
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {locationToShow, zoom, featureCollection} = this.state;
+    const {locationToShow, zoom, featureCollection, userTrackingMode} = this.state;
     const feature = featureCollection.features.length === 1 ? featureCollection.features[0] : null;
     return (
       <View style={styles.landscape}>
@@ -244,7 +239,7 @@ export default class Map extends Component {
             >
               <Camera
                 zoomLevel={zoom}
-                centerCoordinate={[locationToShow.longitude, locationToShow.latitude]}
+                centerCoordinate={locationToShow ? [locationToShow.longitude, locationToShow.latitude] : null}
                 >
               </Camera>
               <MapboxGL.ShapeSource
@@ -257,7 +252,7 @@ export default class Map extends Component {
                       style={{
                         iconAllowOverlap: true,
                         iconImage: userMarker,
-                        iconSize: 0.25 
+                        iconSize: 0.25
                       }}
                       minZoomLevel={1}
                     />
