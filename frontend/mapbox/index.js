@@ -66,95 +66,32 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
 
-    bindMethods(['setUserCoordinatesFirstTime', 'updateShow', 'subscribeToUserLocation', 'goToCurrentLocation', 'handleRegionChange', 'setUserCoordinates', 'onDidFinishRenderingMapFully', 'onWillStartRenderingMap'], this);
+    bindMethods(['goToCurrentLocation', 'onRegionDidChange', 'updateLocation'], this);
     this.state = {
-      currentLocation: null,
-      locationToShow: null,
+      userLocation: null,
+      cameraLocation: null,
       zoom: 14,
       isMapLoading: false, // axiom: loading only applies to an existing map
-      featureCollection: {
-        type: 'FeatureCollection',
-        features: []
-      }
+      followUser: false,
+      haveLocationPermission: false
     };
 
     this.map = React.createRef();
   }
 
-  setUserCoordinatesFirstTime(position) {
-    const {latitude, longitude} = position.coords;
+  setUserCoordinatesFirstTime({longitude, latitude}) {
     this.setState({
-      currentLocation: {
-        latitude,
-        longitude
-      },
-      locationToShow: {
+      followUser: true,
+      haveLocationPermission: true,
+      userLocation: {
         latitude,
         longitude
       }
     });
-  }
-
-  setUserCoordinates(position) {
-    const {featureCollection} = this.state;
-    const {latitude, longitude} = position.coords;
-    this.setState({
-      currentLocation: {
-        latitude,
-        longitude
-      },
-      featureCollection: {
-        ...featureCollection,
-        features: [
-          {
-            type: 'Feature',
-            id: 'userLocation',
-            geometry: {
-              coordinates: [longitude, latitude],
-              type: 'Point'
-            }
-          }
-        ]
-      }
-    });
-  }
-  
-  subscribeToUserLocation() {
-    const updatingLocationParameters = [
-      error => {
-       console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
-     },
-     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
-    ];
-
-    Geolocation.getCurrentPosition(
-      this.setUserCoordinatesFirstTime, ...updatingLocationParameters
-    );
-
-    this.watchId = Geolocation.watchPosition(
-      this.setUserCoordinates, ...updatingLocationParameters
-    )
-  }
-
-  onWillStartRenderingMap() {
-    this.setState({
-      isMapLoading: true
-    })
-  }
-
-  onDidFinishRenderingMapFully() {
-    this.setState({
-      isMapLoading: false
-    })
   }
   
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
-  }
-
-  componentWillUnmount() {
-    Geolocation.clearWatch(this.watchId);
-    Geolocation.stopObserving();
   }
 
   getUpdatedCenter() {
@@ -165,32 +102,46 @@ export default class Map extends Component {
     return this.map.current.getZoom();
   }
 
-  handleRegionChange() {
-    if (this.state.isMapLoading) {
-      return
-    }
-    Promise.all([this.getUpdatedCenter(), this.getUpdatedZoom()])
-      .then(([[longitude, latitude], zoom]) => {
-        this.updateShow({newLocationToShow: {longitude, latitude}, zoom});
-      })
+  cameraHasMoved = (cameraCoords, locationCoords) => {
+    const threshold = 1 * Math.pow(10, -14);
+    return Math.abs(cameraCoords.latitude - locationCoords.latitude > threshold) || Math.abs(cameraCoords.longitude - locationCoords.longitude > threshold);
   }
 
-  updateShow({newLocationToShow, zoom: newZoom}) {
-    // assumption: completely update locationToShow if there's a newLongitude
-    const {locationToShow: oldLocationToShow, zoom: oldZoom} = this.state;
+  onRegionDidChange(event) {
+    const [cameraLongitude, cameraLatitude] = event.geometry.coordinates;
+    let followUser = this.state.followUser;
+    const cameraLocation = {
+      longitude: cameraLongitude,
+      latitude: cameraLatitude
+    }
+    if (followUser && this.cameraHasMoved(cameraLocation, this.state.userLocation)) {
+      followUser = false;
+    }
     this.setState({
-      locationToShow: newLocationToShow ? newLocationToShow : oldLocationToShow,
-      zoom: newZoom ? newZoom : oldZoom
+      followUser,
+      zoom: event.properties.zoomLevel,
+      cameraLocation
     });
   }
 
   goToCurrentLocation() {
-    this.state.currentLocation ?
-      this.updateShow({newLocationToShow: this.state.currentLocation}) :
-      this.firstTimeLocationUpdate() // assumption: only on first time is currentLocation in state null
+    this.state.haveLocationPermission ?
+      this.setState({
+        followUser: true,
+        cameraLocation: {
+          ...this.state.userLocation
+        }
+      }) :
+      this.firstTimeCurrentLocation() // assumption: only on first time is currentLocation in state null
   }
 
-  firstTimeLocationUpdate() {
+  firstTimeCurrentLocation() {
+    const doUpdates = () => {
+      this.setState({
+        followUser: true,
+        haveLocationPermission: true
+      })
+    };
     if (isAndroid) {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -201,7 +152,7 @@ export default class Map extends Component {
       )
       .then(status => {
         if (status === PermissionsAndroid.RESULTS.GRANTED) {
-          this.subscribeToUserLocation();
+          doUpdates();
         }
       });
       return null;
@@ -211,9 +162,22 @@ export default class Map extends Component {
     Geolocation.requestAuthorization('always')
       .then(status => {
         if (status === 'granted') {
-          this.subscribeToUserLocation();
+          doUpdates();
         }
       });
+  }
+
+  updateLocation(event) {
+    if (!event) {
+      return;
+    }
+    const {latitude, longitude} = event.coords;
+    this.setState({
+      userLocation: {
+        longitude,
+        latitude
+      }
+    });
   }
 
   render() {
@@ -221,44 +185,42 @@ export default class Map extends Component {
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {locationToShow, zoom, featureCollection, userTrackingMode} = this.state;
-    const feature = featureCollection.features.length === 1 ? featureCollection.features[0] : null;
+    const {zoom, followUser, haveLocationPermission, cameraLocation} = this.state;
     return (
       <View style={styles.landscape}>
         <View style={styles.page}>
           <View style={styles.container}>
             <MapView
+                animated={true}
                 style={styles.map}
                 styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
                 logoEnabled={false}
                 attributionEnabled={false}
                 onRegionDidChange={this.handleRegionChange}
                 ref={this.map}
-                onDidFinishRenderingMapFully={this.onDidFinishRenderingMapFully}
-                onWillStartRenderingMap={this.onWillStartRenderingMap}
             >
+              <MapboxGL.UserLocation
+                visible={haveLocationPermission}
+                animate={haveLocationPermission}
+                onUpdate={this.updateLocation}
+              >
+                <MapboxGL.SymbolLayer
+                  id={'customUserLocationIcon'}
+                  style={{
+                    iconAllowOverlap: true,
+                    iconImage: userMarker,
+                    iconSize: 0.25
+                  }}
+                  minZoomLevel={1}
+                />
+              </MapboxGL.UserLocation>
               <Camera
                 zoomLevel={zoom}
-                centerCoordinate={locationToShow ? [locationToShow.longitude, locationToShow.latitude] : null}
+                followUserLocation={followUser}
+                followUserMode={MapboxGL.UserTrackingModes.FollowWithHeading}
+                centerCoordinate={cameraLocation ? [cameraLocation.longitude, cameraLocation.latitude] : null}
                 >
               </Camera>
-              <MapboxGL.ShapeSource
-                id='markersShape'
-                shape={featureCollection}
-              >
-                {feature
-                  ? <MapboxGL.SymbolLayer
-                      id={feature.id}
-                      style={{
-                        iconAllowOverlap: true,
-                        iconImage: userMarker,
-                        iconSize: 0.25
-                      }}
-                      minZoomLevel={1}
-                    />
-                    : null  
-                }
-              </MapboxGL.ShapeSource>
             </MapView>
             <View style={styles.containerCurrentLocation}>
                 <TouchableOpacity
