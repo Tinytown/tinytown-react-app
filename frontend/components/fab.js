@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { typography, colors, shapes } from '../styles'
 import Icon from '../assets/svg'
 
@@ -10,12 +10,12 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     alignSelf: 'center',
-    bottom: 16,
+    bottom: Platform.OS === 'ios' ? 48 : 24,
     flexDirection: 'row',
     paddingLeft: 16,
     paddingRight: 20,
     paddingVertical: 12,
-    borderRadius: shapes.allRadius,
+    borderRadius: shapes.radiusAll,
     backgroundColor: colors.asphaltGray,
     ...shapes.elevGray5
   },
