@@ -20,10 +20,11 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <Splash/>
-      {/* <Map></Map> */}
-    </SafeAreaView>
+    <View>
+      <StatusBar barStyle = "light-content" translucent = {true} backgroundColor="#00000099"/>
+      {/* <Splash></Splash>*/}
+      <Map></Map>
+    </View>
   );
 };
 
