@@ -13,13 +13,7 @@ export default class Splash extends Component {
 
     this.state = {
       isLoggedIn: false,
-      fadeAnim: new Animated.Value(0)
     };
-    Animated.timing(this.state.fadeAnim, {
-      toValue: 1,
-      duration: 2000,
-      useNativeDriver: true
-    }).start();
 
     RNTwitterSignIn.init('wZPh7dfzEkEWNtxpuHaKZtCdt', config.TWITTER_CONSUMER_SECRET);
   }
@@ -38,11 +32,6 @@ export default class Splash extends Component {
   render() {
     return (
       <View style={styles.landscape}>
-        <Animated.View style={[ styles.fadingContainer, { opacity: this.state.fadeAnim }]}>
-          <Image
-            source={require('../../assets/images/logo.png')}
-            style={styles.logo}
-          />
           <TouchableOpacity
             style={styles.twitterButton}
             onPress={() =>
@@ -54,7 +43,6 @@ export default class Splash extends Component {
               Twitter Sign-In
             </Text>
         </TouchableOpacity>
-        </Animated.View>
       </View>
     );
   }
@@ -69,11 +57,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  logo: {
-    width: '85%',
-    height: '85%',
-    resizeMode: 'contain'
   },
   twitterButton: {
     backgroundColor: colors.bubblegumRed600,
