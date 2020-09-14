@@ -6,6 +6,7 @@ import { CrosshairsIcon } from '../assets/svg';
 import userMarker from '../assets/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../component-ops';
+import _ from 'lodash';
 
 const {MapView, Camera} = MapboxGL;
 
@@ -63,84 +64,97 @@ const styles = StyleSheet.create({
 });
 
 export default class Map extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
-    bindMethods(['goToCurrentLocation', 'onRegionDidChange', 'updateLocation'], this);
+    bindMethods(['goToCurrentLocation', 'onRegionDidChange', 'updateLocation', 'goToCurrentLocationNonFirstHelper', 'goToCurrentLocationFirstHelper', 'onDidFinishRenderingFrameFully'], this);
     this.state = {
       userLocation: null,
-      cameraLocation: null,
-      zoom: 14,
+      zoomLevel: null,
       isMapLoading: false, // axiom: loading only applies to an existing map
       followUser: false,
-      haveLocationPermission: false
+      haveLocationPermission: false,
+      goingToCurrentLocation: false
     };
 
-    this.map = React.createRef();
-  }
+    this.camera = React.createRef();
+    
+    this.defaultZoomLevel = 14;
 
-  setUserCoordinatesFirstTime({longitude, latitude}) {
-    this.setState({
-      followUser: true,
-      haveLocationPermission: true,
-      userLocation: {
-        latitude,
-        longitude
-      }
-    });
+    this.finishGoingToCurrentLocation = _.debounce(() => {
+      console.log('finishing going to current location');
+      this.setState({
+        goingToCurrentLocation: false,
+        // followUser: true
+      });
+    }, 2000);
   }
   
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
   }
 
-  getUpdatedCenter() {
-    return this.map.current.getCenter();
-  }
-
-  getUpdatedZoom() {
-    return this.map.current.getZoom();
-  }
-
-  cameraHasMoved = (cameraCoords, locationCoords) => {
+  cameraHasMoved = (coords, otherCoords) => {
     const threshold = 1 * Math.pow(10, -14);
-    return Math.abs(cameraCoords.latitude - locationCoords.latitude > threshold) || Math.abs(cameraCoords.longitude - locationCoords.longitude > threshold);
+    return Math.abs(coords.latitude - otherCoords.latitude > threshold) || Math.abs(coords.longitude - otherCoords.longitude > threshold);
   }
 
+  onDidFinishRenderingFrameFully() {
+    console.log('onDidFinishRenderingFrameFully');
+    if (this.state.goingToCurrentLocation) {
+      this.finishGoingToCurrentLocation();
+    }
+  }
+  
   onRegionDidChange(event) {
     const [cameraLongitude, cameraLatitude] = event.geometry.coordinates;
     let followUser = this.state.followUser;
-    const cameraLocation = {
-      longitude: cameraLongitude,
-      latitude: cameraLatitude
-    }
-    if (followUser && this.cameraHasMoved(cameraLocation, this.state.userLocation)) {
+    if (followUser && this.cameraHasMoved({longitude: cameraLongitude,latitude: cameraLatitude}, this.state.userLocation)) {
       followUser = false;
     }
     this.setState({
-      followUser,
-      zoom: event.properties.zoomLevel,
-      cameraLocation
+      followUser
     });
   }
 
   goToCurrentLocation() {
     this.state.haveLocationPermission ?
-      this.setState({
-        followUser: true,
-        cameraLocation: {
-          ...this.state.userLocation
-        }
-      }) :
-      this.firstTimeCurrentLocation() // assumption: only on first time is currentLocation in state null
+      this.goToCurrentLocationNonFirstHelper() :
+      this.goToCurrentLocationFirstHelper() // assumption: only on first time is currentLocation in state null
   }
 
-  firstTimeCurrentLocation() {
+  goToCurrentLocationNonFirstHelper() {
+    this.setState({
+      goingToCurrentLocation: true,
+      followUser: false,
+      cameraCoordinates: [this.state.userLocation.longitude, this.state.userLocation.latitude],
+      zoomLevel: this.defaultZoomLevel
+    })
+    // this.camera.current.flyTo([this.state.userLocation.longitude, this.state.userLocation.latitude]);
+    // this.camera.current.zoomTo(this.defaultZoomLevel);
+  }
+
+  goToCurrentLocationFirstHelper() {
     const doUpdates = () => {
-      this.setState({
-        followUser: true,
-        haveLocationPermission: true
-      })
+      Geolocation.getCurrentPosition(
+        position => {
+          const {latitude, longitude} = position.coords;
+          console.log('latitude, longitude: ', latitude, longitude);
+          console.log('about to start going to current location');
+          this.setState({
+            haveLocationPermission: true,
+            goingToCurrentLocation: true,
+            cameraCoordinates: [this.state.userLocation.longitude, this.state.userLocation.latitude],
+            zoomLevel: this.defaultZoomLevel
+          });
+          // this.camera.current.flyTo([longitude, latitude]);
+          // this.camera.current.zoomTo(this.defaultZoomLevel);
+        },
+        error => {
+          console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
+      );
     };
     if (isAndroid) {
       PermissionsAndroid.request(
@@ -185,7 +199,8 @@ export default class Map extends Component {
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {zoom, followUser, haveLocationPermission, cameraLocation} = this.state;
+    const {zoomLevel, followUser, haveLocationPermission, goingToCurrentLocation, cameraCoordinates} = this.state;
+    console.log('goingToCurrentLocation: ', goingToCurrentLocation);
     return (
       <View style={styles.landscape}>
         <View style={styles.page}>
@@ -197,9 +212,10 @@ export default class Map extends Component {
                 logoEnabled={false}
                 attributionEnabled={false}
                 onRegionDidChange={this.handleRegionChange}
-                ref={this.map}
+                regionDidChangeDebounceTime={2000}
+                onDidFinishRenderingFrameFully={this.onDidFinishRenderingFrameFully}
             >
-              <MapboxGL.UserLocation
+              {haveLocationPermission ? <MapboxGL.UserLocation
                 visible={haveLocationPermission}
                 animate={haveLocationPermission}
                 onUpdate={this.updateLocation}
@@ -213,12 +229,13 @@ export default class Map extends Component {
                   }}
                   minZoomLevel={1}
                 />
-              </MapboxGL.UserLocation>
+              </MapboxGL.UserLocation> : null}
               <Camera
-                zoomLevel={zoom}
                 followUserLocation={followUser}
                 followUserMode={MapboxGL.UserTrackingModes.FollowWithHeading}
-                centerCoordinate={cameraLocation ? [cameraLocation.longitude, cameraLocation.latitude] : null}
+                ref={this.camera}
+                centerCoordinate={cameraCoordinates ? cameraCoordinates : undefined}
+                zoomLevel={zoomLevel ? zoomLevel : undefined}
                 >
               </Camera>
             </MapView>
@@ -226,6 +243,7 @@ export default class Map extends Component {
                 <TouchableOpacity
                   style={styles.buttonCurrentLocation}
                   onPress={this.goToCurrentLocation}
+                  disabled={goingToCurrentLocation}
                 >
                   <View style={styles.messageCurrentLocation}>
                     <CrosshairsIcon style={styles.iconCurrentLocation} />
