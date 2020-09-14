@@ -3,7 +3,6 @@
  * @flow strict-local
  */
 
-import { typography, colors } from './frontend/styles'
 import React from 'react';
 import {
   StatusBar,
@@ -25,11 +24,6 @@ const App = () =>
 ;
 
 const styles = StyleSheet.create({
-  test: {
-    backgroundColor: '#FE4963',
-    color: colors.asphaltGray,
-    ...typography.button,
-  },
 });
 
 export default App;
