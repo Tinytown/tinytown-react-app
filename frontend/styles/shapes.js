@@ -54,8 +54,7 @@ export const elevGray4 = {
   elevation: 9,
 };
 
-export const elevGray5 = {
-  shadowColor: colors.asphaltGray,
+const elev5 = {
   shadowOffset: {
     width: 0,
     height: 6,
@@ -64,83 +63,46 @@ export const elevGray5 = {
   shadowRadius: 7.49,
   
   elevation: 12,
+}
+
+export const elevGray5 = {
+  shadowColor: colors.asphaltGray,
+  ...elev5
 };
 
 // ELEVATION - COLORS
 export const elevRed5 = {
   shadowColor: colors.bubblegumRed600,
-  shadowOffset: {
-    width: 0,
-    height: 6,
-  },
-  shadowOpacity: 0.5,
-  shadowRadius: 7.49,
-  
-  elevation: 12,
+  ...elev5
 };
 
 export const elevPurple5 = {
   shadowColor: colors.flowerPurple600,
-  shadowOffset: {
-    width: 0,
-    height: 6,
-  },
-  shadowOpacity: 0.5,
-  shadowRadius: 7.49,
-  
-  elevation: 12,
+  ...elev5
 };
 
 export const elevLime5 = {
   shadowColor: colors.funLime600,
-  shadowOffset: {
-    width: 0,
-    height: 6,
-  },
-  shadowOpacity: 0.5,
-  shadowRadius: 7.49,
-  
-  elevation: 12,
+  ...elev5
 };
 
 export const elevGreen5 = {
   shadowColor: colors.grassGreen600,
-  shadowOffset: {
-    width: 0,
-    height: 6,
-  },
-  shadowOpacity: 0.5,
-  shadowRadius: 7.49,
-  
-  elevation: 12,
+  ...elev5
 };
 
 export const elevOrange5 = {
   shadowColor: colors.trafficOrange600,
-  shadowOffset: {
-    width: 0,
-    height: 6,
-  },
-  shadowOpacity: 0.5,
-  shadowRadius: 7.49,
-  
-  elevation: 12,
+  ...elev5
 };
 
 export const elevBlue5 = {
   shadowColor: colors.skyBlue600,
-  shadowOffset: {
-    width: 0,
-    height: 6,
-  },
-  shadowOpacity: 0.5,
-  shadowRadius: 7.49,
-  
-  elevation: 12,
+  ...elev5
 };
 
 // CORNER RADIUS
-export const smRadius = 4;
-export const mdRadius = 8;
-export const lgRadius = 16;
-export const allRadius = 100;
+export const radiusSm = 4;
+export const radiusMd = 8;
+export const radiusLg = 16;
+export const radiusAll = 100;

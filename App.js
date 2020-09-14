@@ -3,26 +3,29 @@
  * @flow strict-local
  */
 
-import { typography, colors } from './frontend/styles'
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-  Text,
-  SafeAreaView,
   StatusBar,
-  StyleSheet
+  StyleSheet,
+  View
 } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 // import Splash from './frontend/splash';
 import Map from './frontend/mapbox';
 
-const App = () =>
-  <>
-    <StatusBar barStyle='dark-content' />
-    <SafeAreaView>
-      {/* <Splash></Splash> */}
+const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
+  return (
+    <View>
+      <StatusBar barStyle = "light-content" translucent = {true} backgroundColor="#00000099"/>
+      {/* <Splash></Splash>*/}
       <Map></Map>
-    </SafeAreaView>
-  </>
-;
+    </View>
+  );
+};
 
 export default App;

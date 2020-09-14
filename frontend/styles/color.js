@@ -25,7 +25,7 @@ export const bubblegumRed50 = '#FFE6E9';
 export const bubblegumRed100 = '#FFC7CF';
 export const bubblegumRed600 = '#FE4963';
 
-// BLACKS, GRAYS, WHITES
+// GRAYS
 export const asphaltGray = '#1F262E';
 export const graniteGray = '#3C4858';
 export const steelGray = '#8392A5';
