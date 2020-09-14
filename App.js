@@ -5,14 +5,14 @@
 
 import React, { useEffect } from 'react';
 import {
-  SafeAreaView,
   StatusBar,
-  StyleSheet
+  StyleSheet,
+  View
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
-import Splash from './frontend/splash';
-// import Map from './frontend/mapbox';
+// import Splash from './frontend/splash';
+import Map from './frontend/mapbox';
 
 const App = () => {
   useEffect(() => {
