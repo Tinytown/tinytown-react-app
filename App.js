@@ -21,7 +21,7 @@ const App = () => {
 
   return (
     <SafeAreaView>
-      <Splash></Splash>
+      <Splash/>
       {/* <Map></Map> */}
     </SafeAreaView>
   );
