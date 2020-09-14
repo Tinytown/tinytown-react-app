@@ -50,13 +50,13 @@ hotfix 	 -  Quick fixes to the codebase.
 
 **Examples**
 ```
-feature/23-av-splash-screen
-bugfix/5-ha-mapbox-error
-hotfix/8-ck-requestAuth-error
+feature/i23-av-splash-screen
+bugfix/i5-ha-mapbox-error
+hotfix/i8-ck-requestAuth-error
 ```
 
 #### Commit Titles
-When adding commits to a branch, please include the GitHub issue number from the branch at the beginning of the commit title.  For example, commits to the `feature/23-av-splash-screen` branch should look like this:
+When adding commits to a branch, please include the GitHub issue number from the branch at the beginning of the commit title.  For example, commits to the `feature/i23-av-splash-screen` branch should look like this:
 ```
 i23: Remove logo / color from current splash screen
 i23: Add splash screen to iOS

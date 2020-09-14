@@ -1,4 +1,4 @@
-// Combines all style variables under one file: import { TYPOGRAPHY, COLORS } from './frontend/styles' 
+// Combines all style variables under one file: import { typography, colors } from './frontend/styles' 
 
 import * as colors from './color';
 import * as typography from './typography';

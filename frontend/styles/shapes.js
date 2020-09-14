@@ -140,7 +140,7 @@ export const elevBlue5 = {
 };
 
 // CORNER RADIUS
-export const smRadius = 4;
-export const mdRadius = 8;
-export const lgRadius = 16;
-export const allRadius = 100;
+export const radiusSm = 4;
+export const radiusMd = 8;
+export const radiusLg = 16;
+export const radiusAll = 100;
