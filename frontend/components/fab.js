@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     alignSelf: 'center',
-    bottom: Platform.OS === 'ios' ? 48 : 24,
+    bottom: Platform.OS === 'ios' ? 32 : 24,
     flexDirection: 'row',
     paddingLeft: 16,
     paddingRight: 20,
