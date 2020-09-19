@@ -104,7 +104,6 @@ class FAB extends React.Component {
       onPress
     } = this.props;
     const { containerStyles, iconStyles, iconColor, textStyles } = getStyles({ theme, branded });
-  
     return (
         <TouchableOpacity onPress={onPress} style={containerStyles} >
           <Icon icon={this.props.icon} style={iconStyles} color={iconColor} />
