@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { typography, colors, shapes } from '../styles'
 import Icon from '../assets/svg'
 
@@ -8,9 +8,6 @@ const styles = StyleSheet.create({
   
   // CONTAINER STYLES
   container: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: Platform.OS === 'ios' ? 32 : 24,
     flexDirection: 'row',
     paddingLeft: 16,
     paddingRight: 20,
@@ -107,12 +104,12 @@ class FAB extends React.Component {
       onPress
     } = this.props;
     const { containerStyles, iconStyles, iconColor, textStyles } = getStyles({ theme, branded });
-
+  
     return (
-      <TouchableOpacity onPress={onPress} style={containerStyles} >
-        <Icon icon={this.props.icon} style={iconStyles} color={iconColor} />
-        <Text style={textStyles}>{label}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={onPress} style={containerStyles} >
+          <Icon icon={this.props.icon} style={iconStyles} color={iconColor} />
+          <Text style={textStyles}>{label}</Text>
+        </TouchableOpacity>
     );
   }
 }
