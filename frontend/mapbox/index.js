@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform } from 'react-native';
+import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
+import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import config from '../../config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
@@ -16,19 +17,21 @@ const styles = StyleSheet.create({
   landscape: {
     height: '100%'
   },
-  page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  container: {
+  map: {
     height: '100%',
     width: '100%',
   },
-  map: {
-    flex: 1
+  safeArea: {
+    position: 'absolute',
+    width: '100%',
+    bottom: StaticSafeAreaInsets.safeAreaInsetsBottom,
+    top: StaticSafeAreaInsets.safeAreaInsetsTop,
+    alignItems: 'center',
   },
+  fabContainer: {
+    position: 'absolute',
+    bottom: 24,
+  }
 });
 
 export default class Map extends Component {
@@ -180,8 +183,6 @@ export default class Map extends Component {
     const {locationToShow, zoom} = this.state; 
     return (
       <View style={styles.landscape}>
-        <View style={styles.page}>
-          <View style={styles.container}>
             <MapView
                 style={styles.map}
                 styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
@@ -198,9 +199,11 @@ export default class Map extends Component {
                 >
               </Camera>
             </MapView>
-            <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToCurrentLocation}/>
-          </View>
-        </View>
+            <View style={styles.safeArea} pointerEvents='box-none'>
+              <View style={styles.fabContainer}>
+                <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToCurrentLocation}/>
+              </View>
+            </View>
       </View>
     );
   }
