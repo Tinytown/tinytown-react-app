@@ -80,14 +80,6 @@ export default class Map extends Component {
     this.camera = React.createRef();
     
     this.defaultZoomLevel = 14;
-
-    this.finishGoingToCurrentLocation = _.debounce(() => {
-      console.log('finishing going to current location');
-      this.setState({
-        goingToCurrentLocation: false,
-        // followUser: true
-      });
-    }, 2000);
   }
   
   componentDidMount() {
@@ -100,9 +92,11 @@ export default class Map extends Component {
   }
 
   onDidFinishRenderingFrameFully() {
-    console.log('onDidFinishRenderingFrameFully');
     if (this.state.goingToCurrentLocation) {
-      this.finishGoingToCurrentLocation();
+      this.setState({
+        goingToCurrentLocation: false,
+        followUser: true
+      });
     }
   }
   
@@ -129,9 +123,12 @@ export default class Map extends Component {
       followUser: false,
       cameraCoordinates: [this.state.userLocation.longitude, this.state.userLocation.latitude],
       zoomLevel: this.defaultZoomLevel
+    }, () => {
+      this.camera.current.setCamera({
+        centerCoordinate: this.state.cameraCoordinates,
+        zoomLevel: this.state.zoomLevel
+      });
     })
-    // this.camera.current.flyTo([this.state.userLocation.longitude, this.state.userLocation.latitude]);
-    // this.camera.current.zoomTo(this.defaultZoomLevel);
   }
 
   goToCurrentLocationFirstHelper() {
@@ -139,16 +136,12 @@ export default class Map extends Component {
       Geolocation.getCurrentPosition(
         position => {
           const {latitude, longitude} = position.coords;
-          console.log('latitude, longitude: ', latitude, longitude);
-          console.log('about to start going to current location');
           this.setState({
             haveLocationPermission: true,
             goingToCurrentLocation: true,
-            cameraCoordinates: [this.state.userLocation.longitude, this.state.userLocation.latitude],
+            cameraCoordinates: [longitude, latitude],
             zoomLevel: this.defaultZoomLevel
           });
-          // this.camera.current.flyTo([longitude, latitude]);
-          // this.camera.current.zoomTo(this.defaultZoomLevel);
         },
         error => {
           console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
@@ -200,7 +193,6 @@ export default class Map extends Component {
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
     const {zoomLevel, followUser, haveLocationPermission, goingToCurrentLocation, cameraCoordinates} = this.state;
-    console.log('goingToCurrentLocation: ', goingToCurrentLocation);
     return (
       <View style={styles.landscape}>
         <View style={styles.page}>
@@ -236,6 +228,7 @@ export default class Map extends Component {
                 ref={this.camera}
                 centerCoordinate={cameraCoordinates ? cameraCoordinates : undefined}
                 zoomLevel={zoomLevel ? zoomLevel : undefined}
+                animationDuration={2000}
                 >
               </Camera>
             </MapView>
