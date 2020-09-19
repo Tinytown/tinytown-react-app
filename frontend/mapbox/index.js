@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, PermissionsAndroid, Platform } from 'react-native';
+import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
+import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import config from '../../config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import { CrosshairsIcon } from '../assets/svg';
 import userMarker from '../assets/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../component-ops';
-import _ from 'lodash';
+import FAB from '../components/fab'
 
 const {MapView, Camera} = MapboxGL;
 
@@ -18,48 +18,20 @@ const styles = StyleSheet.create({
   landscape: {
     height: '100%'
   },
-  page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  container: {
+  map: {
     height: '100%',
     width: '100%',
   },
-  map: {
-    flex: 1
-  },
-  containerCurrentLocation: {
+  safeArea: {
     position: 'absolute',
     width: '100%',
-    bottom: 50,
-    justifyContent: 'center',
-    alignItems: 'center'
+    bottom: StaticSafeAreaInsets.safeAreaInsetsBottom,
+    top: StaticSafeAreaInsets.safeAreaInsetsTop,
+    alignItems: 'center',
   },
-  buttonCurrentLocation: {
-    backgroundColor: '#000000',
-    height: 48,
-    width: 180,
-    paddingLeft: 10,
-    paddingRight: 15,
-    paddingVertical: 10,
-    borderRadius: 30,
-  },
-  textCurrentLocation: {
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: 16,
-    lineHeight: 24,
-    color: 'white'
-  },
-  messageCurrentLocation: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  iconCurrentLocation: {
-    marginRight: 5
+  fabContainer: {
+    position: 'absolute',
+    bottom: 24,
   }
 });
 
@@ -195,8 +167,6 @@ export default class Map extends Component {
     const {zoomLevel, followUser, haveLocationPermission, goingToCurrentLocation, cameraCoordinates} = this.state;
     return (
       <View style={styles.landscape}>
-        <View style={styles.page}>
-          <View style={styles.container}>
             <MapView
                 animated={true}
                 style={styles.map}
@@ -232,20 +202,11 @@ export default class Map extends Component {
                 >
               </Camera>
             </MapView>
-            <View style={styles.containerCurrentLocation}>
-                <TouchableOpacity
-                  style={styles.buttonCurrentLocation}
-                  onPress={this.goToCurrentLocation}
-                  disabled={goingToCurrentLocation}
-                >
-                  <View style={styles.messageCurrentLocation}>
-                    <CrosshairsIcon style={styles.iconCurrentLocation} />
-                    <Text style={styles.textCurrentLocation}>Go to my location</Text>  
-                  </View>
-                </TouchableOpacity>
+            <View style={styles.safeArea} pointerEvents='box-none'>
+              <View style={styles.fabContainer}>
+                <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToCurrentLocation} disabled={goingToCurrentLocation}/>
               </View>
-          </View>
-        </View>
+            </View>
       </View>
     );
   }
