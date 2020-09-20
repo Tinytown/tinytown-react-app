@@ -6,7 +6,8 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import userMarker from '../assets/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../component-ops';
-import FAB from '../components/fab'
+import FAB from '../components/fab';
+import R from 'ramda';
 
 const {MapView, Camera} = MapboxGL;
 
@@ -90,12 +91,12 @@ export default class Map extends Component {
   }
 
   goToCurrentLocationNonFirstHelper() {
-    this.setState({
+    this.setState(prevState => ({
       goingToCurrentLocation: true,
-      followUser: false,
-      cameraCoordinates: [this.state.userLocation.longitude, this.state.userLocation.latitude],
+      followUser: false, // disabling followUser is not really necessary with the current follow mode, but it allows flexibility if in future we can change the mode, say, to FollowWithHeading
+      cameraCoordinates: [prevState.userLocation.longitude, prevState.userLocation.latitude],
       zoomLevel: this.defaultZoomLevel
-    }, () => {
+    }), () => {
       this.camera.current.setCamera({
         centerCoordinate: this.state.cameraCoordinates,
         zoomLevel: this.state.zoomLevel
@@ -150,11 +151,12 @@ export default class Map extends Component {
     if (!event) {
       return;
     }
-    const {latitude, longitude} = event.coords;
+    const {latitude, longitude, heading} = event.coords;
     this.setState({
       userLocation: {
         longitude,
-        latitude
+        latitude,
+        heading
       }
     });
   }
@@ -164,7 +166,7 @@ export default class Map extends Component {
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {zoomLevel, followUser, haveLocationPermission, goingToCurrentLocation, cameraCoordinates} = this.state;
+    const {zoomLevel, followUser, haveLocationPermission, goingToCurrentLocation, cameraCoordinates, userLocation} = this.state;
     return (
       <View style={styles.landscape}>
             <MapView
@@ -187,14 +189,15 @@ export default class Map extends Component {
                   style={{
                     iconAllowOverlap: true,
                     iconImage: userMarker,
-                    iconSize: 0.25
+                    iconSize: 0.25,
+                    iconRotate: R.pipe(R.path(['heading']), R.defaultTo(0))(userLocation)
                   }}
                   minZoomLevel={1}
                 />
               </MapboxGL.UserLocation> : null}
               <Camera
                 followUserLocation={followUser}
-                followUserMode={MapboxGL.UserTrackingModes.FollowWithHeading}
+                followUserMode={MapboxGL.UserTrackingModes.Follow}
                 ref={this.camera}
                 centerCoordinate={cameraCoordinates ? cameraCoordinates : undefined}
                 zoomLevel={zoomLevel ? zoomLevel : undefined}
