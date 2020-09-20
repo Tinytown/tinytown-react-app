@@ -8,6 +8,7 @@ import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../component-ops';
 import FAB from '../components/fab';
 import R from 'ramda';
+import _ from 'lodash';
 
 const {MapView, Camera} = MapboxGL;
 
@@ -36,11 +37,12 @@ const styles = StyleSheet.create({
   }
 });
 
+const coordinateThreshold = 1 * Math.pow(10, -14);
 export default class Map extends Component {
   constructor() {
     super();
 
-    bindMethods(['goToCurrentLocation', 'onRegionDidChange', 'updateLocation', 'goToCurrentLocationNonFirstHelper', 'goToCurrentLocationFirstHelper', 'onDidFinishRenderingFrameFully'], this);
+    bindMethods(['goToCurrentLocation', 'onRegionDidChange', 'goToCurrentLocationNonFirstHelper', 'goToCurrentLocationFirstHelper', 'onDidFinishRenderingFrameFully'], this);
     this.state = {
       userLocation: null,
       zoomLevel: null,
@@ -53,6 +55,25 @@ export default class Map extends Component {
     this.camera = React.createRef();
     
     this.defaultZoomLevel = 14;
+
+    this.updateLocation = _.throttle(event => {
+      if (!event) {
+        return;
+      }
+      const {latitude, longitude, heading} = event.coords;
+      const latitudeChanged = this.state.userLocation ? Math.abs(latitude - this.state.userLocation.latitude) > coordinateThreshold : true;
+      const longitudeChanged = this.state.userLocation ? Math.abs(longitude - this.state.userLocation.longitude) > coordinateThreshold : true;
+      const headingChanged = this.state.userLocation ? Math.abs(heading - this.state.userLocation.heading) > 2 : true;
+      if (headingChanged || latitudeChanged || longitudeChanged) {
+        this.setState({
+          userLocation: {
+            longitude,
+            latitude,
+            heading
+          }
+        });
+      }
+    }, 200, {trailing: false})
   }
   
   componentDidMount() {
@@ -60,8 +81,7 @@ export default class Map extends Component {
   }
 
   cameraHasMoved = (coords, otherCoords) => {
-    const threshold = 1 * Math.pow(10, -14);
-    return Math.abs(coords.latitude - otherCoords.latitude > threshold) || Math.abs(coords.longitude - otherCoords.longitude > threshold);
+    return Math.abs(coords.latitude - otherCoords.latitude > coordinateThreshold) || Math.abs(coords.longitude - otherCoords.longitude > coordinateThreshold);
   }
 
   onDidFinishRenderingFrameFully() {
@@ -145,20 +165,6 @@ export default class Map extends Component {
           doUpdates();
         }
       });
-  }
-
-  updateLocation(event) {
-    if (!event) {
-      return;
-    }
-    const {latitude, longitude, heading} = event.coords;
-    this.setState({
-      userLocation: {
-        longitude,
-        latitude,
-        heading
-      }
-    });
   }
 
   render() {
