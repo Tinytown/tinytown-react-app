@@ -9,8 +9,15 @@ import {bindMethods} from '../component-ops';
 import FAB from '../components/fab';
 import R from 'ramda';
 import _ from 'lodash';
+import CompassHeading from 'react-native-compass-heading';
 
 const {MapView, Camera} = MapboxGL;
+
+const degree_update_rate = 3;
+
+CompassHeading.start(degree_update_rate, degree => {
+  console.log('You are facing', degree);
+});
 
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
@@ -72,6 +79,7 @@ export default class Map extends Component {
             heading
           }
         });
+        console.log(this.state.userLocation.heading);
       }
     }, 50, {trailing: false})
   }
