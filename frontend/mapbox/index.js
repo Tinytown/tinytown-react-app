@@ -7,17 +7,10 @@ import userMarker from '../assets/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../component-ops';
 import FAB from '../components/fab';
-import R from 'ramda';
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
 
 const {MapView, Camera} = MapboxGL;
-
-const degree_update_rate = 3;
-
-CompassHeading.start(degree_update_rate, degree => {
-  console.log('You are facing', degree);
-});
 
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
@@ -44,19 +37,23 @@ const styles = StyleSheet.create({
   }
 });
 
+const degreeUpdateRate = 3;
+
 const coordinateThreshold = 1 * Math.pow(10, -14);
+
 export default class Map extends Component {
   constructor() {
     super();
 
-    bindMethods(['goToCurrentLocation', 'onRegionDidChange', 'goToCurrentLocationNonFirstHelper', 'goToCurrentLocationFirstHelper', 'onDidFinishRenderingFrameFully'], this);
+    bindMethods(['goToLocation', 'onRegionDidChange', 'goToLocationNonFirstHelper', 'goToLocationFirstHelper', 'onDidFinishRenderingFrameFully'], this);
     this.state = {
       userLocation: null,
+      heading: null,
       zoomLevel: null,
       isMapLoading: false, // axiom: loading only applies to an existing map
       followUser: false,
       haveLocationPermission: false,
-      goingToCurrentLocation: false
+      goingToLocation: false
     };
 
     this.camera = React.createRef();
@@ -67,21 +64,24 @@ export default class Map extends Component {
       if (!event) {
         return;
       }
-      const {latitude, longitude, heading} = event.coords;
+      const {latitude, longitude} = event.coords;
       const latitudeChanged = this.state.userLocation ? Math.abs(latitude - this.state.userLocation.latitude) > coordinateThreshold : true;
       const longitudeChanged = this.state.userLocation ? Math.abs(longitude - this.state.userLocation.longitude) > coordinateThreshold : true;
-      const headingChanged = this.state.userLocation ? Math.abs(heading - this.state.userLocation.heading) > 2 : true;
-      if (headingChanged || latitudeChanged || longitudeChanged) {
+      if (latitudeChanged || longitudeChanged) {
         this.setState({
           userLocation: {
             longitude,
             latitude,
-            heading
           }
         });
-        console.log(this.state.userLocation.heading);
       }
     }, 50, {trailing: false})
+
+    CompassHeading.start(degreeUpdateRate, heading => {
+      this.setState({
+        heading
+      })
+    });
   }
   
   componentDidMount() {
@@ -93,9 +93,9 @@ export default class Map extends Component {
   }
 
   onDidFinishRenderingFrameFully() {
-    if (this.state.goingToCurrentLocation) {
+    if (this.state.goingToLocation) {
       this.setState({
-        goingToCurrentLocation: false,
+        goingToLocation: false,
         followUser: true
       });
     }
@@ -112,15 +112,15 @@ export default class Map extends Component {
     });
   }
 
-  goToCurrentLocation() {
+  goToLocation() {
     this.state.haveLocationPermission ?
-      this.goToCurrentLocationNonFirstHelper() :
-      this.goToCurrentLocationFirstHelper() // assumption: only on first time is currentLocation in state null
+      this.goToLocationNonFirstHelper() :
+      this.goToLocationFirstHelper()
   }
 
-  goToCurrentLocationNonFirstHelper() {
+  goToLocationNonFirstHelper() {
     this.setState(prevState => ({
-      goingToCurrentLocation: true,
+      goingToLocation: true,
       followUser: false, // disabling followUser is not really necessary with the current follow mode, but it allows flexibility if in future we can change the mode, say, to FollowWithHeading
       cameraCoordinates: [prevState.userLocation.longitude, prevState.userLocation.latitude],
       zoomLevel: this.defaultZoomLevel
@@ -132,14 +132,15 @@ export default class Map extends Component {
     })
   }
 
-  goToCurrentLocationFirstHelper() {
+  goToLocationFirstHelper() {
     const doUpdates = () => {
       Geolocation.getCurrentPosition(
         position => {
           const {latitude, longitude} = position.coords;
+          console.log('doing first time go to location update');
           this.setState({
             haveLocationPermission: true,
-            goingToCurrentLocation: true,
+            goingToLocation: true,
             cameraCoordinates: [longitude, latitude],
             zoomLevel: this.defaultZoomLevel
           });
@@ -177,10 +178,10 @@ export default class Map extends Component {
 
   render() {
     /* 
-      the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
+      the landscape view here is  e to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {zoomLevel, followUser, haveLocationPermission, goingToCurrentLocation, cameraCoordinates, userLocation} = this.state;
+    const {zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading} = this.state;
     return (
       <View style={styles.landscape}>
             <MapView
@@ -204,7 +205,7 @@ export default class Map extends Component {
                     iconAllowOverlap: true,
                     iconImage: userMarker,
                     iconSize: 0.4,
-                    iconRotate: R.pipe(R.path(['heading']), R.defaultTo(0))(userLocation)
+                    iconRotate: heading || 0
                   }}
                   minZoomLevel={1}
                 />
@@ -220,7 +221,7 @@ export default class Map extends Component {
             </MapView>
             <View style={styles.safeArea} pointerEvents='box-none'>
               <View style={styles.fabContainer}>
-                <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToCurrentLocation} disabled={goingToCurrentLocation}/>
+                <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
               </View>
             </View>
       </View>
