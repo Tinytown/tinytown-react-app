@@ -73,7 +73,7 @@ export default class Map extends Component {
           }
         });
       }
-    }, 200, {trailing: false})
+    }, 50, {trailing: false})
   }
   
   componentDidMount() {
