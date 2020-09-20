@@ -189,7 +189,7 @@ export default class Map extends Component {
                   style={{
                     iconAllowOverlap: true,
                     iconImage: userMarker,
-                    iconSize: 0.25,
+                    iconSize: 0.4,
                     iconRotate: R.pipe(R.path(['heading']), R.defaultTo(0))(userLocation)
                   }}
                   minZoomLevel={1}
@@ -201,7 +201,6 @@ export default class Map extends Component {
                 ref={this.camera}
                 centerCoordinate={cameraCoordinates ? cameraCoordinates : undefined}
                 zoomLevel={zoomLevel ? zoomLevel : undefined}
-                animationDuration={2000}
                 >
               </Camera>
             </MapView>
