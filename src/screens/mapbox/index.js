@@ -7,6 +7,7 @@ import userMarker from 'res/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from 'library/utils/component-ops';
 import FAB from 'library/components/fab';
+import { strings } from 'res'
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
 
@@ -221,7 +222,7 @@ export default class Map extends Component {
             </MapView>
             <View style={styles.safeArea} pointerEvents='box-none'>
               <View style={styles.fabContainer}>
-                <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
+                <FAB label={strings.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
               </View>
             </View>
       </View>
