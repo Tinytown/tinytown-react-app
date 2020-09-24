@@ -6,9 +6,8 @@
 import React, { useEffect } from 'react';
 import {View} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-
-// import Splash from './frontend/splash';
-import Map from './src/screens/mapbox';
+import Map from 'screens/mapbox';
+import Splash from 'screens/splash';
 
 const App = () => {
   useEffect(() => {
@@ -17,7 +16,7 @@ const App = () => {
 
   return (
       <View>
-        {/* <Splash></Splash>*/}
+        {/* <Splash></Splash> */}
         <Map></Map>
       </View>
   );

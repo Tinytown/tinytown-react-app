@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { Text, TouchableOpacity, Animated, Image, NativeModules, View, StyleSheet} from 'react-native';
-import * as twitterApi from '../../library/utils/@@vendor/twitter';
-import config from '../../../config';
-import { colors, shapes } from '../../../frontend/styles'
+import * as twitterApi from 'library/utils/@@vendor/twitter';
+import config from 'tinytown/config';
+import { colors, shapes } from 'res'
 
 
 const {RNTwitterSignIn} = NativeModules;
