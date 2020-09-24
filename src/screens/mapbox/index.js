@@ -3,7 +3,7 @@ import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import config from '../../../config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import userMarker from '../../../frontend/assets/img/user_marker.png';
+import userMarker from '../../../src/res/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from '../../library/utils/component-ops';
 import FAB from '../../library/components/fab';
