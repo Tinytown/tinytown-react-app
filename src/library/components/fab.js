@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { typography, colors, shapes } from '../styles'
-import Icon from '../assets/svg'
+import { typography, colors, shapes } from '../../../frontend/styles'
+import Icon from '../../../frontend/assets/svg'
 
 const styles = StyleSheet.create({
   

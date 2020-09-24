@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { Text, TouchableOpacity, Animated, Image, NativeModules, View, StyleSheet} from 'react-native';
-import * as twitterApi from '../@@vendor/twitter';
-import config from '../../config';
-import { colors, shapes } from '../styles'
+import * as twitterApi from '../../../frontend/@@vendor/twitter';
+import config from '../../../config';
+import { colors, shapes } from '../../../frontend/styles'
 
 
 const {RNTwitterSignIn} = NativeModules;

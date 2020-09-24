@@ -8,7 +8,7 @@ import {View} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
 // import Splash from './frontend/splash';
-import Map from './frontend/mapbox';
+import Map from './src/screens/mapbox';
 
 const App = () => {
   useEffect(() => {
