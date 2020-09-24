@@ -5,7 +5,7 @@ import config from '../../../config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import userMarker from '../../../frontend/assets/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
-import {bindMethods} from '../../../frontend/component-ops';
+import {bindMethods} from '../../library/utils/component-ops';
 import FAB from '../../library/components/fab';
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
