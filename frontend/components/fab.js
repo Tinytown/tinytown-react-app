@@ -87,13 +87,14 @@ class FAB extends React.Component {
     theme: PropTypes.oneOf(['green', 'blue', 'red']),
     branded: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
-
+    disabled: PropTypes.bool
   };
 
   static defaultProps = {
     label: 'Button Label',
     theme: 'default',
-    branded: false
+    branded: false,
+    disabled: false
   };
 
   render() {
@@ -101,11 +102,12 @@ class FAB extends React.Component {
       label,
       theme,
       branded,
-      onPress
+      onPress,
+      disabled
     } = this.props;
     const { containerStyles, iconStyles, iconColor, textStyles } = getStyles({ theme, branded });
     return (
-        <TouchableOpacity onPress={onPress} style={containerStyles} >
+        <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
           <Icon icon={this.props.icon} style={iconStyles} color={iconColor} />
           <Text style={textStyles}>{label}</Text>
         </TouchableOpacity>
