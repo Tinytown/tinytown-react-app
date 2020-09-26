@@ -15,17 +15,20 @@ export default class Splash extends Component {
       isLoggedIn: false,
     };
 
-    RNTwitterSignIn.init('wZPh7dfzEkEWNtxpuHaKZtCdt', config.TWITTER_CONSUMER_SECRET);
+    this.twitterInitialization = RNTwitterSignIn.init('zPSC91qO9vkQvc5pdblqTdlnW', config.TWITTER_CONSUMER_SECRET);
   }
 
   twitterLogin = async () => {
     try {
+      console.log(this.twitterInitialization);
+      const x = await this.twitterInitialization;
+      console.log('x: ', x)
       await twitterApi.login();
       this.setState({
         isLoggedIn: true
       });
     } catch(e) {
-      return;
+      throw e;
     }
   }
 
@@ -35,9 +38,14 @@ export default class Splash extends Component {
           <TouchableOpacity
             style={styles.twitterButton}
             onPress={() =>
-              this.twitterLogin().then(() =>
-                console.log('Signed in with Twitter!')
-              )}
+              this.twitterLogin()
+                .then(() => {
+                  console.log('Signed in with Twitter!');
+                })
+                .catch(e => {
+                  console.log(e.message);
+                })
+            }
           >
             <Text style={styles.twitterButtonText}>
               Twitter Sign-In

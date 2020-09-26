@@ -184,46 +184,46 @@ export default class Map extends Component {
     const {zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading} = this.state;
     return (
       <View style={styles.landscape}>
-            <MapView
-                animated={true}
-                style={styles.map}
-                styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
-                logoEnabled={false}
-                attributionEnabled={false}
-                onRegionDidChange={this.handleRegionChange}
-                regionDidChangeDebounceTime={2000}
-                onDidFinishRenderingFrameFully={this.onDidFinishRenderingFrameFully}
+        <MapView
+            animated={true}
+            style={styles.map}
+            styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+            logoEnabled={false}
+            attributionEnabled={false}
+            onRegionDidChange={this.handleRegionChange}
+            regionDidChangeDebounceTime={2000}
+            onDidFinishRenderingFrameFully={this.onDidFinishRenderingFrameFully}
+        >
+          {haveLocationPermission ? <MapboxGL.UserLocation
+            visible={haveLocationPermission}
+            animate={haveLocationPermission}
+            onUpdate={this.updateLocation}
+          >
+            <MapboxGL.SymbolLayer
+              id={'customUserLocationIcon'}
+              style={{
+                iconAllowOverlap: true,
+                iconImage: userMarker,
+                iconSize: 0.4,
+                iconRotate: heading || 0
+              }}
+              minZoomLevel={1}
+            />
+          </MapboxGL.UserLocation> : null}
+          <Camera
+            followUserLocation={followUser}
+            followUserMode={MapboxGL.UserTrackingModes.Follow}
+            ref={this.camera}
+            centerCoordinate={cameraCoordinates ? cameraCoordinates : undefined}
+            zoomLevel={zoomLevel ? zoomLevel : undefined}
             >
-              {haveLocationPermission ? <MapboxGL.UserLocation
-                visible={haveLocationPermission}
-                animate={haveLocationPermission}
-                onUpdate={this.updateLocation}
-              >
-                <MapboxGL.SymbolLayer
-                  id={'customUserLocationIcon'}
-                  style={{
-                    iconAllowOverlap: true,
-                    iconImage: userMarker,
-                    iconSize: 0.4,
-                    iconRotate: heading || 0
-                  }}
-                  minZoomLevel={1}
-                />
-              </MapboxGL.UserLocation> : null}
-              <Camera
-                followUserLocation={followUser}
-                followUserMode={MapboxGL.UserTrackingModes.Follow}
-                ref={this.camera}
-                centerCoordinate={cameraCoordinates ? cameraCoordinates : undefined}
-                zoomLevel={zoomLevel ? zoomLevel : undefined}
-                >
-              </Camera>
-            </MapView>
-            <View style={styles.safeArea} pointerEvents='box-none'>
-              <View style={styles.fabContainer}>
-                <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
-              </View>
-            </View>
+          </Camera>
+        </MapView>
+        <View style={styles.safeArea} pointerEvents='box-none'>
+          <View style={styles.fabContainer}>
+            <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
+          </View>
+        </View>
       </View>
     );
   }
