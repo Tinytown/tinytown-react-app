@@ -65,9 +65,8 @@ export default class Map extends Component {
         return;
       }
       const {latitude, longitude} = event.coords;
-      const latitudeChanged = this.state.userLocation ? Math.abs(latitude - this.state.userLocation.latitude) > coordinateThreshold : true;
-      const longitudeChanged = this.state.userLocation ? Math.abs(longitude - this.state.userLocation.longitude) > coordinateThreshold : true;
-      if (latitudeChanged || longitudeChanged) {
+      const locationHasChanged = this.state.userLocation ? this.coordsAreDifferent(event.coords, this.state.userLocation) : true;
+      if (locationHasChanged) {
         this.setState({
           userLocation: {
             longitude,
@@ -88,8 +87,10 @@ export default class Map extends Component {
     MapboxGL.setTelemetryEnabled(false);
   }
 
-  cameraHasMoved = (coords, otherCoords) => {
-    return Math.abs(coords.latitude - otherCoords.latitude > coordinateThreshold) || Math.abs(coords.longitude - otherCoords.longitude > coordinateThreshold);
+  coordsAreDifferent = (coords, otherCoords) => {
+    const latitudeIsDifferent = Math.abs(coords.latitude - otherCoords.latitude > coordinateThreshold);
+    const longitudeIsDifferent = Math.abs(coords.latitude - otherCoords.latitude > coordinateThreshold);
+    return latitudeIsDifferent || longitudeIsDifferent;
   }
 
   onDidFinishRenderingFrameFully() {
@@ -104,7 +105,9 @@ export default class Map extends Component {
   onRegionDidChange(event) {
     const [cameraLongitude, cameraLatitude] = event.geometry.coordinates;
     let followUser = this.state.followUser;
-    if (followUser && this.cameraHasMoved({longitude: cameraLongitude,latitude: cameraLatitude}, this.state.userLocation)) {
+    const cameraCoords = {longitude: cameraLongitude,latitude: cameraLatitude};
+    const cameraHasMoved = this.coordsAreDifferent(cameraCoords, this.state.userLocation)
+    if (followUser && cameraHasMoved) {
       followUser = false;
     }
     this.setState({
@@ -178,7 +181,7 @@ export default class Map extends Component {
 
   render() {
     /* 
-      the landscape view here is  e to me not knowing a better alternative to ensure map takes full page size.
+      the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
     const {zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading} = this.state;
@@ -195,8 +198,8 @@ export default class Map extends Component {
             onDidFinishRenderingFrameFully={this.onDidFinishRenderingFrameFully}
         >
           {haveLocationPermission ? <MapboxGL.UserLocation
-            visible={haveLocationPermission}
-            animate={haveLocationPermission}
+            animate={true}
+            visible={true}
             onUpdate={this.updateLocation}
           >
             <MapboxGL.SymbolLayer
