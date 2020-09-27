@@ -21,10 +21,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Splash"
+        initialRouteName="Map"
       >
-        <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="Splash" options={{title: 'Splash'}} component={Splash} />
+        <Stack.Screen name="Map" options={{title: 'Map'}} component={Map} />
       </Stack.Navigator>
     </NavigationContainer>
   );
