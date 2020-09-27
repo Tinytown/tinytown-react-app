@@ -8,8 +8,8 @@ import { colors, shapes } from 'res'
 const {RNTwitterSignIn} = NativeModules;
 
 export default class Splash extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       isLoggedIn: false,

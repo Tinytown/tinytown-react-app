@@ -43,8 +43,8 @@ const degreeUpdateRate = 3;
 const coordinateThreshold = 1 * Math.pow(10, -14);
 
 export default class Map extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     bindMethods(['goToLocation', 'onRegionDidChange', 'goToLocationNonFirstHelper', 'goToLocationFirstHelper', 'onDidFinishRenderingFrameFully'], this);
     this.state = {
