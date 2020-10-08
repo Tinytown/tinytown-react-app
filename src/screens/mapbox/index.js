@@ -155,10 +155,6 @@ export default class Map extends Component {
     if (isAndroid) {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          'title': 'Location Request',
-          'message': 'Tinytown needs access to your location'
-        }
       )
       .then(status => {
         if (status === PermissionsAndroid.RESULTS.GRANTED) {
