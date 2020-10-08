@@ -22,6 +22,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Map"
+        headerMode="none"
       >
         <Stack.Screen name="Splash" options={{title: 'Splash'}} component={Splash} />
         <Stack.Screen name="Map" options={{title: 'Map'}} component={Map} />
