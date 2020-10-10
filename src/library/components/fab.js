@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
+import { create } from 'library/utils/normalize.js'
 import { typography, colors, shapes } from 'res';
 import Icon from 'res/svg';
 
@@ -11,7 +12,6 @@ const getStyles = ({
   theme, branded
 }) => {
   const containerStyles = [styles.container];
-  const iconStyles = [styles.icon];
   const textStyles = [styles.text];
   let iconColor = colors.justWhite;
 
@@ -31,7 +31,7 @@ const getStyles = ({
     textStyles.push(styles.textBranded);
   }
 
-  return { containerStyles, iconStyles, iconColor, textStyles };
+  return { containerStyles, iconColor, textStyles };
 };
 
 /* FAB
@@ -61,10 +61,12 @@ class FAB extends React.Component {
       onPress,
       disabled
     } = this.props;
-    const { containerStyles, iconStyles, iconColor, textStyles } = getStyles({ theme, branded });
+    const { containerStyles, iconColor, textStyles } = getStyles({ theme, branded });
     return (
         <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
-          <Icon icon={this.props.icon} style={iconStyles} color={iconColor} />
+          <View style={styles.iconContainer}>
+            <Icon icon={this.props.icon} color={iconColor} />
+          </View>
           <Text style={textStyles}>{label}</Text>
         </TouchableOpacity>
     );
@@ -74,7 +76,7 @@ class FAB extends React.Component {
 /* StyleSheet
 ============================================================================= */
 
-const styles = StyleSheet.create({
+const styles = create({
   
   // Containers
   container: {
@@ -103,19 +105,20 @@ const styles = StyleSheet.create({
   },
 
   // Icon
-  icon: {
-    marginRight: 12,
+  iconContainer: {
+    width: 24,
+    height: 24,
+    marginRight: 12
   },
 
   // Text
   text: {
-    bottom: 1,
     color: colors.justWhite,
     ...typography.subheader3
   },
 
   textGray: {
-    color: colors.asphaltGray,
+    color: colors.asphaltGray
   },
 
   textBranded: {

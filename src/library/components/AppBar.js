@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
+import { create } from 'library/utils/normalize.js'
 import { colors, shapes } from 'res'
 
 
@@ -24,21 +25,20 @@ class AppBar extends React.Component {
 /* StyleSheet
 ============================================================================= */
 
-const styles = StyleSheet.create({
+const styles = create({
   
   // Container
   container: {
     flexDirection: 'row',
     alignItems: "center",
-    width: '100%',
     height: 72,
-    paddingHorizontal: 16,
+    paddingHorizontal: 16
   },
 
   // App Bar Items
   leftItem: {
     flex: 1,
-    alignItems: "flex-start",
+    alignItems: "flex-start"
   },
   centerItem: {
     flex: 2,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   rightItem: {
     flex: 1,
-    alignItems: "flex-end",
+    alignItems: "flex-end"
   },
 
   // Avatar
@@ -57,14 +57,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.asphaltGray,
-    borderRadius: shapes.radiusAll,
+    borderRadius: shapes.radiusAll
   },
   avatarImage: {
     width: 40,
     height: 40,
-    borderRadius: shapes.radiusAll,
+    borderRadius: shapes.radiusAll
   },
-})
+});
 
 /* Export
 ============================================================================= */

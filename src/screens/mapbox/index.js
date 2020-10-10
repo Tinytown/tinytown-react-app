@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
+import { View, PermissionsAndroid, Platform } from 'react-native';
+import { create } from 'library/utils/normalize.js'
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -18,24 +19,24 @@ MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const isAndroid = Platform.OS === 'android';
 
-const styles = StyleSheet.create({
+const styles = create({
   landscape: {
     height: '100%'
   },
   map: {
     height: '100%',
-    width: '100%',
+    width: '100%'
   },
   safeArea: {
     position: 'absolute',
     width: '100%',
     bottom: StaticSafeAreaInsets.safeAreaInsetsBottom,
     top: StaticSafeAreaInsets.safeAreaInsetsTop,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   fabContainer: {
     position: 'absolute',
-    bottom: 24,
+    bottom: 24
   }
 });
 
