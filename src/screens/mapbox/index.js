@@ -7,7 +7,7 @@ import userMarker from 'res/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from 'library/utils/component-ops';
 import FAB from 'library/components/FAB';
-import Header from 'library/components/Header';
+import AppBar from 'library/components/AppBar';
 import { strings } from 'res';
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
@@ -218,7 +218,7 @@ export default class Map extends Component {
               </Camera>
             </MapView>
             <View style={styles.safeArea} pointerEvents='box-none'>
-              <Header></Header>
+              <AppBar></AppBar>
               <View style={styles.fabContainer}>
                 <FAB label={strings.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
               </View>
