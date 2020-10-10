@@ -1,57 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { typography, colors, shapes } from 'res'
-import Icon from 'res/svg'
+import { typography, colors, shapes } from 'res';
+import Icon from 'res/svg';
 
-const styles = StyleSheet.create({
-  
-  // CONTAINER STYLES
-  container: {
-    flexDirection: 'row',
-    paddingLeft: 16,
-    paddingRight: 20,
-    paddingVertical: 12,
-    borderRadius: shapes.radiusAll,
-    backgroundColor: colors.asphaltGray,
-    ...shapes.elevGray5
-  },
-
-  containerGreen: {
-    backgroundColor: colors.grassGreen600,
-    ...shapes.elevGreen5
-  },
-
-  containerBlue: {
-    backgroundColor: colors.skyBlue600,
-    ...shapes.elevBlue5
-  },
-
-  containerRed: {
-    backgroundColor: colors.bubblegumRed600,
-    ...shapes.elevRed5
-  },
-
-  // ICON STYLES
-  icon: {
-    marginRight: 12,
-  },
-
-  // TEXT STYLES
-  text: {
-    bottom: 1,
-    color: colors.justWhite,
-    ...typography.subheader3
-  },
-
-  textGray: {
-    color: colors.asphaltGray,
-  },
-
-  textBranded: {
-    ...typography.brandedButton
-  }
-})
+/* Switch styles
+============================================================================= */
 
 const getStyles = ({
   theme, branded
@@ -80,6 +34,8 @@ const getStyles = ({
   return { containerStyles, iconStyles, iconColor, textStyles };
 };
 
+/* FAB
+============================================================================= */
 
 class FAB extends React.Component {
   static propTypes = {
@@ -115,4 +71,58 @@ class FAB extends React.Component {
   }
 }
 
+/* StyleSheet
+============================================================================= */
+
+const styles = StyleSheet.create({
+  
+  // Containers
+  container: {
+    flexDirection: 'row',
+    paddingLeft: 16,
+    paddingRight: 20,
+    paddingVertical: 12,
+    borderRadius: shapes.radiusAll,
+    backgroundColor: colors.asphaltGray,
+    ...shapes.elevGray5
+  },
+
+  containerGreen: {
+    backgroundColor: colors.grassGreen600,
+    ...shapes.elevGreen5
+  },
+
+  containerBlue: {
+    backgroundColor: colors.skyBlue600,
+    ...shapes.elevBlue5
+  },
+
+  containerRed: {
+    backgroundColor: colors.bubblegumRed600,
+    ...shapes.elevRed5
+  },
+
+  // Icon
+  icon: {
+    marginRight: 12,
+  },
+
+  // Text
+  text: {
+    bottom: 1,
+    color: colors.justWhite,
+    ...typography.subheader3
+  },
+
+  textGray: {
+    color: colors.asphaltGray,
+  },
+
+  textBranded: {
+    ...typography.brandedButton
+  }
+})
+
+/* Export
+============================================================================= */
 export default FAB;
