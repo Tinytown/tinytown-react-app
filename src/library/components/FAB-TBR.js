@@ -106,9 +106,9 @@ const styles = create({
 
   // Icon
   iconContainer: {
-    width: 24,
     height: 24,
-    marginRight: 12
+    width: 24,
+    marginRight: 12,
   },
 
   // Text
