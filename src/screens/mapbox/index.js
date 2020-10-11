@@ -3,13 +3,12 @@ import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import userMarker from 'res/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from 'library/utils/component-ops';
 import FAB from 'library/components/fab';
-import { strings } from 'res'
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
+import R from 'res/R'
 
 const {MapView, Camera} = MapboxGL;
 
@@ -200,7 +199,7 @@ export default class Map extends Component {
                   id={'customUserLocationIcon'}
                   style={{
                     iconAllowOverlap: true,
-                    iconImage: userMarker,
+                    iconImage: R.images.userMarker,
                     iconSize: 0.4,
                     iconRotate: heading || 0
                   }}
@@ -218,7 +217,7 @@ export default class Map extends Component {
             </MapView>
             <View style={styles.safeArea} pointerEvents='box-none'>
               <View style={styles.fabContainer}>
-                <FAB label={strings.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
+                <FAB label={R.strings.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
               </View>
             </View>
       </View>
