@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
+import { Text, StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import config from '../../config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -9,6 +9,10 @@ import {bindMethods} from '../component-ops';
 import FAB from '../components/fab';
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
+// import { Menu, MenuItem, MenuDivider } from '../components';
+import Menu from '../components/Menu';
+import MenuItem from '../components/MenuItem';
+import MenuDivider from '../components/MenuDivider';
 
 const {MapView, Camera} = MapboxGL;
 
@@ -176,6 +180,20 @@ export default class Map extends Component {
       });
   }
 
+  _menu = null;
+
+  setMenuRef = ref => {
+    this._menu = ref;
+  };
+
+  hideMenu = () => {
+    this._menu.hide();
+  };
+
+  showMenu = () => {
+    this._menu.show();
+  };
+
   render() {
     /* 
       the landscape view here is  e to me not knowing a better alternative to ensure map takes full page size.
@@ -220,6 +238,18 @@ export default class Map extends Component {
               </Camera>
             </MapView>
             <View style={styles.safeArea} pointerEvents='box-none'>
+              <View>
+                <Menu
+                  ref={this.setMenuRef}
+                  button={<Text onPress={this.showMenu} style={{color: 'white', marginTop: 16}}>Show menu</Text>}
+                >
+                  <MenuItem label='Really really long title' icon='twitter' onPress={this.hideMenu}/>
+                  <MenuItem icon='info' onPress={this.hideMenu} disabled/>
+                  <MenuItem icon='megaphone' onPress={this.hideMenu}/>
+                  <MenuDivider />
+                  <MenuItem icon='signout' onPress={this.hideMenu}/>
+                </Menu>
+              </View>
               <View style={styles.fabContainer}>
                 <FAB label='Go to my location' theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
               </View>
