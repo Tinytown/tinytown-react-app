@@ -1,3 +1,8 @@
+/* App Bar Component
+This component has two variations so far: HomeBar and NavBar. You can use the 'type' prop to switch between them.
+Usage: <AppBar label='Settings' onClose={closeSettings}><IconButton icon='overflow' onPress={this.showMenu}/></AppBar>
+*/
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity, Text } from 'react-native';
@@ -5,11 +10,10 @@ import { create } from 'library/utils/normalize.js'
 import { colors, shapes, typography } from 'res'
 import { IconButton } from 'library/components';
 
-
-/* App Bar - World Map
+/* HomeBar - Used in the Home Screen
 ============================================================================= */
 
-class MapBar extends React.Component {
+class HomeBar extends React.Component {
   render() {
     return (
         <View style={[styles.mapContainer]}>
@@ -24,7 +28,7 @@ class MapBar extends React.Component {
   }
 }
 
-/* App Bar - Navigation
+/* NavBar - Used for navigation
 ============================================================================= */
 
 class NavBar extends React.Component {
@@ -108,10 +112,11 @@ const styles = create({
 
 /* Export
 ============================================================================= */
+
 const AppBar = props => {
   switch(props.type) {
-    case "map":
-      return <MapBar {...props} />;
+    case 'home':
+      return <HomeBar {...props} />;
     default:
       return <NavBar {...props} />;
   }

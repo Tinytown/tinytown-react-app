@@ -1,3 +1,7 @@
+/* Icon Button Component
+Usage: <IconButton icon='overflow' onPress={this.showMenu}/>
+*/
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -15,6 +19,8 @@ const Touchable =
     ? TouchableNativeFeedback
     : TouchableHighlight;
 
+/* Icon Button
+============================================================================= */
 
 class IconButton extends React.Component {
   static propTypes = {
@@ -49,6 +55,9 @@ class IconButton extends React.Component {
   }
 }
 
+/* StyleSheet
+============================================================================= */
+
 const styles = create({
   
   container: {
@@ -69,5 +78,8 @@ const styles = create({
   },
 
 });
+
+/* Export
+============================================================================= */
 
 export default IconButton;

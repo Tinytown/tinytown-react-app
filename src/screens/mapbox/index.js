@@ -218,7 +218,7 @@ export default class Map extends Component {
               </Camera>
             </MapView>
             <View style={styles.safeArea} pointerEvents='box-none'>
-              <AppBar type='map'/>
+              <AppBar type='home'/>
               <View style={styles.fabContainer}>
                 <FAB label={strings.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
               </View>
