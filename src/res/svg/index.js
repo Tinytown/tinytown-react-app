@@ -1,20 +1,45 @@
 import React from 'react';
+import { Platform } from 'react-native';
+
 import PlaceholderIcon from './ic_placeholder_24dp'
 import CrosshairsIcon from './ic_crosshairs_24dp'
 import MegaphoneIcon from './ic_megaphone_24dp'
 import TwitterIcon from './ic_twitter_24dp'
+import CloseIcon from './ic_close_24dp'
+import ShareDroidIcon from './ic_share_droid_24dp'
+import ShareiOSIcon from './ic_share_ios_24dp'
+import OverflowiOSIcon from './ic_overflow_ios_24dp'
+import OverflowDroidIcon from './ic_overflow_droid_24dp'
 
-
+Platform.OS === 'android'
 const Icon = props => {
-  switch(props.icon) {
-    case "crosshairs":
-      return <CrosshairsIcon {...props} />;
-    case "megaphone":
-      return <MegaphoneIcon {...props} />;
-    case "twitter":
-      return <TwitterIcon {...props} />;
-    default:
-      return <PlaceholderIcon {...props} />;
+  if (props.icon === 'crosshairs') {
+    return <CrosshairsIcon {...props} />;
+
+  } else if (props.icon === 'megaphone') {
+    return <MegaphoneIcon {...props} />;
+
+  } else if (props.icon === 'twitter') {
+    return <TwitterIcon {...props} />;
+
+  } else if (props.icon === 'close') {
+    return <CloseIcon {...props} />;
+
+  } else if (props.icon === 'share' && Platform.OS === 'android') {
+    return <ShareDroidIcon {...props} />;
+
+  } else if (props.icon === 'share' && Platform.OS === 'ios') {
+    return <ShareiOSIcon {...props} />;
+
+  } else if (props.icon === 'overflow' && Platform.OS === 'android') {
+    return <OverflowDroidIcon {...props} />;
+
+  } else if (props.icon === 'overflow' && Platform.OS === 'ios') {
+    return <OverflowiOSIcon {...props} />;
+  
+  } else {
+    return <PlaceholderIcon {...props} />;
   }
-}
+};
+
 export default Icon;
