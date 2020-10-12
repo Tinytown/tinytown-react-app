@@ -1,3 +1,6 @@
+/* Menu Item Component
+This component is a customized version of the Menu Item component from react-native-material-menu [https://github.com/mxck/react-native-material-menu].*/
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -16,6 +19,8 @@ const Touchable =
     ? TouchableNativeFeedback
     : TouchableHighlight;
 
+/* Menu Item
+============================================================================= */
 
 class MenuItem extends React.Component {
   static propTypes = {
@@ -59,6 +64,8 @@ class MenuItem extends React.Component {
   }
 }
 
+/* StyleSheet
+============================================================================= */
 
 const styles = StyleSheet.create({
   container: {
@@ -88,5 +95,8 @@ const styles = StyleSheet.create({
   },
 
 });
+
+/* Export
+============================================================================= */
 
 export default MenuItem;

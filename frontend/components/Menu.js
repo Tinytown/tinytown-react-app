@@ -1,3 +1,8 @@
+/* Menu Component
+This component is a customized version of the Menu component from react-native-material-menu [https://github.com/mxck/react-native-material-menu].
+Used in conjunction with the MenuItem and MenuDivider components.
+*/
+
 import React from 'react';
 import {
   Animated,
@@ -21,6 +26,9 @@ const STATES = {
 
 const EASING = Easing.bezier(0.4, 0, 0.2, 1);
 const SCREEN_INDENT = 8;
+
+/* Menu
+============================================================================= */
 
 class Menu extends React.Component {
   _container = null;
@@ -128,7 +136,6 @@ class Menu extends React.Component {
     });
   };
 
-  // @@ TODO: Rework this
   _hide = () => {
     this.hide();
   };
@@ -242,6 +249,9 @@ Menu.defaultProps = {
   animationDuration: 300,
 };
 
+/* StyleSheet
+============================================================================= */
+
 const styles = StyleSheet.create({
   shadowMenuContainer: {
     position: 'absolute',
@@ -255,5 +265,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8
   },
 });
+
+/* Export
+============================================================================= */
 
 export default Menu;
