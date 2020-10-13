@@ -32,3 +32,6 @@ export const steelGray = '#8392A5';
 export const sidewalkGray = '#C0CCDA';
 export const snowGray = '#ECF1FA';
 export const justWhite = '#FFFFFF';
+
+// TRANSPARENCY
+export const disabled = 0.4;

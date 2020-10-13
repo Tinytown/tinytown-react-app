@@ -11,8 +11,7 @@ import {
   View,
 } from 'react-native';
 import { create } from 'library/utils/normalize.js'
-import { colors, shapes } from 'res'
-import Icon from 'res/svg'
+import R from 'res/R';
 
 const Touchable =
   Platform.OS === 'android' && Platform.Version >= 21
@@ -37,16 +36,16 @@ class IconButton extends React.Component {
       onPress,
     } = this.props;
     return (
-      <View style={[styles.container, disabled && { opacity: colors.disabled}]}>
+      <View style={[styles.container, disabled && { opacity: R.colors.disabled}]}>
         <Touchable
           disabled={disabled}
           onPress={onPress}
-          background={TouchableNativeFeedback.Ripple(colors.sidewalkGray, true)}
-          underlayColor={colors.snowGray}
+          background={TouchableNativeFeedback.Ripple(R.colors.sidewalkGray, true)}
+          underlayColor={R.colors.snowGray}
         >
           <View style={styles.assetContainer}>
             <View style={styles.iconContainer}>
-              <Icon icon={this.props.icon} color={colors.graniteGray}></Icon>
+              <R.Icon icon={this.props.icon} color={R.colors.graniteGray}/>
             </View>
           </View>
         </Touchable>
@@ -61,7 +60,7 @@ class IconButton extends React.Component {
 const styles = create({
   
   container: {
-    borderRadius: shapes.radiusAll,
+    borderRadius: R.shapes.radiusAll,
     overflow: 'hidden'
   },
 

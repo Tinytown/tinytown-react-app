@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity, Text } from 'react-native';
 import { create } from 'library/utils/normalize.js'
-import { colors, shapes, typography } from 'res'
+import R from 'res/R';
 import { IconButton } from 'library/components';
 
 /* HomeBar - Used in the Home Screen
@@ -49,7 +49,7 @@ class NavBar extends React.Component {
     return (
         <View style={[styles.navContainer]}>
           <View style={[styles.itemsContainer, {flexDirection: 'row'}]}>
-                <IconButton icon='close' color={colors.graniteGray} onPress={onClose}/>
+                <IconButton icon='close' color={R.colors.graniteGray} onPress={onClose}/>
               <Text style={styles.navLabel}>{label}</Text>
           </View>
           <View style={[styles.itemsContainer, {flexDirection: 'row-reverse'}]}>
@@ -76,7 +76,7 @@ const styles = create({
     flexDirection: 'row',
     height: 56,
     paddingHorizontal: 4,
-    backgroundColor: colors.justWhite
+    backgroundColor: R.colors.justWhite
   },
 
   // App Bar Items
@@ -86,10 +86,10 @@ const styles = create({
   },
 
   navLabel: {
-    color: colors.asphaltGray,
+    color: R.colors.asphaltGray,
     left: 12,
     top: 1,
-    ...typography.headline5
+    ...R.typography.headline5
   },
 
   // Avatar
@@ -99,14 +99,14 @@ const styles = create({
     marginRight: -2, 
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.asphaltGray,
-    borderRadius: shapes.radiusAll
+    backgroundColor: R.colors.asphaltGray,
+    borderRadius: R.shapes.radiusAll
   },
 
   avatarImage: {
     width: 40,
     height: 40,
-    borderRadius: shapes.radiusAll
+    borderRadius: R.shapes.radiusAll
   },
 });
 
