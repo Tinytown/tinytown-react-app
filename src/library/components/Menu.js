@@ -16,7 +16,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { colors, shapes } from '../styles'
+import R from 'res/R';
 
 const STATES = {
   HIDDEN: 'HIDDEN',
@@ -256,9 +256,9 @@ const styles = StyleSheet.create({
   shadowMenuContainer: {
     position: 'absolute',
     opacity: 0,
-    backgroundColor: colors.justWhite,
-    borderRadius: shapes.radiusSm,
-    ...shapes.elevGray2
+    backgroundColor: R.colors.justWhite,
+    borderRadius: R.shapes.radiusSm,
+    ...R.shapes.elevGray2
   },
   menuContainer: {
     overflow: 'hidden',

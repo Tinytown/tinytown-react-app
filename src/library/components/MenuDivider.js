@@ -3,14 +3,14 @@ This component is a customized version of the Menu Divider component from react-
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { colors } from '../styles'
+import R from 'res/R';
 
 function MenuDivider({ color }) {
   return <View style={[styles.divider, { borderBottomColor: color }]} />;
 }
 
 MenuDivider.defaultProps = {
-  color: colors.sidewalkGray,
+  color: R.colors.sidewalkGray,
 };
 
 const styles = StyleSheet.create({
