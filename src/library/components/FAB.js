@@ -4,7 +4,7 @@ Usage: <FAB label={strings.button.gotoLocation} theme='green' icon='crosshairs' 
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { Pressable, Animated, Text, View } from 'react-native';
 import { create } from 'library/utils/normalize.js'
 import { typography, colors, shapes } from 'res';
 import Icon from 'res/svg';
@@ -15,36 +15,49 @@ import Icon from 'res/svg';
 const getStyles = ({
   theme, branded
 }) => {
+  // Default Styles
   const containerStyles = [styles.container];
-  const textStyles = [styles.text];
+  const shadowStyles = [styles.shadowContainer];
   let iconColor = colors.justWhite;
+  const textStyles = [styles.text];
 
+  // Color Styles
   if (theme === 'green') {
-    containerStyles.push(styles.containerGreen);
-    textStyles.push(styles.textGray);
+    containerStyles.push({backgroundColor: colors.grassGreen600});
+    shadowStyles.push({...shapes.elevGreen5});
+    textStyles.push({color: colors.asphaltGray});
     iconColor = colors.asphaltGray;
   } else if (theme === 'blue') {
-    containerStyles.push(styles.containerBlue);
-    textStyles.push(styles.textGray);
+    containerStyles.push({backgroundColor: colors.skyBlue600});
+    shadowStyles.push({...shapes.elevBlue5});
+    textStyles.push({color: colors.asphaltGray});
     iconColor = colors.asphaltGray;
   } else if (theme === 'red') {
-    containerStyles.push(styles.containerRed);
+    containerStyles.push({backgroundColor: colors.bubblegumRed600});
+    shadowStyles.push({...shapes.elevRed5});
   }
 
   if (branded) {
-    textStyles.push(styles.textBranded);
+    textStyles.push({...typography.brandedButton});
   }
 
-  return { containerStyles, iconColor, textStyles };
+  return { containerStyles, shadowStyles, iconColor, textStyles };
 };
 
 /* FAB
 ============================================================================= */
 
 class FAB extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handlePressIn = this.handlePressIn.bind(this);
+    this.handlePressOut = this.handlePressOut.bind(this);
+    this.animatedValue = new Animated.Value(1);
+  }
+
   static propTypes = {
     label: PropTypes.string.isRequired,
-    theme: PropTypes.oneOf(['green', 'blue', 'red']),
+    theme: PropTypes.oneOf(['green', 'blue', 'red', 'default']),
     branded: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
     disabled: PropTypes.bool
@@ -57,6 +70,22 @@ class FAB extends React.Component {
     disabled: false
   };
 
+  handlePressIn() {
+    Animated.spring(this.animatedValue, {
+      toValue: 0.93,
+      useNativeDriver: true
+    }).start()
+  }
+  
+  handlePressOut() {
+    Animated.spring(this.animatedValue, {
+      toValue: 1,
+      friction: 3,
+      tension: 120,
+      useNativeDriver: true
+    }).start()
+  }
+
   render() {
     const {
       label,
@@ -65,14 +94,30 @@ class FAB extends React.Component {
       onPress,
       disabled
     } = this.props;
-    const { containerStyles, iconColor, textStyles } = getStyles({ theme, branded });
+    const { containerStyles, shadowStyles, iconColor, textStyles } = getStyles({ theme, branded });
+    const animatedStyle = {
+      transform: [{ scale: this.animatedValue }],
+      borderRadius: shapes.radiusAll,
+      overflow: 'hidden'
+    }
     return (
-        <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
-          <View style={styles.iconContainer}>
-            <Icon icon={this.props.icon} color={iconColor} />
-          </View>
-          <Text style={textStyles}>{label}</Text>
-        </TouchableOpacity>
+      <View style={shadowStyles} pointerEvents='box-none'>
+        <Animated.View style={animatedStyle}>
+          <Pressable 
+          onPress={onPress}
+          onPressIn={this.handlePressIn}
+          onPressOut={this.handlePressOut}
+          disabled={disabled}
+          android_ripple={{color: colors.steelGray}}
+          style={containerStyles}
+          >
+            <View style={styles.iconContainer}>
+              <Icon icon={this.props.icon} color={iconColor} />
+            </View>
+            <Text style={textStyles}>{label}</Text>
+          </Pressable>
+        </Animated.View>
+      </View>
     );
   }
 }
@@ -90,22 +135,11 @@ const styles = create({
     paddingVertical: 12,
     borderRadius: shapes.radiusAll,
     backgroundColor: colors.asphaltGray,
+  },
+
+  shadowContainer: {
+    borderRadius: shapes.radiusAll,
     ...shapes.elevGray5
-  },
-
-  containerGreen: {
-    backgroundColor: colors.grassGreen600,
-    ...shapes.elevGreen5
-  },
-
-  containerBlue: {
-    backgroundColor: colors.skyBlue600,
-    ...shapes.elevBlue5
-  },
-
-  containerRed: {
-    backgroundColor: colors.bubblegumRed600,
-    ...shapes.elevRed5
   },
 
   // Icon
@@ -120,14 +154,6 @@ const styles = create({
     color: colors.justWhite,
     ...typography.subheader3
   },
-
-  textGray: {
-    color: colors.asphaltGray
-  },
-
-  textBranded: {
-    ...typography.brandedButton
-  }
 })
 
 /* Export
