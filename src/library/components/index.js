@@ -1,12 +1,17 @@
 // Index for all Components: import { AppBar, FAB } from 'library/components' 
 
-import { default as AppBar }  from './AppBar';
-import { default as FAB }  from './FAB';
-import { default as IconButton }  from './IconButton';
-
+import AppBar from './AppBar';
+import FAB from './FAB';
+import IconButton from './IconButton';
+import Menu from './Menu';
+import MenuDivider from './MenuDivider';
+import MenuItem from './MenuItem';
 
 export {
   AppBar,
   FAB,
-  IconButton
+  IconButton,
+  Menu,
+  MenuDivider,
+  MenuItem
 }

@@ -4,17 +4,12 @@ import { create } from 'library/utils/normalize.js'
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import userMarker from 'res/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from 'library/utils/component-ops';
 import { AppBar, FAB } from 'library/components';
 import R from 'res/R';
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
-import Menu from '../../library/components/Menu';
-import MenuItem from '../../library/components/MenuItem';
-import MenuDivider from '../../library/components/MenuDivider';
-
 
 const {MapView, Camera} = MapboxGL;
 
@@ -240,18 +235,6 @@ export default class Map extends Component {
         </MapView>
         <View style={styles.safeArea} pointerEvents='box-none'>
           <AppBar type='home'/>
-          <View>
-            <Menu
-              ref={this.setMenuRef}
-              button={<Text onPress={this.showMenu} style={{color: 'white', marginTop: 16}}>Show menu</Text>}
-            >
-              <MenuItem label='Really really long title' icon='twitter' onPress={this.hideMenu}/>
-              <MenuItem icon='info' onPress={this.hideMenu} disabled/>
-              <MenuItem icon='megaphone' onPress={this.hideMenu}/>
-              <MenuDivider />
-              <MenuItem icon='signout' onPress={this.hideMenu}/>
-            </Menu>
-          </View>
           <View style={styles.fabContainer}>
             <FAB label={R.strings.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
           </View>
