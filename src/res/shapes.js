@@ -1,4 +1,4 @@
-import { colors } from './'
+import * as colors from './colors';
 
 // ELEVATION - GRAYS
 export const elevHairline = {
