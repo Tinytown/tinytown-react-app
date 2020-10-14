@@ -1,18 +1,51 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, NativeModules } from 'react-native';
+import * as twitterApi from 'library/utils/@@vendor/twitter';
+import config from 'tinytown/config';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import Map from 'library/components/Map';
 import FAB from 'library/components/fab';
 import R from 'res/R'
 
+const {RNTwitterSignIn} = NativeModules;
+
 export default class LogInScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoggedIn: false,
+    };
+    
+    RNTwitterSignIn.init('zPSC91qO9vkQvc5pdblqTdlnW', config.TWITTER_CONSUMER_SECRET);
+  }
+
+  twitterLogin = async () => {
+    try {
+      await twitterApi.login();
+      this.setState({
+        isLoggedIn: true
+      });
+    } catch(e) {
+      throw e;
+    }
+  }
+
+
   render () {
     return (
       <View style={styles.landscape}>
         <Map></Map>
         <View style={styles.safeArea} pointerEvents='box-none'>
           <View style={styles.fabContainer}>
-            <FAB label={R.strings.button.logIn} theme='blue' icon='twitter' onPress={'TODO'}/>
+            <FAB label={R.strings.button.logIn} theme='blue' icon='twitter' onPress={() => this.twitterLogin()
+                .then(() => {
+                  console.log('Signed in with Twitter!');
+                })
+                .catch(e => {
+                  console.log(e.message);
+                })
+            }/>
           </View>
         </View>
       </View>

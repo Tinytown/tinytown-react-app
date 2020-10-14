@@ -7,8 +7,8 @@ import React, { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LocationScreen from 'screens/onboarding/location'
-import LogInScreen from 'screens/onboarding/login'
+import LocationScreen from 'screens/onboarding/location';
+import LogInScreen from 'screens/onboarding/login';
 
 const Stack = createStackNavigator();
 
