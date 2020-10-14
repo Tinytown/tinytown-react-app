@@ -6,7 +6,7 @@ import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from 'library/utils/component-ops';
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
-import R from 'res/R'
+import R from 'res/R';
 
 const {MapView, Camera} = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
@@ -203,8 +203,8 @@ class Map extends React.Component {
 const styles = StyleSheet.create({
   map: {
     height: '100%',
-    width: '100%',
-  },
+    width: '100%'
+  }
 });
 
 /* Export

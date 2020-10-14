@@ -7,9 +7,9 @@ import React, { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LocationScreen from 'screens/onboarding/location';
-import LogInScreen from 'screens/onboarding/login';
-import HomeScreen from 'screens/home'
+
+import Onboarding from 'screens/onboarding';
+import HomeScreen from 'screens/home';
 
 const Stack = createStackNavigator();
 
@@ -21,11 +21,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='OOB Location'
+        initialRouteName='Onboarding'
         headerMode='none'
       >
-        <Stack.Screen name='OOB Location' component={LocationScreen} />
-        <Stack.Screen name='OOB LogIn' component={LogInScreen} />
+        <Stack.Screen name='Onboarding' component={Onboarding} />
         <Stack.Screen name='Home' component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>

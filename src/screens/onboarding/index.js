@@ -5,16 +5,17 @@ import config from 'tinytown/config';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import Map from 'library/components/Map';
 import FAB from 'library/components/fab';
-import R from 'res/R'
+import R from 'res/R';
 
 const {RNTwitterSignIn} = NativeModules;
 
-export default class LogInScreen extends React.Component {
+export default class Onboarding extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoggedIn: false,
+      isLocated: false,
+      isLoggedIn: false
     };
     
     RNTwitterSignIn.init('zPSC91qO9vkQvc5pdblqTdlnW', config.TWITTER_CONSUMER_SECRET);
@@ -31,21 +32,24 @@ export default class LogInScreen extends React.Component {
     }
   }
 
-
   render () {
     return (
       <View style={styles.landscape}>
         <Map></Map>
         <View style={styles.safeArea} pointerEvents='box-none'>
           <View style={styles.fabContainer}>
-            <FAB label={R.strings.button.logIn} theme='blue' icon='twitter' onPress={() => this.twitterLogin()
+            { !this.state.isLocated && <FAB label={R.strings.button.gotoLocation} theme='green' icon='crosshairs' 
+              onPress={() => this.setState({isLocated: true})}/> } {/* TODO: This needs to be hooked up with gotoLocation() in Map.js */}
+
+            { this.state.isLocated && <FAB label={R.strings.button.logIn} theme='blue' icon='twitter' 
+              onPress={() => this.twitterLogin()
                 .then(() => {
                   console.log('Signed in with Twitter!');
                 })
                 .catch(e => {
                   console.log(e.message);
                 })
-            }/>
+              }/> } {/* TODO: Navigate to Home screen if successful */}
           </View>
         </View>
       </View>
@@ -62,10 +66,10 @@ const styles = StyleSheet.create({
     width: '100%',
     bottom: StaticSafeAreaInsets.safeAreaInsetsBottom,
     top: StaticSafeAreaInsets.safeAreaInsetsTop,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   fabContainer: {
     position: 'absolute',
-    bottom: 24,
+    bottom: 24
   }
 });
