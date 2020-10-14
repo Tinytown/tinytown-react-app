@@ -7,8 +7,8 @@ import React, { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Map from 'screens/mapbox';
-import Splash from 'screens/splash';
+import LocationScreen from 'screens/onboarding/location'
+import LogInScreen from 'screens/onboarding/login'
 
 const Stack = createStackNavigator();
 
@@ -20,11 +20,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Map"
-        headerMode="none"
+        initialRouteName='OOB Location'
+        headerMode='none'
       >
-        <Stack.Screen name="Splash" options={{title: 'Splash'}} component={Splash} />
-        <Stack.Screen name="Map" options={{title: 'Map'}} component={Map} />
+        <Stack.Screen name='OOB Location' component={LocationScreen} />
+        <Stack.Screen name='OOB LogIn' component={LogInScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
