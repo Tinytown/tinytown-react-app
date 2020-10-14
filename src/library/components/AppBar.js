@@ -8,22 +8,47 @@ import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity, Text } from 'react-native';
 import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
-import { IconButton } from 'library/components';
+import { IconButton, Menu, MenuDivider, MenuItem } from 'library/components';
 
 /* HomeBar - Used in the Home Screen
 ============================================================================= */
 
 class HomeBar extends React.Component {
+  _menu = null;
+
+  settingsMenu = ref => {
+    this._menu = ref;
+  };
+
+  hideMenu = () => {
+    this._menu.hide();
+  };
+
+  showMenu = () => {
+    this._menu.show();
+  };
+
   render() {
     return (
-        <View style={[styles.mapContainer]}>
-          <View style={[styles.itemsContainer, {flexDirection: 'row-reverse'}]}>
-            <TouchableOpacity style={styles.avatarButton}>
-              <Image source={require('res/img/placeholder.png')} //replace with profile_image_url from Twitter API
-               style={styles.avatarImage}></Image>
-            </TouchableOpacity>
-          </View>
+      <View style={[styles.homeContainer]}>
+        <View style={[styles.itemsContainer, {flexDirection: 'row-reverse'}]}>
+          <Menu
+          ref={this.settingsMenu}
+          button={
+          <TouchableOpacity 
+          style={styles.accountButton} 
+          onPress={this.showMenu}>
+            <Image 
+            source={require('res/img/placeholder.png')} //replace with profile_image_url from Twitter API
+            style={styles.avatarImage}>
+            </Image>
+          </TouchableOpacity>}>
+            <MenuItem label={R.strings.menuItem.about} icon='info' onPress={this.hideMenu}/>
+            <MenuDivider />
+            <MenuItem label={R.strings.menuItem.signOut} icon='sign_out' onPress={this.hideMenu}/>
+          </Menu>
         </View>
+      </View>
     );
   }
 }
@@ -32,13 +57,13 @@ class HomeBar extends React.Component {
 ============================================================================= */
 
 class NavBar extends React.Component {
-    static propTypes = {
-      label: PropTypes.string.isRequired,
-    };
-  
-    static defaultProps = {
-      label: 'Screen Label',
-    };
+  static propTypes = {
+    label: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    label: 'Screen Label',
+  };
 
   render() {
     const {
@@ -47,15 +72,15 @@ class NavBar extends React.Component {
       children
     } = this.props;
     return (
-        <View style={[styles.navContainer]}>
-          <View style={[styles.itemsContainer, {flexDirection: 'row'}]}>
-                <IconButton icon='close' color={R.colors.graniteGray} onPress={onClose}/>
-              <Text style={styles.navLabel}>{label}</Text>
-          </View>
-          <View style={[styles.itemsContainer, {flexDirection: 'row-reverse'}]}>
-            {children}
-          </View>
+      <View style={styles.navContainer}>
+        <View style={[styles.itemsContainer, {flexDirection: 'row'}]}>
+            <IconButton icon='close' color={R.colors.graniteGray} onPress={onClose}/>
+            <Text style={styles.navLabel}>{label}</Text>
         </View>
+        <View style={[styles.itemsContainer, {flexDirection: 'row-reverse'}]}>
+          {children}
+        </View>
+      </View>
     );
   }
 }
@@ -66,7 +91,7 @@ class NavBar extends React.Component {
 const styles = create({
   
   // Container
-  mapContainer: {
+  homeContainer: {
     flexDirection: 'row',
     height: 72,
     paddingHorizontal: 16
@@ -93,7 +118,7 @@ const styles = create({
   },
 
   // Avatar
-  avatarButton: {
+  accountButton: {
     width: 44,
     height: 44,
     marginRight: -2, 

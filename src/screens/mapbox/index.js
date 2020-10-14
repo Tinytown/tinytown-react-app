@@ -176,20 +176,6 @@ export default class Map extends Component {
       });
   }
 
-  _menu = null;
-
-  setMenuRef = ref => {
-    this._menu = ref;
-  };
-
-  hideMenu = () => {
-    this._menu.hide();
-  };
-
-  showMenu = () => {
-    this._menu.show();
-  };
-
   render() {
     /* 
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
