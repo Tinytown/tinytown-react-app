@@ -4,8 +4,9 @@ The main codebase for the Tinytown React Native app.
 ## Instructions:
 
 1. Set up React Native environment: https://reactnative.dev/docs/environment-setup
-2. Install Yarn `brew install yarn`
-3. From root directory, issue: `yarn install`
+2. Clone this repo `git clone https://github.com/Tinytown/tinytown-react-app.git`
+3. Install Yarn `brew install yarn`
+4. From root directory, issue: `yarn install`
 
 **For iOS**
 1. Go into the iOS folder: `cd ios`
