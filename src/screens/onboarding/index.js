@@ -39,8 +39,7 @@ export default class Onboarding extends React.Component {
         <View style={styles.safeArea} pointerEvents='box-none'>
           <View style={styles.fabContainer}>
             { !this.state.isLocated && <FAB label={R.strings.button.gotoLocation} theme='green' icon='crosshairs' 
-              onPress={() => this.setState({isLocated: true})}/> } {/* TODO: This needs to be hooked up with gotoLocation() in Map.js */}
-
+              onPress={() => this.setState({isLocated: true})}/> }
             { this.state.isLocated && <FAB label={R.strings.button.logIn} theme='blue' icon='twitter' 
               onPress={() => this.twitterLogin()
                 .then(() => {
@@ -49,7 +48,7 @@ export default class Onboarding extends React.Component {
                 .catch(e => {
                   console.log(e.message);
                 })
-              }/> } {/* TODO: Navigate to Home screen if successful */}
+              }/> } 
           </View>
         </View>
       </View>
