@@ -1,8 +1,3 @@
-/* App Bar Component
-This component has two variations so far: HomeBar and NavBar. You can use the 'type' prop to switch between them.
-Usage: <AppBar label='Settings' onClose={closeSettings}><IconButton icon='overflow' onPress={this.showMenu}/></AppBar>
-*/
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity, Text } from 'react-native';
@@ -10,8 +5,7 @@ import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
 import { IconButton, Menu, MenuDivider, MenuItem } from 'library/components';
 
-/* HomeBar - Used in the Home Screen
-============================================================================= */
+// HomeBar - Used in the Home Screen
 
 class HomeBar extends React.Component {
   _menu = null;
@@ -39,7 +33,7 @@ class HomeBar extends React.Component {
           style={styles.accountButton} 
           onPress={this.showMenu}>
             <Image 
-            source={require('res/img/placeholder.png')} //replace with profile_image_url from Twitter API
+            source={require('res/img/placeholder.png')}
             style={styles.avatarImage}>
             </Image>
           </TouchableOpacity>}>
@@ -53,8 +47,7 @@ class HomeBar extends React.Component {
   }
 }
 
-/* NavBar - Used for navigation
-============================================================================= */
+// NavBar - Used for navigation
 
 class NavBar extends React.Component {
   static propTypes = {
@@ -85,12 +78,10 @@ class NavBar extends React.Component {
   }
 }
 
-/* StyleSheet
-============================================================================= */
+// StyleSheet
 
 const styles = create({
   
-  // Container
   homeContainer: {
     flexDirection: 'row',
     height: 72,
@@ -104,7 +95,6 @@ const styles = create({
     backgroundColor: R.colors.justWhite
   },
 
-  // App Bar Items
   itemsContainer: {
     flex: 1,
     alignItems: 'center'
@@ -117,7 +107,6 @@ const styles = create({
     ...R.typography.headline5
   },
 
-  // Avatar
   accountButton: {
     width: 44,
     height: 44,
@@ -135,8 +124,7 @@ const styles = create({
   },
 });
 
-/* Export
-============================================================================= */
+// Export
 
 const AppBar = props => {
   switch(props.type) {

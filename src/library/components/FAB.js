@@ -1,15 +1,10 @@
-/* Floating Action Button (FAB) Component
-Usage: <FAB label={strings.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
-*/
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
 
-/* Switch styles
-============================================================================= */
+// Switch styles
 
 const getStyles = ({
   theme, branded
@@ -37,8 +32,7 @@ const getStyles = ({
   return { containerStyles, iconColor, textStyles };
 };
 
-/* FAB
-============================================================================= */
+// Foating Action Button (FAB)
 
 class FAB extends React.Component {
   static propTypes = {
@@ -76,12 +70,10 @@ class FAB extends React.Component {
   }
 }
 
-/* StyleSheet
-============================================================================= */
+// StyleSheet
 
 const styles = create({
   
-  // Containers
   container: {
     flexDirection: 'row',
     paddingLeft: 16,
@@ -107,14 +99,12 @@ const styles = create({
     ...R.shapes.elevRed5
   },
 
-  // Icon
   iconContainer: {
     height: 24,
     width: 24,
     marginRight: 12
   },
 
-  // Text
   text: {
     color: R.colors.justWhite,
     ...R.typography.subheader3
@@ -129,7 +119,6 @@ const styles = create({
   }
 })
 
-/* Export
-============================================================================= */
+// Export
 
 export default FAB;
