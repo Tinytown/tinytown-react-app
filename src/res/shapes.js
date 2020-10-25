@@ -1,13 +1,13 @@
-import * as colors from './colors';
+import * as COLORS from './colors';
 
 // ELEVATION - GRAYS
 export const elevHairline = {
   borderWidth: 2,
-  borderColor: colors.snowGray,
+  borderColor: COLORS.snowGray,
 };
 
 export const elevGray1 = {
-  shadowColor: colors.asphaltGray,
+  shadowColor: COLORS.asphaltGray,
   shadowOffset: {
     width: 0,
     height: 1,
@@ -19,7 +19,7 @@ export const elevGray1 = {
 };
 
 export const elevGray2 = {
-  shadowColor: colors.asphaltGray,
+  shadowColor: COLORS.asphaltGray,
   shadowOffset: {
     width: 0,
     height: 2,
@@ -31,7 +31,7 @@ export const elevGray2 = {
 };
 
 export const elevGray3 = {
-  shadowColor: colors.asphaltGray,
+  shadowColor: COLORS.asphaltGray,
   shadowOffset: {
     width: 0,
     height: 3,
@@ -43,7 +43,7 @@ export const elevGray3 = {
 };
 
 export const elevGray4 = {
-  shadowColor: colors.asphaltGray,
+  shadowColor: COLORS.asphaltGray,
   shadowOffset: {
     width: 0,
     height: 4,
@@ -66,38 +66,38 @@ const elev5 = {
 }
 
 export const elevGray5 = {
-  shadowColor: colors.asphaltGray,
+  shadowColor: COLORS.asphaltGray,
   ...elev5,
 };
 
 // ELEVATION - COLORS
 export const elevRed5 = {
-  shadowColor: colors.bubblegumRed600,
+  shadowColor: COLORS.bubblegumRed600,
   ...elev5,
 };
 
 export const elevPurple5 = {
-  shadowColor: colors.flowerPurple600,
+  shadowColor: COLORS.flowerPurple600,
   ...elev5,
 };
 
 export const elevLime5 = {
-  shadowColor: colors.funLime600,
+  shadowColor: COLORS.funLime600,
   ...elev5,
 };
 
 export const elevGreen5 = {
-  shadowColor: colors.grassGreen600,
+  shadowColor: COLORS.grassGreen600,
   ...elev5,
 };
 
 export const elevOrange5 = {
-  shadowColor: colors.trafficOrange600,
+  shadowColor: COLORS.trafficOrange600,
   ...elev5,
 };
 
 export const elevBlue5 = {
-  shadowColor: colors.skyBlue600,
+  shadowColor: COLORS.skyBlue600,
   ...elev5,
 };
 

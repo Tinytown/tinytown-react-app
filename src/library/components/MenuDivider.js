@@ -7,7 +7,7 @@ function MenuDivider({ color }) {
 }
 
 MenuDivider.defaultProps = {
-  color: R.colors.sidewalkGray,
+  color: R.COLORS.sidewalkGray,
 };
 
 const styles = StyleSheet.create({

@@ -219,7 +219,7 @@ export default class Map extends Component {
               id={'customUserLocationIcon'}
               style={{
                 iconAllowOverlap: true,
-                iconImage: R.images.userMarker,
+                iconImage: R.IMAGES.userMarker,
                 iconSize: 0.4,
                 iconRotate: heading || 0,
               }}
@@ -249,7 +249,7 @@ export default class Map extends Component {
             </Menu>
           </View>
           <View style={styles.fabContainer}>
-            <FAB label={R.strings.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
+            <FAB label={R.STRINGS.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
           </View>
         </View>
       </View>

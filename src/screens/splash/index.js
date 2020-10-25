@@ -55,7 +55,7 @@ export default class Splash extends Component {
 
 const styles = StyleSheet.create({
   landscape: {
-    backgroundColor: R.colors.justWhite,
+    backgroundColor: R.COLORS.justWhite,
     height: '100%',
   },
   fadingContainer: {
@@ -64,15 +64,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   twitterButton: {
-    backgroundColor: R.colors.bubblegumRed600,
-    borderRadius: R.shapes.radiusAll,
+    backgroundColor: R.COLORS.bubblegumRed600,
+    borderRadius: R.SHAPES.radiusAll,
     width: 200,
     height: 50,
-    ...R.shapes.elevRed5,
+    ...R.SHAPES.elevRed5,
   },
   twitterButtonText: {
     textAlign: 'center',
     marginTop: 14,
-    color: R.colors.justWhite,
+    color: R.COLORS.justWhite,
   },
 });

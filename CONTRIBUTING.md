@@ -42,6 +42,13 @@ const heroes = [
 ];
 ```
 
+#### Named Constants
+You may optionally uppercase a constant only if it (1) is exported, (2) is a const (it can not be reassigned), and (3) the programmer can trust it (and its nested properties) to never change. See the [Airbnb Style Guide](https://github.com/airbnb/javascript#naming--uppercase) for more info.
+```
+// allowed
+export const API_KEY = 'SOMEKEY';
+```
+
 ### Security
 
 #### Keys and Tokens
