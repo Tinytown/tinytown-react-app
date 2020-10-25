@@ -1,4 +1,4 @@
-// Combines all style variables under one file: import R from 'res/R' 
+// Combines all style variables under one file: import R from 'res/R'
 
 import * as COLORS from './colors';
 import * as TYPOGRAPHY from './typography';

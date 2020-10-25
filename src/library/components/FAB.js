@@ -4,7 +4,7 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import R from 'res/R';
 
 const styles = StyleSheet.create({
-  
+
   // CONTAINER STYLES
   container: {
     flexDirection: 'row',
@@ -79,7 +79,6 @@ const getStyles = ({
   return { containerStyles, iconStyles, iconColor, textStyles };
 };
 
-
 class FAB extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
@@ -106,10 +105,10 @@ class FAB extends React.Component {
     } = this.props;
     const { containerStyles, iconStyles, iconColor, textStyles } = getStyles({ theme, branded });
     return (
-        <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
-          <R.Icon icon={this.props.icon} style={iconStyles} color={iconColor} />
-          <Text style={textStyles}>{label}</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
+        <R.Icon icon={this.props.icon} style={iconStyles} color={iconColor} />
+        <Text style={textStyles}>{label}</Text>
+      </TouchableOpacity>
     );
   }
 }

@@ -14,7 +14,7 @@ export const elevGray1 = {
   },
   shadowOpacity: 0.3,
   shadowRadius: 2.22,
-  
+
   elevation: 3,
 };
 
@@ -26,7 +26,7 @@ export const elevGray2 = {
   },
   shadowOpacity: 0.3,
   shadowRadius: 3.84,
-  
+
   elevation: 5,
 };
 
@@ -38,7 +38,7 @@ export const elevGray3 = {
   },
   shadowOpacity: 0.35,
   shadowRadius: 4.65,
-  
+
   elevation: 7,
 };
 
@@ -50,7 +50,7 @@ export const elevGray4 = {
   },
   shadowOpacity: 0.4,
   shadowRadius: 5.46,
-  
+
   elevation: 9,
 };
 
@@ -61,7 +61,7 @@ const elev5 = {
   },
   shadowOpacity: 0.5,
   shadowRadius: 7.49,
-  
+
   elevation: 12,
 }
 

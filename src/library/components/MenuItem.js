@@ -35,27 +35,27 @@ class MenuItem extends React.Component {
       onPress,
     } = this.props;
     return (
-        <Touchable
-          disabled={disabled}
-          onPress={onPress}
-          background={TouchableNativeFeedback.Ripple(R.COLORS.sidewalkGray)}
-          underlayColor={R.COLORS.snowGray}
-        >
-          <View style={[styles.container, disabled && { opacity: R.COLORS.disabled}]}>
-            <View style={styles.assetContainer}>
-              <View style={styles.iconContainer}>
-                <R.Icon icon={this.props.icon} color={R.COLORS.graniteGray}></R.Icon>
-              </View>
+      <Touchable
+        disabled={disabled}
+        onPress={onPress}
+        background={TouchableNativeFeedback.Ripple(R.COLORS.sidewalkGray)}
+        underlayColor={R.COLORS.snowGray}
+      >
+        <View style={[styles.container, disabled && { opacity: R.COLORS.disabled }]}>
+          <View style={styles.assetContainer}>
+            <View style={styles.iconContainer}>
+              <R.Icon icon={this.props.icon} color={R.COLORS.graniteGray}></R.Icon>
             </View>
-            <Text
-              numberOfLines={1}
-              style={styles.label}
-            >
-              {label}
-            </Text>
           </View>
-        </Touchable>
-  );
+          <Text
+            numberOfLines={1}
+            style={styles.label}
+          >
+            {label}
+          </Text>
+        </View>
+      </Touchable>
+    );
   }
 }
 

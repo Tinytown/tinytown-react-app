@@ -4,6 +4,7 @@ module.exports = {
   'env': {
     'jest': true,
   },
+  'ignorePatterns': ['ic_*'],
   'rules': {
     // Commas & Quotes
     'comma-dangle': ['error', 'always-multiline'],
@@ -32,7 +33,7 @@ module.exports = {
     'space-in-parens': ['error', 'never'],
     'array-bracket-spacing': ['error', 'never'],
     'object-curly-spacing': ['error', 'always'],
-    'max-len': ['error', { 'code': 100, 'tabWidth': 2 }],
+    'max-len': ['error', { 'code': 120, 'tabWidth': 2, 'ignoreComments': true }],
     'block-spacing': 'error',
     'comma-spacing': 'error',
     'computed-property-spacing': 'error',

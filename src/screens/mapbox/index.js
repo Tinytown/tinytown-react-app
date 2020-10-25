@@ -4,7 +4,7 @@ import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
-import {bindMethods} from 'library/utils/component-ops';
+import { bindMethods } from 'library/utils/component-ops';
 import FAB from 'library/components/FAB';
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
@@ -13,7 +13,7 @@ import MenuItem from '../../library/components/MenuItem';
 import MenuDivider from '../../library/components/MenuDivider';
 import R from 'res/R';
 
-const {MapView, Camera} = MapboxGL;
+const { MapView, Camera } = MapboxGL;
 
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
@@ -48,7 +48,12 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
 
-    bindMethods(['goToLocation', 'onRegionDidChange', 'goToLocationNonFirstHelper', 'goToLocationFirstHelper', 'onDidFinishRenderingFrameFully'], this);
+    bindMethods([
+      'goToLocation',
+      'onRegionDidChange',
+      'goToLocationNonFirstHelper',
+      'goToLocationFirstHelper',
+      'onDidFinishRenderingFrameFully'], this);
     this.state = {
       userLocation: null,
       heading: null,
@@ -60,15 +65,16 @@ export default class Map extends Component {
     };
 
     this.camera = React.createRef();
-    
+
     this.defaultZoomLevel = 14;
 
     this.updateLocation = _.throttle((event) => {
       if (!event) {
         return;
       }
-      const {latitude, longitude} = event.coords;
-      const locationHasChanged = this.state.userLocation ? this.coordsAreDifferent(event.coords, this.state.userLocation) : true;
+      const { latitude, longitude } = event.coords;
+      const locationHasChanged =
+        this.state.userLocation ? this.coordsAreDifferent(event.coords, this.state.userLocation) : true;
       if (locationHasChanged) {
         this.setState({
           userLocation: {
@@ -77,7 +83,7 @@ export default class Map extends Component {
           },
         });
       }
-    }, 50, {trailing: false})
+    }, 50, { trailing: false })
 
     CompassHeading.start(degreeUpdateRate, (heading) => {
       this.setState({
@@ -85,7 +91,7 @@ export default class Map extends Component {
       })
     });
   }
-  
+
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
   }
@@ -104,11 +110,11 @@ export default class Map extends Component {
       });
     }
   }
-  
+
   onRegionDidChange(event) {
     const [cameraLongitude, cameraLatitude] = event.geometry.coordinates;
-    let {followUser} = this.state;
-    const cameraCoords = {longitude: cameraLongitude,latitude: cameraLatitude};
+    let { followUser } = this.state;
+    const cameraCoords = { longitude: cameraLongitude, latitude: cameraLatitude };
     const cameraHasMoved = this.coordsAreDifferent(cameraCoords, this.state.userLocation)
     if (followUser && cameraHasMoved) {
       followUser = false;
@@ -142,7 +148,7 @@ export default class Map extends Component {
     const doUpdates = () => {
       Geolocation.getCurrentPosition(
         (position) => {
-          const {latitude, longitude} = position.coords;
+          const { latitude, longitude } = position.coords;
           console.log('doing first time go to location update');
           this.setState({
             haveLocationPermission: true,
@@ -154,18 +160,18 @@ export default class Map extends Component {
         (error) => {
           console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
         },
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
       );
     };
     if (isAndroid) {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       )
-      .then((status) => {
-        if (status === PermissionsAndroid.RESULTS.GRANTED) {
-          doUpdates();
-        }
-      });
+        .then((status) => {
+          if (status === PermissionsAndroid.RESULTS.GRANTED) {
+            doUpdates();
+          }
+        });
       return null;
     }
 
@@ -193,22 +199,22 @@ export default class Map extends Component {
   };
 
   render() {
-    /* 
+    /*
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading} = this.state;
+    const { zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading } = this.state;
     return (
       <View style={styles.landscape}>
         <MapView
-            animated={true}
-            style={styles.map}
-            styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
-            logoEnabled={false}
-            attributionEnabled={false}
-            onRegionDidChange={this.handleRegionChange}
-            regionDidChangeDebounceTime={2000}
-            onDidFinishRenderingFrameFully={this.onDidFinishRenderingFrameFully}
+          animated={true}
+          style={styles.map}
+          styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+          logoEnabled={false}
+          attributionEnabled={false}
+          onRegionDidChange={this.handleRegionChange}
+          regionDidChangeDebounceTime={2000}
+          onDidFinishRenderingFrameFully={this.onDidFinishRenderingFrameFully}
         >
           {haveLocationPermission ? <MapboxGL.UserLocation
             animate={true}
@@ -232,14 +238,14 @@ export default class Map extends Component {
             ref={this.camera}
             centerCoordinate={cameraCoordinates ? cameraCoordinates : undefined}
             zoomLevel={zoomLevel ? zoomLevel : undefined}
-            >
+          >
           </Camera>
         </MapView>
         <View style={styles.safeArea} pointerEvents='box-none'>
           <View>
             <Menu
               ref={this.setMenuRef}
-              button={<Text onPress={this.showMenu} style={{color: 'white', marginTop: 16}}>Show menu</Text>}
+              button={<Text onPress={this.showMenu} style={{ color: 'white', marginTop: 16 }}>Show menu</Text>}
             >
               <MenuItem label='Really really long title' icon='twitter' onPress={this.hideMenu}/>
               <MenuItem icon='info' onPress={this.hideMenu} disabled/>
@@ -249,7 +255,11 @@ export default class Map extends Component {
             </Menu>
           </View>
           <View style={styles.fabContainer}>
-            <FAB label={R.STRINGS.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
+            <FAB
+              label={R.STRINGS.button.gotoLocation}
+              theme='green' icon='crosshairs'
+              onPress={this.goToLocation}
+              disabled={goingToLocation}/>
           </View>
         </View>
       </View>
