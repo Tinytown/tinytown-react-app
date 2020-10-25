@@ -63,8 +63,8 @@ class MenuItem extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 48,
     width: 200,
     paddingHorizontal: 8,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
 
   assetContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     width: 48,
     marginRight: 8,
   },

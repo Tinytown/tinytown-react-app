@@ -9,15 +9,15 @@ import TwitterIcon from './ic_twitter_24dp'
 
 const Icon = (props) => {
   switch(props.icon) {
-    case "crosshairs":
+    case 'crosshairs':
       return <CrosshairsIcon {...props} />;
-    case "info":
+    case 'info':
       return <InfoCircleIcon {...props} />;
-    case "megaphone":
+    case 'megaphone':
       return <MegaphoneIcon {...props} />;
-    case "signout":
+    case 'signout':
       return <SignOutIcon {...props} />;
-    case "twitter":
+    case 'twitter':
       return <TwitterIcon {...props} />;
     default:
       return <PlaceholderIcon {...props} />;
