@@ -15,11 +15,13 @@ module.exports = {
     'no-useless-constructor': "error",
     'object-shorthand': "error",
     'no-useless-rename': "error",
-    "prefer-destructuring": ["error", {
+    'prefer-destructuring': ["error", {
       "array": true,
       "object": true,
     }, {
       "enforceForRenamedProperties": false,
     }],
+    'no-underscore-dangle': [
+      "off"],
   },
 };
