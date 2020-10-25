@@ -41,7 +41,7 @@ class MenuItem extends React.Component {
         background={TouchableNativeFeedback.Ripple(R.COLORS.sidewalkGray)}
         underlayColor={R.COLORS.snowGray}
       >
-        <View style={[styles.container, disabled && { opacity: R.COLORS.disabled }]}>
+        <View style={[styles.container, disabled && R.COLORS.opacity40]}>
           <View style={styles.assetContainer}>
             <View style={styles.iconContainer}>
               <R.Icon icon={this.props.icon} color={R.COLORS.graniteGray}></R.Icon>
