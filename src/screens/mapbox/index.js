@@ -5,7 +5,7 @@ import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from 'library/utils/component-ops';
-import FAB from 'library/components/fab';
+import FAB from 'library/components/FAB';
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
 import Menu from '../../library/components/Menu';
@@ -21,7 +21,7 @@ const isAndroid = Platform.OS === 'android';
 
 const styles = StyleSheet.create({
   landscape: {
-    height: '100%'
+    height: '100%',
   },
   map: {
     height: '100%',
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   fabContainer: {
     position: 'absolute',
     bottom: 24,
-  }
+  },
 });
 
 const degreeUpdateRate = 3;
@@ -56,14 +56,14 @@ export default class Map extends Component {
       isMapLoading: false, // axiom: loading only applies to an existing map
       followUser: false,
       haveLocationPermission: false,
-      goingToLocation: false
+      goingToLocation: false,
     };
 
     this.camera = React.createRef();
     
     this.defaultZoomLevel = 14;
 
-    this.updateLocation = _.throttle(event => {
+    this.updateLocation = _.throttle((event) => {
       if (!event) {
         return;
       }
@@ -74,14 +74,14 @@ export default class Map extends Component {
           userLocation: {
             longitude,
             latitude,
-          }
+          },
         });
       }
     }, 50, {trailing: false})
 
-    CompassHeading.start(degreeUpdateRate, heading => {
+    CompassHeading.start(degreeUpdateRate, (heading) => {
       this.setState({
-        heading
+        heading,
       })
     });
   }
@@ -100,21 +100,21 @@ export default class Map extends Component {
     if (this.state.goingToLocation) {
       this.setState({
         goingToLocation: false,
-        followUser: true
+        followUser: true,
       });
     }
   }
   
   onRegionDidChange(event) {
     const [cameraLongitude, cameraLatitude] = event.geometry.coordinates;
-    let followUser = this.state.followUser;
+    let {followUser} = this.state;
     const cameraCoords = {longitude: cameraLongitude,latitude: cameraLatitude};
     const cameraHasMoved = this.coordsAreDifferent(cameraCoords, this.state.userLocation)
     if (followUser && cameraHasMoved) {
       followUser = false;
     }
     this.setState({
-      followUser
+      followUser,
     });
   }
 
@@ -125,15 +125,15 @@ export default class Map extends Component {
   }
 
   goToLocationNonFirstHelper() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       goingToLocation: true,
       followUser: false, // disabling followUser is not really necessary with the current follow mode, but it allows flexibility if in future we can change the mode, say, to FollowWithHeading
       cameraCoordinates: [prevState.userLocation.longitude, prevState.userLocation.latitude],
-      zoomLevel: this.defaultZoomLevel
+      zoomLevel: this.defaultZoomLevel,
     }), () => {
       this.camera.current.setCamera({
         centerCoordinate: this.state.cameraCoordinates,
-        zoomLevel: this.state.zoomLevel
+        zoomLevel: this.state.zoomLevel,
       });
     })
   }
@@ -141,17 +141,17 @@ export default class Map extends Component {
   goToLocationFirstHelper() {
     const doUpdates = () => {
       Geolocation.getCurrentPosition(
-        position => {
+        (position) => {
           const {latitude, longitude} = position.coords;
           console.log('doing first time go to location update');
           this.setState({
             haveLocationPermission: true,
             goingToLocation: true,
             cameraCoordinates: [longitude, latitude],
-            zoomLevel: this.defaultZoomLevel
+            zoomLevel: this.defaultZoomLevel,
           });
         },
-        error => {
+        (error) => {
           console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
         },
         {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
@@ -161,7 +161,7 @@ export default class Map extends Component {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       )
-      .then(status => {
+      .then((status) => {
         if (status === PermissionsAndroid.RESULTS.GRANTED) {
           doUpdates();
         }
@@ -171,7 +171,7 @@ export default class Map extends Component {
 
     // assume iOS
     Geolocation.requestAuthorization('always')
-      .then(status => {
+      .then((status) => {
         if (status === 'granted') {
           doUpdates();
         }
@@ -180,7 +180,7 @@ export default class Map extends Component {
 
   _menu = null;
 
-  setMenuRef = ref => {
+  setMenuRef = (ref) => {
     this._menu = ref;
   };
 
@@ -221,7 +221,7 @@ export default class Map extends Component {
                 iconAllowOverlap: true,
                 iconImage: R.images.userMarker,
                 iconSize: 0.4,
-                iconRotate: heading || 0
+                iconRotate: heading || 0,
               }}
               minZoomLevel={1}
             />

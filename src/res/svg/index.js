@@ -7,7 +7,7 @@ import SignOutIcon from './ic_sign_out_24dp'
 import TwitterIcon from './ic_twitter_24dp'
 
 
-const Icon = props => {
+const Icon = (props) => {
   switch(props.icon) {
     case "crosshairs":
       return <CrosshairsIcon {...props} />;

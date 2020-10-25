@@ -13,22 +13,22 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: R.shapes.radiusAll,
     backgroundColor: R.colors.asphaltGray,
-    ...R.shapes.elevGray5
+    ...R.shapes.elevGray5,
   },
 
   containerGreen: {
     backgroundColor: R.colors.grassGreen600,
-    ...R.shapes.elevGreen5
+    ...R.shapes.elevGreen5,
   },
 
   containerBlue: {
     backgroundColor: R.colors.skyBlue600,
-    ...R.shapes.elevBlue5
+    ...R.shapes.elevBlue5,
   },
 
   containerRed: {
     backgroundColor: R.colors.bubblegumRed600,
-    ...R.shapes.elevRed5
+    ...R.shapes.elevRed5,
   },
 
   // ICON STYLES
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   text: {
     bottom: 1,
     color: R.colors.justWhite,
-    ...R.typography.subheader3
+    ...R.typography.subheader3,
   },
 
   textGray: {
@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
   },
 
   textBranded: {
-    ...R.typography.brandedButton
-  }
+    ...R.typography.brandedButton,
+  },
 })
 
 const getStyles = ({
-  theme, branded
+  theme, branded,
 }) => {
   const containerStyles = [styles.container];
   const iconStyles = [styles.icon];
@@ -86,14 +86,14 @@ class FAB extends React.Component {
     theme: PropTypes.oneOf(['green', 'blue', 'red']),
     branded: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
     label: 'Button Label',
     theme: 'default',
     branded: false,
-    disabled: false
+    disabled: false,
   };
 
   render() {
@@ -102,7 +102,7 @@ class FAB extends React.Component {
       theme,
       branded,
       onPress,
-      disabled
+      disabled,
     } = this.props;
     const { containerStyles, iconStyles, iconColor, textStyles } = getStyles({ theme, branded });
     return (

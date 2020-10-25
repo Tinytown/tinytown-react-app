@@ -22,7 +22,7 @@ export default class Splash extends Component {
     try {
       await twitterApi.login();
       this.setState({
-        isLoggedIn: true
+        isLoggedIn: true,
       });
     } catch(e) {
       throw e;
@@ -39,7 +39,7 @@ export default class Splash extends Component {
                 .then(() => {
                   console.log('Signed in with Twitter!');
                 })
-                .catch(e => {
+                .catch((e) => {
                   console.log(e.message);
                 })
             }
@@ -56,12 +56,12 @@ export default class Splash extends Component {
 const styles = StyleSheet.create({
   landscape: {
     backgroundColor: R.colors.justWhite,
-    height: '100%'
+    height: '100%',
   },
   fadingContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   twitterButton: {
     backgroundColor: R.colors.bubblegumRed600,
@@ -73,6 +73,6 @@ const styles = StyleSheet.create({
   twitterButtonText: {
     textAlign: 'center',
     marginTop: 14,
-    color: R.colors.justWhite
-  }
+    color: R.colors.justWhite,
+  },
 });

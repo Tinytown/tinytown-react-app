@@ -13,7 +13,7 @@ const R = {
   shapes,
   strings,
   images,
-  Icon
+  Icon,
 }
 
 export default R

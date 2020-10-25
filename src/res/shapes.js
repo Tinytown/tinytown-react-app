@@ -67,38 +67,38 @@ const elev5 = {
 
 export const elevGray5 = {
   shadowColor: colors.asphaltGray,
-  ...elev5
+  ...elev5,
 };
 
 // ELEVATION - COLORS
 export const elevRed5 = {
   shadowColor: colors.bubblegumRed600,
-  ...elev5
+  ...elev5,
 };
 
 export const elevPurple5 = {
   shadowColor: colors.flowerPurple600,
-  ...elev5
+  ...elev5,
 };
 
 export const elevLime5 = {
   shadowColor: colors.funLime600,
-  ...elev5
+  ...elev5,
 };
 
 export const elevGreen5 = {
   shadowColor: colors.grassGreen600,
-  ...elev5
+  ...elev5,
 };
 
 export const elevOrange5 = {
   shadowColor: colors.trafficOrange600,
-  ...elev5
+  ...elev5,
 };
 
 export const elevBlue5 = {
   shadowColor: colors.skyBlue600,
-  ...elev5
+  ...elev5,
 };
 
 // CORNER RADIUS

@@ -1,8 +1,3 @@
-/* Menu Component
-This component is a customized version of the Menu component from react-native-material-menu [https://github.com/mxck/react-native-material-menu].
-Used in conjunction with the MenuItem and MenuDivider components.
-*/
-
 import React from 'react';
 import {
   Animated,
@@ -18,17 +13,16 @@ import {
 } from 'react-native';
 import R from 'res/R';
 
-const STATES = {
-  HIDDEN: 'HIDDEN',
-  ANIMATING: 'ANIMATING',
-  SHOWN: 'SHOWN',
+const states = {
+  hidden: 'hidden',
+  animating: 'animating',
+  shown: 'shown',
 };
 
-const EASING = Easing.bezier(0.4, 0, 0.2, 1);
-const SCREEN_INDENT = 8;
+const easing = Easing.bezier(0.4, 0, 0.2, 1);
+const screenIndent = 8;
 
-/* Menu
-============================================================================= */
+// Menu Component
 
 class Menu extends React.Component {
   _container = null;
@@ -37,7 +31,7 @@ class Menu extends React.Component {
     super(props);
 
     this.state = {
-      menuState: STATES.HIDDEN,
+      menuState: states.hidden,
 
       top: 0,
       left: 0,
@@ -59,7 +53,7 @@ class Menu extends React.Component {
 
   // Start menu animation
   _onMenuLayout = (e) => {
-    if (this.state.menuState === STATES.ANIMATING) {
+    if (this.state.menuState === states.animating) {
       return;
     }
 
@@ -67,7 +61,7 @@ class Menu extends React.Component {
 
     this.setState(
       {
-        menuState: STATES.ANIMATING,
+        menuState: states.animating,
         menuWidth: width,
         menuHeight: height,
       },
@@ -76,13 +70,13 @@ class Menu extends React.Component {
           Animated.timing(this.state.menuSizeAnimation, {
             toValue: { x: width, y: height },
             duration: this.props.animationDuration,
-            easing: EASING,
+            easing,
             useNativeDriver: false,
           }),
           Animated.timing(this.state.opacityAnimation, {
             toValue: 1,
             duration: this.props.animationDuration,
-            easing: EASING,
+            easing,
             useNativeDriver: false,
           }),
         ]).start();
@@ -102,7 +96,7 @@ class Menu extends React.Component {
         buttonHeight,
         buttonWidth,
         left,
-        menuState: STATES.SHOWN,
+        menuState: states.shown,
         top,
       });
     });
@@ -112,13 +106,13 @@ class Menu extends React.Component {
     Animated.timing(this.state.opacityAnimation, {
       toValue: 0,
       duration: this.props.animationDuration,
-      easing: EASING,
+      easing,
       useNativeDriver: false,
     }).start(() => {
       // Reset state
       this.setState(
         {
-          menuState: STATES.HIDDEN,
+          menuState: states.hidden,
           menuSizeAnimation: new Animated.ValueXY({ x: 0, y: 0 }),
           opacityAnimation: new Animated.Value(0),
         },
@@ -165,28 +159,28 @@ class Menu extends React.Component {
     const transforms = [];
 
     if (
-      (isRTL && left + buttonWidth - menuWidth > SCREEN_INDENT) ||
-      (!isRTL && left + menuWidth > windowWidth - SCREEN_INDENT)
+      (isRTL && left + buttonWidth - menuWidth > screenIndent) ||
+      (!isRTL && left + menuWidth > windowWidth - screenIndent)
     ) {
       transforms.push({
         translateX: Animated.multiply(menuSizeAnimation.x, -1),
       });
 
-      left = Math.min(windowWidth - SCREEN_INDENT, left + buttonWidth);
-    } else if (left < SCREEN_INDENT) {
-      left = SCREEN_INDENT;
+      left = Math.min(windowWidth - screenIndent, left + buttonWidth);
+    } else if (left < screenIndent) {
+      left = screenIndent;
     }
 
     // Flip by Y axis if menu hits bottom screen border
-    if (top > windowHeight - menuHeight - SCREEN_INDENT) {
+    if (top > windowHeight - menuHeight - screenIndent) {
       transforms.push({
         translateY: Animated.multiply(menuSizeAnimation.y, -1),
       });
 
-      top = windowHeight - SCREEN_INDENT;
-      top = Math.min(windowHeight - SCREEN_INDENT, top + buttonHeight);
-    } else if (top < SCREEN_INDENT) {
-      top = SCREEN_INDENT;
+      top = windowHeight - screenIndent;
+      top = Math.min(windowHeight - screenIndent, top + buttonHeight);
+    } else if (top < screenIndent) {
+      top = screenIndent;
     }
 
     const shadowMenuContainerStyle = {
@@ -199,8 +193,8 @@ class Menu extends React.Component {
     };
 
     const { menuState } = this.state;
-    const animationStarted = menuState === STATES.ANIMATING;
-    const modalVisible = menuState === STATES.SHOWN || animationStarted;
+    const animationStarted = menuState === states.animating;
+    const modalVisible = menuState === states.shown || animationStarted;
 
     const { testID, button, style, children } = this.props;
 
@@ -219,8 +213,7 @@ class Menu extends React.Component {
             'landscape-right',
           ]}
           transparent
-          onDismiss={this._onDismiss}
-        >
+          onDismiss={this._onDismiss}>
           <TouchableWithoutFeedback onPress={this._hide} accessible={false}>
             <View style={StyleSheet.absoluteFill}>
               <Animated.View
@@ -229,11 +222,9 @@ class Menu extends React.Component {
                   styles.shadowMenuContainer,
                   shadowMenuContainerStyle,
                   style,
-                ]}
-              >
+                ]}>
                 <Animated.View
-                  style={[styles.menuContainer, animationStarted && menuSize]}
-                >
+                  style={[styles.menuContainer, animationStarted && menuSize]}>
                   {children}
                 </Animated.View>
               </Animated.View>
@@ -249,8 +240,7 @@ Menu.defaultProps = {
   animationDuration: 300,
 };
 
-/* StyleSheet
-============================================================================= */
+// StyleSheet
 
 const styles = StyleSheet.create({
   shadowMenuContainer: {
@@ -258,15 +248,14 @@ const styles = StyleSheet.create({
     opacity: 0,
     backgroundColor: R.colors.justWhite,
     borderRadius: R.shapes.radiusSm,
-    ...R.shapes.elevGray2
+    ...R.shapes.elevGray2,
   },
   menuContainer: {
     overflow: 'hidden',
-    paddingVertical: 8
+    paddingVertical: 8,
   },
 });
 
-/* Export
-============================================================================= */
+// Export
 
 export default Menu;
