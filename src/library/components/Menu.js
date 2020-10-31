@@ -22,8 +22,6 @@ const states = {
 const easing = Easing.bezier(0.4, 0, 0.2, 1);
 const screenIndent = 8;
 
-// Menu Component
-
 class Menu extends React.Component {
   _container = null;
 
@@ -52,7 +50,7 @@ class Menu extends React.Component {
   };
 
   // Start menu animation
-  _onMenuLayout = (e) => {
+  startMenuAnimation = (e) => {
     if (this.state.menuState === states.animating) {
       return;
     }
@@ -109,7 +107,6 @@ class Menu extends React.Component {
       easing,
       useNativeDriver: false,
     }).start(() => {
-      // Reset state
       this.setState(
         {
           menuState: states.hidden,
@@ -121,7 +118,6 @@ class Menu extends React.Component {
             onHidden();
           }
 
-          // Invoke onHidden callback if defined
           if (Platform.OS !== 'ios' && this.props.onHidden) {
             this.props.onHidden();
           }
@@ -217,7 +213,7 @@ class Menu extends React.Component {
           <TouchableWithoutFeedback onPress={this._hide} accessible={false}>
             <View style={StyleSheet.absoluteFill}>
               <Animated.View
-                onLayout={this._onMenuLayout}
+                onLayout={this.startMenuAnimation}
                 style={[
                   styles.shadowMenuContainer,
                   shadowMenuContainerStyle,
@@ -240,8 +236,6 @@ Menu.defaultProps = {
   animationDuration: 300,
 };
 
-// StyleSheet
-
 const styles = StyleSheet.create({
   shadowMenuContainer: {
     position: 'absolute',
@@ -255,7 +249,5 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
 });
-
-// Export
 
 export default Menu;

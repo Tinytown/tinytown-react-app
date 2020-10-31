@@ -15,8 +15,6 @@ const Touchable =
     ? TouchableNativeFeedback
     : TouchableHighlight;
 
-// Menu Item Component
-
 class MenuItem extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
@@ -59,8 +57,6 @@ class MenuItem extends React.Component {
   }
 }
 
-// StyleSheet
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -89,7 +85,5 @@ const styles = StyleSheet.create({
   },
 
 });
-
-// Export
 
 export default MenuItem;
