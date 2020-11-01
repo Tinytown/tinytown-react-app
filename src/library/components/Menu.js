@@ -3,7 +3,6 @@ import {
   Animated,
   Dimensions,
   Easing,
-  I18nManager,
   Modal,
   Platform,
   StatusBar,
@@ -23,7 +22,6 @@ const easing = Easing.bezier(0.4, 0, 0.2, 1);
 const screenIndent = 8;
 
 class Menu extends React.Component {
-  _container = null;
 
   constructor(props) {
     super(props);
@@ -43,10 +41,11 @@ class Menu extends React.Component {
       menuSizeAnimation: new Animated.ValueXY({ x: 0, y: 0 }),
       opacityAnimation: new Animated.Value(0),
     };
+    this.container = null;
   }
 
-  _setContainerRef = (ref) => {
-    this._container = ref;
+  setContainerRef = (ref) => {
+    this.container = ref;
   };
 
   // Start menu animation
@@ -82,14 +81,14 @@ class Menu extends React.Component {
     );
   };
 
-  _onDismiss = () => {
+  onDismiss = () => {
     if (this.props.onHidden) {
       this.props.onHidden();
     }
   };
 
   show = () => {
-    this._container.measureInWindow((left, top, buttonWidth, buttonHeight) => {
+    this.container.measureInWindow((left, top, buttonWidth, buttonHeight) => {
       this.setState({
         buttonHeight,
         buttonWidth,
@@ -126,13 +125,7 @@ class Menu extends React.Component {
     });
   };
 
-  _hide = () => {
-    this.hide();
-  };
-
   render() {
-    const { isRTL } = I18nManager;
-
     const dimensions = Dimensions.get('window');
     const { width: windowWidth } = dimensions;
     const windowHeight = dimensions.height - (StatusBar.currentHeight || 0);
@@ -154,10 +147,7 @@ class Menu extends React.Component {
     let { left, top } = this.state;
     const transforms = [];
 
-    if (
-      (isRTL && left + buttonWidth - menuWidth > screenIndent) ||
-      (!isRTL && left + menuWidth > windowWidth - screenIndent)
-    ) {
+    if (left + menuWidth > windowWidth - screenIndent) {
       transforms.push({
         translateX: Animated.multiply(menuSizeAnimation.x, -1),
       });
@@ -183,9 +173,7 @@ class Menu extends React.Component {
       opacity: opacityAnimation,
       transform: transforms,
       top,
-
-      // Switch left to right for rtl devices
-      ...(isRTL ? { right: left } : { left }),
+      left,
     };
 
     const { menuState } = this.state;
@@ -195,12 +183,12 @@ class Menu extends React.Component {
     const { testID, button, style, children } = this.props;
 
     return (
-      <View ref={this._setContainerRef} collapsable={false} testID={testID}>
+      <View ref={this.setContainerRef} collapsable={false} testID={testID}>
         <View>{button}</View>
 
         <Modal
           visible={modalVisible}
-          onRequestClose={this._hide}
+          onRequestClose={this.hide}
           supportedOrientations={[
             'portrait',
             'portrait-upside-down',
@@ -209,8 +197,8 @@ class Menu extends React.Component {
             'landscape-right',
           ]}
           transparent
-          onDismiss={this._onDismiss}>
-          <TouchableWithoutFeedback onPress={this._hide} accessible={false}>
+          onDismiss={this.onDismiss}>
+          <TouchableWithoutFeedback onPress={this.hide} accessible={false}>
             <View style={StyleSheet.absoluteFill}>
               <Animated.View
                 onLayout={this.startMenuAnimation}

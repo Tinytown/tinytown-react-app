@@ -77,16 +77,6 @@ class User {
 }
 ```
 
-#### Leading Underscore
-We diverge from the [Airbnb Style Guide](https://github.com/airbnb/javascript/blob/master/README.md#naming--leading-underscore) on this and prefer to use a leading underscore when naming "private" properties even though they're not actually private. We do this to communicate the original programmer's intent.
-```
-// okay
-this.firstName = 'Panda';
-
-// preferred
-this._firstName = 'Panda';
-```
-
 ### Security
 
 #### Keys and Tokens
