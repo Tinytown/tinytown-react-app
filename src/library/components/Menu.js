@@ -99,7 +99,7 @@ class Menu extends React.Component {
     });
   };
 
-  hide = (onHidden) => {
+  hide = () => {
     Animated.timing(this.state.opacityAnimation, {
       toValue: 0,
       duration: this.props.animationDuration,
@@ -113,10 +113,6 @@ class Menu extends React.Component {
           opacityAnimation: new Animated.Value(0),
         },
         () => {
-          if (onHidden) {
-            onHidden();
-          }
-
           if (Platform.OS !== 'ios' && this.props.onHidden) {
             this.props.onHidden();
           }
