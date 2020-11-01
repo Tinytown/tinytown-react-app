@@ -62,6 +62,7 @@ export default class Map extends Component {
       followUser: false,
       haveLocationPermission: false,
       goingToLocation: false,
+      showingMenu: false,
     };
 
     this.camera = React.createRef();
@@ -191,21 +192,31 @@ export default class Map extends Component {
   };
 
   hideMenu = () => {
-    this._menu.hide();
+    this.setState({
+      showingMenu: false,
+    });
   };
 
   showMenu = () => {
-    this._menu.show();
+    this.setState({
+      showingMenu: true,
+    });
   };
+
+  handleClickOutside = () => {
+    this.setState({
+      showingMenu: false
+    });
+  }
 
   render() {
     /*
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const { zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading } = this.state;
+    const { zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading, showingMenu } = this.state;
     return (
-      <View style={styles.landscape}>
+      <View style={styles.landscape} onPress={this.handleClickOutside}>
         <MapView
           animated={true}
           style={styles.map}
@@ -246,6 +257,7 @@ export default class Map extends Component {
             <Menu
               ref={this.setMenuRef}
               button={<Text onPress={this.showMenu} style={{ color: 'white', marginTop: 16 }}>Show menu</Text>}
+              showing={showingMenu}
             >
               <MenuItem label='Really really long title' icon='twitter' onPress={this.hideMenu}/>
               <MenuItem icon='info' onPress={this.hideMenu} disabled/>

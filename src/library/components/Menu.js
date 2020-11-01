@@ -44,11 +44,22 @@ class Menu extends React.Component {
     this.container = null;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const {showing: showingOld} = prevProps;
+    console.log({showingOld});
+    if (this.props.showing !== showingOld) {
+      if (this.props.showing) {
+        this.show();
+      } else{
+        this.hide();
+      }
+    }
+  }
+
   setContainerRef = (ref) => {
     this.container = ref;
   };
 
-  // Start menu animation
   startMenuAnimation = (e) => {
     if (this.state.menuState === states.animating) {
       return;
