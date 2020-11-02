@@ -204,7 +204,6 @@ export default class Map extends Component {
   };
 
   handleClickOutside = () => {
-    console.log('handling click outside');
     this.setState({
       showingMenu: false
     });
