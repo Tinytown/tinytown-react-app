@@ -29,6 +29,9 @@ build/
 local.properties
 *.iml
 
+# VSCode
+.vscode
+
 # node.js
 #
 node_modules/
@@ -59,9 +62,10 @@ buck-out/
 /ios/Pods/
 
 # Secrets
-.env
+src/library/utils/config.js
 
 # Firebase Configuration Files
 ios/GoogleService-Info.plist
 ios/tinytown/GoogleService-Info.plist
 android/app/google-services.json
+
