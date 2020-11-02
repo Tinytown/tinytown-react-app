@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import config from 'tinytown/config';
+import config from 'library/utils/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
 import {bindMethods} from 'library/utils/component-ops';
