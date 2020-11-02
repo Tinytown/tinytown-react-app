@@ -22,8 +22,8 @@ The main codebase for the Tinytown React Native app.
 
 **Environment Variables**
 1. Run `yarn setup` and follow the instructions
-2. For members of the *Tinytown team*: enter your provided Developer Token
-3. For *external contributors*: Open _src/library/utils/config.js_ and replace values
+2. For *Tinytown team*: enter your provided Developer Token and install Doppler `brew install dopplerhq/cli/doppler`
+3. For *external contributors*: Open _src/library/utils/config.js_ and replace values with your own
 4. Run Metro Bundler using `yarn start`
 
 ## Troubleshooting

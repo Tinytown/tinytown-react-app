@@ -27,7 +27,12 @@ someFunction().then(R.tap(console.log))
 
 * Bias towards TouchableOpacity instead of the native Button component since the latter is not very compatible with Android.
 
-* Make sure you're using **Tabs with 2 Spaces** to indent your code. 
+* Make sure you're using **Tabs with 2 Spaces** to indent your code.
+
+### Security
+
+#### Keys and Tokens
+Our team uses [Doppler](https://doppler.com/) to manage environment variables but you can use your own keys and tokens by running `yarn setup` and then editing the _src/library/utils/config.js_ file. This file is already in .gitignore to keep you from accidentally sharing it with others.
 
 ### Pull Requests
 
