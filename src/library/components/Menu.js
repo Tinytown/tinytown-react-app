@@ -43,10 +43,9 @@ class Menu extends React.Component {
     };
     this.container = null;
   }
-
+  
   componentDidUpdate(prevProps, prevState) {
     const {showing: showingOld} = prevProps;
-    console.log({showingOld});
     if (this.props.showing !== showingOld) {
       if (this.props.showing) {
         this.show();
@@ -187,7 +186,7 @@ class Menu extends React.Component {
     const animationStarted = menuState === states.animating;
     const modalVisible = menuState === states.shown || animationStarted;
 
-    const { testID, button, style, children } = this.props;
+    const { testID, button, style, children, hideMenu } = this.props;
 
     return (
       <View ref={this.setContainerRef} collapsable={false} testID={testID}>
@@ -205,7 +204,7 @@ class Menu extends React.Component {
           ]}
           transparent
           onDismiss={this.onDismiss}>
-          <TouchableWithoutFeedback onPress={this.hide} accessible={false}>
+          <TouchableWithoutFeedback onPress={hideMenu} accessible={false}>
             <View style={StyleSheet.absoluteFill}>
               <Animated.View
                 onLayout={this.startMenuAnimation}

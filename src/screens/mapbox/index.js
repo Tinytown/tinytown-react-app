@@ -204,6 +204,7 @@ export default class Map extends Component {
   };
 
   handleClickOutside = () => {
+    console.log('handling click outside');
     this.setState({
       showingMenu: false
     });
@@ -258,6 +259,7 @@ export default class Map extends Component {
               ref={this.setMenuRef}
               button={<Text onPress={this.showMenu} style={{ color: 'white', marginTop: 16 }}>Show menu</Text>}
               showing={showingMenu}
+              hideMenu={this.hideMenu}
             >
               <MenuItem label='Really really long title' icon='twitter' onPress={this.hideMenu}/>
               <MenuItem icon='info' onPress={this.hideMenu} disabled/>
