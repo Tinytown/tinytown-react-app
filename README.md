@@ -4,8 +4,9 @@ The main codebase for the Tinytown React Native app.
 ## Instructions:
 
 1. Set up React Native environment: https://reactnative.dev/docs/environment-setup
-2. Install Yarn `brew install yarn`
-3. From root directory, issue: `yarn install`
+2. Clone this repo `git clone https://github.com/Tinytown/tinytown-react-app.git`
+3. Install Yarn `brew install yarn`
+4. From root directory, issue: `yarn install`
 
 **For iOS**
 1. Go into the iOS folder: `cd ios`
@@ -19,14 +20,11 @@ The main codebase for the Tinytown React Native app.
 2. Open a new tab in your terminal and run your Android emulator from any location. For instance: `emulator -avd Pixel_3_API_28`
 3. In original tab, from the root of repository, run `yarn react-native run-android`
 
-**Credentials**
-1. Create a new `.env` file in the root directory
-2. Add the following lines to incorporate API-related credentials
-```
-MAPBOX_ACCESS_TOKEN=<MAPBOX_ACCESS_TOKEN_VALUE>
-TWITTER_CONSUMER_SECRET=<TWITTER_CONSUMER_SECRET_VALUE>
-```
-3. Ping the #vault channel in Discord to get the keys
+**Environment Variables**
+1. Run `yarn setup` and follow the instructions
+2. For members of the *Tinytown team*: enter your provided Developer Token
+3. For *external contributors*: Open _src/library/utils/config.js_ and replace values
+4. Run Metro Bundler using `yarn start`
 
 ## Troubleshooting
 **EMFILE: too many open files**\
