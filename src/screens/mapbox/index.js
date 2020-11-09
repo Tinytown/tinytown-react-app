@@ -8,9 +8,7 @@ import { bindMethods } from 'library/utils/component-ops';
 import FAB from 'library/components/FAB';
 import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
-import Menu from '../../library/components/Menu';
-import MenuItem from '../../library/components/MenuItem';
-import MenuDivider from '../../library/components/MenuDivider';
+import { MenuContainer, MenuItem, MenuDivider } from 'library/components/Menu';
 import R from 'res/R';
 
 const { MapView, Camera } = MapboxGL;
@@ -150,7 +148,6 @@ export default class Map extends Component {
       Geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log('doing first time go to location update');
           this.setState({
             haveLocationPermission: true,
             goingToLocation: true,
@@ -185,12 +182,6 @@ export default class Map extends Component {
       });
   }
 
-  _menu = null;
-
-  setMenuRef = (ref) => {
-    this._menu = ref;
-  };
-
   hideMenu = () => {
     this.setState({
       showingMenu: false,
@@ -203,20 +194,14 @@ export default class Map extends Component {
     });
   };
 
-  handleClickOutside = () => {
-    this.setState({
-      showingMenu: false
-    });
-  }
-
   render() {
     /*
       the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const { zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading, showingMenu } = this.state;
+    const { zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading, showingMenu } = this.state; // eslint-disable-line max-len
     return (
-      <View style={styles.landscape} onPress={this.handleClickOutside}>
+      <View style={styles.landscape}>
         <MapView
           animated={true}
           style={styles.map}
@@ -254,8 +239,7 @@ export default class Map extends Component {
         </MapView>
         <View style={styles.safeArea} pointerEvents='box-none'>
           <View>
-            <Menu
-              ref={this.setMenuRef}
+            <MenuContainer
               button={<Text onPress={this.showMenu} style={{ color: 'white', marginTop: 16 }}>Show menu</Text>}
               showing={showingMenu}
               hideMenu={this.hideMenu}
@@ -265,7 +249,7 @@ export default class Map extends Component {
               <MenuItem icon='megaphone' onPress={this.hideMenu}/>
               <MenuDivider />
               <MenuItem icon='signout' onPress={this.hideMenu}/>
-            </Menu>
+            </MenuContainer>
           </View>
           <View style={styles.fabContainer}>
             <FAB

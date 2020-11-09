@@ -22,7 +22,6 @@ const easing = Easing.bezier(0.4, 0, 0.2, 1);
 const screenIndent = 8;
 
 class Menu extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -43,13 +42,13 @@ class Menu extends React.Component {
     };
     this.container = null;
   }
-  
+
   componentDidUpdate(prevProps, prevState) {
-    const {showing: showingOld} = prevProps;
+    const { showing: showingOld } = prevProps;
     if (this.props.showing !== showingOld) {
       if (this.props.showing) {
         this.show();
-      } else{
+      } else {
         this.hide();
       }
     }

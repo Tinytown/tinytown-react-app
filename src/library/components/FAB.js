@@ -5,7 +5,6 @@ import R from 'res/R';
 
 const styles = StyleSheet.create({
 
-  // CONTAINER STYLES
   container: {
     flexDirection: 'row',
     paddingLeft: 16,
@@ -31,12 +30,10 @@ const styles = StyleSheet.create({
     ...R.SHAPES.elevRed5,
   },
 
-  // ICON STYLES
   icon: {
     marginRight: 12,
   },
 
-  // TEXT STYLES
   text: {
     bottom: 1,
     color: R.COLORS.justWhite,
