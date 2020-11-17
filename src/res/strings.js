@@ -1,3 +1,3 @@
 export const button = {
-  gotoLocation: 'Go to my location'
+  gotoLocation: 'Go to my location',
 };
