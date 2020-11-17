@@ -25,7 +25,6 @@ const IconRepo = {
 }
 
 const Icon = (props) => {
-  console.log();
   const ValidatedIcon = IconRepo[props.icon] || PlaceholderIcon
   return <ValidatedIcon {...props} />
 }
