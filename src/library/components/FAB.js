@@ -8,7 +8,7 @@ import R from 'res/R';
 // Switch styles
 
 const getStyles = ({
-  theme, branded
+  theme, branded,
 }) => {
   const containerStyles = [styles.container];
   const textStyles = [styles.text];
@@ -29,7 +29,7 @@ const getStyles = ({
   if (branded) {
     textStyles.push(styles.textBranded);
   }
-  
+
   return { containerStyles, iconColor, textStyles };
 };
 
@@ -61,12 +61,12 @@ class FAB extends React.Component {
     } = this.props;
     const { containerStyles, iconColor, textStyles } = getStyles({ theme, branded });
     return (
-        <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
-          <View style={styles.iconContainer}>
-            <R.Icon icon={this.props.icon} color={iconColor}/>
-          </View>
-          <Text style={textStyles}>{label}</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
+        <View style={styles.iconContainer}>
+          <R.Icon icon={this.props.icon} color={iconColor}/>
+        </View>
+        <Text style={textStyles}>{label}</Text>
+      </TouchableOpacity>
     );
   }
 }
@@ -74,7 +74,7 @@ class FAB extends React.Component {
 // StyleSheet
 
 const styles = create({
-  
+
   container: {
     flexDirection: 'row',
     paddingLeft: 16,
@@ -82,42 +82,42 @@ const styles = create({
     paddingVertical: 12,
     borderRadius: R.SHAPES.radiusAll,
     backgroundColor: R.COLORS.asphaltGray,
-    ...R.SHAPES.elevGray5
+    ...R.SHAPES.elevGray5,
   },
 
   containerGreen: {
     backgroundColor: R.COLORS.grassGreen600,
-    ...R.SHAPES.elevGreen5
+    ...R.SHAPES.elevGreen5,
   },
 
   containerBlue: {
     backgroundColor: R.COLORS.skyBlue600,
-    ...R.SHAPES.elevBlue5
+    ...R.SHAPES.elevBlue5,
   },
 
   containerRed: {
     backgroundColor: R.COLORS.bubblegumRed600,
-    ...R.SHAPES.elevRed5
+    ...R.SHAPES.elevRed5,
   },
 
   iconContainer: {
     height: 24,
     width: 24,
-    marginRight: 12
+    marginRight: 12,
   },
 
   text: {
     color: R.COLORS.justWhite,
-    ...R.TYPOGRAPHY.subheader3
+    ...R.TYPOGRAPHY.subheader3,
   },
 
   textGray: {
-    color: R.COLORS.asphaltGray
+    color: R.COLORS.asphaltGray,
   },
 
   textBranded: {
-    ...R.TYPOGRAPHY.brandedButton
-  }
+    ...R.TYPOGRAPHY.brandedButton,
+  },
 })
 
 // Export

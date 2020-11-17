@@ -1,4 +1,4 @@
-// Index for all Components: import { AppBar, FAB } from 'library/components' 
+// Index for all Components: import { AppBar, FAB } from 'library/components'
 
 import AppBar from './AppBar';
 import FAB from './FAB';
@@ -13,5 +13,5 @@ export {
   IconButton,
   Menu,
   MenuDivider,
-  MenuItem
+  MenuItem,
 }

@@ -258,11 +258,11 @@ const styles = StyleSheet.create({
     opacity: 0,
     backgroundColor: R.COLORS.justWhite,
     borderRadius: R.SHAPES.radiusSm,
-    ...R.SHAPES.elevGray2
+    ...R.SHAPES.elevGray2,
   },
   menuContainer: {
     overflow: 'hidden',
-    paddingVertical: 8
+    paddingVertical: 8,
   },
 });
 

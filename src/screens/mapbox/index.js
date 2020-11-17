@@ -24,14 +24,14 @@ const styles = create({
   },
   map: {
     height: '100%',
-    width: '100%'
+    width: '100%',
   },
   safeArea: {
     position: 'absolute',
     width: '100%',
     bottom: StaticSafeAreaInsets.safeAreaInsetsBottom,
     top: StaticSafeAreaInsets.safeAreaInsetsTop,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   fabContainer: {
     position: 'absolute',

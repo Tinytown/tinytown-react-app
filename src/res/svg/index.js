@@ -19,7 +19,7 @@ const IconRepo = {
   twitter: TwitterIcon,
   close: CloseIcon,
   share: Platform.OS === 'android' ? ShareDroidIcon : ShareiOSIcon,
-  overflow: Platform.OS=== 'android' ? OverflowDroidIcon : OverflowiOSIcon,
+  overflow: Platform.OS === 'android' ? OverflowDroidIcon : OverflowiOSIcon,
   info: InfoIcon,
   signOut: SignOutIcon,
 }

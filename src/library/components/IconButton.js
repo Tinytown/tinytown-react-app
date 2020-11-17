@@ -18,7 +18,7 @@ const Touchable =
 
 class IconButton extends React.Component {
   static propTypes = {
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -31,7 +31,7 @@ class IconButton extends React.Component {
       onPress,
     } = this.props;
     return (
-      <View style={[styles.container, disabled && { opacity: R.COLORS.opacity40}]}>
+      <View style={[styles.container, disabled && { opacity: R.COLORS.opacity40 }]}>
         <Touchable
           disabled={disabled}
           onPress={onPress}
@@ -45,29 +45,29 @@ class IconButton extends React.Component {
           </View>
         </Touchable>
       </View>
-  );
+    );
   }
 }
 
 // StyleSheet
 
 const styles = create({
-  
+
   container: {
     borderRadius: R.SHAPES.radiusAll,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
 
   assetContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     height: 48,
-    width: 48
+    width: 48,
   },
 
   iconContainer: {
     width: 24,
-    height: 24
+    height: 24,
   },
 
 });

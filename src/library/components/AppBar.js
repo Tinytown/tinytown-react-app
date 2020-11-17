@@ -10,7 +10,7 @@ import { IconButton, Menu, MenuDivider, MenuItem } from 'library/components';
 class HomeBar extends React.Component {
   _menu = null;
 
-  settingsMenu = ref => {
+  settingsMenu = (ref) => {
     this._menu = ref;
   };
 
@@ -25,18 +25,18 @@ class HomeBar extends React.Component {
   render() {
     return (
       <View style={[styles.homeContainer]}>
-        <View style={[styles.itemsContainer, {flexDirection: 'row-reverse'}]}>
+        <View style={[styles.itemsContainer, { flexDirection: 'row-reverse' }]}>
           <Menu
-          ref={this.settingsMenu}
-          button={
-          <TouchableOpacity 
-          style={styles.accountButton} 
-          onPress={this.showMenu}>
-            <Image 
-            source={require('res/img/placeholder.png')}
-            style={styles.avatarImage}>
-            </Image>
-          </TouchableOpacity>}>
+            ref={this.settingsMenu}
+            button={
+              <TouchableOpacity
+                style={styles.accountButton}
+                onPress={this.showMenu}>
+                <Image
+                  source={require('res/img/placeholder.png')}
+                  style={styles.avatarImage}>
+                </Image>
+              </TouchableOpacity>}>
             <MenuItem label={R.STRINGS.menuItem.about} icon='info' onPress={this.hideMenu}/>
             <MenuDivider />
             <MenuItem label={R.STRINGS.menuItem.signOut} icon='signOut' onPress={this.hideMenu}/>
@@ -62,15 +62,15 @@ class NavBar extends React.Component {
     const {
       label,
       onClose,
-      children
+      children,
     } = this.props;
     return (
       <View style={styles.navContainer}>
-        <View style={[styles.itemsContainer, {flexDirection: 'row'}]}>
-            <IconButton icon='close' color={R.COLORS.graniteGray} onPress={onClose}/>
-            <Text style={styles.navLabel}>{label}</Text>
+        <View style={[styles.itemsContainer, { flexDirection: 'row' }]}>
+          <IconButton icon='close' color={R.COLORS.graniteGray} onPress={onClose}/>
+          <Text style={styles.navLabel}>{label}</Text>
         </View>
-        <View style={[styles.itemsContainer, {flexDirection: 'row-reverse'}]}>
+        <View style={[styles.itemsContainer, { flexDirection: 'row-reverse' }]}>
           {children}
         </View>
       </View>
@@ -81,52 +81,52 @@ class NavBar extends React.Component {
 // StyleSheet
 
 const styles = create({
-  
+
   homeContainer: {
     flexDirection: 'row',
     height: 72,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
 
   navContainer: {
     flexDirection: 'row',
     height: 56,
     paddingHorizontal: 4,
-    backgroundColor: R.COLORS.justWhite
+    backgroundColor: R.COLORS.justWhite,
   },
 
   itemsContainer: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   navLabel: {
     color: R.COLORS.asphaltGray,
     left: 12,
     top: 1,
-    ...R.TYPOGRAPHY.headline5
+    ...R.TYPOGRAPHY.headline5,
   },
 
   accountButton: {
     width: 44,
     height: 44,
-    marginRight: -2, 
+    marginRight: -2,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: R.COLORS.asphaltGray,
-    borderRadius: R.SHAPES.radiusAll
+    borderRadius: R.SHAPES.radiusAll,
   },
 
   avatarImage: {
     width: 40,
     height: 40,
-    borderRadius: R.SHAPES.radiusAll
+    borderRadius: R.SHAPES.radiusAll,
   },
 });
 
 // Export
 
-const AppBar = props => {
+const AppBar = (props) => {
   const Component = props.type === 'home' ? HomeBar : NavBar;
   return <Component {...props} />
 }

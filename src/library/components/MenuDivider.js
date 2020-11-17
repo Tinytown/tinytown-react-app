@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   divider: {
     flex: 1,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    marginVertical: 8
+    marginVertical: 8,
   },
 });
 

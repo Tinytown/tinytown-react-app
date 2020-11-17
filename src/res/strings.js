@@ -1,8 +1,8 @@
 export const button = {
-  gotoLocation: 'Go to my location'
+  gotoLocation: 'Go to my location',
 };
 
 export const menuItem = {
   about: 'About',
-  signOut: 'Sign Out'
+  signOut: 'Sign Out',
 };
