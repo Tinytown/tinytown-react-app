@@ -37,9 +37,9 @@ class HomeBar extends React.Component {
             style={styles.avatarImage}>
             </Image>
           </TouchableOpacity>}>
-            <MenuItem label={R.strings.menuItem.about} icon='info' onPress={this.hideMenu}/>
+            <MenuItem label={R.STRINGS.menuItem.about} icon='info' onPress={this.hideMenu}/>
             <MenuDivider />
-            <MenuItem label={R.strings.menuItem.signOut} icon='signOut' onPress={this.hideMenu}/>
+            <MenuItem label={R.STRINGS.menuItem.signOut} icon='signOut' onPress={this.hideMenu}/>
           </Menu>
         </View>
       </View>
@@ -67,7 +67,7 @@ class NavBar extends React.Component {
     return (
       <View style={styles.navContainer}>
         <View style={[styles.itemsContainer, {flexDirection: 'row'}]}>
-            <IconButton icon='close' color={R.colors.graniteGray} onPress={onClose}/>
+            <IconButton icon='close' color={R.COLORS.graniteGray} onPress={onClose}/>
             <Text style={styles.navLabel}>{label}</Text>
         </View>
         <View style={[styles.itemsContainer, {flexDirection: 'row-reverse'}]}>
@@ -92,7 +92,7 @@ const styles = create({
     flexDirection: 'row',
     height: 56,
     paddingHorizontal: 4,
-    backgroundColor: R.colors.justWhite
+    backgroundColor: R.COLORS.justWhite
   },
 
   itemsContainer: {
@@ -101,10 +101,10 @@ const styles = create({
   },
 
   navLabel: {
-    color: R.colors.asphaltGray,
+    color: R.COLORS.asphaltGray,
     left: 12,
     top: 1,
-    ...R.typography.headline5
+    ...R.TYPOGRAPHY.headline5
   },
 
   accountButton: {
@@ -113,14 +113,14 @@ const styles = create({
     marginRight: -2, 
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: R.colors.asphaltGray,
-    borderRadius: R.shapes.radiusAll
+    backgroundColor: R.COLORS.asphaltGray,
+    borderRadius: R.SHAPES.radiusAll
   },
 
   avatarImage: {
     width: 40,
     height: 40,
-    borderRadius: R.shapes.radiusAll
+    borderRadius: R.SHAPES.radiusAll
   },
 });
 

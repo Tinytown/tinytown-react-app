@@ -42,13 +42,13 @@ class MenuItem extends React.Component {
         <Touchable
           disabled={disabled}
           onPress={onPress}
-          background={TouchableNativeFeedback.Ripple(R.colors.sidewalkGray)}
-          underlayColor={R.colors.snowGray}
+          background={TouchableNativeFeedback.Ripple(R.COLORS.sidewalkGray)}
+          underlayColor={R.COLORS.snowGray}
         >
-          <View style={[styles.container, disabled && { opacity: R.colors.disabled}]}>
+          <View style={[styles.container, disabled && { opacity: R.COLORS.disabled}]}>
             <View style={styles.assetContainer}>
               <View style={styles.iconContainer}>
-                <R.Icon icon={this.props.icon} color={R.colors.graniteGray}></R.Icon>
+                <R.Icon icon={this.props.icon} color={R.COLORS.graniteGray}></R.Icon>
               </View>
             </View>
             <Text
@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
 
   label: {
     width: 120,
-    color: R.colors.graniteGray,
-    ...R.typography.subheader3
+    color: R.COLORS.graniteGray,
+    ...R.TYPOGRAPHY.subheader3
   },
 
 });

@@ -256,9 +256,9 @@ const styles = StyleSheet.create({
   shadowMenuContainer: {
     position: 'absolute',
     opacity: 0,
-    backgroundColor: R.colors.justWhite,
-    borderRadius: R.shapes.radiusSm,
-    ...R.shapes.elevGray2
+    backgroundColor: R.COLORS.justWhite,
+    borderRadius: R.SHAPES.radiusSm,
+    ...R.SHAPES.elevGray2
   },
   menuContainer: {
     overflow: 'hidden',

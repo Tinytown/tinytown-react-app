@@ -12,7 +12,7 @@ const getStyles = ({
 }) => {
   const containerStyles = [styles.container];
   const textStyles = [styles.text];
-  let iconColor = R.colors.justWhite;
+  let iconColor = R.COLORS.justWhite;
 
   if (theme === 'green') {
     containerStyles.push(styles.containerGreen);
@@ -80,24 +80,24 @@ const styles = create({
     paddingLeft: 16,
     paddingRight: 20,
     paddingVertical: 12,
-    borderRadius: R.shapes.radiusAll,
-    backgroundColor: R.colors.asphaltGray,
-    ...R.shapes.elevGray5
+    borderRadius: R.SHAPES.radiusAll,
+    backgroundColor: R.COLORS.asphaltGray,
+    ...R.SHAPES.elevGray5
   },
 
   containerGreen: {
-    backgroundColor: R.colors.grassGreen600,
-    ...R.shapes.elevGreen5
+    backgroundColor: R.COLORS.grassGreen600,
+    ...R.SHAPES.elevGreen5
   },
 
   containerBlue: {
-    backgroundColor: R.colors.skyBlue600,
-    ...R.shapes.elevBlue5
+    backgroundColor: R.COLORS.skyBlue600,
+    ...R.SHAPES.elevBlue5
   },
 
   containerRed: {
-    backgroundColor: R.colors.bubblegumRed600,
-    ...R.shapes.elevRed5
+    backgroundColor: R.COLORS.bubblegumRed600,
+    ...R.SHAPES.elevRed5
   },
 
   iconContainer: {
@@ -107,16 +107,16 @@ const styles = create({
   },
 
   text: {
-    color: R.colors.justWhite,
-    ...R.typography.subheader3
+    color: R.COLORS.justWhite,
+    ...R.TYPOGRAPHY.subheader3
   },
 
   textGray: {
-    color: R.colors.asphaltGray
+    color: R.COLORS.asphaltGray
   },
 
   textBranded: {
-    ...R.typography.brandedButton
+    ...R.TYPOGRAPHY.brandedButton
   }
 })
 
