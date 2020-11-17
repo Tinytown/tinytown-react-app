@@ -34,4 +34,7 @@ export const snowGray = '#ECF1FA';
 export const justWhite = '#FFFFFF';
 
 // TRANSPARENCY
-export const disabled = 0.4;
+export const opacity40 = {
+  opacity: 0.4,
+};
+

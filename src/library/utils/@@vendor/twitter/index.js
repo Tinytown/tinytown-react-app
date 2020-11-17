@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
-import {NativeModules} from 'react-native';
+import { NativeModules } from 'react-native';
 
-const {RNTwitterSignIn} = NativeModules;
+const { RNTwitterSignIn } = NativeModules;
 
 export async function login() {
   try {

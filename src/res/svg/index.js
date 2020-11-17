@@ -30,6 +30,4 @@ const Icon = (props) => {
   return <ValidatedIcon {...props} />
 }
 
-
 export default Icon;
-

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
+
 import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
 
@@ -16,11 +17,11 @@ const getStyles = ({
   if (theme === 'green') {
     containerStyles.push(styles.containerGreen);
     textStyles.push(styles.textGray);
-    iconColor = R.colors.asphaltGray;
+    iconColor = R.COLORS.asphaltGray;
   } else if (theme === 'blue') {
     containerStyles.push(styles.containerBlue);
     textStyles.push(styles.textGray);
-    iconColor = R.colors.asphaltGray;
+    iconColor = R.COLORS.asphaltGray;
   } else if (theme === 'red') {
     containerStyles.push(styles.containerRed);
   }
@@ -28,7 +29,7 @@ const getStyles = ({
   if (branded) {
     textStyles.push(styles.textBranded);
   }
-
+  
   return { containerStyles, iconColor, textStyles };
 };
 
@@ -40,14 +41,14 @@ class FAB extends React.Component {
     theme: PropTypes.oneOf(['green', 'blue', 'red']),
     branded: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
     label: 'Button Label',
     theme: 'default',
     branded: false,
-    disabled: false
+    disabled: false,
   };
 
   render() {
@@ -56,7 +57,7 @@ class FAB extends React.Component {
       theme,
       branded,
       onPress,
-      disabled
+      disabled,
     } = this.props;
     const { containerStyles, iconColor, textStyles } = getStyles({ theme, branded });
     return (

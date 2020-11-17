@@ -1,19 +1,19 @@
-// Combines all style variables under one file: import R from 'res/R' 
+// Combines all style variables under one file: import R from 'res/R'
 
-import * as colors from './colors';
-import * as typography from './typography';
-import * as shapes from './shapes';
-import * as strings from './strings';
-import * as images from './img';
+import * as COLORS from './colors';
+import * as TYPOGRAPHY from './typography';
+import * as SHAPES from './shapes';
+import * as STRINGS from './strings';
+import * as IMAGES from './img';
 import Icon from './svg';
 
 const R = {
-  colors,
-  typography,
-  shapes,
-  strings,
-  images,
-  Icon
+  COLORS,
+  TYPOGRAPHY,
+  SHAPES,
+  STRINGS,
+  IMAGES,
+  Icon,
 }
 
 export default R

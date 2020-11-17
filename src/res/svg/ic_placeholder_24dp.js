@@ -1,5 +1,5 @@
-import * as React from "react"
-import Svg, { Circle } from "react-native-svg"
+import * as React from 'react'
+import Svg, { Circle } from 'react-native-svg'
 
 function PlaceholderIcon(props) {
   return (

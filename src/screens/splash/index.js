@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import { Text, TouchableOpacity, NativeModules, View, StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { Text, TouchableOpacity, NativeModules, View, StyleSheet } from 'react-native';
+
 import * as twitterApi from 'library/utils/@@vendor/twitter';
 import config from 'tinytown/config';
 import R from 'res/R';
 
-
-const {RNTwitterSignIn} = NativeModules;
+const { RNTwitterSignIn } = NativeModules;
 
 export default class Splash extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class Splash extends Component {
     this.state = {
       isLoggedIn: false,
     };
-    
+
     RNTwitterSignIn.init('zPSC91qO9vkQvc5pdblqTdlnW', config.TWITTER_CONSUMER_SECRET);
   }
 
@@ -22,9 +22,9 @@ export default class Splash extends Component {
     try {
       await twitterApi.login();
       this.setState({
-        isLoggedIn: true
+        isLoggedIn: true,
       });
-    } catch(e) {
+    } catch (e) {
       throw e;
     }
   }
@@ -32,21 +32,21 @@ export default class Splash extends Component {
   render() {
     return (
       <View style={styles.landscape}>
-          <TouchableOpacity
-            style={styles.twitterButton}
-            onPress={() =>
-              this.twitterLogin()
-                .then(() => {
-                  console.log('Signed in with Twitter!');
-                })
-                .catch(e => {
-                  console.log(e.message);
-                })
-            }
-          >
-            <Text style={styles.twitterButtonText}>
+        <TouchableOpacity
+          style={styles.twitterButton}
+          onPress={() =>
+            this.twitterLogin()
+              .then(() => {
+                console.log('Signed in with Twitter!');
+              })
+              .catch((e) => {
+                console.log(e.message);
+              })
+          }
+        >
+          <Text style={styles.twitterButtonText}>
               Twitter Sign-In
-            </Text>
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -55,24 +55,24 @@ export default class Splash extends Component {
 
 const styles = StyleSheet.create({
   landscape: {
-    backgroundColor: R.colors.justWhite,
-    height: '100%'
+    backgroundColor: R.COLORS.justWhite,
+    height: '100%',
   },
   fadingContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   twitterButton: {
-    backgroundColor: R.colors.bubblegumRed600,
-    borderRadius: R.shapes.radiusAll,
+    backgroundColor: R.COLORS.bubblegumRed600,
+    borderRadius: R.SHAPES.radiusAll,
     width: 200,
     height: 50,
-    ...R.shapes.elevRed5,
+    ...R.SHAPES.elevRed5,
   },
   twitterButtonText: {
     textAlign: 'center',
     marginTop: 14,
-    color: R.colors.justWhite
-  }
+    color: R.COLORS.justWhite,
+  },
 });
