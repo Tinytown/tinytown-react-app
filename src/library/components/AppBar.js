@@ -9,26 +9,28 @@ import { IconButton, Menu, MenuDivider, MenuItem } from 'library/components';
 // HomeBar - Used in the Home Screen
 
 class HomeBar extends React.Component {
-  _menu = null;
-
-  settingsMenu = (ref) => {
-    this._menu = ref;
-  };
+  state = { showingMenu: false };
 
   hideMenu = () => {
-    this._menu.hide();
+    this.setState({
+      showingMenu: false,
+    });
   };
 
   showMenu = () => {
-    this._menu.show();
+    this.setState({
+      showingMenu: true,
+    });
   };
 
   render() {
+    const { showingMenu } = this.state
     return (
       <View style={[styles.homeContainer]}>
         <View style={[styles.itemsContainer, { flexDirection: 'row-reverse' }]}>
           <Menu
-            ref={this.settingsMenu}
+            showing={showingMenu}
+            hideMenu={this.hideMenu}
             button={
               <TouchableOpacity
                 style={styles.accountButton}
