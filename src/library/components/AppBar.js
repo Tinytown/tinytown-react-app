@@ -127,11 +127,7 @@ const styles = create({
 // Export
 
 const AppBar = props => {
-  switch(props.type) {
-    case 'home':
-      return <HomeBar {...props} />;
-    default:
-      return <NavBar {...props} />;
-  }
+  const Component = props.type === 'home' ? HomeBar : NavBar;
+  return <Component {...props} />
 }
 export default AppBar;
