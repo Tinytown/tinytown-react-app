@@ -39,7 +39,7 @@ class HomeBar extends React.Component {
           </TouchableOpacity>}>
             <MenuItem label={R.strings.menuItem.about} icon='info' onPress={this.hideMenu}/>
             <MenuDivider />
-            <MenuItem label={R.strings.menuItem.signOut} icon='sign_out' onPress={this.hideMenu}/>
+            <MenuItem label={R.strings.menuItem.signOut} icon='signOut' onPress={this.hideMenu}/>
           </Menu>
         </View>
       </View>

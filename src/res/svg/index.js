@@ -13,41 +13,23 @@ import OverflowDroidIcon from './ic_overflow_droid_24dp';
 import InfoIcon from './ic_info_circle_24dp';
 import SignOutIcon from './ic_sign_out_24dp';
 
-Platform.OS === 'android'
-const Icon = props => {
-  if (props.icon === 'crosshairs') {
-    return <CrosshairsIcon {...props} />;
+const IconRepo = {
+  crosshairs: CrosshairsIcon,
+  megaphone: MegaphoneIcon,
+  twitter: TwitterIcon,
+  close: CloseIcon,
+  share: Platform.OS === 'android' ? ShareDroidIcon : ShareiOSIcon,
+  overflow: Platform.OS=== 'android' ? OverflowDroidIcon : OverflowiOSIcon,
+  info: InfoIcon,
+  signOut: SignOutIcon,
+}
 
-  } else if (props.icon === 'megaphone') {
-    return <MegaphoneIcon {...props} />;
+const Icon = (props) => {
+  console.log();
+  const ValidatedIcon = IconRepo[props.icon] || PlaceholderIcon
+  return <ValidatedIcon {...props} />
+}
 
-  } else if (props.icon === 'twitter') {
-    return <TwitterIcon {...props} />;
-
-  } else if (props.icon === 'close') {
-    return <CloseIcon {...props} />;
-
-  } else if (props.icon === 'share' && Platform.OS === 'android') {
-    return <ShareDroidIcon {...props} />;
-
-  } else if (props.icon === 'share' && Platform.OS === 'ios') {
-    return <ShareiOSIcon {...props} />;
-
-  } else if (props.icon === 'overflow' && Platform.OS === 'android') {
-    return <OverflowDroidIcon {...props} />;
-
-  } else if (props.icon === 'overflow' && Platform.OS === 'ios') {
-    return <OverflowiOSIcon {...props} />;
-
-  } else if (props.icon === 'info') {
-    return <InfoIcon {...props} />;
-
-  } else if (props.icon === 'sign_out') {
-    return <SignOutIcon {...props} />;
-  
-  } else {
-    return <PlaceholderIcon {...props} />;
-  }
-};
 
 export default Icon;
+
