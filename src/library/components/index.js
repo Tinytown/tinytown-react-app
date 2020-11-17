@@ -3,9 +3,9 @@
 import AppBar from './AppBar';
 import FAB from './FAB';
 import IconButton from './IconButton';
-import Menu from './Menu';
-import MenuDivider from './MenuDivider';
-import MenuItem from './MenuItem';
+import Menu from './Menu/MenuContainer';
+import MenuDivider from './Menu/MenuDivider';
+import MenuItem from './Menu/MenuItem';
 
 export {
   AppBar,
