@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, NativeModules, View, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, NativeModules, View } from 'react-native';
 
 import * as twitterApi from 'library/utils/@@vendor/twitter';
 import config from 'tinytown/config';
+import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
 
 const { RNTwitterSignIn } = NativeModules;
@@ -53,7 +54,7 @@ export default class Splash extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = create({
   landscape: {
     backgroundColor: R.COLORS.justWhite,
     height: '100%',

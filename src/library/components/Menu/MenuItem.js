@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Platform,
-  StyleSheet,
   Text,
   TouchableHighlight,
   TouchableNativeFeedback,
   View,
 } from 'react-native';
+
+import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
 
 const Touchable =
@@ -57,7 +58,7 @@ class MenuItem extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity, Text } from 'react-native';
+
 import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
 import { IconButton, Menu, MenuDivider, MenuItem } from 'library/components';

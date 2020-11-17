@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, PermissionsAndroid, Platform, Text } from 'react-native';
+import { View, PermissionsAndroid, Platform } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import { create } from 'library/utils/normalize.js'
 import MapboxGL from '@react-native-mapbox-gl/maps';
