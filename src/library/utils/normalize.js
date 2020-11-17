@@ -1,8 +1,6 @@
 import * as R from 'ramda';
 const {cond, T: otherwise, identity, always} = R;
-import { PixelRatio, Dimensions } from 'react-native';
-import { StyleSheet } from 'react-native';
-
+import { PixelRatio, StyleSheet } from 'react-native';
 
 const ratio = cond([
   [r => r > 0 && r <= 0.75, always(0.75)],
@@ -43,18 +41,14 @@ export const create = (
     'left',
   ]
 ) => {
-  const normalizedStyles = {};
-  Object.keys(styles).forEach((key) => {
-    normalizedStyles[key] = {};
-    Object.keys(styles[key]).forEach((property) => {
-      if (targetProperties.includes(property) && typeof (styles[key][property]) === 'number') {
-        normalizedStyles[key][property] = normalize(styles[key][property]);
-      } else {
-        normalizedStyles[key][property] = styles[key][property];
-      }
-    });
-  });
-
+  const isNumber = R.is(Number)
+  const isInTarget = (property) => targetProperties.includes(property)
+  const propertyToNormalize = (property, value) => isInTarget(property) && isNumber(value);
+  
+  const propOverride = (style) => {
+    return R.mapObjIndexed((value, property) => propertyToNormalize(property, value) ? normalize(value) : value, style)
+  }
+  const normalizedStyles = R.map(propOverride, styles)
   return StyleSheet.create(normalizedStyles);
 };
 
