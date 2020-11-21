@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
-
 import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
-
-// Switch styles
 
 const getStyles = ({
   theme, branded,
@@ -32,8 +29,6 @@ const getStyles = ({
 
   return { containerStyles, iconColor, textStyles };
 };
-
-// Foating Action Button (FAB)
 
 class FAB extends React.Component {
   static propTypes = {
@@ -71,10 +66,7 @@ class FAB extends React.Component {
   }
 }
 
-// StyleSheet
-
 const styles = create({
-
   container: {
     flexDirection: 'row',
     paddingLeft: 16,
@@ -119,7 +111,5 @@ const styles = create({
     ...R.TYPOGRAPHY.brandedButton,
   },
 })
-
-// Export
 
 export default FAB;

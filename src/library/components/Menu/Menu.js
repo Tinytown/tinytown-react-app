@@ -10,7 +10,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-
 import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
 

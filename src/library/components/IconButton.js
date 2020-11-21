@@ -14,8 +14,6 @@ const Touchable =
     ? TouchableNativeFeedback
     : TouchableHighlight;
 
-// Icon Button
-
 class IconButton extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
@@ -49,10 +47,7 @@ class IconButton extends React.Component {
   }
 }
 
-// StyleSheet
-
 const styles = create({
-
   container: {
     borderRadius: R.SHAPES.radiusAll,
     overflow: 'hidden',
@@ -71,7 +66,5 @@ const styles = create({
   },
 
 });
-
-// Export
 
 export default IconButton;

@@ -7,7 +7,6 @@ import {
   TouchableNativeFeedback,
   View,
 } from 'react-native';
-
 import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
 
@@ -84,7 +83,6 @@ const styles = create({
     color: R.COLORS.graniteGray,
     ...R.TYPOGRAPHY.subheader3,
   },
-
 });
 
 export default MenuItem;
