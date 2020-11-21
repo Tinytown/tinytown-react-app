@@ -1,49 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { create } from 'library/utils/normalize.js'
 import R from 'res/R';
 import { Menu, MenuDivider, MenuItem } from './Menu';
 
-class HomeBar extends React.Component {
-  state = { showingMenu: false };
+const HomeBar = () => {
+  const [showMenu, setShowMenu] = useState(false)
 
-  hideMenu = () => {
-    this.setState({
-      showingMenu: false,
-    });
-  };
-
-  showMenu = () => {
-    this.setState({
-      showingMenu: true,
-    });
-  };
-
-  render() {
-    const { showingMenu } = this.state
-    return (
-      <View style={[styles.homeContainer]}>
-        <View style={[styles.itemsContainer, { flexDirection: 'row-reverse' }]}>
-          <Menu
-            showing={showingMenu}
-            hideMenu={this.hideMenu}
-            button={
-              <TouchableOpacity
-                style={styles.accountButton}
-                onPress={this.showMenu}>
-                <Image
-                  source={require('res/img/placeholder.png')}
-                  style={styles.avatarImage}>
-                </Image>
-              </TouchableOpacity>}>
-            <MenuItem label={R.STRINGS.menuItem.about} icon='info' onPress={this.hideMenu}/>
-            <MenuDivider />
-            <MenuItem label={R.STRINGS.menuItem.signOut} icon='signOut' onPress={this.hideMenu}/>
-          </Menu>
-        </View>
+  return (
+    <View style={[styles.homeContainer]}>
+      <View style={[styles.itemsContainer, { flexDirection: 'row-reverse' }]}>
+        <Menu
+          showing={showMenu}
+          hideMenu={() => setShowMenu(false)}
+          button={
+            <TouchableOpacity
+              style={styles.accountButton}
+              onPress={() => setShowMenu(true)}>
+              <Image
+                source={require('res/img/placeholder.png')}
+                style={styles.avatarImage}>
+              </Image>
+            </TouchableOpacity>}>
+          <MenuItem label={R.STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
+          <MenuDivider />
+          <MenuItem label={R.STRINGS.menuItem.signOut} icon='signOut' onPress={() => setShowMenu(false)}/>
+        </Menu>
       </View>
-    );
-  }
+    </View>
+  )
 }
 
 const styles = create({
