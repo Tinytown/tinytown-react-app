@@ -6,10 +6,9 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
 import CompassHeading from 'react-native-compass-heading';
 import _ from 'lodash';
-
 import config from 'tinytown/config';
 import { bindMethods } from 'library/utils/component-ops';
-import { AppBar, FAB } from 'library/components';
+import { HomeBar, FAB } from 'library/components';
 import R from 'res/R';
 
 const { MapView, Camera } = MapboxGL;
@@ -239,7 +238,7 @@ export default class Map extends Component {
           </Camera>
         </MapView>
         <View style={styles.safeArea} pointerEvents='box-none'>
-          <AppBar type='home'/>
+          <HomeBar />
           <View style={styles.fabContainer}>
             <FAB
               label={R.STRINGS.button.gotoLocation}
