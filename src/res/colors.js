@@ -37,3 +37,4 @@ export const justWhite = '#FFFFFF';
 export const opacity40 = {
   opacity: 0.4,
 };
+

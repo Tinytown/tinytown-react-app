@@ -1,70 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import R from 'res/R';
-
-const styles = StyleSheet.create({
-
-  container: {
-    flexDirection: 'row',
-    paddingLeft: 16,
-    paddingRight: 20,
-    paddingVertical: 12,
-    borderRadius: R.SHAPES.radiusAll,
-    backgroundColor: R.COLORS.asphaltGray,
-    ...R.SHAPES.elevGray5,
-  },
-
-  containerGreen: {
-    backgroundColor: R.COLORS.grassGreen600,
-    ...R.SHAPES.elevGreen5,
-  },
-
-  containerBlue: {
-    backgroundColor: R.COLORS.skyBlue600,
-    ...R.SHAPES.elevBlue5,
-  },
-
-  containerRed: {
-    backgroundColor: R.COLORS.bubblegumRed600,
-    ...R.SHAPES.elevRed5,
-  },
-
-  icon: {
-    marginRight: 12,
-  },
-
-  text: {
-    bottom: 1,
-    color: R.COLORS.justWhite,
-    ...R.TYPOGRAPHY.subheader3,
-  },
-
-  textGray: {
-    color: R.COLORS.asphaltGray,
-  },
-
-  textBranded: {
-    ...R.TYPOGRAPHY.brandedButton,
-  },
-})
+import { TouchableOpacity, Text, View } from 'react-native';
+import { create } from 'library/utils/normalize.js'
+import RES from 'res';
 
 const getStyles = ({
   theme, branded,
 }) => {
   const containerStyles = [styles.container];
-  const iconStyles = [styles.icon];
   const textStyles = [styles.text];
-  let iconColor = R.COLORS.justWhite;
+  let iconColor = RES.COLORS.justWhite;
 
   if (theme === 'green') {
     containerStyles.push(styles.containerGreen);
     textStyles.push(styles.textGray);
-    iconColor = R.COLORS.asphaltGray;
+    iconColor = RES.COLORS.asphaltGray;
   } else if (theme === 'blue') {
     containerStyles.push(styles.containerBlue);
     textStyles.push(styles.textGray);
-    iconColor = R.COLORS.asphaltGray;
+    iconColor = RES.COLORS.asphaltGray;
   } else if (theme === 'red') {
     containerStyles.push(styles.containerRed);
   }
@@ -73,7 +27,7 @@ const getStyles = ({
     textStyles.push(styles.textBranded);
   }
 
-  return { containerStyles, iconStyles, iconColor, textStyles };
+  return { containerStyles, iconColor, textStyles };
 };
 
 class FAB extends React.Component {
@@ -100,14 +54,62 @@ class FAB extends React.Component {
       onPress,
       disabled,
     } = this.props;
-    const { containerStyles, iconStyles, iconColor, textStyles } = getStyles({ theme, branded });
+    const { containerStyles, iconColor, textStyles } = getStyles({ theme, branded });
     return (
       <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
-        <R.Icon icon={this.props.icon} style={iconStyles} color={iconColor} />
+        <View style={styles.iconContainer}>
+          <RES.Icon icon={this.props.icon} color={iconColor}/>
+        </View>
         <Text style={textStyles}>{label}</Text>
       </TouchableOpacity>
     );
   }
 }
+
+const styles = create({
+  container: {
+    flexDirection: 'row',
+    paddingLeft: 16,
+    paddingRight: 20,
+    paddingVertical: 12,
+    borderRadius: RES.SHAPES.radiusAll,
+    backgroundColor: RES.COLORS.asphaltGray,
+    ...RES.SHAPES.elevGray5,
+  },
+
+  containerGreen: {
+    backgroundColor: RES.COLORS.grassGreen600,
+    ...RES.SHAPES.elevGreen5,
+  },
+
+  containerBlue: {
+    backgroundColor: RES.COLORS.skyBlue600,
+    ...RES.SHAPES.elevBlue5,
+  },
+
+  containerRed: {
+    backgroundColor: RES.COLORS.bubblegumRed600,
+    ...RES.SHAPES.elevRed5,
+  },
+
+  iconContainer: {
+    height: 24,
+    width: 24,
+    marginRight: 12,
+  },
+
+  text: {
+    color: RES.COLORS.justWhite,
+    ...RES.TYPOGRAPHY.subheader3,
+  },
+
+  textGray: {
+    color: RES.COLORS.asphaltGray,
+  },
+
+  textBranded: {
+    ...RES.TYPOGRAPHY.brandedButton,
+  },
+})
 
 export default FAB;

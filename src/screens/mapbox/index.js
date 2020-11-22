@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
+import { View, PermissionsAndroid, Platform } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import config from 'tinytown/config';
+import { create } from 'library/utils/normalize.js'
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
-import { bindMethods } from 'library/utils/component-ops';
-import FAB from 'library/components/FAB';
-import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
-import { MenuContainer, MenuItem, MenuDivider } from 'library/components/Menu';
-import R from 'res/R';
+import _ from 'lodash';
+import config from 'tinytown/config';
+import { bindMethods } from 'library/utils/component-ops';
+import { HomeBar, FAB } from 'library/components';
+import RES from 'res';
 
 const { MapView, Camera } = MapboxGL;
 
@@ -17,7 +17,7 @@ MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const isAndroid = Platform.OS === 'android';
 
-const styles = StyleSheet.create({
+const styles = create({
   landscape: {
     height: '100%',
   },
@@ -221,7 +221,7 @@ export default class Map extends Component {
               id={'customUserLocationIcon'}
               style={{
                 iconAllowOverlap: true,
-                iconImage: R.IMAGES.userMarker,
+                iconImage: RES.IMAGES.userMarker,
                 iconSize: 0.4,
                 iconRotate: heading || 0,
               }}
@@ -238,22 +238,10 @@ export default class Map extends Component {
           </Camera>
         </MapView>
         <View style={styles.safeArea} pointerEvents='box-none'>
-          <View>
-            <MenuContainer
-              button={<Text onPress={this.showMenu} style={{ color: 'white', marginTop: 16 }}>Show menu</Text>}
-              showing={showingMenu}
-              hideMenu={this.hideMenu}
-            >
-              <MenuItem label='Really really long title' icon='twitter' onPress={this.hideMenu}/>
-              <MenuItem icon='info' onPress={this.hideMenu} disabled/>
-              <MenuItem icon='megaphone' onPress={this.hideMenu}/>
-              <MenuDivider />
-              <MenuItem icon='signout' onPress={this.hideMenu}/>
-            </MenuContainer>
-          </View>
+          <HomeBar />
           <View style={styles.fabContainer}>
             <FAB
-              label={R.STRINGS.button.gotoLocation}
+              label={RES.STRINGS.button.gotoLocation}
               theme='green' icon='crosshairs'
               onPress={this.goToLocation}
               disabled={goingToLocation}/>

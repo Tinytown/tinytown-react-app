@@ -10,7 +10,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import R from 'res/R';
+import { create } from 'library/utils/normalize.js'
+import RES from 'res';
 
 const states = {
   hidden: 'hidden',
@@ -229,13 +230,13 @@ Menu.defaultProps = {
   animationDuration: 300,
 };
 
-const styles = StyleSheet.create({
+const styles = create({
   shadowMenuContainer: {
     position: 'absolute',
     opacity: 0,
-    backgroundColor: R.COLORS.justWhite,
-    borderRadius: R.SHAPES.radiusSm,
-    ...R.SHAPES.elevGray2,
+    backgroundColor: RES.COLORS.justWhite,
+    borderRadius: RES.SHAPES.radiusSm,
+    ...RES.SHAPES.elevGray2,
   },
   menuContainer: {
     overflow: 'hidden',

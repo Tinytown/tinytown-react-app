@@ -1,16 +1,17 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import R from 'res/R';
+import { create } from 'library/utils/normalize.js'
+import RES from 'res';
 
 function MenuDivider({ color }) {
   return <View style={[styles.divider, { borderBottomColor: color }]} />;
 }
 
 MenuDivider.defaultProps = {
-  color: R.COLORS.sidewalkGray,
+  color: RES.COLORS.sidewalkGray,
 };
 
-const styles = StyleSheet.create({
+const styles = create({
   divider: {
     flex: 1,
     borderBottomWidth: StyleSheet.hairlineWidth,

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, NativeModules, View, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, NativeModules, View } from 'react-native';
+
 import * as twitterApi from 'library/utils/@@vendor/twitter';
 import config from 'tinytown/config';
-import R from 'res/R';
+import { create } from 'library/utils/normalize.js'
+import RES from 'res';
 
 const { RNTwitterSignIn } = NativeModules;
 
@@ -52,9 +54,9 @@ export default class Splash extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = create({
   landscape: {
-    backgroundColor: R.COLORS.justWhite,
+    backgroundColor: RES.COLORS.justWhite,
     height: '100%',
   },
   fadingContainer: {
@@ -63,15 +65,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   twitterButton: {
-    backgroundColor: R.COLORS.bubblegumRed600,
-    borderRadius: R.SHAPES.radiusAll,
+    backgroundColor: RES.COLORS.bubblegumRed600,
+    borderRadius: RES.SHAPES.radiusAll,
     width: 200,
     height: 50,
-    ...R.SHAPES.elevRed5,
+    ...RES.SHAPES.elevRed5,
   },
   twitterButtonText: {
     textAlign: 'center',
     marginTop: 14,
-    color: R.COLORS.justWhite,
+    color: RES.COLORS.justWhite,
   },
 });
