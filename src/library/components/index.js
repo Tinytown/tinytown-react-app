@@ -1,15 +1,5 @@
-import HomeBar from './HomeBar';
-import NavBar from './NavBar';
-import FAB from './FAB';
-import IconButton from './IconButton';
-import { Menu, MenuDivider, MenuItem } from './Menu';
-
-export {
-  HomeBar,
-  NavBar,
-  FAB,
-  IconButton,
-  Menu,
-  MenuDivider,
-  MenuItem,
-}
+export { default as HomeBar } from './HomeBar';
+export { default as NavBar } from './NavBar';
+export { default as FAB } from './FAB';
+export { default as IconButton } from './IconButton';
+export { Menu, MenuDivider, MenuItem } from './Menu';
