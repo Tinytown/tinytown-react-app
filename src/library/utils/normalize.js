@@ -1,5 +1,4 @@
-import * as R from 'ramda';
-const { cond, T: otherwise, identity, always, mapObjIndexed, is, map } = R;
+import { cond, T as otherwise, identity, always, mapObjIndexed, is, map } from 'ramda';
 import { PixelRatio, StyleSheet } from 'react-native';
 
 const ratio = cond([
