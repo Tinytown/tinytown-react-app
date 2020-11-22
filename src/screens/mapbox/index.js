@@ -9,7 +9,7 @@ import _ from 'lodash';
 import config from 'tinytown/config';
 import { bindMethods } from 'library/utils/component-ops';
 import { HomeBar, FAB } from 'library/components';
-import R from 'res/R';
+import RES from 'res';
 
 const { MapView, Camera } = MapboxGL;
 
@@ -221,7 +221,7 @@ export default class Map extends Component {
               id={'customUserLocationIcon'}
               style={{
                 iconAllowOverlap: true,
-                iconImage: R.IMAGES.userMarker,
+                iconImage: RES.IMAGES.userMarker,
                 iconSize: 0.4,
                 iconRotate: heading || 0,
               }}
@@ -241,7 +241,7 @@ export default class Map extends Component {
           <HomeBar />
           <View style={styles.fabContainer}>
             <FAB
-              label={R.STRINGS.button.gotoLocation}
+              label={RES.STRINGS.button.gotoLocation}
               theme='green' icon='crosshairs'
               onPress={this.goToLocation}
               disabled={goingToLocation}/>

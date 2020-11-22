@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { create } from 'library/utils/normalize.js'
-import R from 'res/R';
+import RES from 'res';
 import { Menu, MenuDivider, MenuItem } from './Menu';
 
 const HomeBar = () => {
@@ -22,9 +22,9 @@ const HomeBar = () => {
                 style={styles.avatarImage}>
               </Image>
             </TouchableOpacity>}>
-          <MenuItem label={R.STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
+          <MenuItem label={RES.STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
           <MenuDivider />
-          <MenuItem label={R.STRINGS.menuItem.signOut} icon='signOut' onPress={() => setShowMenu(false)}/>
+          <MenuItem label={RES.STRINGS.menuItem.signOut} icon='signOut' onPress={() => setShowMenu(false)}/>
         </Menu>
       </View>
     </View>
@@ -49,14 +49,14 @@ const styles = create({
     marginRight: -2,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: R.COLORS.asphaltGray,
-    borderRadius: R.SHAPES.radiusAll,
+    backgroundColor: RES.COLORS.asphaltGray,
+    borderRadius: RES.SHAPES.radiusAll,
   },
 
   avatarImage: {
     width: 40,
     height: 40,
-    borderRadius: R.SHAPES.radiusAll,
+    borderRadius: RES.SHAPES.radiusAll,
   },
 });
 

@@ -2,23 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { create } from 'library/utils/normalize.js'
-import R from 'res/R';
+import RES from 'res';
 
 const getStyles = ({
   theme, branded,
 }) => {
   const containerStyles = [styles.container];
   const textStyles = [styles.text];
-  let iconColor = R.COLORS.justWhite;
+  let iconColor = RES.COLORS.justWhite;
 
   if (theme === 'green') {
     containerStyles.push(styles.containerGreen);
     textStyles.push(styles.textGray);
-    iconColor = R.COLORS.asphaltGray;
+    iconColor = RES.COLORS.asphaltGray;
   } else if (theme === 'blue') {
     containerStyles.push(styles.containerBlue);
     textStyles.push(styles.textGray);
-    iconColor = R.COLORS.asphaltGray;
+    iconColor = RES.COLORS.asphaltGray;
   } else if (theme === 'red') {
     containerStyles.push(styles.containerRed);
   }
@@ -58,7 +58,7 @@ class FAB extends React.Component {
     return (
       <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
         <View style={styles.iconContainer}>
-          <R.Icon icon={this.props.icon} color={iconColor}/>
+          <RES.Icon icon={this.props.icon} color={iconColor}/>
         </View>
         <Text style={textStyles}>{label}</Text>
       </TouchableOpacity>
@@ -72,24 +72,24 @@ const styles = create({
     paddingLeft: 16,
     paddingRight: 20,
     paddingVertical: 12,
-    borderRadius: R.SHAPES.radiusAll,
-    backgroundColor: R.COLORS.asphaltGray,
-    ...R.SHAPES.elevGray5,
+    borderRadius: RES.SHAPES.radiusAll,
+    backgroundColor: RES.COLORS.asphaltGray,
+    ...RES.SHAPES.elevGray5,
   },
 
   containerGreen: {
-    backgroundColor: R.COLORS.grassGreen600,
-    ...R.SHAPES.elevGreen5,
+    backgroundColor: RES.COLORS.grassGreen600,
+    ...RES.SHAPES.elevGreen5,
   },
 
   containerBlue: {
-    backgroundColor: R.COLORS.skyBlue600,
-    ...R.SHAPES.elevBlue5,
+    backgroundColor: RES.COLORS.skyBlue600,
+    ...RES.SHAPES.elevBlue5,
   },
 
   containerRed: {
-    backgroundColor: R.COLORS.bubblegumRed600,
-    ...R.SHAPES.elevRed5,
+    backgroundColor: RES.COLORS.bubblegumRed600,
+    ...RES.SHAPES.elevRed5,
   },
 
   iconContainer: {
@@ -99,16 +99,16 @@ const styles = create({
   },
 
   text: {
-    color: R.COLORS.justWhite,
-    ...R.TYPOGRAPHY.subheader3,
+    color: RES.COLORS.justWhite,
+    ...RES.TYPOGRAPHY.subheader3,
   },
 
   textGray: {
-    color: R.COLORS.asphaltGray,
+    color: RES.COLORS.asphaltGray,
   },
 
   textBranded: {
-    ...R.TYPOGRAPHY.brandedButton,
+    ...RES.TYPOGRAPHY.brandedButton,
   },
 })
 
