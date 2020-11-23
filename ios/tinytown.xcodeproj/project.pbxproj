@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* tinytownTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* tinytownTests.m */; };
 		0557C6E8EFD20A8CD9DCDBBA /* libPods-tinytown.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29471E94F6ABE5F113990073 /* libPods-tinytown.a */; };
+		11FCA13729EF488E8D992286 /* NunitoSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC4891F675A34860881207DF /* NunitoSans-Black.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -17,6 +18,8 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* tinytownTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* tinytownTests.m */; };
+		8EE5323D929F40D78DBD1383 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23D525D145AD47ED9C92B871 /* Nunito-Regular.ttf */; };
+		9A461E98031B499C9846BF05 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34254B226DC246C398BC3077 /* Nunito-BlackItalic.ttf */; };
 		B13CEEAB24DF4C2B00AB907D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */; };
 		B13CEEAC24DF4C2B00AB907D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */; };
 		B13CEEAD24DF4C2B00AB907D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */; };
@@ -24,10 +27,7 @@
 		C37D9CF48434ED03371A22C8 /* libPods-tinytown-tinytownTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA37728E42CA70571B10E11 /* libPods-tinytown-tinytownTests.a */; };
 		E396378BD585CA672E0CCB16 /* libPods-tinytown-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD21793EE7036958AA4B28EA /* libPods-tinytown-tvOS.a */; };
 		E6FA152F512052582930DF47 /* libPods-tinytown-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACCFCFF9F1DEE053C5789E48 /* libPods-tinytown-tvOSTests.a */; };
-		9A461E98031B499C9846BF05 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34254B226DC246C398BC3077 /* Nunito-BlackItalic.ttf */; };
 		FEA9BFA122CA45109D7FE383 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98E1C6861E1D4E0692645157 /* Nunito-Bold.ttf */; };
-		8EE5323D929F40D78DBD1383 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23D525D145AD47ED9C92B871 /* Nunito-Regular.ttf */; };
-		11FCA13729EF488E8D992286 /* NunitoSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC4891F675A34860881207DF /* NunitoSans-Black.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,26 +60,26 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tinytown/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = tinytown/main.m; sourceTree = "<group>"; };
 		203C08AB2125FF7C106A97B5 /* Pods-tinytown.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown.release.xcconfig"; path = "Target Support Files/Pods-tinytown/Pods-tinytown.release.xcconfig"; sourceTree = "<group>"; };
+		23D525D145AD47ED9C92B871 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.ttf"; path = "../src/res/fonts/Nunito/Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		29471E94F6ABE5F113990073 /* libPods-tinytown.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tinytown.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BA37728E42CA70571B10E11 /* libPods-tinytown-tinytownTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tinytown-tinytownTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* tinytown-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tinytown-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* tinytown-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tinytown-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		34254B226DC246C398BC3077 /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.ttf"; path = "../src/res/fonts/Nunito/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
 		47667D447793C126D9290713 /* Pods-tinytown-tinytownTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tinytownTests.debug.xcconfig"; path = "Target Support Files/Pods-tinytown-tinytownTests/Pods-tinytown-tinytownTests.debug.xcconfig"; sourceTree = "<group>"; };
 		68C16C07DF97F7920ACDC328 /* Pods-tinytown-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-tinytown-tvOS/Pods-tinytown-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		98E1C6861E1D4E0692645157 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../src/res/fonts/Nunito/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		ACCFCFF9F1DEE053C5789E48 /* libPods-tinytown-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tinytown-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD21793EE7036958AA4B28EA /* libPods-tinytown-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tinytown-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD2F06B1D8FDDCF0C2526CE4 /* Pods-tinytown-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-tinytown-tvOSTests/Pods-tinytown-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		AEE018BB854B4764B7B278E3 /* Pods-tinytown-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tvOS.release.xcconfig"; path = "Target Support Files/Pods-tinytown-tvOS/Pods-tinytown-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "tinytown/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CD99AD4C3908477F3473F28B /* Pods-tinytown-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-tinytown-tvOSTests/Pods-tinytown-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DC4891F675A34860881207DF /* NunitoSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NunitoSans-Black.ttf"; path = "../src/res/fonts/NunitoSans/NunitoSans-Black.ttf"; sourceTree = "<group>"; };
 		E671E2814F10C008C8170D87 /* Pods-tinytown-tinytownTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tinytownTests.release.xcconfig"; path = "Target Support Files/Pods-tinytown-tinytownTests/Pods-tinytown-tinytownTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F373579F04160BBD5CE37803 /* Pods-tinytown.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown.debug.xcconfig"; path = "Target Support Files/Pods-tinytown/Pods-tinytown.debug.xcconfig"; sourceTree = "<group>"; };
-		34254B226DC246C398BC3077 /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; name = "Nunito-BlackItalic.ttf"; path = "../src/res/fonts/Nunito/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		98E1C6861E1D4E0692645157 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; name = "Nunito-Bold.ttf"; path = "../src/res/fonts/Nunito/Nunito-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		23D525D145AD47ED9C92B871 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; name = "Nunito-Regular.ttf"; path = "../src/res/fonts/Nunito/Nunito-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		DC4891F675A34860881207DF /* NunitoSans-Black.ttf */ = {isa = PBXFileReference; name = "NunitoSans-Black.ttf"; path = "../src/res/fonts/NunitoSans/NunitoSans-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -579,34 +579,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tinytown-tinytownTests/Pods-tinytown-tinytownTests-frameworks.sh",
 				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/MapboxMobileEvents.framework",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/MapboxMobileEvents.framework.dSYM",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/BADC3E19-B154-39DA-BE9A-E7C52B45BD0C.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/F86F5A50-B0A0-3D96-8330-20AFDAC47DCC.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/877E1F78-505A-34B9-A9A0-42F8BFA435B9.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/7C38D00F-328F-3E0C-B30E-E47F366F0F3D.bcsymbolmap",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
 				"${PODS_ROOT}/TwitterKit5/iOS/TwitterKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/MapboxMobileEvents.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/BADC3E19-B154-39DA-BE9A-E7C52B45BD0C.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/F86F5A50-B0A0-3D96-8330-20AFDAC47DCC.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/877E1F78-505A-34B9-A9A0-42F8BFA435B9.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/7C38D00F-328F-3E0C-B30E-E47F366F0F3D.bcsymbolmap",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 			);
@@ -623,34 +603,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tinytown/Pods-tinytown-frameworks.sh",
 				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/MapboxMobileEvents.framework",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/MapboxMobileEvents.framework.dSYM",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/BADC3E19-B154-39DA-BE9A-E7C52B45BD0C.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/F86F5A50-B0A0-3D96-8330-20AFDAC47DCC.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/877E1F78-505A-34B9-A9A0-42F8BFA435B9.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/7C38D00F-328F-3E0C-B30E-E47F366F0F3D.bcsymbolmap",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
 				"${PODS_ROOT}/TwitterKit5/iOS/TwitterKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/MapboxMobileEvents.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/BADC3E19-B154-39DA-BE9A-E7C52B45BD0C.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/F86F5A50-B0A0-3D96-8330-20AFDAC47DCC.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/877E1F78-505A-34B9-A9A0-42F8BFA435B9.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/7C38D00F-328F-3E0C-B30E-E47F366F0F3D.bcsymbolmap",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 			);

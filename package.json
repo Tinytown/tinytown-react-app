@@ -30,7 +30,9 @@
     "react-native-static-safe-area-insets": "^2.1.1",
     "react-native-svg": "^12.1.0",
     "react-native-svg-transformer": "^0.14.3",
-    "react-native-twitter-signin": "github:GoldenOwlAsia/react-native-twitter-signin#master"
+    "react-native-twitter-signin": "github:GoldenOwlAsia/react-native-twitter-signin#master",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
