@@ -5,7 +5,7 @@ import auth from '@react-native-firebase/auth';
 const { RNTwitterSignIn } = NativeModules;
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { signIn } from '../../actions';
+import { signIn } from '../../redux/actions';
 import FAB from 'library/components/fab';
 import R from 'res/R';
 

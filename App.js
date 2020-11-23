@@ -16,13 +16,13 @@ import HomeScreen from 'screens/home';
 const Stack = createStackNavigator();
 
 const App = () => {
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  const isSignedIn = useSelector(state => state.auth.isSignedIn)
  
   SplashScreen.hide()
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode='none'>
-        {isLoggedIn ? (
+        {isSignedIn ? (
           <>
             <Stack.Screen name='Home' component={HomeScreen} />
           </>

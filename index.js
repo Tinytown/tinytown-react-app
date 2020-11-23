@@ -5,7 +5,7 @@
 import React from 'react'
 import {AppRegistry} from 'react-native';
 import { createStore } from 'redux';
-import reducers from './src/reducers';
+import reducers from './src/redux/reducers';
 import { Provider } from 'react-redux';
 import App from './App';
 import {name as appName} from './app.json';
