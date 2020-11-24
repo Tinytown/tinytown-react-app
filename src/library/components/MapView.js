@@ -1,38 +1,32 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import Map from 'library/components/Map';
-import FAB from 'library/components/fab';
-import R from 'res/R';
+import Map from 'library/components/Map'
+import R from 'res/R'
 
-const LocationScreen = () => {
+const MapView = (props) => {
   return (
     <View style={styles.landscape}>
-      <Map></Map>
+      <Map/>
       <View style={styles.safeArea} pointerEvents='box-none'>
-        <View style={styles.fabContainer}>
-          <FAB label={R.strings.button.gotoLocation} theme='green' icon='crosshairs' />
-        </View>
+        {props.children}
       </View>
     </View>
   )
-}
+  }
 
-export default LocationScreen
+export default MapView;
 
 const styles = StyleSheet.create({
   landscape: {
-    height: '100%'
+    height: '100%',
+    backgroundColor: R.colors.asphaltGray
   },
   safeArea: {
     position: 'absolute',
     width: '100%',
     bottom: StaticSafeAreaInsets.safeAreaInsetsBottom,
     top: StaticSafeAreaInsets.safeAreaInsetsTop,
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  fabContainer: {
-    position: 'absolute',
-    bottom: 24
-  }
 });

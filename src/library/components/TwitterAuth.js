@@ -10,20 +10,19 @@ import FAB from 'library/components/fab';
 import R from 'res/R';
 
 const TwitterAuth = (props) => {
-
   useEffect(() => {
     // Initialize the Twitter SDK
     RNTwitterSignIn.init(config.TWITTER_CONSUMER_KEY, config.TWITTER_CONSUMER_SECRET)
       .then(() => console.log('Twitter SDK initialized'))
       .catch(err => console.log(err))
   }, [])
-
+  
   const onLogInPress = async () => {
     try {
       // Perform the login request
       const {authToken, authTokenSecret} = await RNTwitterSignIn.logIn();
-      // TODO - Remove login screen
-      
+      // Shows activity indicator
+      props.onLoading(true)
       // Create a Twitter credential with the tokens
       const twitterCredential = auth.TwitterAuthProvider.credential(authToken, authTokenSecret);
       // Sign-in the user with the credential
@@ -31,6 +30,7 @@ const TwitterAuth = (props) => {
       // Update redux store
       auth().onAuthStateChanged((user) => user ? props.signIn(user) : null)
     } catch(err) {
+      props.onLoading(false)
       console.log(err)
     }
   }

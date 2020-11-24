@@ -14,9 +14,6 @@ const isAndroid = Platform.OS === 'android';
 const degreeUpdateRate = 3;
 const coordinateThreshold = 1 * Math.pow(10, -14);
 
-/* Menu
-============================================================================= */
-
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -197,17 +194,11 @@ class Map extends React.Component {
   }
 }
 
-/* StyleSheet
-============================================================================= */
-
 const styles = StyleSheet.create({
   map: {
     height: '100%',
     width: '100%'
   }
 });
-
-/* Export
-============================================================================= */
 
 export default Map;
