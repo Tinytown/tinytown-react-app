@@ -10,8 +10,6 @@ import { UPDATE_LOCATION, UPDATE_WATCHING } from '../../redux/actions/types';
 import R from 'res/R'
 
 const { title, body } = R.strings.dialog.location
-const state = store.getState()
-const watching = state.location.watching;
 
 const openSetting = () => {
   Linking.openSettings().catch(() => {
@@ -96,24 +94,31 @@ export const getLocation = (successHandler) => {
 let watchId = null;
 
 export const watchLocation = () => {
+  const state = store.getState()
+  const watching = state.location.watching;
+
   const successHandler = (coords) => {
     store.dispatch({ type: UPDATE_LOCATION, payload: coords });
   }
 
+  // Gate to prevent multiple instances
   if (!watching) {
     watchId = Geolocation.watchPosition(
       ({coords}) => successHandler(coords),
       (error) => console.log(error.code, error.message),
       { config }
     )
+    store.dispatch({ type: UPDATE_WATCHING, payload: true })
   }
-  
-  store.dispatch({ type: UPDATE_WATCHING, payload: true })
 }
 
 export const stopWatchingLocation = () => {
-  Geolocation.clearWatch(watchId)
-  console.log('stopped watching on ID', watchId);
-  store.dispatch({ type: UPDATE_WATCHING, payload: false })
+  const state = store.getState()
+  const watching = state.location.watching;
+
+  if (watching) {
+    Geolocation.clearWatch(watchId)
+    store.dispatch({ type: UPDATE_WATCHING, payload: false })
+  }
 }
 

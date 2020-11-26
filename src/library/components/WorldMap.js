@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import { watchLocation, stopWatchingLocation } from 'library/apis/geolocation'
 import { connect } from 'react-redux';
-import { offCamera, updateUserLocation } from '../../redux/actions';
+import { offCamera } from '../../redux/actions';
 import _ from 'lodash';
 import R from 'res/R';
 
@@ -12,15 +11,6 @@ const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const WorldMap = (props) => {
-
-  console.log('rerender')
-
-  useEffect(() => {
-    props.hasPermission ? watchLocation() : null
-    return () => {
-      stopWatchingLocation()
-    }
-  }, [])
 
   const regionChangeHandler = (event) => {
     if (event.properties.isUserInteraction && props.onCamera) {
@@ -78,4 +68,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { offCamera, updateUserLocation })(WorldMap)
+export default connect(mapStateToProps, { offCamera })(WorldMap)

@@ -11,12 +11,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import { signIn, updateAppState } from './src/redux/actions';
 import { connect } from 'react-redux';
+import { watchLocation, stopWatchingLocation } from './src/library/apis/geolocation'
 import OnboardingScreen from 'screens/onboarding';
 import HomeScreen from 'screens/home';
 
 const Stack = createStackNavigator();
 
 const App = (props) => {
+  // App launches
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged((user) => user ? props.signIn(user) : null);
     SplashScreen.hide()
@@ -27,8 +29,17 @@ const App = (props) => {
       console.log('clean up on aisle app')
     }
   }, []);
-  
-  SplashScreen.hide()
+
+  // App pauses
+  if (props.appState === 'background') {
+    stopWatchingLocation()
+  }
+
+  // App resumes
+  if (props.appState === 'active') {
+    props.hasPermission ? watchLocation() : null
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode='none' screenOptions={{animationEnabled: false}} >
@@ -50,6 +61,7 @@ const mapStateToProps = (state) => {
   return { 
     isSignedIn: state.auth.isSignedIn,
     appState: state.app.state,
+    hasPermission: state.location.hasPermission,
    }
 }
 

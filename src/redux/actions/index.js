@@ -1,5 +1,5 @@
-import { SIGN_IN, SIGN_OUT, GET_LOCATION, OFF_CAMERA, UPDATE_LOCATION, APP_STATE } from './types';
-import { getLocationPermission, getLocation, watchLocation } from '../../library/apis/geolocation'
+import { SIGN_IN, SIGN_OUT, GET_LOCATION, OFF_CAMERA, APP_STATE } from './types';
+import { getLocationPermission, getLocation } from '../../library/apis/geolocation'
 
 export const signIn = ({ photoURL, displayName, uid }) => { 
   return {
@@ -23,7 +23,6 @@ export const getUserLocation = (onCamera = true) => {
     }
     
     const onSuccess = (coords) => {
-      watchLocation()
       const payload = {
         user: coords,
         onCamera,
