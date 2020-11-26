@@ -4,7 +4,6 @@ import config from 'tinytown/config';
 import auth from '@react-native-firebase/auth';
 const { RNTwitterSignIn } = NativeModules;
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { signIn } from '../../redux/actions';
 import FAB from 'library/components/fab';
 import R from 'res/R';
@@ -40,10 +39,4 @@ const TwitterAuth = (props) => {
   )
 }
 
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    signIn
-  }, dispatch)
-);
-
-export default connect(null, mapDispatchToProps)(TwitterAuth)
+export default connect(null, { signIn })(TwitterAuth)

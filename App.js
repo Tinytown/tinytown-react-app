@@ -4,14 +4,13 @@ import 'react-native-gesture-handler';
  * @flow strict-local
  */
 import React, { useEffect } from 'react';
+import { AppState } from 'react-native'
 import SplashScreen from 'react-native-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
-import { signIn } from './src/redux/actions';
+import { signIn, updateAppState } from './src/redux/actions';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import OnboardingScreen from 'screens/onboarding';
 import HomeScreen from 'screens/home';
 
@@ -21,16 +20,19 @@ const App = (props) => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged((user) => user ? props.signIn(user) : null);
     SplashScreen.hide()
-    return subscriber; // unsubscribe on unmount
+    AppState.addEventListener('change', (e) => props.updateAppState(e))
+    return () => {
+      subscriber; // unsubscribe on unmount
+      AppState.removeEventListener('change', (e) => props.updateAppState(e))
+      console.log('clean up on aisle app')
+    }
   }, []);
-
-  const isSignedIn = useSelector(state => state.auth.isSignedIn)
- 
+  
   SplashScreen.hide()
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode='none' screenOptions={{animationEnabled: false}} >
-        {isSignedIn ? (
+        {props.isSignedIn ? (
           <>
             <Stack.Screen name='Home' component={HomeScreen} />
           </>
@@ -44,10 +46,12 @@ const App = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    signIn
-  }, dispatch)
-);
+const mapStateToProps = (state) => {
+  return { 
+    isSignedIn: state.auth.isSignedIn,
+    appState: state.app.state,
+   }
+}
 
-export default connect(null, mapDispatchToProps)(App);
+
+export default connect(mapStateToProps, { signIn, updateAppState })(App);

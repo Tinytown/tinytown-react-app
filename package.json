@@ -32,7 +32,8 @@
     "react-native-svg-transformer": "^0.14.3",
     "react-native-twitter-signin": "github:GoldenOwlAsia/react-native-twitter-signin#master",
     "react-redux": "^7.2.2",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

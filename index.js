@@ -4,13 +4,10 @@
 
 import React from 'react'
 import {AppRegistry} from 'react-native';
-import { createStore } from 'redux';
-import reducers from './src/redux/reducers';
+import store from './src/redux/store'
 import { Provider } from 'react-redux';
 import App from './App';
 import {name as appName} from './app.json';
-
-const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),);
 
 const AppContainer = () => {
   return (

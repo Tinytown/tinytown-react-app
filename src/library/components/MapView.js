@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import Map from 'library/components/Map'
+import WorldMap from 'library/components/WorldMap'
 import R from 'res/R'
 
 const MapView = (props) => {
   return (
     <View style={styles.landscape}>
-      <Map/>
+      <WorldMap/>
       <View style={styles.safeArea} pointerEvents='box-none'>
         {props.children}
       </View>
