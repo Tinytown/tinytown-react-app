@@ -98,7 +98,11 @@ export const watchLocation = () => {
   const watching = state.location.watching;
 
   const successHandler = (coords) => {
-    store.dispatch({ type: UPDATE_LOCATION, payload: coords });
+    const payload = {
+      longitude: coords.longitude,
+      latitude: coords.latitude
+    }
+    store.dispatch({ type: UPDATE_LOCATION, payload });
   }
 
   // Gate to prevent multiple instances

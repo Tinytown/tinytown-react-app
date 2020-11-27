@@ -24,7 +24,7 @@ export const getUserLocation = (onCamera = true) => {
     
     const onSuccess = (coords) => {
       const payload = {
-        user: coords,
+        user: { longitude: coords.longitude, latitude: coords.latitude },
         onCamera,
         hasPermission,
       }
