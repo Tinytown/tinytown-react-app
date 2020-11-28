@@ -1,14 +1,18 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import reducers from './reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+const composeEnhancers = composeWithDevTools({
+  trace: true
+})
 
 const store = createStore(
   reducers,
-  compose(
-    applyMiddleware(reduxThunk),
-    window.navigator.userAgent.includes('Chrome') ?
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : compose,
+  composeEnhancers(
+    applyMiddleware(reduxThunk)
   ),
 );
+
 
 export default store;

@@ -1,10 +1,10 @@
 import {
   Alert,
   Linking,
-  PermissionsAndroid,
   Platform
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
+import {check, PERMISSIONS} from 'react-native-permissions';
 import store from '../../redux/store'
 import { UPDATE_LOCATION, UPDATE_WATCHING } from '../../redux/actions/types';
 import R from 'res/R'
@@ -17,7 +17,7 @@ const openSetting = () => {
   });
 };
 
-const settingsDialog = () => {
+const showDialog = () => {
   Alert.alert(title, body,
     [
       { text: "Cancel", onPress: () => {} },
@@ -32,40 +32,38 @@ export const getLocationPermission = async () => {
   }
 
   if (Platform.OS === 'android') {
-    const hasPermission = await PermissionsAndroid.check(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    );
-
-    if (hasPermission) {
+    const hasPermission = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION)
+    if (hasPermission === 'granted') {
       return true;
+    } else {
+      return false;
     }
-
-    const status = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    );
-
-    if (status === PermissionsAndroid.RESULTS.GRANTED) {
-      return true;
-    }
-
-    if (status === PermissionsAndroid.RESULTS.DENIED || PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-      settingsDialog()
-    }
-    return false;
   }
 
   if (Platform.OS === 'ios') {
-    const status = await Geolocation.requestAuthorization('whenInUse');
-
-    if (status === 'granted') {
+    const hasPermission = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+    if (hasPermission === 'granted') {
       return true;
+    } else {
+      return false;
     }
+  }
+}
 
-    if (status === 'denied' || 'disabled') {
-      settingsDialog()
-    }
-
-    return false;
+export const getLocation = async (successHandler) => {
+  const hasPermission = await getLocationPermission()
+  if (!hasPermission) {
+    showDialog()
+  } else {
+    Geolocation.getCurrentPosition(
+      ({coords}) => successHandler(coords),
+      (error) => console.log(error.code, error.message),
+      { 
+      enableHighAccuracy: config.enableHighAccuracy,
+      timeout: config.timeout,
+      maximumAge: config.maximumAge 
+      }
+    );
   }
 }
 
@@ -78,41 +76,38 @@ const config = {
   fastestInterval: Platform.OS === 'android' ? 5000 : null,
   useSignificantChanges: Platform.OS === 'ios' ? true : null
 }
-
-export const getLocation = (successHandler) => {
-  Geolocation.getCurrentPosition(
-    ({coords}) => successHandler(coords),
-    (error) => console.log(error.code, error.message),
-    { 
-    enableHighAccuracy: config.enableHighAccuracy,
-    timeout: config.timeout,
-    maximumAge: config.maximumAge 
-    }
-  );
-}
-
 let watchId = null;
 
-export const watchLocation = () => {
-  const state = store.getState()
-  const watching = state.location.watching;
+export const watchLocation = async () => {
+  const hasPermission = await getLocationPermission()
+  if (!hasPermission) {
+    showDialog()
+  } else {
+    const state = store.getState()
+    const watching = state.location.watching;
 
-  const successHandler = (coords) => {
-    const payload = {
-      longitude: coords.longitude,
-      latitude: coords.latitude
+    const successHandler = (coords) => {
+      const payload = {
+        user: {
+          longitude: coords.longitude,
+          latitude: coords.latitude
+        },
+        hasPermission
+      }
+      store.dispatch({ type: UPDATE_LOCATION, payload });
+      store.dispatch({ type: UPDATE_WATCHING, payload: true });
     }
-    store.dispatch({ type: UPDATE_LOCATION, payload });
-  }
-
-  // Gate to prevent multiple instances
-  if (!watching) {
-    watchId = Geolocation.watchPosition(
-      ({coords}) => successHandler(coords),
-      (error) => console.log(error.code, error.message),
-      { config }
-    )
-    store.dispatch({ type: UPDATE_WATCHING, payload: true })
+  
+    // Gate to prevent multiple instances
+    if (!watching) {
+      watchId = Geolocation.watchPosition(
+        ({coords}) => successHandler(coords),
+        (error) => {
+          console.log(error.code, error.message)
+        },
+        { config }
+      )
+    }
   }
 }
 

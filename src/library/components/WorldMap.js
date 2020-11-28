@@ -3,8 +3,10 @@ import { StyleSheet } from 'react-native';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CompassHeading from 'react-native-compass-heading';
+import { watchLocation, stopWatchingLocation } from '../apis/geolocation'
+import { storeData } from '../apis/storage'
 import { connect } from 'react-redux';
-import { offCamera } from '../../redux/actions';
+import { setCamera, setLoaded } from '../../redux/actions';
 import R from 'res/R';
 
 const { MapView, Camera } = MapboxGL;
@@ -15,6 +17,22 @@ const defaultSettings = {
 }
 
 const WorldMap = (props) => {
+
+  useEffect(() => {
+    // App pauses / resumes
+    if (props.appState.active) {
+      props.isSignedIn ? watchLocation() : null
+    } else if (!props.appState.active) {
+      stopWatchingLocation()
+      storeData(props.location, 'location')
+    }
+
+    return () => {
+      props.setLoaded('map', false)
+    }
+    
+  }, [props.appState.active])
+
 
   const [heading, setHeading] = useState(0)
   useEffect(() => {
@@ -27,9 +45,9 @@ const WorldMap = (props) => {
   }, [])
 
   const regionChangeHandler = (event) => {
-    if (event.properties.isUserInteraction && props.onCamera) {
+    if (event.properties.isUserInteraction && props.location.onCamera) {
       // TODO - Make more precise to handle true offscreen cases
-      props.offCamera()
+      props.setCamera(false)
     }
   }
 
@@ -42,9 +60,10 @@ const WorldMap = (props) => {
       logoEnabled={false}
       compassEnabled={false}
       attributionEnabled={false}
-      onRegionWillChange={(e) => regionChangeHandler(e)} 
+      onRegionWillChange={(e) => regionChangeHandler(e)}
+      onDidFinishLoadingMap={() => {!props.appState.loaded.map ? props.setLoaded('map', true) : null}}
       >
-        {props.hasPermission ? <MapboxGL.UserLocation
+        {props.location.hasPermission ? <MapboxGL.UserLocation
           animated={true}
           visible={true}
         >
@@ -62,9 +81,10 @@ const WorldMap = (props) => {
         </MapboxGL.UserLocation> : null}
         <Camera
           defaultSettings={defaultSettings}
+          animationDuration={!props.appState.loaded.map ? 0 : 2000}
           animationMode='flyTo'
-          centerCoordinate={props.onCamera ? [props.userLocation.longitude, props.userLocation.latitude] : undefined}
-          zoomLevel={props.onCamera ? 12 : undefined}
+          centerCoordinate={props.location.onCamera ? [props.location.user.longitude, props.location.user.latitude] : undefined}
+          zoomLevel={props.location.onCamera ? 12 : undefined}
           >
         </Camera>
       </MapView>
@@ -81,10 +101,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return { 
-    userLocation: state.location.user,
-    onCamera: state.location.onCamera,
-    hasPermission: state.location.hasPermission,
+    location: state.location,
+    appState: state.app,
+    isSignedIn: state.auth.isSignedIn,
   }
 }
 
-export default connect(mapStateToProps, { offCamera })(WorldMap)
+export default connect(mapStateToProps, { setCamera, setLoaded })(WorldMap)

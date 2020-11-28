@@ -1,4 +1,4 @@
-import { GET_LOCATION, OFF_CAMERA, SIGN_OUT, UPDATE_LOCATION, UPDATE_WATCHING } from '../actions/types';
+import { UPDATE_CAMERA, SIGN_OUT, UPDATE_LOCATION, UPDATE_WATCHING } from '../actions/types';
 
 const INITIAL_STATE = {
   user: {},
@@ -9,19 +9,16 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_LOCATION:
+    case UPDATE_LOCATION:
       return { 
         ...state, 
-        user: action.payload.user, 
-        onCamera: action.payload.onCamera, 
+        user: action.payload.user,
         hasPermission: action.payload.hasPermission 
       };
-    case UPDATE_LOCATION:
-        return { ...state, user: action.payload };
     case UPDATE_WATCHING:
       return { ...state, watching: action.payload };
-    case OFF_CAMERA:
-      return { ...state, onCamera: false };
+    case UPDATE_CAMERA:
+      return { ...state, onCamera: action.payload };
     case SIGN_OUT:
       return {...state, ...INITIAL_STATE }
     default:
