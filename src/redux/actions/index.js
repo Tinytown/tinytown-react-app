@@ -58,7 +58,7 @@ export const setCamera = (value) => {
 export const updateAppState = (event) => {
   if (event === 'active') {
     return { type: APP_STATE, payload: true }
-  } else if (event === 'background') {
+  } else if (event === 'background' || event === 'inactive') {
     return { type: APP_STATE, payload: false }
   }
 }

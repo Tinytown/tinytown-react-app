@@ -4,7 +4,7 @@ import {
   Platform
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
-import {check, PERMISSIONS} from 'react-native-permissions';
+import {check, request, PERMISSIONS} from 'react-native-permissions';
 import store from '../../redux/store'
 import { UPDATE_LOCATION, UPDATE_WATCHING } from '../../redux/actions/types';
 import R from 'res/R'
@@ -31,23 +31,19 @@ export const getLocationPermission = async () => {
     return true;
   }
 
-  if (Platform.OS === 'android') {
-    const hasPermission = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION)
-    if (hasPermission === 'granted') {
-      return true;
-    } else {
-      return false;
-    }
+  const permissionStr = Platform.OS === 'android' ? PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+
+  let hasPermission = await check(permissionStr)
+  if (hasPermission === 'granted') {
+    return true;
   }
 
-  if (Platform.OS === 'ios') {
-    const hasPermission = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
-    if (hasPermission === 'granted') {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  hasPermission = await request(permissionStr);
+  if (hasPermission === 'granted' || hasPermission === 'limited') {
+    return true;
+  } 
+
+  return false;
 }
 
 export const getLocation = async (successHandler) => {

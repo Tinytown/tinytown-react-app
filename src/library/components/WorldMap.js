@@ -22,7 +22,7 @@ const WorldMap = (props) => {
     // App pauses / resumes
     if (props.appState.active) {
       props.isSignedIn ? watchLocation() : null
-    } else if (!props.appState.active) {
+    } else if (!props.appState.active && props.location.user.latitude) {
       stopWatchingLocation()
       storeData(props.location, 'location')
     }
@@ -61,7 +61,7 @@ const WorldMap = (props) => {
       compassEnabled={false}
       attributionEnabled={false}
       onRegionWillChange={(e) => regionChangeHandler(e)}
-      onDidFinishLoadingMap={() => {!props.appState.loaded.map ? props.setLoaded('map', true) : null}}
+      onDidFinishRenderingFrame={() => {!props.appState.loaded.map ? props.setLoaded('map', true) : null}}
       >
         {props.location.hasPermission ? <MapboxGL.UserLocation
           animated={true}
