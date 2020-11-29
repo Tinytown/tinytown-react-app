@@ -20,7 +20,7 @@ export const storeData = async (value, key) => {
 }
 
 export const clearStorage = async () => {
-  const storageKeys = ['location']
+  const storageKeys = ['userLocation', 'staticMap']
   try {
     await AsyncStorage.multiRemove(storageKeys)
   } catch(err) {

@@ -38,8 +38,8 @@ export const getUserLocation = (onCamera = true) => {
 export const updateUserLocation = (location) => {
  const payload = {
   user: { 
-    longitude: location.user.longitude, 
-    latitude: location.user.latitude 
+    longitude: location.longitude, 
+    latitude: location.latitude 
   },
   hasPermission: true,
 }
@@ -63,9 +63,11 @@ export const updateAppState = (event) => {
   }
 }
 
-export const setLoaded = (state, value) => {
-  const payload = {}
-  payload[state] = value
+export const setLoaded = (key, value) => {
+  const payload = {
+    key,
+    value
+  }
   return {
     type: APP_LOAD, payload
   }

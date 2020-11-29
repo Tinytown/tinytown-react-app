@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { Image, StyleSheet } from 'react-native';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import defaultStaticMap from '../../res/img/defaultStaticMap'
 import CompassHeading from 'react-native-compass-heading';
 import { watchLocation, stopWatchingLocation } from '../apis/geolocation'
-import { storeData } from '../apis/storage'
+import { storeData, getData } from '../apis/storage'
 import { connect } from 'react-redux';
 import { setCamera, setLoaded } from '../../redux/actions';
 import R from 'res/R';
@@ -17,32 +18,52 @@ const defaultSettings = {
 }
 
 const WorldMap = (props) => {
-
+  const map = useRef(null)
+  const [staticMap, setStaticMap] = useState(null)
+  const [mapRendered, setMapRendered] = useState(false)
+  const [heading, setHeading] = useState(0)
+  
+  // App launches / quits
   useEffect(() => {
-    // App pauses / resumes
-    if (props.appState.active) {
-      props.isSignedIn ? watchLocation() : null
-    } else if (!props.appState.active && props.location.user.latitude) {
-      stopWatchingLocation()
-      storeData(props.location, 'location')
-    }
-
+    let mounted = true;
+    // Load static map image while map is loading
+    getData('staticMap').then((imageData) => {
+      props.setLoaded('staticMap', true)
+      if (mounted) {
+        imageData ? setStaticMap(imageData) : setStaticMap(defaultStaticMap);
+      }
+    })
+    mapLoadingHandler()
+    
     return () => {
+      mounted = false;
       props.setLoaded('map', false)
     }
-    
+  }, [])
+
+  // App goes in the background
+  useEffect(() => {
+    if (props.appState.active && props.isSignedIn) {
+      // Start compass and location tracking
+      watchLocation()
+      CompassHeading.start(10, heading => {
+        setHeading(heading)
+      });
+    }
+    if (!props.appState.active && props.location.user.latitude) {
+      // Stop compass and location tracking
+      stopWatchingLocation()
+      CompassHeading.stop()
+      // Save location and static map
+      storeData(props.location.user, 'userLocation')
+      saveStaticImage()
+    }
   }, [props.appState.active])
 
-
-  const [heading, setHeading] = useState(0)
-  useEffect(() => {
-    CompassHeading.start(10, heading => {
-      setHeading(heading)
-    });
-    return () => {
-      CompassHeading.stop()
-    }
-  }, [])
+  const saveStaticImage = async () => {
+    const imageData = await map.current.takeSnap(false)
+    storeData(imageData, 'staticMap')
+  }
 
   const regionChangeHandler = (event) => {
     if (event.properties.isUserInteraction && props.location.onCamera) {
@@ -51,8 +72,20 @@ const WorldMap = (props) => {
     }
   }
 
+  // Extra logic to handle loading edge cases
+  const mapLoadingHandler = (mapFinishedRendering) => {
+    if (mapFinishedRendering) {
+      setMapRendered(true)
+    }
+
+    if (mapRendered || mapFinishedRendering) {
+      props.setLoaded('map', true)
+    }
+  }
+
   return (
     <>
+    {!props.appState.loaded.map ? <Image source={{uri: staticMap}} style={styles.map}/> : null }
     <MapView
       animated={true}
       style={styles.map}
@@ -61,7 +94,8 @@ const WorldMap = (props) => {
       compassEnabled={false}
       attributionEnabled={false}
       onRegionWillChange={(e) => regionChangeHandler(e)}
-      onDidFinishRenderingFrame={() => {!props.appState.loaded.map ? props.setLoaded('map', true) : null}}
+      onDidFinishRenderingMapFully={!props.appState.loaded.map ? () => mapLoadingHandler(true) : null}
+      ref={map}
       >
         {props.location.hasPermission ? <MapboxGL.UserLocation
           animated={true}

@@ -20,20 +20,20 @@ const Stack = createStackNavigator();
 const App = (props) => {
   // App launches
   useEffect(() => {
+    // Load location from LS
+    getData('userLocation').then((location) => {
+      if (location) {
+        props.updateUserLocation(location)
+        props.setCamera(true)
+      }
+    })
+
     // Load auth state
     const subscriber = auth().onAuthStateChanged((user) => user ? props.signIn(user) : null);
 
     // App state listener
     AppState.addEventListener('change', (e) => {
       e !== 'unknown' ? props.updateAppState(e) : null
-    })
-
-    // Load location from LS
-    getData('location').then((location) => {
-      if (location) {
-        props.updateUserLocation(location)
-        props.setCamera(true)
-      }
     })
 
     return () => {
@@ -44,13 +44,8 @@ const App = (props) => {
       console.log('clean up on aisle app')
     }
   }, []);
-  
-  useEffect(() => {
-    const appLoading = Object.values(props.appLoaded).includes(false)
-    if (!appLoading) {
-      SplashScreen.hide()
-    }
-  }, [props.appLoaded])
+
+  props.hideSplash ? SplashScreen.hide() : null
 
   return (
     <NavigationContainer>
@@ -72,7 +67,7 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return { 
     isSignedIn: state.auth.isSignedIn,
-    appLoaded: state.app.loaded,
+    hideSplash: state.app.loaded.staticMap
    }
 }
 
