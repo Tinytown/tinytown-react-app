@@ -17,30 +17,32 @@ export const signOut = () => {
   };
 };
 
-export const getUserLocation = (onCamera = true) => {
+export const getUserLocation = () => {
   return async (dispatch) => {
     const onSuccess = (coords) => {
+      console.log(coords)
       const payload = {
-        user: { 
-          longitude: coords.longitude, 
-          latitude: coords.latitude 
-        },
+        user: coords,
         hasPermission: true,
       }
-      dispatch({ type: UPDATE_LOCATION, payload: payload });
-      dispatch({ type: UPDATE_CAMERA, payload: onCamera });
+      dispatch({ type: UPDATE_LOCATION, payload });
+      dispatch({ 
+        type: UPDATE_CAMERA, 
+        payload: { 
+          center: coords, 
+          zoom: 12, 
+          onUser: true, 
+          isUserInteraction: false, 
+      }});
     }
     
     getLocation(onSuccess)
   };
 };
 
-export const updateUserLocation = (location) => {
+export const updateUserLocation = (coords) => {
  const payload = {
-  user: { 
-    longitude: location.longitude, 
-    latitude: location.latitude 
-  },
+  user: coords,
   hasPermission: true,
 }
  return {
@@ -48,10 +50,15 @@ export const updateUserLocation = (location) => {
  }
 }
 
-
-export const setCamera = (value) => {
+export const setCamera = (center, zoom) => {
+  const payload = {
+    center,
+    zoom,
+    onUser: false,
+    isUserInteraction: true
+  }
   return {
-    type: UPDATE_CAMERA, payload: value
+    type: UPDATE_CAMERA, payload
   };
 };
 

@@ -8,9 +8,17 @@ import Scrim from 'library/components/Scrim'
 import FAB from 'library/components/fab'
 import R from 'res/R'
 
-
 const OnboardingScreen = (props) => {
   const [isLoading, setisLoading] = useState(false)
+
+  const renderButtons = () => {
+    return (
+      props.showSignIn ? 
+        <TwitterAuth onLoading={(state) => setisLoading(state)} />
+      : 
+        <FAB label={R.strings.button.goToLocation} theme='green' icon='crosshairs' onPress={() => props.getUserLocation()}/>
+    )
+  }
   
   return (
     <MapView>
@@ -20,11 +28,7 @@ const OnboardingScreen = (props) => {
         </Scrim>)
       : 
         (<View style={styles.fabContainer}>
-          {props.showSignIn ? 
-            <TwitterAuth onLoading={(state) => setisLoading(state)} />
-          : 
-            <FAB label={R.strings.button.goToLocation} theme='green' icon='crosshairs' onPress={() => props.getUserLocation()}/>
-          }
+          {props.showButtons ? renderButtons() : null}
         </View>)
       }
     </MapView>
@@ -39,7 +43,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  return { showSignIn: state.location.user.latitude }
+  return { 
+    showSignIn: state.location.user,
+    showButtons: state.app.loaded.map
+  }
 }
 
 export default connect(mapStateToProps, { getUserLocation })(OnboardingScreen)

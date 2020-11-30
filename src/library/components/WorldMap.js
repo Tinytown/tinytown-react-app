@@ -1,42 +1,35 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import defaultStaticMap from '../../res/img/defaultStaticMap'
 import CompassHeading from 'react-native-compass-heading';
 import { watchLocation, stopWatchingLocation } from '../apis/geolocation'
-import { storeData, getData } from '../apis/storage'
+import { storeMultiple, getMultiple } from '../apis/storage'
 import { connect } from 'react-redux';
 import { setCamera, setLoaded } from '../../redux/actions';
 import R from 'res/R';
 
 const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
-const defaultSettings = {
-  centerCoordinate: [-93.26392, 44.98459],
-  zoomLevel: 12.83,
-}
 
 const WorldMap = (props) => {
-  const map = useRef(null)
-  const [staticMap, setStaticMap] = useState(null)
   const [mapRendered, setMapRendered] = useState(false)
   const [heading, setHeading] = useState(0)
   
   // App launches / quits
   useEffect(() => {
-    let mounted = true;
-    // Load static map image while map is loading
-    getData('staticMap').then((imageData) => {
-      props.setLoaded('staticMap', true)
-      if (mounted) {
-        imageData ? setStaticMap(imageData) : setStaticMap(defaultStaticMap);
+    let isMounted = true;
+    // Load static map and camera coords
+    getMultiple(['cameraCenter', 'cameraZoom']).then((res) => {
+      if (isMounted && res.cameraCenter) {
+        props.setCamera(res.cameraCenter, res.cameraZoom)
       }
     })
+
     mapLoadingHandler()
     
     return () => {
-      mounted = false;
+      isMounted = false;
       props.setLoaded('map', false)
     }
   }, [])
@@ -50,25 +43,23 @@ const WorldMap = (props) => {
         setHeading(heading)
       });
     }
-    if (!props.appState.active && props.location.user.latitude) {
+    if (!props.appState.active && props.location.user) {
+      // Store user location and camera props
+      const data = [
+        ['userLocation', props.location.user],
+        ['cameraCenter', props.location.camera.center],
+        ['cameraZoom', props.location.camera.zoom]
+      ];
+      storeMultiple(data);
       // Stop compass and location tracking
-      stopWatchingLocation()
-      CompassHeading.stop()
-      // Save location and static map
-      storeData(props.location.user, 'userLocation')
-      saveStaticImage()
+      stopWatchingLocation();
+      CompassHeading.stop();
     }
   }, [props.appState.active])
 
-  const saveStaticImage = async () => {
-    const imageData = await map.current.takeSnap(false)
-    storeData(imageData, 'staticMap')
-  }
-
-  const regionChangeHandler = (event) => {
-    if (event.properties.isUserInteraction && props.location.onCamera) {
-      // TODO - Make more precise to handle true offscreen cases
-      props.setCamera(false)
+  const regionChangeHandler = async (event) => {
+    if (event.properties.isUserInteraction) {
+      props.setCamera(event.geometry.coordinates, event.properties.zoomLevel)
     }
   }
 
@@ -85,44 +76,43 @@ const WorldMap = (props) => {
 
   return (
     <>
-    {!props.appState.loaded.map ? <Image source={{uri: staticMap}} style={styles.map}/> : null }
-    <MapView
-      animated={true}
-      style={styles.map}
-      styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
-      logoEnabled={false}
-      compassEnabled={false}
-      attributionEnabled={false}
-      onRegionWillChange={(e) => regionChangeHandler(e)}
-      onDidFinishRenderingMapFully={!props.appState.loaded.map ? () => mapLoadingHandler(true) : null}
-      ref={map}
-      >
-        {props.location.hasPermission ? <MapboxGL.UserLocation
-          animated={true}
-          visible={true}
+      <MapView
+        animated={true}
+        style={styles.map}
+        styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+        logoEnabled={false}
+        compassEnabled={false}
+        attributionEnabled={false}
+        onRegionDidChange={(e) => regionChangeHandler(e)}
+        onDidFinishRenderingMapFully={!props.appState.loaded.map ? () => mapLoadingHandler(true) : null}
         >
-          <MapboxGL.SymbolLayer
-            id={'customUserLocationIcon'}
-            style={{
-              iconAllowOverlap: true,
-              iconIgnorePlacement: true,
-              iconImage: R.images.userMarker,
-              iconSize: 0.4,
-              iconRotate: heading || 0
-            }}
-            minZoomLevel={1}
-          />
-        </MapboxGL.UserLocation> : null}
+          {props.location.user ? <MapboxGL.UserLocation
+            animated={true}
+            visible={true}
+          >
+            <MapboxGL.SymbolLayer
+              id={'customUserLocationIcon'}
+              style={{
+                iconAllowOverlap: true,
+                iconIgnorePlacement: true,
+                iconImage: R.images.userMarker,
+                iconSize: 0.4,
+                iconRotate: heading || 0
+              }}
+              minZoomLevel={1}
+            />
+          </MapboxGL.UserLocation> : null}
         <Camera
-          defaultSettings={defaultSettings}
           animationDuration={!props.appState.loaded.map ? 0 : 2000}
           animationMode='flyTo'
-          centerCoordinate={props.location.onCamera ? [props.location.user.longitude, props.location.user.latitude] : undefined}
-          zoomLevel={props.location.onCamera ? 12 : undefined}
+          centerCoordinate={
+            !props.appState.loaded.map || !props.location.camera.isUserInteraction ? props.location.camera.center : undefined}
+          zoomLevel={
+            !props.appState.loaded.map || !props.location.camera.isUserInteraction ? props.location.camera.zoom : undefined}
           >
         </Camera>
       </MapView>
-      </>
+    </>
   )
 }
 

@@ -4,7 +4,6 @@ const INITIAL_STATE = {
   active: true,
   loaded: {
     map: false,
-    staticMap: false,
   }
 };
 

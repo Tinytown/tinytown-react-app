@@ -24,7 +24,6 @@ const App = (props) => {
     getData('userLocation').then((location) => {
       if (location) {
         props.updateUserLocation(location)
-        props.setCamera(true)
       }
     })
 
@@ -45,7 +44,7 @@ const App = (props) => {
     }
   }, []);
 
-  props.hideSplash ? SplashScreen.hide() : null
+  SplashScreen.hide()
 
   return (
     <NavigationContainer>
@@ -67,7 +66,6 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return { 
     isSignedIn: state.auth.isSignedIn,
-    hideSplash: state.app.loaded.staticMap
    }
 }
 

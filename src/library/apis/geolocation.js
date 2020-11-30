@@ -52,7 +52,7 @@ export const getLocation = async (successHandler) => {
     showDialog()
   } else {
     Geolocation.getCurrentPosition(
-      ({coords}) => successHandler(coords),
+      ({coords}) => successHandler([ coords.longitude, coords.latitude ]),
       (error) => console.log(error.code, error.message),
       { 
       enableHighAccuracy: config.enableHighAccuracy,
@@ -84,10 +84,7 @@ export const watchLocation = async () => {
 
     const successHandler = (coords) => {
       const payload = {
-        user: {
-          longitude: coords.longitude,
-          latitude: coords.latitude
-        },
+        user: [ coords.longitude, coords.latitude ],
         hasPermission
       }
       store.dispatch({ type: UPDATE_LOCATION, payload });
