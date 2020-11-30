@@ -20,7 +20,6 @@ export const signOut = () => {
 export const getUserLocation = () => {
   return async (dispatch) => {
     const onSuccess = (coords) => {
-      console.log(coords)
       const payload = {
         user: coords,
         hasPermission: true,
@@ -50,11 +49,11 @@ export const updateUserLocation = (coords) => {
  }
 }
 
-export const setCamera = (center, zoom) => {
+export const setCamera = (center, zoom, onUser = false) => {
   const payload = {
     center,
     zoom,
-    onUser: false,
+    onUser,
     isUserInteraction: true
   }
   return {

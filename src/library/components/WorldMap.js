@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -20,9 +20,9 @@ const WorldMap = (props) => {
   useEffect(() => {
     let isMounted = true;
     // Load static map and camera coords
-    getMultiple(['cameraCenter', 'cameraZoom']).then((res) => {
+    getMultiple(['cameraCenter', 'cameraZoom', 'onUser']).then((res) => {
       if (isMounted && res.cameraCenter) {
-        props.setCamera(res.cameraCenter, res.cameraZoom)
+        props.setCamera(res.cameraCenter, res.cameraZoom, res.onUser)
       }
     })
 
@@ -48,7 +48,8 @@ const WorldMap = (props) => {
       const data = [
         ['userLocation', props.location.user],
         ['cameraCenter', props.location.camera.center],
-        ['cameraZoom', props.location.camera.zoom]
+        ['cameraZoom', props.location.camera.zoom],
+        ['onUser', props.location.camera.onUser]
       ];
       storeMultiple(data);
       // Stop compass and location tracking
@@ -59,7 +60,17 @@ const WorldMap = (props) => {
 
   const regionChangeHandler = async (event) => {
     if (event.properties.isUserInteraction) {
-      props.setCamera(event.geometry.coordinates, event.properties.zoomLevel)
+
+      let onUser = true;
+      // User goes off screen
+      if (props.location.user[0] < event.properties.visibleBounds[1][0] || 
+        props.location.user[0] > event.properties.visibleBounds[0][0] || 
+        props.location.user[1] > event.properties.visibleBounds[0][1] ||
+        props.location.user[1] < event.properties.visibleBounds[1][1]) {
+        onUser = false;
+      }
+
+      props.setCamera(event.geometry.coordinates, event.properties.zoomLevel, onUser)
     }
   }
 
