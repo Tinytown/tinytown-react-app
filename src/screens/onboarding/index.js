@@ -20,8 +20,11 @@ const OnboardingScreen = (props) => {
         </Scrim>)
       : 
         (<View style={styles.fabContainer}>
-          <FAB label={R.strings.button.goToLocation} theme='green' icon='crosshairs' onPress={() => props.getUserLocation()}/>
-          <TwitterAuth onLoading={(state) => setisLoading(state)} />
+          {props.showSignIn ? 
+            <TwitterAuth onLoading={(state) => setisLoading(state)} />
+          : 
+            <FAB label={R.strings.button.goToLocation} theme='green' icon='crosshairs' onPress={() => props.getUserLocation()}/>
+          }
         </View>)
       }
     </MapView>
@@ -35,4 +38,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(null, { getUserLocation })(OnboardingScreen)
+const mapStateToProps = (state) => {
+  return { showSignIn: state.location.user.latitude }
+}
+
+export default connect(mapStateToProps, { getUserLocation })(OnboardingScreen)
