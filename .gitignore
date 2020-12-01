@@ -62,7 +62,7 @@ buck-out/
 /ios/Pods/
 
 # Secrets
-src/library/utils/config.js
+src/config/env.config.js
 
 # Firebase Configuration Files
 ios/GoogleService-Info.plist

@@ -3,9 +3,9 @@ import Path from 'path';
 import Axios from 'axios';
 import prompts from 'prompts';
 
-const path = Path.resolve('./src/library/utils/config.js');
+const path = Path.resolve('./src/config/env.config.js');
 
-const getConfig = async url => {
+const getConfig = async (url) => {
   const writer = Fs.createWriteStream(path);
 
   const response = await Axios({
@@ -44,12 +44,10 @@ const getConfig = async url => {
 
     // Insert Dev Token in config.js
     const tokenStr = `  DEV_TOKEN: '${token.value}',`;
-    const data = Fs.readFileSync(path)
-      .toString()
-      .split('\n');
+    const data = Fs.readFileSync(path).toString().split('\n');
     data.splice(data.indexOf('});'), 0, tokenStr);
     const text = data.join('\n');
-    Fs.writeFile(path, text, 'utf8', err => {
+    Fs.writeFile(path, text, 'utf8', (err) => {
       if (err) {
         throw err;
       }

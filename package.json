@@ -8,7 +8,7 @@
     "start": "node ./src/library/utils/start.js",
     "test": "jest",
     "lint": "eslint .",
-    "setup": "node ./src/library/utils/env_setup.js"
+    "setup": "node ./src/library/utils/setup.js"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",

@@ -1,5 +1,5 @@
 import {spawn} from 'child_process';
-import config from './config.js';
+import config from '../../config/env.config.js';
 
 if (config.DEV_TOKEN) {
   spawn(

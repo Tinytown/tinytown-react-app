@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
-import { Text, TouchableOpacity, Animated, Image, NativeModules, View, StyleSheet} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  Animated,
+  Image,
+  NativeModules,
+  View,
+  StyleSheet,
+} from 'react-native';
 import * as twitterApi from 'library/utils/@@vendor/twitter';
-import config from 'library/utils/config';
-import R from 'res/R'
-
+import config from '../../config/env.config.js';
+import R from 'res/R';
 
 const {RNTwitterSignIn} = NativeModules;
 
@@ -14,7 +21,7 @@ export default class Splash extends Component {
     this.state = {
       isLoggedIn: false,
     };
-    
+
     RNTwitterSignIn.init(config.TWITTER_API_KEY, config.TWITTER_API_SECRET);
   }
 
@@ -22,31 +29,28 @@ export default class Splash extends Component {
     try {
       await twitterApi.login();
       this.setState({
-        isLoggedIn: true
+        isLoggedIn: true,
       });
-    } catch(e) {
+    } catch (e) {
       throw e;
     }
-  }
+  };
 
   render() {
     return (
       <View style={styles.landscape}>
-          <TouchableOpacity
-            style={styles.twitterButton}
-            onPress={() =>
-              this.twitterLogin()
-                .then(() => {
-                  console.log('Signed in with Twitter!');
-                })
-                .catch(e => {
-                  console.log(e.message);
-                })
-            }
-          >
-            <Text style={styles.twitterButtonText}>
-              Twitter Sign-In
-            </Text>
+        <TouchableOpacity
+          style={styles.twitterButton}
+          onPress={() =>
+            this.twitterLogin()
+              .then(() => {
+                console.log('Signed in with Twitter!');
+              })
+              .catch((e) => {
+                console.log(e.message);
+              })
+          }>
+          <Text style={styles.twitterButtonText}>Twitter Sign-In</Text>
         </TouchableOpacity>
       </View>
     );
@@ -56,12 +60,12 @@ export default class Splash extends Component {
 const styles = StyleSheet.create({
   landscape: {
     backgroundColor: R.colors.justWhite,
-    height: '100%'
+    height: '100%',
   },
   fadingContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   twitterButton: {
     backgroundColor: R.colors.bubblegumRed600,
@@ -73,6 +77,6 @@ const styles = StyleSheet.create({
   twitterButtonText: {
     textAlign: 'center',
     marginTop: 14,
-    color: R.colors.justWhite
-  }
+    color: R.colors.justWhite,
+  },
 });
