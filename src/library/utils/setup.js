@@ -44,7 +44,8 @@ const getConfig = async (url) => {
 
     // Insert Dev Token in config.js
     const tokenStr = `  DEV_TOKEN: '${token.value}',`;
-    const data = Fs.readFileSync(path).toString().split('\n');
+    const data = Fs.readFileSync(path).toString()
+      .split('\n');
     data.splice(data.indexOf('});'), 0, tokenStr);
     const text = data.join('\n');
     Fs.writeFile(path, text, 'utf8', (err) => {
