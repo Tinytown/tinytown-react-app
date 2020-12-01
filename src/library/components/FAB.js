@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { Pressable, Animated, Text, View } from 'react-native';
 import { create } from 'library/utils/normalize.js'
 import RES from 'res';
 
@@ -8,29 +8,40 @@ const getStyles = ({
   theme, branded,
 }) => {
   const containerStyles = [styles.container];
+  const shadowStyles = [styles.shadowContainer];
   const textStyles = [styles.text];
   let iconColor = RES.COLORS.justWhite;
 
   if (theme === 'green') {
     containerStyles.push(styles.containerGreen);
+    shadowStyles.push({ ...RES.SHAPES.elevGreen5 });
     textStyles.push(styles.textGray);
     iconColor = RES.COLORS.asphaltGray;
   } else if (theme === 'blue') {
     containerStyles.push(styles.containerBlue);
+    shadowStyles.push({ ...RES.SHAPES.elevBlue5 });
     textStyles.push(styles.textGray);
     iconColor = RES.COLORS.asphaltGray;
   } else if (theme === 'red') {
     containerStyles.push(styles.containerRed);
+    shadowStyles.push({ ...RES.SHAPES.elevRed5 });
   }
 
   if (branded) {
     textStyles.push(styles.textBranded);
   }
 
-  return { containerStyles, iconColor, textStyles };
+  return { containerStyles, shadowStyles, iconColor, textStyles };
 };
 
 class FAB extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handlePressIn = this.handlePressIn.bind(this);
+    this.handlePressOut = this.handlePressOut.bind(this);
+    this.animatedValue = new Animated.Value(1);
+  }
+
   static propTypes = {
     label: PropTypes.string.isRequired,
     theme: PropTypes.oneOf(['green', 'blue', 'red']),
@@ -46,6 +57,22 @@ class FAB extends React.Component {
     disabled: false,
   };
 
+  handlePressIn() {
+    Animated.spring(this.animatedValue, {
+      toValue: 0.93,
+      useNativeDriver: true,
+    }).start()
+  }
+
+  handlePressOut() {
+    Animated.spring(this.animatedValue, {
+      toValue: 1,
+      friction: 3,
+      tension: 120,
+      useNativeDriver: true,
+    }).start()
+  }
+
   render() {
     const {
       label,
@@ -54,14 +81,30 @@ class FAB extends React.Component {
       onPress,
       disabled,
     } = this.props;
-    const { containerStyles, iconColor, textStyles } = getStyles({ theme, branded });
+    const { containerStyles, shadowStyles, iconColor, textStyles } = getStyles({ theme, branded });
+    const animatedStyle = {
+      transform: [{ scale: this.animatedValue }],
+      borderRadius: RES.SHAPES.radiusAll,
+      overflow: 'hidden',
+    }
     return (
-      <TouchableOpacity onPress={onPress} style={containerStyles} disabled={disabled}>
-        <View style={styles.iconContainer}>
-          <RES.Icon icon={this.props.icon} color={iconColor}/>
-        </View>
-        <Text style={textStyles}>{label}</Text>
-      </TouchableOpacity>
+      <View style={shadowStyles} pointerEvents='box-none'>
+        <Animated.View style={animatedStyle}>
+          <Pressable
+            onPress={onPress}
+            onPressIn={this.handlePressIn}
+            onPressOut={this.handlePressOut}
+            disabled={disabled}
+            android_ripple={{ color: RES.COLORS.steelGray }}
+            style={containerStyles}
+          >
+            <View style={styles.iconContainer}>
+              <RES.Icon icon={this.props.icon} color={iconColor} />
+            </View>
+            <Text style={textStyles}>{label}</Text>
+          </Pressable>
+        </Animated.View>
+      </View>
     );
   }
 }
@@ -74,6 +117,11 @@ const styles = create({
     paddingVertical: 12,
     borderRadius: RES.SHAPES.radiusAll,
     backgroundColor: RES.COLORS.asphaltGray,
+    ...RES.SHAPES.elevGray5,
+  },
+
+  shadowContainer: {
+    borderRadius: RES.SHAPES.radiusAll,
     ...RES.SHAPES.elevGray5,
   },
 
