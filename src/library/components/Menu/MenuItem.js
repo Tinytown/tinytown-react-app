@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Platform,
+  Text,
   TouchableHighlight,
   TouchableNativeFeedback,
   View,
@@ -14,50 +15,62 @@ const Touchable =
     ? TouchableNativeFeedback
     : TouchableHighlight;
 
-class IconButton extends React.Component {
+class MenuItem extends React.Component {
   static propTypes = {
+    label: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
   };
 
   static defaultProps = {
+    label: 'Menu item',
     disabled: false,
   };
 
   render() {
     const {
+      label,
       disabled,
       onPress,
     } = this.props;
     return (
-      <View style={[styles.container, disabled && { opacity: RES.COLORS.opacity40 }]}>
-        <Touchable
-          disabled={disabled}
-          onPress={onPress}
-          background={TouchableNativeFeedback.Ripple(RES.COLORS.sidewalkGray, true)}
-          underlayColor={RES.COLORS.snowGray}
-        >
+      <Touchable
+        disabled={disabled}
+        onPress={onPress}
+        background={TouchableNativeFeedback.Ripple(RES.COLORS.sidewalkGray)}
+        underlayColor={RES.COLORS.snowGray}
+      >
+        <View style={[styles.container, disabled && RES.COLORS.opacity40]}>
           <View style={styles.assetContainer}>
             <View style={styles.iconContainer}>
               <RES.Icon icon={this.props.icon} color={RES.COLORS.graniteGray}/>
             </View>
           </View>
-        </Touchable>
-      </View>
+          <Text
+            numberOfLines={1}
+            style={styles.label}
+          >
+            {label}
+          </Text>
+        </View>
+      </Touchable>
     );
   }
 }
 
 const styles = create({
   container: {
-    borderRadius: RES.SHAPES.radiusAll,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 48,
+    width: 200,
+    paddingHorizontal: 8,
     overflow: 'hidden',
   },
 
   assetContainer: {
-    justifyContent: 'center',
     alignItems: 'center',
-    height: 48,
     width: 48,
+    marginRight: 8,
   },
 
   iconContainer: {
@@ -65,6 +78,11 @@ const styles = create({
     height: 24,
   },
 
+  label: {
+    width: 120,
+    color: RES.COLORS.graniteGray,
+    ...RES.TYPOGRAPHY.subheader3,
+  },
 });
 
-export default IconButton;
+export default MenuItem;

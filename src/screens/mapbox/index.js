@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { View, PermissionsAndroid, Platform } from 'react-native';
-import { create } from 'library/utils/normalize.js'
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import config from 'tinytown/config';
+import { create } from 'library/utils/normalize.js'
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import userMarker from 'res/img/user_marker.png';
 import Geolocation from 'react-native-geolocation-service';
-import {bindMethods} from 'library/utils/component-ops';
-import { AppBar, FAB } from 'library/components';
-import { strings } from 'res';
-import _ from 'lodash';
 import CompassHeading from 'react-native-compass-heading';
+import _ from 'lodash';
+import config from 'tinytown/config';
+import { bindMethods } from 'library/utils/component-ops';
+import { HomeBar, FAB } from 'library/components';
+import RES from 'res';
 
-const {MapView, Camera} = MapboxGL;
+const { MapView, Camera } = MapboxGL;
 
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
@@ -20,23 +19,23 @@ const isAndroid = Platform.OS === 'android';
 
 const styles = create({
   landscape: {
-    height: '100%'
+    height: '100%',
   },
   map: {
     height: '100%',
-    width: '100%'
+    width: '100%',
   },
   safeArea: {
     position: 'absolute',
     width: '100%',
     bottom: StaticSafeAreaInsets.safeAreaInsetsBottom,
     top: StaticSafeAreaInsets.safeAreaInsetsTop,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   fabContainer: {
     position: 'absolute',
-    bottom: 24
-  }
+    bottom: 24,
+  },
 });
 
 const degreeUpdateRate = 3;
@@ -47,7 +46,12 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
 
-    bindMethods(['goToLocation', 'onRegionDidChange', 'goToLocationNonFirstHelper', 'goToLocationFirstHelper', 'onDidFinishRenderingFrameFully'], this);
+    bindMethods([
+      'goToLocation',
+      'onRegionDidChange',
+      'goToLocationNonFirstHelper',
+      'goToLocationFirstHelper',
+      'onDidFinishRenderingFrameFully'], this);
     this.state = {
       userLocation: null,
       heading: null,
@@ -55,62 +59,67 @@ export default class Map extends Component {
       isMapLoading: false, // axiom: loading only applies to an existing map
       followUser: false,
       haveLocationPermission: false,
-      goingToLocation: false
+      goingToLocation: false,
+      showingMenu: false,
     };
 
     this.camera = React.createRef();
-    
+
     this.defaultZoomLevel = 14;
 
-    this.updateLocation = _.throttle(event => {
+    this.updateLocation = _.throttle((event) => {
       if (!event) {
         return;
       }
-      const {latitude, longitude} = event.coords;
-      const latitudeChanged = this.state.userLocation ? Math.abs(latitude - this.state.userLocation.latitude) > coordinateThreshold : true;
-      const longitudeChanged = this.state.userLocation ? Math.abs(longitude - this.state.userLocation.longitude) > coordinateThreshold : true;
-      if (latitudeChanged || longitudeChanged) {
+      const { latitude, longitude } = event.coords;
+      const locationHasChanged =
+        this.state.userLocation ? this.coordsAreDifferent(event.coords, this.state.userLocation) : true;
+      if (locationHasChanged) {
         this.setState({
           userLocation: {
             longitude,
             latitude,
-          }
+          },
         });
       }
-    }, 50, {trailing: false})
+    }, 50, { trailing: false })
 
-    CompassHeading.start(degreeUpdateRate, heading => {
+    CompassHeading.start(degreeUpdateRate, (heading) => {
       this.setState({
-        heading
+        heading,
       })
     });
   }
-  
+
   componentDidMount() {
     MapboxGL.setTelemetryEnabled(false);
   }
 
-  cameraHasMoved = (coords, otherCoords) => {
-    return Math.abs(coords.latitude - otherCoords.latitude > coordinateThreshold) || Math.abs(coords.longitude - otherCoords.longitude > coordinateThreshold);
+  coordsAreDifferent = (coords, otherCoords) => {
+    const latitudeIsDifferent = Math.abs(coords.latitude - otherCoords.latitude > coordinateThreshold);
+    const longitudeIsDifferent = Math.abs(coords.latitude - otherCoords.latitude > coordinateThreshold);
+    return latitudeIsDifferent || longitudeIsDifferent;
   }
 
   onDidFinishRenderingFrameFully() {
     if (this.state.goingToLocation) {
       this.setState({
         goingToLocation: false,
-        followUser: true
+        followUser: true,
       });
     }
   }
-  
+
   onRegionDidChange(event) {
     const [cameraLongitude, cameraLatitude] = event.geometry.coordinates;
-    let followUser = this.state.followUser;
-    if (followUser && this.cameraHasMoved({longitude: cameraLongitude,latitude: cameraLatitude}, this.state.userLocation)) {
+    let { followUser } = this.state;
+    const cameraCoords = { longitude: cameraLongitude, latitude: cameraLatitude };
+    const cameraHasMoved = this.coordsAreDifferent(cameraCoords, this.state.userLocation)
+    if (followUser && cameraHasMoved) {
       followUser = false;
     }
     this.setState({
-      followUser
+      followUser,
     });
   }
 
@@ -121,15 +130,15 @@ export default class Map extends Component {
   }
 
   goToLocationNonFirstHelper() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       goingToLocation: true,
       followUser: false, // disabling followUser is not really necessary with the current follow mode, but it allows flexibility if in future we can change the mode, say, to FollowWithHeading
       cameraCoordinates: [prevState.userLocation.longitude, prevState.userLocation.latitude],
-      zoomLevel: this.defaultZoomLevel
+      zoomLevel: this.defaultZoomLevel,
     }), () => {
       this.camera.current.setCamera({
         centerCoordinate: this.state.cameraCoordinates,
-        zoomLevel: this.state.zoomLevel
+        zoomLevel: this.state.zoomLevel,
       });
     })
   }
@@ -137,92 +146,107 @@ export default class Map extends Component {
   goToLocationFirstHelper() {
     const doUpdates = () => {
       Geolocation.getCurrentPosition(
-        position => {
-          const {latitude, longitude} = position.coords;
-          console.log('doing first time go to location update');
+        (position) => {
+          const { latitude, longitude } = position.coords;
           this.setState({
             haveLocationPermission: true,
             goingToLocation: true,
             cameraCoordinates: [longitude, latitude],
-            zoomLevel: this.defaultZoomLevel
+            zoomLevel: this.defaultZoomLevel,
           });
         },
-        error => {
+        (error) => {
           console.log(error.code, error.message); // incorporate actual error-handling mechanism in the future (e.g., Rollbar)
         },
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000}
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
       );
     };
     if (isAndroid) {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       )
-      .then(status => {
-        if (status === PermissionsAndroid.RESULTS.GRANTED) {
-          doUpdates();
-        }
-      });
+        .then((status) => {
+          if (status === PermissionsAndroid.RESULTS.GRANTED) {
+            doUpdates();
+          }
+        });
       return null;
     }
 
     // assume iOS
     Geolocation.requestAuthorization('always')
-      .then(status => {
+      .then((status) => {
         if (status === 'granted') {
           doUpdates();
         }
       });
   }
 
+  hideMenu = () => {
+    this.setState({
+      showingMenu: false,
+    });
+  };
+
+  showMenu = () => {
+    this.setState({
+      showingMenu: true,
+    });
+  };
+
   render() {
-    /* 
-      the landscape view here is  e to me not knowing a better alternative to ensure map takes full page size.
+    /*
+      the landscape view here is due to me not knowing a better alternative to ensure map takes full page size.
       also, tried adding this as a proper jsx comment next to the respective view, but to no avail.
     */
-    const {zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading} = this.state;
+    const { zoomLevel, followUser, haveLocationPermission, goingToLocation, cameraCoordinates, heading, showingMenu } = this.state; // eslint-disable-line max-len
     return (
       <View style={styles.landscape}>
-            <MapView
-                animated={true}
-                style={styles.map}
-                styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
-                logoEnabled={false}
-                attributionEnabled={false}
-                onRegionDidChange={this.handleRegionChange}
-                regionDidChangeDebounceTime={2000}
-                onDidFinishRenderingFrameFully={this.onDidFinishRenderingFrameFully}
-            >
-              {haveLocationPermission ? <MapboxGL.UserLocation
-                visible={haveLocationPermission}
-                animate={haveLocationPermission}
-                onUpdate={this.updateLocation}
-              >
-                <MapboxGL.SymbolLayer
-                  id={'customUserLocationIcon'}
-                  style={{
-                    iconAllowOverlap: true,
-                    iconImage: userMarker,
-                    iconSize: 0.4,
-                    iconRotate: heading || 0
-                  }}
-                  minZoomLevel={1}
-                />
-              </MapboxGL.UserLocation> : null}
-              <Camera
-                followUserLocation={followUser}
-                followUserMode={MapboxGL.UserTrackingModes.Follow}
-                ref={this.camera}
-                centerCoordinate={cameraCoordinates ? cameraCoordinates : undefined}
-                zoomLevel={zoomLevel ? zoomLevel : undefined}
-                >
-              </Camera>
-            </MapView>
-            <View style={styles.safeArea} pointerEvents='box-none'>
-              <AppBar type='home'/>
-              <View style={styles.fabContainer}>
-                <FAB label={strings.button.gotoLocation} theme='green' icon='crosshairs' onPress={this.goToLocation} disabled={goingToLocation}/>
-              </View>
-            </View>
+        <MapView
+          animated={true}
+          style={styles.map}
+          styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+          logoEnabled={false}
+          attributionEnabled={false}
+          onRegionDidChange={this.handleRegionChange}
+          regionDidChangeDebounceTime={2000}
+          onDidFinishRenderingFrameFully={this.onDidFinishRenderingFrameFully}
+        >
+          {haveLocationPermission ? <MapboxGL.UserLocation
+            animate={true}
+            visible={true}
+            onUpdate={this.updateLocation}
+          >
+            <MapboxGL.SymbolLayer
+              id={'customUserLocationIcon'}
+              style={{
+                iconAllowOverlap: true,
+                iconImage: RES.IMAGES.userMarker,
+                iconSize: 0.4,
+                iconRotate: heading || 0,
+              }}
+              minZoomLevel={1}
+            />
+          </MapboxGL.UserLocation> : null}
+          <Camera
+            followUserLocation={followUser}
+            followUserMode={MapboxGL.UserTrackingModes.Follow}
+            ref={this.camera}
+            centerCoordinate={cameraCoordinates ? cameraCoordinates : undefined}
+            zoomLevel={zoomLevel ? zoomLevel : undefined}
+          >
+          </Camera>
+        </MapView>
+        <View style={styles.safeArea} pointerEvents='box-none'>
+          <HomeBar />
+          <View style={styles.fabContainer}>
+            <FAB
+              label={RES.STRINGS.button.gotoLocation}
+              theme='green' icon='crosshairs'
+              onPress={this.goToLocation}
+              disabled={goingToLocation}/>
+          </View>
+        </View>
       </View>
     );
   }

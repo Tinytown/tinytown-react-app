@@ -1,13 +1,17 @@
-// Combines all style variables under one file: import { typography, colors } from 'res' 
+import * as COLORS from './colors';
+import * as TYPOGRAPHY from './typography';
+import * as SHAPES from './shapes';
+import * as STRINGS from './strings';
+import * as IMAGES from './img';
+import Icon from './svg';
 
-import * as colors from './colors';
-import * as typography from './typography';
-import * as shapes from './shapes';
-import * as strings from './strings';
-
-export {
-  colors,
-  typography,
-  shapes,
-  strings
+const RES = {
+  COLORS,
+  TYPOGRAPHY,
+  SHAPES,
+  STRINGS,
+  IMAGES,
+  Icon,
 }
+
+export default RES
