@@ -1,18 +1,11 @@
-import React, {Component} from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  Animated,
-  Image,
-  NativeModules,
-  View,
-  StyleSheet,
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, TouchableOpacity, NativeModules, View } from 'react-native';
 import * as twitterApi from 'library/utils/@@vendor/twitter';
 import config from '../../config/env.config.js';
-import R from 'res/R';
+import { create } from 'library/utils/normalize.js'
+import RES from 'res';
 
-const {RNTwitterSignIn} = NativeModules;
+const { RNTwitterSignIn } = NativeModules;
 
 export default class Splash extends Component {
   constructor(props) {
@@ -49,17 +42,20 @@ export default class Splash extends Component {
               .catch((e) => {
                 console.log(e.message);
               })
-          }>
-          <Text style={styles.twitterButtonText}>Twitter Sign-In</Text>
+          }
+        >
+          <Text style={styles.twitterButtonText}>
+              Twitter Sign-In
+          </Text>
         </TouchableOpacity>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = create({
   landscape: {
-    backgroundColor: R.colors.justWhite,
+    backgroundColor: RES.COLORS.justWhite,
     height: '100%',
   },
   fadingContainer: {
@@ -68,15 +64,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   twitterButton: {
-    backgroundColor: R.colors.bubblegumRed600,
-    borderRadius: R.shapes.radiusAll,
+    backgroundColor: RES.COLORS.bubblegumRed600,
+    borderRadius: RES.SHAPES.radiusAll,
     width: 200,
     height: 50,
-    ...R.shapes.elevRed5,
+    ...RES.SHAPES.elevRed5,
   },
   twitterButtonText: {
     textAlign: 'center',
     marginTop: 14,
-    color: R.colors.justWhite,
+    color: RES.COLORS.justWhite,
   },
 });

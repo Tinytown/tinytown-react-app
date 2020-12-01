@@ -23,8 +23,8 @@ const App = () => {
         initialRouteName="Map"
         headerMode="none"
       >
-        <Stack.Screen name="Splash" options={{title: 'Splash'}} component={Splash} />
-        <Stack.Screen name="Map" options={{title: 'Map'}} component={Map} />
+        <Stack.Screen name="Splash" options={{ title: 'Splash' }} component={Splash} />
+        <Stack.Screen name="Map" options={{ title: 'Map' }} component={Map} />
       </Stack.Navigator>
     </NavigationContainer>
   );
