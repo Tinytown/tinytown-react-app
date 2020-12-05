@@ -3,7 +3,8 @@ import Path from 'path';
 import Axios from 'axios';
 import prompts from 'prompts';
 
-const path = Path.resolve('./src/config/env.config.js');
+const relativePath = './src/config/env.config.js'
+const path = Path.resolve(relativePath);
 
 const getConfig = async (url) => {
   const writer = Fs.createWriteStream(path);
@@ -32,7 +33,7 @@ const getConfig = async (url) => {
     inactive: 'no',
   });
 
-  const doneMsg = 'All done. Happy coding!';
+  const doneMsg = `Config file created at: ${relativePath}. Happy coding!`;
 
   if (team.value) {
     getConfig('https://ttown.app/team_config');
@@ -54,8 +55,11 @@ const getConfig = async (url) => {
       }
       console.log(doneMsg);
     });
-  } else {
+    return;
+  } else if (team.value === false) {
     getConfig('https://ttown.app/external_config');
     console.log(doneMsg);
+    return;
   }
+  console.log('Project setup exited early');
 })();
