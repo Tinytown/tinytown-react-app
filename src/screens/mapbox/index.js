@@ -6,7 +6,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
 import CompassHeading from 'react-native-compass-heading';
 import _ from 'lodash';
-import config from '../../config/env.config.js';
+import config from 'config/env.config.js';
 import { bindMethods } from 'library/utils/component-ops';
 import { HomeBar, FAB } from 'library/components';
 import RES from 'res';

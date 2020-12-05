@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, NativeModules, View } from 'react-native';
 import * as twitterApi from 'library/utils/@@vendor/twitter';
-import config from '../../config/env.config.js';
+import config from 'config/env.config.js';
 import { create } from 'library/utils/normalize.js'
 import RES from 'res';
 
