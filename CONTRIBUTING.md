@@ -80,7 +80,7 @@ class User {
 ### Security
 
 #### Keys and Tokens
-Our team uses [Doppler](https://doppler.com/) to manage environment variables but you can use your own keys and tokens by running `yarn setup` and then editing the _src/library/utils/config.js_ file. This file is already in .gitignore to keep you from accidentally sharing it with others.
+Our team uses [Doppler](https://doppler.com/) to manage environment variables but you can use your own keys and tokens by running `yarn setup` and then editing the _/src/config/env.config.js_ file. This file is already in .gitignore to keep you from accidentally sharing it with others.
 
 ### Pull Requests
 
