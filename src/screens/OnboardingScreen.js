@@ -16,7 +16,7 @@ const OnboardingScreen = (props) => {
       props.showSignIn ? 
         <TwitterAuth onLoading={(state) => setisLoading(state)} />
       : 
-        <FAB label={R.strings.button.goToLocation} theme='green' icon='crosshairs' onPress={() => props.getUserLocation()}/>
+        <FAB label={R.strings.button.goToLocation} theme='green' icon='crosshairs' onPress={props.getUserLocation}/>
     )
   }
   
@@ -42,11 +42,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => {
-  return { 
+const mapStateToProps = (state) => ({
     showSignIn: state.location.user,
     showButtons: state.app.loaded.map
-  }
-}
+})
 
 export default connect(mapStateToProps, { getUserLocation })(OnboardingScreen)

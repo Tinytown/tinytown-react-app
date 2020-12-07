@@ -14,7 +14,7 @@ const HomeScreen = (props) => {
       <Image source={{uri: props.photoURL}} style={{height: 40, width: 40, borderWidth: 2, borderColor: 'white'}} />
       <View style={styles.fabContainer}>
         {!props.userVisible ? 
-        <FAB label={R.strings.button.goToLocation} theme='green' icon='crosshairs' onPress={() => props.getUserLocation()}/> : null}
+        <FAB label={R.strings.button.goToLocation} theme='green' icon='crosshairs' onPress={props.getUserLocation}/> : null}
         <FAB label='Sign Out' theme='blue' icon='placeholder' onPress={() => auth().signOut().then(() => props.signOut())}/>
         <FAB label={R.strings.button.shout} theme='red' icon='megaphone' branded onPress={() => console.log(`LOUD NOISES from ${props.displayName}`)}/>
       </View>
@@ -28,13 +28,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => {
-  return { 
+const mapStateToProps = (state) => ({
     photoURL: state.auth.user?.photoURL, 
     displayName: state.auth.user?.displayName,
     userVisible: state.location.userVisible,
-  }
-}
-  
+})
+
 export default connect(mapStateToProps, { signOut, getUserLocation })(HomeScreen);
 

@@ -34,9 +34,7 @@ const TwitterAuth = (props) => {
     }
   }
   
-  return (
-      <FAB onPress={onLogInPress} label={R.strings.button.logIn} theme='blue' icon='twitter' />
-  )
+  return <FAB onPress={onLogInPress} label={R.strings.button.logIn} theme='blue' icon='twitter' />
 }
 
 export default connect(null, { signIn })(TwitterAuth)

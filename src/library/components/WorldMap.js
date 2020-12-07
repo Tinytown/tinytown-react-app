@@ -158,14 +158,12 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => {
-  return { 
+const mapStateToProps = (state) => ({
     userLocation: state.location.user,
     goToUser: state.location.goToUser,
     userVisible: state.location.userVisible,
     appState: state.app,
     isSignedIn: state.auth.isSignedIn,
-  }
-}
+})
 
 export default connect(mapStateToProps, { setLoaded, updateUserVisible })(WorldMap)

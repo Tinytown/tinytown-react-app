@@ -2,7 +2,7 @@ import { SIGN_IN, SIGN_OUT, UPDATE_LOCATION, APP_STATE, APP_LOAD, GO_TO_USER, US
 import { getLocation } from '../../library/apis/geolocation'
 import { clearStorage } from '../../library/apis/storage'
 
-export const signIn = ({ photoURL, displayName, uid }) => { 
+export const signIn = ({ photoURL, displayName, uid }) => {
   return {
     type: SIGN_IN,
     payload: { photoURL, displayName, uid },
@@ -11,14 +11,10 @@ export const signIn = ({ photoURL, displayName, uid }) => {
 
 export const signOut = () => {
   clearStorage()
-  
-  return {
-    type: SIGN_OUT,
-  };
+  return { type: SIGN_OUT };
 };
 
-export const getUserLocation = () => {
-  return async (dispatch) => {
+export const getUserLocation = () => async (dispatch) => {
     const onSuccess = (coords) => {
       const payload = {
         user: coords,
@@ -30,7 +26,6 @@ export const getUserLocation = () => {
     }
     
     getLocation(onSuccess)
-  };
 };
 
 export const updateUserLocation = (coords) => {
@@ -54,9 +49,5 @@ export const updateAppState = (event) => {
 }
 
 export const setLoaded = (key, value) => {
-  const payload = {
-    key,
-    value
-  }
-  return { type: APP_LOAD, payload }
+  return { type: APP_LOAD, payload: { key, value }}
 }

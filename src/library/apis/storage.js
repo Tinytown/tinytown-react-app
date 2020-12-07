@@ -6,7 +6,7 @@ export const getData = async (key) => {
     return jsonValue ? JSON.parse(jsonValue) : null
   } catch (err) {
     console.log(err)
-    return undefined;
+    return;
   }
 };
 
@@ -26,7 +26,7 @@ export const getMultiple = async (arr) => {
     return Object.fromEntries(parsedArr)
   } catch (err) {
     console.log(err)
-    return undefined;
+    return;
   }
 };
 

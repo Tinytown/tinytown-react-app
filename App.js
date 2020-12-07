@@ -63,10 +63,6 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return { 
-    isSignedIn: state.auth.isSignedIn,
-   }
-}
+const mapStateToProps = (state) => ({ isSignedIn: state.auth.isSignedIn })
 
 export default connect(mapStateToProps, { signIn, updateAppState, updateUserLocation })(App);
