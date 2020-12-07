@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 
 export default () => {
   const cameraReducer = (state, action) => {
@@ -29,6 +29,23 @@ export default () => {
     zoom ? dispatch({ type: 'update_zoom', payload: zoom }) : null
     movedByUser !== null ? dispatch({ type: 'update_moved', payload: movedByUser }) : null
   };
+
+  // Move camera to location
+  const flyTo = (trigger, location, cameraRef) => {
+    useEffect(() => {
+      let isMounted = true;
+      if (trigger && isMounted) {
+        cameraRef?.flyTo(location, 1000)
+        setCamera({ 
+          center: location, 
+          zoom: 12, 
+          movedByUser: false})
+      }
+      return () => {
+        isMounted = false;
+      }
+  }, [trigger])
+  }
   
-  return [camera, setCamera]
+  return [camera, setCamera, flyTo]
 }

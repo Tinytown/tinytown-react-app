@@ -7,19 +7,21 @@ import { watchLocation, stopWatchingLocation, onCameraCheck } from '../apis/geol
 import { storeMultiple, getMultiple } from '../apis/storage'
 import { connect } from 'react-redux';
 import { setLoaded, updateUserVisible  } from '../../redux/actions';
-import useCamera from '../hooks/useCamera'
+import useMapCamera from '../hooks/useMapCamera'
 import R from 'res/R';
 
 const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const WorldMap = (props) => {
+  const cameraRef = useRef(null)
+  const mapRef = useRef(null)
   const [mapRendered, setMapRendered] = useState(false)
   const [heading, setHeading] = useState(0)
-  const [camera, setCamera] = useCamera();
-  const cameraRef = useRef(null)
-  
-  // App launches / quits
+  const [camera, setCamera, flyTo] = useMapCamera();
+  flyTo(props.goToUser, props.userLocation, cameraRef.current)
+
+  // App launches || quits
   useEffect(() => {
     let isMounted = true;
     // Load static map and camera props
@@ -41,7 +43,7 @@ const WorldMap = (props) => {
     }
   }, [])
 
-  // App is active / background
+  // App is active || background
   useEffect(() => {
     if (props.appState.active) {
       // Start compass and location tracking
@@ -68,21 +70,14 @@ const WorldMap = (props) => {
     }
   }, [props.appState.active])
 
-  // Move camera to user's location
-  useEffect(() => {
-    let isMounted = true;
-    if (props.goToUser && isMounted) {
-      cameraRef.current?.flyTo(props.userLocation, 1000)
-      setCamera({ 
-        center: props.userLocation, 
-        zoom: 12, 
-        movedByUser: false})
+  // Check if user is off screen
+  const updateUserVisibility = (visibleBounds) => {
+    if (props.isSignedIn) {
+      const userVisible = onCameraCheck(props.userLocation, visibleBounds)
+      userVisible !== props.userVisible ? props.updateUserVisible(userVisible) : null
     }
-    return () => {
-      isMounted = false;
-    }
-  }, [props.goToUser])
-
+  }
+  
   // Handle camera change
   const regionChangeHandler = async ({ properties, geometry }) => {
     if (properties.isUserInteraction) {
@@ -92,14 +87,16 @@ const WorldMap = (props) => {
         zoom: properties.zoomLevel,
         movedByUser: true
       })
-
-      // Check if user is off screen
-      if (props.isSignedIn) {
-        const userVisible = onCameraCheck(props.userLocation, properties.visibleBounds)
-        userVisible !== props.userVisible ? props.updateUserVisible(userVisible) : null
-      }
+      updateUserVisibility(properties.visibleBounds)
     }
   }
+  
+  // Handle user location change
+  useEffect(() => {
+    mapRef.current.getVisibleBounds()
+      .then((visibleBounds) => updateUserVisibility(visibleBounds))
+      .catch((err) => console.log(err))
+  }, [props.userLocation])
 
   // Extra logic to handle loading edge cases
   const mapLoadingHandler = (mapFinishedRendering) => {
@@ -115,6 +112,7 @@ const WorldMap = (props) => {
   return (
     <>
       <MapView
+        ref={mapRef}
         animated={true}
         style={styles.map}
         styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
