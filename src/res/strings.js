@@ -1,6 +1,10 @@
 import Platform from 'react-native'
 import appConfig from '../../app.json';
 
+export const menuItem = {
+  about: 'About',
+  signOut: 'Sign Out',
+};
 
 export const button = {
   goToLocation: 'Go to my location',

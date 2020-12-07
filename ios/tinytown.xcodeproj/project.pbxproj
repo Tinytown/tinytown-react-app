@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* tinytownTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* tinytownTests.m */; };
-		0557C6E8EFD20A8CD9DCDBBA /* libPods-tinytown.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29471E94F6ABE5F113990073 /* libPods-tinytown.a */; };
 		11FCA13729EF488E8D992286 /* NunitoSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC4891F675A34860881207DF /* NunitoSans-Black.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -19,6 +18,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* tinytownTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* tinytownTests.m */; };
 		8EE5323D929F40D78DBD1383 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23D525D145AD47ED9C92B871 /* Nunito-Regular.ttf */; };
+		93B4AAECD242CE3FE5280BF4 /* libPods-tinytown.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29471E94F6ABE5F113990073 /* libPods-tinytown.a */; };
 		9A461E98031B499C9846BF05 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34254B226DC246C398BC3077 /* Nunito-BlackItalic.ttf */; };
 		B13CEEAB24DF4C2B00AB907D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */; };
 		B13CEEAC24DF4C2B00AB907D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */; };
@@ -95,7 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0557C6E8EFD20A8CD9DCDBBA /* libPods-tinytown.a in Frameworks */,
+				93B4AAECD242CE3FE5280BF4 /* libPods-tinytown.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,12 +445,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tinytown/Pods-tinytown-resources.sh",
 				"${PODS_ROOT}/MapboxMobileEvents/MapboxMobileEvents/Resources/logger.html",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 				"${PODS_ROOT}/TwitterKit5/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/logger.html",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Cpp.bundle",
 			);
@@ -557,12 +559,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tinytown-tinytownTests/Pods-tinytown-tinytownTests-resources.sh",
 				"${PODS_ROOT}/MapboxMobileEvents/MapboxMobileEvents/Resources/logger.html",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 				"${PODS_ROOT}/TwitterKit5/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/logger.html",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Cpp.bundle",
 			);
