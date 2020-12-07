@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, NativeModules, View } from 'react-native';
-
 import * as twitterApi from 'library/utils/@@vendor/twitter';
-import config from 'tinytown/config';
+import config from 'config/env.config.js';
 import { create } from 'library/utils/normalize.js'
 import RES from 'res';
 
@@ -16,7 +15,7 @@ export default class Splash extends Component {
       isLoggedIn: false,
     };
 
-    RNTwitterSignIn.init('zPSC91qO9vkQvc5pdblqTdlnW', config.TWITTER_CONSUMER_SECRET);
+    RNTwitterSignIn.init(config.TWITTER_API_KEY, config.TWITTER_API_SECRET);
   }
 
   twitterLogin = async () => {
@@ -28,7 +27,7 @@ export default class Splash extends Component {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
   render() {
     return (

@@ -17,7 +17,7 @@ module.exports = {
     'arrow-spacing': 'error',
 
     // Naming
-    'camelcase': ['error', 'always'],
+    'camelcase': ['error', { properties: 'always' }],
     'new-cap': ['error', { 'capIsNew': false }],
 
     // Whitespace

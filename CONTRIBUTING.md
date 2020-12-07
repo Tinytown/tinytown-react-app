@@ -80,7 +80,7 @@ class User {
 ### Security
 
 #### Keys and Tokens
-Whenever you must use confidential credentials (e.g., access tokens), please write these inside _.env_ in the root directory and incorporate it using **react-native-config**. Please look at _config.js_ and how MAPBOX_ACCESS_TOKEN is incorporated for inspiration. Furthermore, for instructions on how the .env file should be written, please look at the _README<span></span>.md_ file in the root repository.
+Our team uses [Doppler](https://doppler.com/) to manage environment variables but you can use your own keys and tokens by running `yarn setup` and then editing the _/src/config/env.config.js_ file. This file is already in .gitignore to keep you from accidentally sharing it with others.
 
 ### Pull Requests
 
