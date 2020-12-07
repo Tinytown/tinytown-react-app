@@ -1,16 +1,21 @@
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
+import stateValidator from './middlewares/stateValidator';
 import reducers from './reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const composeEnhancers = composeWithDevTools({
-  trace: true
-})
+  trace: true,
+});
 
 const INITIAL_STATE = {
   auth: {
     isSignedIn: false,
-    user: null,
+    user: {
+      photoURL: '',
+      displayName: '',
+      uid: '',
+    },
   },
   location: {
     user: null,
@@ -25,12 +30,10 @@ const INITIAL_STATE = {
       map: false,
     },
   },
-}
+};
 
-export default store = createStore(
+export default (store = createStore(
   reducers,
   INITIAL_STATE,
-  composeEnhancers(
-    applyMiddleware(reduxThunk)
-  ),
-);
+  composeEnhancers(applyMiddleware(reduxThunk, stateValidator)),
+));
