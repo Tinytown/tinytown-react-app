@@ -1,14 +1,6 @@
 import { SIGN_OUT, UPDATE_LOCATION, UPDATE_WATCHING, GO_TO_USER, USER_VISIBLE } from '../actions/types';
 
-const INITIAL_STATE = {
-  user: null,
-  hasPermission: false,
-  watchingLocation: false,
-  goToUser: false,
-  userVisible: false,
-};
-
-export default (state = INITIAL_STATE, action) => {
+export default (state = null, action) => {
   switch (action.type) {
     case UPDATE_LOCATION:
       return { 

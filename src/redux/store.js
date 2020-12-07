@@ -7,11 +7,30 @@ const composeEnhancers = composeWithDevTools({
   trace: true
 })
 
-const store = createStore(
+const INITIAL_STATE = {
+  auth: {
+    isSignedIn: false,
+    user: null,
+  },
+  location: {
+    user: null,
+    hasPermission: false,
+    watchingLocation: false,
+    goToUser: false,
+    userVisible: false,
+  },
+  app: {
+    active: true,
+    loaded: {
+      map: false,
+    },
+  },
+}
+
+export default store = createStore(
   reducers,
+  INITIAL_STATE,
   composeEnhancers(
     applyMiddleware(reduxThunk)
   ),
 );
-
-export default store;
