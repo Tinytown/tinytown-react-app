@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import config from 'tinytown/config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CompassHeading from 'react-native-compass-heading';
-import { watchLocation, stopWatchingLocation } from '../apis/geolocation'
+import { watchLocation, stopWatchingLocation, onCameraCheck } from '../apis/geolocation'
 import { storeMultiple, getMultiple } from '../apis/storage'
 import { connect } from 'react-redux';
-import { setCamera, setLoaded } from '../../redux/actions';
+import { setLoaded, updateUserVisible  } from '../../redux/actions';
+import useCamera from '../hooks/useCamera'
 import R from 'res/R';
 
 const { MapView, Camera } = MapboxGL;
@@ -15,14 +16,20 @@ MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 const WorldMap = (props) => {
   const [mapRendered, setMapRendered] = useState(false)
   const [heading, setHeading] = useState(0)
+  const [camera, setCamera] = useCamera();
+  const cameraRef = useRef(null)
   
   // App launches / quits
   useEffect(() => {
     let isMounted = true;
-    // Load static map and camera coords
-    getMultiple(['cameraCenter', 'cameraZoom', 'onUser']).then((res) => {
+    // Load static map and camera props
+    getMultiple(['cameraCenter', 'cameraZoom', 'userVisible']).then((res) => {
       if (isMounted && res.cameraCenter) {
-        props.setCamera(res.cameraCenter, res.cameraZoom, res.onUser)
+        setCamera({ 
+          center: res.cameraCenter, 
+          zoom: res.cameraZoom, 
+          movedByUser: false })
+        props.updateUserVisible(res.userVisible)
       }
     })
 
@@ -34,43 +41,63 @@ const WorldMap = (props) => {
     }
   }, [])
 
-  // App goes in the background
+  // App is active / background
   useEffect(() => {
-    if (props.appState.active && props.isSignedIn) {
+    if (props.appState.active) {
       // Start compass and location tracking
-      watchLocation()
+      props.userLocation ? watchLocation() : null
       CompassHeading.start(10, heading => {
         setHeading(heading)
       });
     }
-    if (!props.appState.active && props.location.user) {
+    
+    if (!props.appState.active) {
       // Store user location and camera props
-      const data = [
-        ['userLocation', props.location.user],
-        ['cameraCenter', props.location.camera.center],
-        ['cameraZoom', props.location.camera.zoom],
-        ['onUser', props.location.camera.onUser]
-      ];
-      storeMultiple(data);
-      // Stop compass and location tracking
-      stopWatchingLocation();
+      if (props.userLocation) {
+        const data = [
+        ['userLocation', props.userLocation],
+        ['cameraCenter', camera.center],
+        ['cameraZoom', camera.zoom],
+        ['userVisible', props.userVisible]
+        ];
+        storeMultiple(data);
+        // Stop compass and location tracking
+        stopWatchingLocation();
+      }
       CompassHeading.stop();
     }
   }, [props.appState.active])
 
-  const regionChangeHandler = async (event) => {
-    if (event.properties.isUserInteraction) {
+  // Move camera to user's location
+  useEffect(() => {
+    let isMounted = true;
+    if (props.goToUser && isMounted) {
+      cameraRef.current?.flyTo(props.userLocation, 1000)
+      setCamera({ 
+        center: props.userLocation, 
+        zoom: 12, 
+        movedByUser: false})
+    }
+    return () => {
+      isMounted = false;
+    }
+  }, [props.goToUser])
 
-      let onUser = true;
-      // User goes off screen
-      if (props.location.user[0] < event.properties.visibleBounds[1][0] || 
-        props.location.user[0] > event.properties.visibleBounds[0][0] || 
-        props.location.user[1] > event.properties.visibleBounds[0][1] ||
-        props.location.user[1] < event.properties.visibleBounds[1][1]) {
-        onUser = false;
+  // Handle camera change
+  const regionChangeHandler = async ({ properties, geometry }) => {
+    if (properties.isUserInteraction) {
+      setCamera({ 
+        center: geometry.coordinates, 
+        bounds: properties.visibleBounds, 
+        zoom: properties.zoomLevel,
+        movedByUser: true
+      })
+
+      // Check if user is off screen
+      if (props.isSignedIn) {
+        const userVisible = onCameraCheck(props.userLocation, properties.visibleBounds)
+        userVisible !== props.userVisible ? props.updateUserVisible(userVisible) : null
       }
-
-      props.setCamera(event.geometry.coordinates, event.properties.zoomLevel, onUser)
     }
   }
 
@@ -94,10 +121,10 @@ const WorldMap = (props) => {
         logoEnabled={false}
         compassEnabled={false}
         attributionEnabled={false}
-        onRegionDidChange={(e) => regionChangeHandler(e)}
+        onRegionIsChanging={(e) => regionChangeHandler(e)}
         onDidFinishRenderingMapFully={!props.appState.loaded.map ? () => mapLoadingHandler(true) : null}
         >
-          {props.location.user ? <MapboxGL.UserLocation
+          {props.userLocation ? <MapboxGL.UserLocation
             animated={true}
             visible={true}
           >
@@ -114,12 +141,11 @@ const WorldMap = (props) => {
             />
           </MapboxGL.UserLocation> : null}
         <Camera
+          ref={cameraRef}
           animationDuration={!props.appState.loaded.map ? 0 : 2000}
           animationMode='flyTo'
-          centerCoordinate={
-            !props.appState.loaded.map || !props.location.camera.isUserInteraction ? props.location.camera.center : undefined}
-          zoomLevel={
-            !props.appState.loaded.map || !props.location.camera.isUserInteraction ? props.location.camera.zoom : undefined}
+          centerCoordinate={!props.appState.loaded.map ? camera.center : undefined}
+          zoomLevel={!props.appState.loaded.map ? camera.zoom : undefined}
           >
         </Camera>
       </MapView>
@@ -136,10 +162,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return { 
-    location: state.location,
+    userLocation: state.location.user,
+    goToUser: state.location.goToUser,
+    userVisible: state.location.userVisible,
     appState: state.app,
     isSignedIn: state.auth.isSignedIn,
   }
 }
 
-export default connect(mapStateToProps, { setCamera, setLoaded })(WorldMap)
+export default connect(mapStateToProps, { setLoaded, updateUserVisible })(WorldMap)

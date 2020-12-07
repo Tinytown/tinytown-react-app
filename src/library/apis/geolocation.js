@@ -114,3 +114,12 @@ export const stopWatchingLocation = () => {
   }
 }
 
+export const onCameraCheck = (userLocation, cameraBounds) => {
+  if (userLocation[0] < cameraBounds[1][0] || 
+    userLocation[0] > cameraBounds[0][0] || 
+    userLocation[1] > cameraBounds[0][1] ||
+    userLocation[1] < cameraBounds[1][1]) {
+    return false;
+  }
+  return true;
+}

@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, UPDATE_LOCATION, APP_STATE, APP_LOAD, UPDATE_CAMERA } from './types';
+import { SIGN_IN, SIGN_OUT, UPDATE_LOCATION, APP_STATE, APP_LOAD, GO_TO_USER, USER_VISIBLE } from './types';
 import { getLocation } from '../../library/apis/geolocation'
 import { clearStorage } from '../../library/apis/storage'
 
@@ -11,7 +11,7 @@ export const signIn = ({ photoURL, displayName, uid }) => {
 
 export const signOut = () => {
   clearStorage()
-
+  
   return {
     type: SIGN_OUT,
   };
@@ -25,14 +25,8 @@ export const getUserLocation = () => {
         hasPermission: true,
       }
       dispatch({ type: UPDATE_LOCATION, payload });
-      dispatch({ 
-        type: UPDATE_CAMERA, 
-        payload: { 
-          center: coords, 
-          zoom: 12, 
-          onUser: true, 
-          isUserInteraction: false, 
-      }});
+      dispatch({ type: USER_VISIBLE, payload: true });
+      dispatch({ type: GO_TO_USER })
     }
     
     getLocation(onSuccess)
@@ -44,22 +38,12 @@ export const updateUserLocation = (coords) => {
   user: coords,
   hasPermission: true,
 }
- return {
-   type: UPDATE_LOCATION, payload
- }
+ return { type: UPDATE_LOCATION, payload }
 }
 
-export const setCamera = (center, zoom, onUser = false) => {
-  const payload = {
-    center,
-    zoom,
-    onUser,
-    isUserInteraction: true
-  }
-  return {
-    type: UPDATE_CAMERA, payload
-  };
-};
+export const updateUserVisible = (payload) => {
+  return { type: USER_VISIBLE, payload };
+}
 
 export const updateAppState = (event) => {
   if (event === 'active') {
@@ -74,7 +58,5 @@ export const setLoaded = (key, value) => {
     key,
     value
   }
-  return {
-    type: APP_LOAD, payload
-  }
+  return { type: APP_LOAD, payload }
 }

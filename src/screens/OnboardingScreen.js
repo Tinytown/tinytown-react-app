@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserLocation } from '../../redux/actions';
+import { getUserLocation } from '../redux/actions';
 import MapView from 'library/components/MapView'
 import TwitterAuth from 'library/components/TwitterAuth'
 import Scrim from 'library/components/Scrim'

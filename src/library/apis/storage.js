@@ -30,7 +30,7 @@ export const getMultiple = async (arr) => {
   }
 };
 
-export const storeMultiple = async (arr) => {
+export const storeMultiple = (arr) => {
   arr.forEach(async (set) => {
     try {
       const jsonValue = JSON.stringify(set[1])
@@ -42,9 +42,14 @@ export const storeMultiple = async (arr) => {
 }
 
 export const clearStorage = async () => {
-  const storageKeys = ['userLocation', 'cameraCenter', 'cameraZoom']
+  let keys = []
   try {
-    await AsyncStorage.multiRemove(storageKeys)
+    keys = await AsyncStorage.getAllKeys()
+  } catch(err) {
+    console.log(err)
+  }
+  try {
+    await AsyncStorage.multiRemove(keys)
   } catch(err) {
     console.log(err)
   }

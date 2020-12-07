@@ -1,15 +1,11 @@
-import { UPDATE_CAMERA, SIGN_OUT, UPDATE_LOCATION, UPDATE_WATCHING } from '../actions/types';
+import { SIGN_OUT, UPDATE_LOCATION, UPDATE_WATCHING, GO_TO_USER, USER_VISIBLE } from '../actions/types';
 
 const INITIAL_STATE = {
   user: null,
-  camera: {
-    center: [-93.26392, 44.98459],
-    zoom: 12.83,
-    onUser: false,
-    isUserInteraction: false,
-  },
-  hasPermission: null,
-  watching: false
+  hasPermission: false,
+  watchingLocation: false,
+  goToUser: false,
+  userVisible: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -21,11 +17,18 @@ export default (state = INITIAL_STATE, action) => {
         hasPermission: action.payload.hasPermission 
       };
     case UPDATE_WATCHING:
-      return { ...state, watching: action.payload };
-    case UPDATE_CAMERA:
-      return { ...state, camera: action.payload };
+      return { ...state, watchingLocation: action.payload };
+    case GO_TO_USER:
+      return { ...state, goToUser: true };
+    case USER_VISIBLE:
+      return {...state, userVisible: action.payload, goToUser: false}
     case SIGN_OUT:
-      return {...state, ...INITIAL_STATE }
+      return {
+        ...state,
+        hasPermission: false,
+        watchingLocation: false,
+        goToUser: false,
+        userVisible: false, }
     default:
       return state;
   }

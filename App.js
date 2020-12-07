@@ -10,10 +10,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import { getData } from './src/library/apis/storage'
-import { signIn, updateAppState, updateUserLocation, setCamera } from './src/redux/actions';
+import { signIn, updateAppState, updateUserLocation } from './src/redux/actions';
 import { connect } from 'react-redux';
-import OnboardingScreen from 'screens/onboarding';
-import HomeScreen from 'screens/home';
+import OnboardingScreen from 'screens/OnboardingScreen';
+import HomeScreen from 'screens/HomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -69,4 +69,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default connect(mapStateToProps, { signIn, updateAppState, updateUserLocation, setCamera })(App);
+export default connect(mapStateToProps, { signIn, updateAppState, updateUserLocation })(App);
