@@ -93,9 +93,11 @@ const WorldMap = (props) => {
   
   // Handle user location change
   useEffect(() => {
-    mapRef.current.getVisibleBounds()
+    if (props.userLocation) {
+      mapRef.current.getVisibleBounds()
       .then((visibleBounds) => updateUserVisibility(visibleBounds))
       .catch((err) => console.log(err))
+    }
   }, [props.userLocation])
 
   // Extra logic to handle loading edge cases

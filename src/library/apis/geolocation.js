@@ -43,7 +43,7 @@ export const getLocationPermission = async () => {
     return true;
   } 
 
-  return;
+  return false;
 }
 
 export const getLocation = async (successHandler) => {
@@ -119,7 +119,7 @@ export const onCameraCheck = (userLocation, cameraBounds) => {
     userLocation[0] > cameraBounds[0][0] || 
     userLocation[1] > cameraBounds[0][1] ||
     userLocation[1] < cameraBounds[1][1]) {
-    return;
+    return false;
   }
   return true;
 }
