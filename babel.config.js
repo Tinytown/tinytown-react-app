@@ -12,9 +12,11 @@ module.exports = {
           '.ios.js',
         ],
         alias: {
+          'root': './',
           'res': './src/res',
           'screens': './src/screens',
           'library': './src/library',
+          'rdx': './src/redux',
         },
       },
     ],

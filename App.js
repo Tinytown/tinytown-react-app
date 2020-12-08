@@ -9,8 +9,8 @@ import SplashScreen from 'react-native-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
-import { getData } from './src/library/apis/storage'
-import { signIn, updateAppState, updateUserLocation } from './src/redux/actions';
+import { getData } from 'library/apis/storage'
+import { signIn, updateAppState, updateUserLocation } from 'rdx/actions';
 import { connect } from 'react-redux';
 import OnboardingScreen from 'screens/OnboardingScreen';
 import HomeScreen from 'screens/HomeScreen';
@@ -28,7 +28,7 @@ const App = (props) => {
     })
 
     // Load auth state
-    const subscriber = auth().onAuthStateChanged((user) => user ? props.signIn(user) : null);
+    const subscriber = auth().onAuthStateChanged((user) => (user ? props.signIn(user) : null));
 
     // App state listener
     AppState.addEventListener('change', (e) => {
@@ -48,16 +48,16 @@ const App = (props) => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode='none' screenOptions={{animationEnabled: false}} >
+      <Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: false }} >
         {props.isSignedIn ? (
           <>
             <Stack.Screen name='Home' component={HomeScreen} />
           </>
         ) : (
-            <>
-              <Stack.Screen name='Onboarding' component={OnboardingScreen} />
-            </>
-          )}
+          <>
+            <Stack.Screen name='Onboarding' component={OnboardingScreen} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

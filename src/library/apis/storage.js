@@ -22,7 +22,7 @@ export const storeData = async (key, value) => {
 export const getMultiple = async (arr) => {
   try {
     const responseArr = await AsyncStorage.multiGet(arr);
-    const parsedArr = responseArr.map(set => [set[0], JSON.parse(set[1])])
+    const parsedArr = responseArr.map((set) => [set[0], JSON.parse(set[1])])
     return Object.fromEntries(parsedArr)
   } catch (err) {
     console.log(err)
@@ -45,12 +45,12 @@ export const clearStorage = async () => {
   let keys = []
   try {
     keys = await AsyncStorage.getAllKeys()
-  } catch(err) {
+  } catch (err) {
     console.log(err)
   }
   try {
     await AsyncStorage.multiRemove(keys)
-  } catch(err) {
+  } catch (err) {
     console.log(err)
   }
 }

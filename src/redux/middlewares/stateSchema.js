@@ -35,7 +35,7 @@ export default {
     auth: {
       $id: '#/properties/auth',
       default: {},
-      description: "Schema for user's authentication state.",
+      description: 'Schema for user\'s authentication state.',
       examples: [
         {
           isSignedIn: false,
@@ -98,7 +98,7 @@ export default {
     location: {
       $id: '#/properties/location',
       default: {},
-      description: "Schema for user's location state.",
+      description: 'Schema for user\'s location state.',
       examples: [
         {
           user: null,

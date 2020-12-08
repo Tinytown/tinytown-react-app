@@ -1,6 +1,6 @@
 import { SIGN_IN, SIGN_OUT, UPDATE_LOCATION, APP_STATE, APP_LOAD, GO_TO_USER, USER_VISIBLE } from './types';
-import { getLocation } from '../../library/apis/geolocation'
-import { clearStorage } from '../../library/apis/storage'
+import { getLocation } from 'library/apis/geolocation'
+import { clearStorage } from 'library/apis/storage'
 
 export const signIn = ({ photoURL, displayName, uid }) => {
   return {
@@ -15,25 +15,25 @@ export const signOut = () => {
 };
 
 export const getUserLocation = () => async (dispatch) => {
-    const onSuccess = (coords) => {
-      const payload = {
-        user: coords,
-        hasPermission: true,
-      }
-      dispatch({ type: UPDATE_LOCATION, payload });
-      dispatch({ type: USER_VISIBLE, payload: true });
-      dispatch({ type: GO_TO_USER })
+  const onSuccess = (coords) => {
+    const payload = {
+      user: coords,
+      hasPermission: true,
     }
-    
-    getLocation(onSuccess)
+    dispatch({ type: UPDATE_LOCATION, payload });
+    dispatch({ type: USER_VISIBLE, payload: true });
+    dispatch({ type: GO_TO_USER })
+  }
+
+  getLocation(onSuccess)
 };
 
 export const updateUserLocation = (coords) => {
- const payload = {
-  user: coords,
-  hasPermission: true,
-}
- return { type: UPDATE_LOCATION, payload }
+  const payload = {
+    user: coords,
+    hasPermission: true,
+  }
+  return { type: UPDATE_LOCATION, payload }
 }
 
 export const updateUserVisible = (payload) => {
@@ -49,5 +49,5 @@ export const updateAppState = (event) => {
 }
 
 export const setLoaded = (key, value) => {
-  return { type: APP_LOAD, payload: { key, value }}
+  return { type: APP_LOAD, payload: { key, value } }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
 import WorldMap from 'library/components/WorldMap'
-import R from 'res/R'
+import RES from 'res';
 
 const MapView = (props) => {
   return (
@@ -13,14 +13,14 @@ const MapView = (props) => {
       </View>
     </View>
   )
-  }
+}
 
 export default MapView;
 
 const styles = StyleSheet.create({
   landscape: {
     height: '100%',
-    backgroundColor: R.colors.asphaltGray
+    backgroundColor: RES.COLORS.asphaltGray,
   },
   safeArea: {
     position: 'absolute',
