@@ -27,18 +27,24 @@ class IconButton extends React.Component {
     const {
       disabled,
       onPress,
+      icon,
+      color,
+      style,
     } = this.props;
     return (
-      <View style={[styles.container, disabled && { opacity: RES.COLORS.opacity40 }]}>
+      <View
+        style={[styles.container,
+          disabled && { opacity: RES.COLORS.opacity40 },
+          style]}>
         <Touchable
           disabled={disabled}
           onPress={onPress}
           background={TouchableNativeFeedback.Ripple(RES.COLORS.sidewalkGray, true)}
-          underlayColor={RES.COLORS.snowGray}
+          underlayColor={RES.COLORS.sidewalkGray}
         >
           <View style={styles.assetContainer}>
             <View style={styles.iconContainer}>
-              <RES.Icon icon={this.props.icon} color={RES.COLORS.graniteGray}/>
+              <RES.Icon icon={icon} color={color}/>
             </View>
           </View>
         </Touchable>
@@ -49,6 +55,8 @@ class IconButton extends React.Component {
 
 const styles = create({
   container: {
+    width: '100%',
+    height: '100%',
     borderRadius: RES.SHAPES.radiusAll,
     overflow: 'hidden',
   },
@@ -56,8 +64,8 @@ const styles = create({
   assetContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 48,
-    width: 48,
+    height: '100%',
+    width: '100%',
   },
 
   iconContainer: {
