@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import WorldMap from 'library/components/WorldMap';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { WorldMap } from 'library/components';
 import RES from 'res';
 
 const MapView = (props) => {
   return (
     <View style={styles.landscape}>
       <WorldMap/>
-      <View style={styles.safeArea} pointerEvents='box-none'>
+      <SafeAreaView style={styles.safeArea} mode="margin" pointerEvents='box-none'>
         {props.children}
-      </View>
+      </SafeAreaView>
     </View>
   );
 };
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
   safeArea: {
     position: 'absolute',
     width: '100%',
-    bottom: StaticSafeAreaInsets.safeAreaInsetsBottom,
-    top: StaticSafeAreaInsets.safeAreaInsetsTop,
+    top: 0,
+    bottom: 0,
     alignItems: 'center',
   },
 });
