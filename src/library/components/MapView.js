@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import WorldMap from 'library/components/WorldMap'
+import WorldMap from 'library/components/WorldMap';
 import RES from 'res';
 
 const MapView = (props) => {
@@ -12,8 +12,8 @@ const MapView = (props) => {
         {props.children}
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default MapView;
 

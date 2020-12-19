@@ -16,4 +16,4 @@ export const dialog = {
     title: 'Turn on Location',
     body: `The ${appConfig.displayName} app is not very useful without access to your location.`,
   },
-}
+};

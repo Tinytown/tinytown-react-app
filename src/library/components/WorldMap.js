@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 import config from 'config/env.config.js';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CompassHeading from 'react-native-compass-heading';
-import { watchLocation, stopWatchingLocation, onCameraCheck } from 'library/apis/geolocation'
-import { storeMultiple, getMultiple } from 'library/apis/storage'
+import { watchLocation, stopWatchingLocation, onCameraCheck } from 'library/apis/geolocation';
+import { storeMultiple, getMultiple } from 'library/apis/storage';
 import { connect } from 'react-redux';
 import { setLoaded, updateUserVisible  } from 'rdx/actions';
 import useMapCamera from 'library/hooks/useMapCamera';
@@ -14,12 +14,12 @@ const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const WorldMap = (props) => {
-  const cameraRef = useRef(null)
-  const mapRef = useRef(null)
-  const [mapRendered, setMapRendered] = useState(false)
-  const [heading, setHeading] = useState(0)
+  const cameraRef = useRef(null);
+  const mapRef = useRef(null);
+  const [mapRendered, setMapRendered] = useState(false);
+  const [heading, setHeading] = useState(0);
   const [camera, setCamera, flyTo] = useMapCamera();
-  flyTo(props.goToUser, props.userLocation, cameraRef.current)
+  flyTo(props.goToUser, props.userLocation, cameraRef.current);
 
   // App launches || quits
   useEffect(() => {
@@ -30,30 +30,28 @@ const WorldMap = (props) => {
         setCamera({
           center: res.cameraCenter,
           zoom: res.cameraZoom,
-          movedByUser: false })
-        props.updateUserVisible(res.userVisible)
+          movedByUser: false });
+        props.updateUserVisible(res.userVisible);
       }
-    })
+    });
 
-    mapLoadingHandler()
+    mapLoadingHandler();
 
     return () => {
       isMounted = false;
-      props.setLoaded('map', false)
-    }
-  }, [])
+      props.setLoaded('map', false);
+    };
+  }, []);
 
   // App is active || background
   useEffect(() => {
     if (props.appState.active) {
       // Start compass and location tracking
-      props.userLocation ? watchLocation() : null
+      props.userLocation ? watchLocation() : null;
       CompassHeading.start(10, (heading) => {
-        setHeading(heading)
+        setHeading(heading);
       });
-    }
-
-    if (!props.appState.active) {
+    } else {
       // Store user location and camera props
       if (props.userLocation) {
         const data = [
@@ -68,15 +66,15 @@ const WorldMap = (props) => {
       }
       CompassHeading.stop();
     }
-  }, [props.appState.active])
+  }, [props.appState.active]);
 
   // Check if user is off screen
   const updateUserVisibility = (visibleBounds) => {
     if (props.isSignedIn) {
-      const userVisible = onCameraCheck(props.userLocation, visibleBounds)
-      userVisible !== props.userVisible ? props.updateUserVisible(userVisible) : null
+      const userVisible = onCameraCheck(props.userLocation, visibleBounds);
+      userVisible !== props.userVisible ? props.updateUserVisible(userVisible) : null;
     }
-  }
+  };
 
   // Handle camera change
   const regionChangeHandler = async ({ properties, geometry }) => {
@@ -86,30 +84,30 @@ const WorldMap = (props) => {
         bounds: properties.visibleBounds,
         zoom: properties.zoomLevel,
         movedByUser: true,
-      })
-      updateUserVisibility(properties.visibleBounds)
+      });
+      updateUserVisibility(properties.visibleBounds);
     }
-  }
+  };
 
   // Handle user location change
   useEffect(() => {
     if (props.userLocation) {
       mapRef.current.getVisibleBounds()
         .then((visibleBounds) => updateUserVisibility(visibleBounds))
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }
-  }, [props.userLocation])
+  }, [props.userLocation]);
 
   // Extra logic to handle loading edge cases
   const mapLoadingHandler = (mapFinishedRendering) => {
     if (mapFinishedRendering) {
-      setMapRendered(true)
+      setMapRendered(true);
     }
 
     if (mapRendered || mapFinishedRendering) {
-      props.setLoaded('map', true)
+      props.setLoaded('map', true);
     }
-  }
+  };
 
   return (
     <>
@@ -150,8 +148,8 @@ const WorldMap = (props) => {
         </Camera>
       </MapView>
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   map: {
@@ -166,6 +164,6 @@ const mapStateToProps = (state) => ({
   userVisible: state.location.userVisible,
   appState: state.app,
   isSignedIn: state.auth.isSignedIn,
-})
+});
 
-export default connect(mapStateToProps, { setLoaded, updateUserVisible })(WorldMap)
+export default connect(mapStateToProps, { setLoaded, updateUserVisible })(WorldMap);

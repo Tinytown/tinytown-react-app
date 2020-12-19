@@ -14,7 +14,7 @@ export default () => {
     default:
       return state;
     }
-  }
+  };
 
   const [camera, dispatch] = useReducer(cameraReducer, {
     center: [-93.26392, 44.98459],
@@ -24,10 +24,10 @@ export default () => {
   });
 
   const setCamera = ({ center, bounds, zoom, movedByUser }) => {
-    center ? dispatch({ type: 'update_center', payload: center }) : null
-    bounds ? dispatch({ type: 'update_bounds', payload: bounds }) : null
-    zoom ? dispatch({ type: 'update_zoom', payload: zoom }) : null
-    movedByUser !== null ? dispatch({ type: 'update_moved', payload: movedByUser }) : null
+    center ? dispatch({ type: 'update_center', payload: center }) : null;
+    bounds ? dispatch({ type: 'update_bounds', payload: bounds }) : null;
+    zoom ? dispatch({ type: 'update_zoom', payload: zoom }) : null;
+    movedByUser !== null ? dispatch({ type: 'update_moved', payload: movedByUser }) : null;
   };
 
   // Move camera to location
@@ -35,17 +35,17 @@ export default () => {
     useEffect(() => {
       let isMounted = true;
       if (trigger && isMounted) {
-        cameraRef?.flyTo(location, 1000)
+        cameraRef?.flyTo(location, 1000);
         setCamera({
           center: location,
           zoom: 12,
-          movedByUser: false })
+          movedByUser: false });
       }
       return () => {
         isMounted = false;
-      }
-    }, [trigger])
-  }
+      };
+    }, [trigger]);
+  };
 
-  return [camera, setCamera, flyTo]
-}
+  return [camera, setCamera, flyTo];
+};

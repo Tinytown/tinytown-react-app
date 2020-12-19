@@ -12,6 +12,6 @@ const RES = {
   STRINGS,
   IMAGES,
   Icon,
-}
+};
 
-export default RES
+export default RES;

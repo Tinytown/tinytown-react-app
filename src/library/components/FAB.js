@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Pressable, Animated, Text, View } from 'react-native';
-import { create } from 'library/utils/normalize.js'
+import { create } from 'library/utils/normalize.js';
 import RES from 'res';
 
 const getStyles = ({
@@ -61,7 +61,7 @@ class FAB extends React.Component {
     Animated.spring(this.animatedValue, {
       toValue: 0.93,
       useNativeDriver: true,
-    }).start()
+    }).start();
   }
 
   handlePressOut() {
@@ -70,7 +70,7 @@ class FAB extends React.Component {
       friction: 3,
       tension: 120,
       useNativeDriver: true,
-    }).start()
+    }).start();
   }
 
   render() {
@@ -86,7 +86,7 @@ class FAB extends React.Component {
       transform: [{ scale: this.animatedValue }],
       borderRadius: RES.SHAPES.radiusAll,
       overflow: 'hidden',
-    }
+    };
     return (
       <View style={shadowStyles} pointerEvents='box-none'>
         <Animated.View style={animatedStyle}>
@@ -158,6 +158,6 @@ const styles = create({
   textBranded: {
     ...RES.TYPOGRAPHY.brandedButton,
   },
-})
+});
 
 export default FAB;

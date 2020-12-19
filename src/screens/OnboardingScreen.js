@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserLocation } from 'rdx/actions';
-import MapView from 'library/components/MapView'
-import TwitterAuth from 'library/components/TwitterAuth'
-import Scrim from 'library/components/Scrim'
-import FAB from 'library/components/FAB'
+import MapView from 'library/components/MapView';
+import TwitterAuth from 'library/components/TwitterAuth';
+import Scrim from 'library/components/Scrim';
+import FAB from 'library/components/FAB';
 import RES from 'res';
 
 const OnboardingScreen = (props) => {
-  const [isLoading, setisLoading] = useState(false)
+  const [isLoading, setisLoading] = useState(false);
 
   const renderButtons = () => {
     return (
@@ -17,8 +17,8 @@ const OnboardingScreen = (props) => {
         <TwitterAuth onLoading={(state) => setisLoading(state)} />
         :
         <FAB label={RES.STRINGS.button.goToLocation} theme='green' icon='crosshairs' onPress={props.getUserLocation}/>
-    )
-  }
+    );
+  };
 
   return (
     <MapView>
@@ -32,8 +32,8 @@ const OnboardingScreen = (props) => {
         </View>)
       }
     </MapView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   fabContainer: {
@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   showSignIn: state.location.user,
   showButtons: state.app.loaded.map,
-})
+});
 
-export default connect(mapStateToProps, { getUserLocation })(OnboardingScreen)
+export default connect(mapStateToProps, { getUserLocation })(OnboardingScreen);

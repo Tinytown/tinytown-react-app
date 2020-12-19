@@ -22,4 +22,4 @@ const INITIAL_STATE = Object.freeze({
   },
 });
 
-export default INITIAL_STATE
+export default INITIAL_STATE;

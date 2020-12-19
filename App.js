@@ -4,12 +4,12 @@ import 'react-native-gesture-handler';
  * @flow strict-local
  */
 import React, { useEffect } from 'react';
-import { AppState } from 'react-native'
+import { AppState } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
-import { getData } from 'library/apis/storage'
+import { getData } from 'library/apis/storage';
 import { signIn, updateAppState, updateUserLocation } from 'rdx/actions';
 import { connect } from 'react-redux';
 import OnboardingScreen from 'screens/OnboardingScreen';
@@ -23,28 +23,27 @@ const App = (props) => {
     // Load location from LS
     getData('userLocation').then((location) => {
       if (location) {
-        props.updateUserLocation(location)
+        props.updateUserLocation(location);
       }
-    })
+    });
 
     // Load auth state
     const subscriber = auth().onAuthStateChanged((user) => (user ? props.signIn(user) : null));
 
     // App state listener
-    AppState.addEventListener('change', (e) => {
-      e !== 'unknown' ? props.updateAppState(e) : null
-    })
+    AppState.addEventListener('change', appStateHandler);
 
     return () => {
       subscriber; // unsubscribe on unmount
-      AppState.removeEventListener('change', (e) => {
-        e !== 'unknown' ? props.updateAppState(e) : null
-      })
-      console.log('clean up on aisle app')
-    }
+      AppState.removeEventListener('change', appStateHandler);
+    };
   }, []);
 
-  SplashScreen.hide()
+  SplashScreen.hide();
+
+  const appStateHandler = (event) => {
+    event !== 'unknown' ? props.updateAppState(event) : null;
+  };
 
   return (
     <NavigationContainer>
@@ -63,6 +62,6 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({ isSignedIn: state.auth.isSignedIn })
+const mapStateToProps = (state) => ({ isSignedIn: state.auth.isSignedIn });
 
 export default connect(mapStateToProps, { signIn, updateAppState, updateUserLocation })(App);

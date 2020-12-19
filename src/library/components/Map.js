@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, PermissionsAndroid, Platform } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import { create } from 'library/utils/normalize.js'
+import { create } from 'library/utils/normalize.js';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
 import CompassHeading from 'react-native-compass-heading';
@@ -82,12 +82,12 @@ export default class Map extends Component {
           },
         });
       }
-    }, 50, { trailing: false })
+    }, 50, { trailing: false });
 
     CompassHeading.start(degreeUpdateRate, (heading) => {
       this.setState({
         heading,
-      })
+      });
     });
   }
 
@@ -118,7 +118,7 @@ export default class Map extends Component {
     const [cameraLongitude, cameraLatitude] = event.geometry.coordinates;
     let { followUser } = this.state;
     const cameraCoords = { longitude: cameraLongitude, latitude: cameraLatitude };
-    const cameraHasMoved = this.coordsAreDifferent(cameraCoords, this.state.userLocation)
+    const cameraHasMoved = this.coordsAreDifferent(cameraCoords, this.state.userLocation);
     if (followUser && cameraHasMoved) {
       followUser = false;
     }
@@ -144,7 +144,7 @@ export default class Map extends Component {
         centerCoordinate: this.state.cameraCoordinates,
         zoomLevel: this.state.zoomLevel,
       });
-    })
+    });
   }
 
   goToLocationFirstHelper() {

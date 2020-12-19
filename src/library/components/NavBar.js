@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { create } from 'library/utils/normalize.js'
+import { create } from 'library/utils/normalize.js';
 import RES from 'res';
 import IconButton from './IconButton';
 
@@ -15,8 +15,8 @@ const NavBar = ({ label = 'Label', onClose, children }) => {
         {children}
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = create({
   navContainer: {

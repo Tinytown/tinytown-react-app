@@ -6,9 +6,10 @@ module.exports = {
   },
   'ignorePatterns': ['ic_*'],
   'rules': {
-    // Commas & Quotes
+    // Commas, Quotes & Semicolons
     'comma-dangle': ['error', 'always-multiline'],
     'quotes': ['error', 'single'],
+    'semi': [2, 'always'],
 
     // Arrow Functions
     'arrow-parens': ['error', 'always'],

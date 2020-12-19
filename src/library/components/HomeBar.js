@@ -3,19 +3,19 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { signOut, getUserLocation } from 'rdx/actions';
-import { create } from 'library/utils/normalize.js'
+import { create } from 'library/utils/normalize.js';
 import { Menu, MenuDivider, MenuItem } from './Menu';
-import IconButton from './IconButton'
+import IconButton from './IconButton';
 import RES from 'res';
 
 const HomeBar = (props) => {
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(false);
 
   const signOutHandler = () => {
     auth().signOut()
-      .then(() => props.signOut())
-    setShowMenu(false)
-  }
+      .then(() => props.signOut());
+    setShowMenu(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -44,8 +44,8 @@ const HomeBar = (props) => {
       </Menu>
 
     </View>
-  )
-}
+  );
+};
 
 const styles = create({
   container: {
@@ -88,6 +88,6 @@ const styles = create({
 const mapStateToProps = (state) => ({
   photoURL: state.auth.user?.photoURL,
   userVisible: state.location.userVisible,
-})
+});
 
 export default connect(mapStateToProps, { signOut, getUserLocation })(HomeBar);

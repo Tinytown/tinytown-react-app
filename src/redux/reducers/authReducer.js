@@ -1,5 +1,5 @@
 import { SIGN_IN, SIGN_OUT } from 'rdx/actions/types';
-import INITIAL_STATE from 'rdx/initialState'
+import INITIAL_STATE from 'rdx/initialState';
 
 export default (state = null, action) => {
   switch (action.type) {

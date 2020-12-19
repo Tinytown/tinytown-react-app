@@ -5,7 +5,7 @@ export default (state = null, action) => {
   case APP_STATE:
     return { ...state, active: action.payload };
   case APP_LOAD:
-    return { ...state, loaded: { ...state.loaded, [action.payload.key]: action.payload.value } }
+    return { ...state, loaded: { ...state.loaded, [action.payload.key]: action.payload.value } };
   default:
     return state;
   }

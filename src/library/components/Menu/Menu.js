@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { create } from 'library/utils/normalize.js'
+import { create } from 'library/utils/normalize.js';
 import RES from 'res';
 
 const states = {

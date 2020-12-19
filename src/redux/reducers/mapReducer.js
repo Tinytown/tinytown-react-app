@@ -13,14 +13,14 @@ export default (state = null, action) => {
   case GO_TO_USER:
     return { ...state, goToUser: true };
   case USER_VISIBLE:
-    return { ...state, userVisible: action.payload, goToUser: false }
+    return { ...state, userVisible: action.payload, goToUser: false };
   case SIGN_OUT:
     return {
       ...state,
       hasPermission: false,
       watchingLocation: false,
       goToUser: false,
-      userVisible: false }
+      userVisible: false };
   default:
     return state;
   }

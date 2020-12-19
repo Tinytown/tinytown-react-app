@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { create } from 'library/utils/normalize.js'
+import { create } from 'library/utils/normalize.js';
 import RES from 'res';
 
 function MenuDivider({ color }) {
