@@ -3,8 +3,6 @@ import { NativeModules } from 'react-native';
 import config from 'config/env.config.js';
 import auth from '@react-native-firebase/auth';
 const { RNTwitterSignIn } = NativeModules;
-import { connect } from 'react-redux';
-import { signIn } from 'rdx/actions';
 import FAB from './FAB';
 import RES from 'res';
 
@@ -21,7 +19,6 @@ const TwitterAuth = (props) => {
       props.onLoading(true);
       const twitterCredential = auth.TwitterAuthProvider.credential(authToken, authTokenSecret);
       auth().signInWithCredential(twitterCredential);
-      auth().onAuthStateChanged((user) => (user ? props.signIn(user) : null));
     } catch (err) {
       props.onLoading(false);
       console.log(err);
@@ -31,4 +28,4 @@ const TwitterAuth = (props) => {
   return <FAB onPress={onLogInPress} label={RES.STRINGS.button.logIn} theme='blue' icon='twitter' />;
 };
 
-export default connect(null, { signIn })(TwitterAuth);
+export default TwitterAuth;
