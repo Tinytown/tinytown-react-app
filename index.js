@@ -6,7 +6,7 @@ import React from 'react';
 import { AppRegistry } from 'react-native';
 import store from 'rdx/store';
 import { Provider } from 'react-redux';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
 
 import App from './App';
 import { name as appName } from './app.json';
@@ -14,7 +14,7 @@ import { name as appName } from './app.json';
 const AppContainer = () => {
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics} >
         <App/>
       </SafeAreaProvider>
     </Provider>

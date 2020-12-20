@@ -16,9 +16,7 @@ const INITIAL_STATE = Object.freeze({
   },
   app: {
     active: true,
-    loaded: {
-      map: false,
-    },
+    storageLoaded: false,
   },
 });
 

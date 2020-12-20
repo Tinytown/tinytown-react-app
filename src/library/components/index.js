@@ -7,4 +7,5 @@ export { default as NavBar } from './NavBar';
 export { default as Scrim } from './Scrim';
 export { default as TwitterAuth } from './TwitterAuth';
 export { default as WorldMap } from './WorldMap';
+export { default as ActivityOverlay } from './ActivityOverlay';
 

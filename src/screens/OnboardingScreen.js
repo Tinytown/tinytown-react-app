@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { create } from 'library/utils/normalize.js';
 import { getUserLocation } from 'rdx/actions';
-import { MapView, TwitterAuth, Scrim, FAB } from 'library/components';
+import { MapView, TwitterAuth, FAB, ActivityOverlay } from 'library/components';
 import RES from 'res';
 
 const OnboardingScreen = (props) => {
@@ -11,7 +9,7 @@ const OnboardingScreen = (props) => {
 
   const renderButtons = () => {
     return (
-      props.showSignIn ?
+      props.userLocation ?
         <TwitterAuth onLoading={(state) => setisLoading(state)} />
         :
         <FAB label={RES.STRINGS.button.goToLocation} theme='green' icon='crosshairs' onPress={props.getUserLocation}/>
@@ -20,29 +18,15 @@ const OnboardingScreen = (props) => {
 
   return (
     <MapView>
-      {isLoading ?
-        (<Scrim>
-          <ActivityIndicator size="large" color={RES.COLORS.skyBlue600} />
-        </Scrim>)
-        :
-        (<View style={styles.fabContainer}>
-          {props.showButtons ? renderButtons() : null}
-        </View>)
-      }
+      <ActivityOverlay showOverlay={isLoading} />
+      {props.storageLoaded && !isLoading ? renderButtons() : null}
     </MapView>
   );
 };
 
-const styles = create({
-  fabContainer: {
-    position: 'absolute',
-    bottom: 24,
-  },
-});
-
 const mapStateToProps = (state) => ({
-  showSignIn: state.location.user,
-  showButtons: state.app.loaded.map,
+  userLocation: state.location.user,
+  storageLoaded: state.app.storageLoaded,
 });
 
 export default connect(mapStateToProps, { getUserLocation })(OnboardingScreen);

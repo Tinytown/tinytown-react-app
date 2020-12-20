@@ -121,6 +121,8 @@ const styles = create({
   },
 
   shadowContainer: {
+    position: 'absolute',
+    bottom: 24,
     borderRadius: RES.SHAPES.radiusAll,
     ...RES.SHAPES.elevGray5,
   },

@@ -10,7 +10,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import { getData } from 'library/apis/storage';
-import { signIn, updateAppState, updateUserLocation } from 'rdx/actions';
+import { signIn, updateAppState, updateUserLocation, updateStorageLoaded } from 'rdx/actions';
 import { connect } from 'react-redux';
 import OnboardingScreen from 'screens/OnboardingScreen';
 import HomeScreen from 'screens/HomeScreen';
@@ -22,6 +22,7 @@ const App = (props) => {
   useEffect(() => {
     // Load location from LS
     getData('userLocation').then((location) => {
+      props.updateStorageLoaded();
       if (location) {
         props.updateUserLocation(location);
       }
@@ -64,4 +65,4 @@ const App = (props) => {
 
 const mapStateToProps = (state) => ({ isSignedIn: state.auth.isSignedIn });
 
-export default connect(mapStateToProps, { signIn, updateAppState, updateUserLocation })(App);
+export default connect(mapStateToProps, { signIn, updateAppState, updateUserLocation, updateStorageLoaded })(App);

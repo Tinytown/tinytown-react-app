@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, UPDATE_LOCATION, APP_STATE, APP_LOAD, GO_TO_USER, USER_VISIBLE } from './types';
+import { SIGN_IN, SIGN_OUT, UPDATE_LOCATION, APP_STATE, APP_STORAGE, GO_TO_USER, USER_VISIBLE } from './types';
 import { getLocation } from 'library/apis/geolocation';
 import { clearStorage } from 'library/apis/storage';
 
@@ -48,6 +48,6 @@ export const updateAppState = (event) => {
   }
 };
 
-export const setLoaded = (key, value) => {
-  return { type: APP_LOAD, payload: { key, value } };
+export const updateStorageLoaded = () => {
+  return { type: APP_STORAGE, payload: true };
 };

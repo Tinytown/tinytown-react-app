@@ -1,3 +1,43 @@
+/*
+JSON SOURCE
+
+{
+  "auth": {
+    "isSignedIn": false,
+    "user": {
+      "photoURL": "url",
+      "displayName": "name",
+      "uid": "id"
+    }
+  },
+  "location": {
+    "user": null,
+    "hasPermission": false,
+    "watchingLocation": false,
+    "goToUser": false,
+    "userVisible": false
+  },
+  "app": {
+    "active": true,
+    "storageLoaded": false
+  }
+}
+
+REMOVED FIELDS
+Schema Title
+Extra descriptions
+
+ADDED DETAILS
+schemaDesc: "JSON Schema for Redux state validator."
+authDesc: "Schema for user's authentication state."
+locationDesc: "Schema for user's location state."
+appDesc: "Schema for general app state."
+photoURL: ["https://pbs.twimg.com/profile_images/1278735735588139009/4-DSoEkh_normal.jpg"]
+displayName: ["Tinytown_Dev"]
+uid: ["2LgMdnS879UYXTEvjDjufu4e37b2"]
+userLocation: [-93.26392, 44.98459]
+*/
+
 export default {
   $id: 'http://example.com/example.json',
   $schema: 'http://json-schema.org/draft-07/schema',
@@ -21,15 +61,12 @@ export default {
         userVisible: false,
       },
       app: {
-        active: false,
-        loaded: {
-          map: false,
-        },
+        active: true,
+        storageLoaded: false,
       },
     },
   ],
   required: ['auth', 'location', 'app'],
-  title: 'State Schema',
   type: 'object',
   properties: {
     auth: {
@@ -47,13 +84,14 @@ export default {
         },
       ],
       required: ['isSignedIn', 'user'],
-      title: 'Auth State',
+      title: 'The auth schema',
       type: 'object',
       properties: {
         isSignedIn: {
           $id: '#/properties/auth/properties/isSignedIn',
           default: false,
           examples: [false],
+          title: 'The isSignedIn schema',
           type: 'boolean',
         },
         user: {
@@ -67,6 +105,7 @@ export default {
             },
           ],
           required: ['photoURL', 'displayName', 'uid'],
+          title: 'The user schema',
           type: 'object',
           properties: {
             photoURL: {
@@ -75,18 +114,21 @@ export default {
               examples: [
                 'https://pbs.twimg.com/profile_images/1278735735588139009/4-DSoEkh_normal.jpg',
               ],
+              title: 'The photoURL schema',
               type: 'string',
             },
             displayName: {
               $id: '#/properties/auth/properties/user/properties/displayName',
               default: '',
               examples: ['Tinytown_Dev'],
+              title: 'The displayName schema',
               type: 'string',
             },
             uid: {
               $id: '#/properties/auth/properties/user/properties/uid',
               default: '',
               examples: ['2LgMdnS879UYXTEvjDjufu4e37b2'],
+              title: 'The uid schema',
               type: 'string',
             },
           },
@@ -115,38 +157,43 @@ export default {
         'goToUser',
         'userVisible',
       ],
-      title: 'Location State',
+      title: 'The location schema',
       type: 'object',
       properties: {
         user: {
           $id: '#/properties/location/properties/user',
           default: null,
           examples: [-93.26392, 44.98459],
+          title: 'The user schema',
           type: ['null', 'array'],
         },
         hasPermission: {
           $id: '#/properties/location/properties/hasPermission',
+          type: 'boolean',
+          title: 'The hasPermission schema',
           default: false,
           examples: [false],
-          type: 'boolean',
         },
         watchingLocation: {
           $id: '#/properties/location/properties/watchingLocation',
+          type: 'boolean',
+          title: 'The watchingLocation schema',
           default: false,
           examples: [false],
-          type: 'boolean',
         },
         goToUser: {
           $id: '#/properties/location/properties/goToUser',
+          type: 'boolean',
+          title: 'The goToUser schema',
           default: false,
           examples: [false],
-          type: 'boolean',
         },
         userVisible: {
           $id: '#/properties/location/properties/userVisible',
+          type: 'boolean',
+          title: 'The userVisible schema',
           default: false,
           examples: [false],
-          type: 'boolean',
         },
       },
       additionalProperties: true,
@@ -157,41 +204,27 @@ export default {
       description: 'Schema for general app state.',
       examples: [
         {
-          active: false,
-          loaded: {
-            map: false,
-          },
+          active: true,
+          storageLoaded: false,
         },
       ],
-      required: ['active', 'loaded'],
-      title: 'App State',
+      required: ['active', 'storageLoaded'],
+      title: 'The app schema',
       type: 'object',
       properties: {
         active: {
           $id: '#/properties/app/properties/active',
+          type: 'boolean',
+          title: 'The active schema',
+          default: false,
+          examples: [true],
+        },
+        storageLoaded: {
+          $id: '#/properties/app/properties/storageLoaded',
+          type: 'boolean',
+          title: 'The storageLoaded schema',
           default: false,
           examples: [false],
-          type: 'boolean',
-        },
-        loaded: {
-          $id: '#/properties/app/properties/loaded',
-          default: {},
-          examples: [
-            {
-              map: false,
-            },
-          ],
-          required: ['map'],
-          type: 'object',
-          properties: {
-            map: {
-              $id: '#/properties/app/properties/loaded/properties/map',
-              default: false,
-              examples: [false],
-              type: 'boolean',
-            },
-          },
-          additionalProperties: true,
         },
       },
       additionalProperties: true,

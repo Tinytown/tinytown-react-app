@@ -6,7 +6,7 @@ import { create } from 'library/utils/normalize.js';
 import { watchLocation, stopWatchingLocation, onCameraCheck } from 'library/apis/geolocation';
 import { storeMultiple, getMultiple } from 'library/apis/storage';
 import { connect } from 'react-redux';
-import { setLoaded, updateUserVisible  } from 'rdx/actions';
+import { updateUserVisible  } from 'rdx/actions';
 import useMapCamera from 'library/hooks/useMapCamera';
 import RES from 'res';
 
@@ -35,11 +35,9 @@ const WorldMap = (props) => {
       }
     });
 
-    mapLoadingHandler();
-
     return () => {
       isMounted = false;
-      props.setLoaded('map', false);
+      setMapRendered(false);
     };
   }, []);
 
@@ -98,17 +96,6 @@ const WorldMap = (props) => {
     }
   }, [props.userLocation]);
 
-  // Extra logic to handle loading edge cases
-  const mapLoadingHandler = (mapFinishedRendering) => {
-    if (mapFinishedRendering) {
-      setMapRendered(true);
-    }
-
-    if (mapRendered || mapFinishedRendering) {
-      props.setLoaded('map', true);
-    }
-  };
-
   return (
     <>
       <MapView
@@ -120,7 +107,7 @@ const WorldMap = (props) => {
         compassEnabled={false}
         attributionEnabled={false}
         onRegionIsChanging={(e) => regionChangeHandler(e)}
-        onDidFinishRenderingMapFully={!props.appState.loaded.map ? () => mapLoadingHandler(true) : null}
+        onDidFinishRenderingMapFully={() => setMapRendered(true)}
       >
         {props.userLocation ? <MapboxGL.UserLocation
           animated={true}
@@ -140,10 +127,10 @@ const WorldMap = (props) => {
         </MapboxGL.UserLocation> : null}
         <Camera
           ref={cameraRef}
-          animationDuration={!props.appState.loaded.map ? 0 : 2000}
+          animationDuration={!mapRendered ? 0 : 2000}
           animationMode='flyTo'
-          centerCoordinate={!props.appState.loaded.map ? camera.center : undefined}
-          zoomLevel={!props.appState.loaded.map ? camera.zoom : undefined}
+          centerCoordinate={!mapRendered ? camera.center : undefined}
+          zoomLevel={!mapRendered ? camera.zoom : undefined}
         >
         </Camera>
       </MapView>
@@ -166,4 +153,4 @@ const mapStateToProps = (state) => ({
   isSignedIn: state.auth.isSignedIn,
 });
 
-export default connect(mapStateToProps, { setLoaded, updateUserVisible })(WorldMap);
+export default connect(mapStateToProps, { updateUserVisible })(WorldMap);
