@@ -1,28 +1,40 @@
 import React, { useState } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserLocation } from 'rdx/actions';
+import { create } from 'library/utils/normalize.js';
 import { MapView, TwitterAuth, FAB, ActivityOverlay } from 'library/components';
+import { withWait } from 'library/components/hoc';
 import RES from 'res';
 
 const OnboardingScreen = (props) => {
-  const [isLoading, setisLoading] = useState(false);
-
-  const renderButtons = () => {
-    return (
-      props.userLocation ?
-        <TwitterAuth onLoading={(state) => setisLoading(state)} />
-        :
-        <FAB label={RES.STRINGS.button.goToLocation} theme='green' icon='crosshairs' onPress={props.getUserLocation}/>
-    );
-  };
+  const [isLoading, setIsLoading] = useState(false);
+  const ViewWithWait = withWait(View);
 
   return (
     <MapView>
       <ActivityOverlay showOverlay={isLoading} />
-      {props.storageLoaded && !isLoading ? renderButtons() : null}
+      <ViewWithWait waitFor={props.storageLoaded && !isLoading} style={styles.container} >
+        {props.userLocation ?
+          <TwitterAuth onLoading={(state) => setIsLoading(state)} />
+          :
+          <FAB
+            label={RES.STRINGS.button.goToLocation}
+            theme='green'
+            icon='crosshairs'
+            onPress={props.getUserLocation}/>}
+      </ViewWithWait>
     </MapView>
   );
 };
+
+const styles = create({
+  container: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+  },
+});
 
 const mapStateToProps = (state) => ({
   userLocation: state.location.user,

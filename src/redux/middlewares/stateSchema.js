@@ -15,7 +15,7 @@ JSON SOURCE
     "hasPermission": false,
     "watchingLocation": false,
     "goToUser": false,
-    "userVisible": false
+    "userVisible": true
   },
   "app": {
     "active": true,
@@ -58,7 +58,7 @@ export default {
         hasPermission: false,
         watchingLocation: false,
         goToUser: false,
-        userVisible: false,
+        userVisible: true,
       },
       app: {
         active: true,
@@ -147,7 +147,7 @@ export default {
           hasPermission: false,
           watchingLocation: false,
           goToUser: false,
-          userVisible: false,
+          userVisible: true,
         },
       ],
       required: [
@@ -192,8 +192,8 @@ export default {
           $id: '#/properties/location/properties/userVisible',
           type: 'boolean',
           title: 'The userVisible schema',
-          default: false,
-          examples: [false],
+          default: true,
+          examples: [true],
         },
       },
       additionalProperties: true,
