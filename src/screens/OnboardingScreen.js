@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
+import { create } from 'library/utils/normalize.js';
 import { getUserLocation } from 'rdx/actions';
-import MapView from 'library/components/MapView';
-import TwitterAuth from 'library/components/TwitterAuth';
-import Scrim from 'library/components/Scrim';
-import FAB from 'library/components/FAB';
+import { MapView, TwitterAuth, Scrim, FAB } from 'library/components';
 import RES from 'res';
 
 const OnboardingScreen = (props) => {
@@ -35,7 +33,7 @@ const OnboardingScreen = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = create({
   fabContainer: {
     position: 'absolute',
     bottom: 24,

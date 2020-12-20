@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
-import MapView from 'library/components/MapView';
-import FAB from 'library/components/FAB';
+import { create } from 'library/utils/normalize.js';
+import { MapView, FAB, HomeBar } from 'library/components';
 import RES from 'res';
-import HomeBar from 'library/components/HomeBar';
 
 const HomeScreen = (props) => {
   return (
@@ -20,7 +19,7 @@ const HomeScreen = (props) => {
     </MapView>
   );
 };
-const styles = StyleSheet.create({
+const styles = create({
   fabContainer: {
     position: 'absolute',
     bottom: 24,

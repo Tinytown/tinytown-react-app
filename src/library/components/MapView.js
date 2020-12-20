@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { create } from 'library/utils/normalize.js';
 import { WorldMap } from 'library/components';
 import RES from 'res';
 
@@ -17,7 +18,7 @@ const MapView = (props) => {
 
 export default MapView;
 
-const styles = StyleSheet.create({
+const styles = create({
   landscape: {
     height: '100%',
     backgroundColor: RES.COLORS.asphaltGray,

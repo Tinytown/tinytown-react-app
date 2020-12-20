@@ -5,7 +5,7 @@ import auth from '@react-native-firebase/auth';
 const { RNTwitterSignIn } = NativeModules;
 import { connect } from 'react-redux';
 import { signIn } from 'rdx/actions';
-import FAB from 'library/components/FAB';
+import { FAB } from 'library/components';
 import RES from 'res';
 
 const TwitterAuth = (props) => {

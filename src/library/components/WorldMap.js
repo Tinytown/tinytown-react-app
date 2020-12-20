@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet } from 'react-native';
 import config from 'config/env.config.js';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CompassHeading from 'react-native-compass-heading';
+import { create } from 'library/utils/normalize.js';
 import { watchLocation, stopWatchingLocation, onCameraCheck } from 'library/apis/geolocation';
 import { storeMultiple, getMultiple } from 'library/apis/storage';
 import { connect } from 'react-redux';
@@ -151,7 +151,7 @@ const WorldMap = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = create({
   map: {
     height: '100%',
     width: '100%',

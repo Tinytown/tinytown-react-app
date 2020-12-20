@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import { create } from 'library/utils/normalize.js';
 
 const Scrim = (props) => {
   const insets = useSafeAreaInsets();
@@ -14,7 +15,7 @@ const Scrim = (props) => {
 
 export default Scrim;
 
-const styles = StyleSheet.create({
+const styles = create({
   scrim: {
     position: 'absolute',
     width: '100%',
