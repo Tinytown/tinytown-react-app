@@ -3,11 +3,11 @@ import config from 'config/env.config.js';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import CompassHeading from 'react-native-compass-heading';
 import { create } from 'library/utils/normalize.js';
-import { watchLocation, stopWatchingLocation, onCameraCheck } from 'library/apis/geolocation';
-import { storeMultiple, getMultiple } from 'library/apis/storage';
+import { watchLocation, stopWatchingLocation } from 'library/apis/geolocation';
 import { connect } from 'react-redux';
 import { updateUserVisible  } from 'rdx/actions';
 import useMapCamera from 'library/hooks/useMapCamera';
+import useMapStorage from 'library/hooks/useMapStorage';
 import RES from 'res';
 
 const { MapView, Camera } = MapboxGL;
@@ -18,48 +18,30 @@ const WorldMap = (props) => {
   const mapRef = useRef(null);
   const [mapRendered, setMapRendered] = useState(false);
   const [heading, setHeading] = useState(0);
-  const [camera, setCamera, flyTo] = useMapCamera();
-  flyTo(props.goToUser, props.userLocation, cameraRef.current);
+  const [camera, setCamera, onCameraCheck, flyTo] = useMapCamera();
+  const [setMapStorage] = useMapStorage(restoreState);
 
-  // App launches || quits
-  useEffect(() => {
-    let isMounted = true;
-    // Load static map and camera props
-    getMultiple(['cameraCenter', 'cameraZoom', 'userVisible']).then((res) => {
-      if (isMounted && res.cameraCenter) {
-        setCamera({
-          center: res.cameraCenter,
-          zoom: res.cameraZoom,
-          movedByUser: false });
-        props.updateUserVisible(res.userVisible);
-      }
+  function restoreState(mapStorage) {
+    setCamera({
+      center: mapStorage.cameraCenter,
+      zoom: mapStorage.cameraZoom,
+      movedByUser: false,
     });
+    props.updateUserVisible(mapStorage.userVisible);
+  }
 
-    return () => {
-      isMounted = false;
-      setMapRendered(false);
-    };
-  }, []);
+  flyTo(props.goToUser, props.userLocation, cameraRef.current);
 
   // App is active || background
   useEffect(() => {
     if (props.appState.active) {
-      // Start compass and location tracking
       props.userLocation ? watchLocation() : null;
       CompassHeading.start(10, (heading) => {
         setHeading(heading);
       });
     } else {
-      // Store user location and camera props
       if (props.userLocation) {
-        const data = [
-          ['userLocation', props.userLocation],
-          ['cameraCenter', camera.center],
-          ['cameraZoom', camera.zoom],
-          ['userVisible', props.userVisible],
-        ];
-        storeMultiple(data);
-        // Stop compass and location tracking
+        setMapStorage(camera, props);
         stopWatchingLocation();
       }
       CompassHeading.stop();

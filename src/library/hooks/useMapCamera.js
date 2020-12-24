@@ -47,5 +47,18 @@ export default () => {
     }, [trigger]);
   };
 
-  return [camera, setCamera, flyTo];
+  const onCameraCheck = (userLocation, cameraBounds) => {
+    const isUserLocationWithinCamera = (
+      userLocation[0] < cameraBounds[1][0] ||
+      userLocation[0] > cameraBounds[0][0] ||
+      userLocation[1] > cameraBounds[0][1] ||
+      userLocation[1] < cameraBounds[1][1]);
+
+    if (isUserLocationWithinCamera) {
+      return false;
+    }
+    return true;
+  };
+
+  return [camera, setCamera, onCameraCheck, flyTo];
 };
