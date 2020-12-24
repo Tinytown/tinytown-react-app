@@ -8,8 +8,6 @@ export default (state = null, action) => {
       user: action.payload.user,
       hasPermission: action.payload.hasPermission,
     };
-  case UPDATE_WATCHING:
-    return { ...state, watchingLocation: action.payload };
   case GO_TO_USER:
     return { ...state, goToUser: true };
   case USER_VISIBLE:
@@ -18,7 +16,6 @@ export default (state = null, action) => {
     return {
       ...state,
       hasPermission: false,
-      watchingLocation: false,
       goToUser: false,
       userVisible: false };
   default:

@@ -40,6 +40,14 @@ export const getStateFromLS = () => async (dispatch) => {
   dispatch({ type: APP_STORAGE, payload: true });
 };
 
+export const updateUserLocation = (location) => {
+  const payload = {
+    user: [location.longitude, location.latitude],
+    hasPermission: true,
+  };
+  return { type: UPDATE_LOCATION, payload };
+};
+
 export const updateUserVisible = (payload) => {
   return { type: USER_VISIBLE, payload };
 };
@@ -51,3 +59,4 @@ export const updateAppState = (event) => {
     return { type: APP_STATE, payload: false };
   }
 };
+

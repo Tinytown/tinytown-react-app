@@ -13,7 +13,6 @@ JSON SOURCE
   "location": {
     "user": null,
     "hasPermission": false,
-    "watchingLocation": false,
     "goToUser": false,
     "userVisible": true
   },
@@ -56,7 +55,6 @@ export default {
       location: {
         user: null,
         hasPermission: false,
-        watchingLocation: false,
         goToUser: false,
         userVisible: true,
       },
@@ -145,7 +143,6 @@ export default {
         {
           user: null,
           hasPermission: false,
-          watchingLocation: false,
           goToUser: false,
           userVisible: true,
         },
@@ -153,7 +150,6 @@ export default {
       required: [
         'user',
         'hasPermission',
-        'watchingLocation',
         'goToUser',
         'userVisible',
       ],
@@ -171,13 +167,6 @@ export default {
           $id: '#/properties/location/properties/hasPermission',
           type: 'boolean',
           title: 'The hasPermission schema',
-          default: false,
-          examples: [false],
-        },
-        watchingLocation: {
-          $id: '#/properties/location/properties/watchingLocation',
-          type: 'boolean',
-          title: 'The watchingLocation schema',
           default: false,
           examples: [false],
         },

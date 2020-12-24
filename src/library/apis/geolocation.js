@@ -11,6 +11,16 @@ import RES from 'res';
 
 const { title, body } = RES.STRINGS.dialog.location;
 
+const config = {
+  enableHighAccuracy: true,
+  timeout: 15000,
+  maximumAge: 10000,
+  distanceFilter: 100,
+  interval: Platform.OS === 'android' ? 10000 : null,
+  fastestInterval: Platform.OS === 'android' ? 5000 : null,
+  useSignificantChanges: Platform.OS === 'ios' ? true : null,
+};
+
 const openSetting = () => {
   Linking.openSettings().catch(() => {
     Alert.alert('Unable to open settings');
@@ -47,13 +57,13 @@ export const getLocationPermission = async () => {
   return false;
 };
 
-export const getLocation = async (successHandler) => {
+export const getLocation = async (callback) => {
   const hasPermission = await getLocationPermission();
   if (!hasPermission) {
     showDialog();
   } else {
     Geolocation.getCurrentPosition(
-      ({ coords }) => successHandler([coords.longitude, coords.latitude]),
+      ({ coords }) => callback([coords.longitude, coords.latitude]),
       (error) => console.log(error.code, error.message),
       {
         enableHighAccuracy: config.enableHighAccuracy,
@@ -64,53 +74,23 @@ export const getLocation = async (successHandler) => {
   }
 };
 
-const config = {
-  enableHighAccuracy: true,
-  timeout: 15000,
-  maximumAge: 10000,
-  distanceFilter: 100,
-  interval: Platform.OS === 'android' ? 10000 : null,
-  fastestInterval: Platform.OS === 'android' ? 5000 : null,
-  useSignificantChanges: Platform.OS === 'ios' ? true : null,
-};
-let watchId = null;
-
-export const watchLocation = async () => {
+export const watchLocation = async (callback) => {
   const hasPermission = await getLocationPermission();
   if (!hasPermission) {
     showDialog();
   } else {
-    const state = store.getState();
-    const { watching } = state.location;
+    const watchId = Geolocation.watchPosition(
+      ({ coords }) => callback(coords),
+      (error) => {
+        console.log(error.code, error.message);
+      },
+      { config },
+    );
 
-    const successHandler = (coords) => {
-      const payload = {
-        user: [coords.longitude, coords.latitude],
-        hasPermission,
-      };
-      store.dispatch({ type: UPDATE_LOCATION, payload });
-      store.dispatch({ type: UPDATE_WATCHING, payload: true });
-    };
-
-    // Gate to prevent multiple instances
-    if (!watching) {
-      watchId = Geolocation.watchPosition(
-        ({ coords }) => successHandler(coords),
-        (error) => {
-          console.log(error.code, error.message);
-        },
-        { config }
-      );
-    }
+    return watchId;
   }
 };
 
-export const stopWatchingLocation = () => {
-  const state = store.getState();
-  const { watching } = state.location;
-
-  if (watching) {
-    Geolocation.clearWatch(watchId);
-    store.dispatch({ type: UPDATE_WATCHING, payload: false });
-  }
+export const stopWatchingLocation = (watchId) => {
+  Geolocation.clearWatch(watchId);
 };

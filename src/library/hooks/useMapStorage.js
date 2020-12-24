@@ -5,7 +5,7 @@ export default (callback) => {
   useEffect(() => {
     let isMounted = true;
     getMultiple(['cameraCenter', 'cameraZoom', 'userVisible']).then((data) => {
-      if (isMounted && data) {
+      if (isMounted && data.cameraCenter) {
         callback(data);
       }
     });
