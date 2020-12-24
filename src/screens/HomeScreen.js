@@ -11,7 +11,7 @@ const HomeScreen = (props) => {
 
   return (
     <MapView>
-      <ViewWithWait waitFor={props.storageLoaded} style={styles.container}>
+      <ViewWithWait waitFor={props.storageLoaded} style={styles.container} pointerEvents='box-none'>
         <HomeBar />
         <FAB
           label={RES.STRINGS.button.shout}

@@ -684,8 +684,6 @@ PODS:
     - React-Core
   - RNScreens (2.15.0):
     - React-Core
-  - RNStaticSafeAreaInsets (2.1.1):
-    - React
   - RNSVG (12.1.0):
     - React
   - TwitterCore (3.2.0)
@@ -762,7 +760,6 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
-  - RNStaticSafeAreaInsets (from `../node_modules/react-native-static-safe-area-insets`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -889,8 +886,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-  RNStaticSafeAreaInsets:
-    :path: "../node_modules/react-native-static-safe-area-insets"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -933,9 +928,9 @@ SPEC CHECKSUMS:
   MapboxMobileEvents: 2bc0ca2eedb627b73cf403258dce2b2fa98074a6
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   OpenSSL-Universal: ff34003318d5e1163e9529b08470708e389ffcdd
-  Permission-LocationAccuracy: 2c54a3a6572a12924fba7d8ca4bb33aca9470936
-  Permission-LocationAlways: 20c287ae79fbc5659a9cc95b32a725810f5529df
-  Permission-LocationWhenInUse: e09ae67e8db2b1eeefb35f18ca59848d0785de5b
+  Permission-LocationAccuracy: e748463597fb8789cacdab1f9aa7d7a5924faae5
+  Permission-LocationAlways: c083f45f28c4b78ddc6f9668cf1a984d879a80ec
+  Permission-LocationWhenInUse: e2b8c40ce0f3675a521f26787ab47ebb9bace503
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   RCTRequired: 48884c74035a0b5b76dbb7a998bd93bcfc5f2047
   RCTTypeSafety: edf4b618033c2f1c5b7bc3d90d8e085ed95ba2ab
@@ -950,7 +945,7 @@ SPEC CHECKSUMS:
   react-native-compass-heading: 18742617bdb9e06ce104bd3b90f0dc700b791fd1
   react-native-geolocation-service: f33626f1ae12381ca2ae60f98b2f5edd676bf95a
   react-native-mapbox-gl: 2a4b1bbfb5708b4c997d312ad73337bafdc5baf5
-  react-native-safe-area-context: 86612d2c9a9e94e288319262d10b5f93f0b395f5
+  react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-twitter-signin: 566ee053b20b5afbd8141160ba4a9d725ab8ab8f
   React-RCTActionSheet: 53ea72699698b0b47a6421cb1c8b4ab215a774aa
@@ -963,15 +958,14 @@ SPEC CHECKSUMS:
   React-RCTText: 65a6de06a7389098ce24340d1d3556015c38f746
   React-RCTVibration: 8e9fb25724a0805107fc1acc9075e26f814df454
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
-  RNCAsyncStorage: bc2f81cc1df90c267ce9ed30bb2dbc93b945a8ee
-  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
+  RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNFBApp: 2b4e07dfca4cf780b9e2d61bcc21e34d890cd654
   RNFBAuth: 349a8d96d6ecc91d690c65ec0425cbb21b5831ed
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
-  RNPermissions: 350964d19150b183796a88180fb7ec62a1e41422
+  RNPermissions: 99dd8d4a30ff13509b949ca63cd1f69edc461775
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: 2ad555d4d9fa10b91bb765ca07fe9b29d59573f0
-  RNStaticSafeAreaInsets: 6103cf09647fa427186d30f67b0f5163c1ae8252
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit5: 64095dfefcf39be2355711ef27112d55e340d90e
