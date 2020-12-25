@@ -3,6 +3,8 @@ import { storeMultiple, getMultiple } from 'library/apis/storage';
 
 export default (props, cameraRef, mapRef) => {
   const [mapRendered, setMapRendered] = useState(false);
+  const [dataRetrieved, setDataRetrieved] = useState(false);
+  const cameraBounds = mapRef?.state.region?.properties.visibleBounds;
 
   // Map Camera
   const cameraReducer = (state, action) => {
@@ -46,24 +48,13 @@ export default (props, cameraRef, mapRef) => {
   }, [props.goToUser]);
 
   // Check if user is off screen
-  const onCameraCheck = (userLocation, cameraBounds) => {
-    const isUserLocationOutsideCamera = (
-      userLocation[0] < cameraBounds[1][0] ||
-      userLocation[0] > cameraBounds[0][0] ||
-      userLocation[1] > cameraBounds[0][1] ||
-      userLocation[1] < cameraBounds[1][1]);
-
-    if (isUserLocationOutsideCamera) {
-      return false;
-    }
-    return true;
-  };
-
-  const updateUserVisibility = (visibleBounds) => {
-    if (props.isSignedIn) {
-      const isVisible = onCameraCheck(props.userLocation, visibleBounds);
-      isVisible !== props.userVisible ? props.updateUserVisible(isVisible) : null;
-    }
+  const updateUserVisibility = (bounds) => {
+    const isUserVisible = (
+      props.userLocation[0] < bounds[0][0] &&
+      props.userLocation[0] > bounds[1][0] &&
+      props.userLocation[1] < bounds[0][1] &&
+      props.userLocation[1] > bounds[1][1]);
+    isUserVisible !== props.userVisible ? props.updateUserVisible(isUserVisible) : null;
   };
 
   // Handle camera change
@@ -80,17 +71,14 @@ export default (props, cameraRef, mapRef) => {
   };
 
   // Handle user location change
+  const shouldUpdate = (!props.goToUser && cameraBounds);
+
   useEffect(() => {
-    if (props.userLocation && mapRef) {
-      mapRef.getVisibleBounds()
-        .then(updateUserVisibility)
-        .catch((err) => console.log(err));
-    }
+    shouldUpdate ? updateUserVisibility(cameraBounds) : null;
   }, [props.userLocation]);
 
   // Map Storage
   const shouldStore = (!props.appState.active && props.userLocation);
-  const [dataRetrieved, setDataRetrieved] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
