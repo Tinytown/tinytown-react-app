@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserLocation } from 'rdx/actions';
+import { goToUser } from 'rdx/actions';
+import { getLocation } from 'library/apis/geolocation';
 import { create } from 'library/utils/normalize.js';
 import { MapView, TwitterAuth, FAB, ActivityOverlay } from 'library/components';
 import { withWait } from 'library/components/hoc';
@@ -22,7 +23,7 @@ const OnboardingScreen = (props) => {
             label={RES.STRINGS.button.goToLocation}
             theme='green'
             icon='crosshairs'
-            onPress={props.getUserLocation}/>}
+            onPress={() => getLocation(props.goToUser)}/>}
       </ViewWithWait>
     </MapView>
   );
@@ -41,4 +42,4 @@ const mapStateToProps = (state) => ({
   storageLoaded: state.app.storageLoaded,
 });
 
-export default connect(mapStateToProps, { getUserLocation })(OnboardingScreen);
+export default connect(mapStateToProps, { goToUser })(OnboardingScreen);

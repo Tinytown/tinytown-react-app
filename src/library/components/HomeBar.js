@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth';
-import { signOut, getUserLocation } from 'rdx/actions';
+import { signOut, goToUser } from 'rdx/actions';
+import { getLocation } from 'library/apis/geolocation';
 import { create } from 'library/utils/normalize.js';
 import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
@@ -24,7 +25,7 @@ const HomeBar = (props) => {
           icon="crosshairs"
           color={RES.COLORS.justWhite}
           style={styles.locationButton}
-          onPress={props.getUserLocation}/>
+          onPress={() => getLocation(props.goToUser)}/>
         : null }
       <Menu
         showing={showMenu}
@@ -90,4 +91,4 @@ const mapStateToProps = (state) => ({
   userVisible: state.location.userVisible,
 });
 
-export default connect(mapStateToProps, { signOut, getUserLocation })(HomeBar);
+export default connect(mapStateToProps, { signOut, goToUser })(HomeBar);

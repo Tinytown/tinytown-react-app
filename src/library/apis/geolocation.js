@@ -63,7 +63,7 @@ export const getLocation = async (callback) => {
     showDialog();
   } else {
     Geolocation.getCurrentPosition(
-      ({ coords }) => callback([coords.longitude, coords.latitude]),
+      ({ coords }) => callback(coords),
       (error) => console.log(error.code, error.message),
       {
         enableHighAccuracy: config.enableHighAccuracy,

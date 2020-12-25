@@ -1,5 +1,4 @@
 import { SIGN_IN, SIGN_OUT, UPDATE_LOCATION, APP_STATE, APP_STORAGE, GO_TO_USER, USER_VISIBLE } from './types';
-import { getLocation } from 'library/apis/geolocation';
 import { clearStorage, getData } from 'library/apis/storage';
 
 export const signIn = ({ photoURL, displayName, uid }) => {
@@ -14,18 +13,12 @@ export const signOut = () => {
   return { type: SIGN_OUT };
 };
 
-export const getUserLocation = () => async (dispatch) => {
-  const onSuccess = (coords) => {
-    const payload = {
-      user: coords,
-      hasPermission: true,
-    };
-    dispatch({ type: UPDATE_LOCATION, payload });
-    dispatch({ type: USER_VISIBLE, payload: true });
-    dispatch({ type: GO_TO_USER });
+export const goToUser = (location) => {
+  const payload = {
+    user: [location.longitude, location.latitude],
+    hasPermission: true,
   };
-
-  getLocation(onSuccess);
+  return { type: GO_TO_USER, payload };
 };
 
 export const getStateFromLS = () => async (dispatch) => {
