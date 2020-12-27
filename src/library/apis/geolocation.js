@@ -5,8 +5,6 @@ import {
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
-import store from 'rdx/store';
-import { UPDATE_LOCATION, UPDATE_WATCHING } from 'rdx/actions/types';
 import RES from 'res';
 
 const { title, body } = RES.STRINGS.dialog.location;

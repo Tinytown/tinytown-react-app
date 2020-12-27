@@ -2,34 +2,27 @@ import { useState, useEffect } from 'react';
 import CompassHeading from 'react-native-compass-heading';
 import { watchLocation, stopWatchingLocation } from '../apis/geolocation';
 
-let watching = false;
-// Separate vars needed due to id starting at 0
 let watchId = null;
 
 export default (shouldWatch, callback) => {
   const [heading, setHeading] = useState(0);
 
+  const startWatching = async () => {
+    CompassHeading.start(10, (newHeading) => {
+      setHeading(newHeading);
+    });
+    watchId = await watchLocation(callback);
+  };
+
+  const stopWatching = () => {
+    CompassHeading.stop();
+    stopWatchingLocation(watchId);
+  };
+
   useEffect(() => {
-    let isMounted = true;
-    if (shouldWatch && !watching) {
-      watching = true;
-      CompassHeading.start(10, (newHeading) => {
-        if (isMounted && newHeading) {
-          setHeading(newHeading);
-        }
-      });
-
-      watchLocation(callback).then((Id) => {
-        watchId = Id;
-      });
-    } else if (watchId !== null) {
-      watching = false;
-      CompassHeading.stop();
-      stopWatchingLocation(watchId);
-    }
-
+    shouldWatch ? startWatching() : stopWatching();
     return () => {
-      isMounted = false;
+      stopWatching();
     };
   }, [shouldWatch]);
 

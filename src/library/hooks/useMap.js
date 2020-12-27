@@ -71,7 +71,7 @@ export default (props, cameraRef, mapRef) => {
   };
 
   // Handle user location change
-  const shouldUpdate = (!props.goToUser && cameraBounds);
+  const shouldUpdate = (props.userLocation && !props.goToUser && cameraBounds);
 
   useEffect(() => {
     shouldUpdate ? updateUserVisibility(cameraBounds) : null;
