@@ -8,22 +8,22 @@ import { MapView, TwitterAuth, FAB, ActivityOverlay } from 'library/components';
 import { withWait } from 'library/components/hoc';
 import RES from 'res';
 
-const OnboardingScreen = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
+const OnboardingScreen = ({ storageLoaded, userVisible, goToUser }) => {
+  const [authLoading, setAuthLoading] = useState(false);
   const ViewWithWait = withWait(View);
 
   return (
     <MapView>
-      <ActivityOverlay showOverlay={isLoading} />
-      <ViewWithWait waitFor={props.storageLoaded && !isLoading} style={styles.container} >
-        {props.userLocation ?
-          <TwitterAuth onLoading={(state) => setIsLoading(state)} />
+      <ActivityOverlay showOverlay={authLoading} />
+      <ViewWithWait waitFor={storageLoaded && !authLoading} style={styles.container} pointerEvents='box-none'>
+        {userVisible ?
+          <TwitterAuth onLoading={(state) => setAuthLoading(state)} />
           :
           <FAB
             label={RES.STRINGS.button.goToLocation}
             theme='green'
             icon='crosshairs'
-            onPress={() => getLocation(props.goToUser)}/>}
+            onPress={() => getLocation(goToUser)}/>}
       </ViewWithWait>
     </MapView>
   );
@@ -38,7 +38,7 @@ const styles = create({
 });
 
 const mapStateToProps = (state) => ({
-  userLocation: state.location.user,
+  userVisible: state.location.userVisible,
   storageLoaded: state.app.storageLoaded,
 });
 
