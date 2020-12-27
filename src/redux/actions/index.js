@@ -1,4 +1,13 @@
-import { SIGN_IN, SIGN_OUT, UPDATE_LOCATION, APP_STATE, APP_STORAGE, GO_TO_USER, USER_VISIBLE } from './types';
+import {
+  SIGN_IN,
+  SIGN_OUT,
+  UPDATE_AUTH,
+  UPDATE_LOCATION,
+  APP_STATE,
+  APP_STORAGE,
+  GO_TO_USER,
+  USER_VISIBLE,
+} from './types';
 import { clearStorage, getData } from 'library/apis/storage';
 
 export const signIn = ({ photoURL, displayName, uid }) => {
@@ -11,6 +20,10 @@ export const signIn = ({ photoURL, displayName, uid }) => {
 export const signOut = () => {
   clearStorage();
   return { type: SIGN_OUT };
+};
+
+export const updateAuth = (payload) => {
+  return { type: UPDATE_AUTH, payload };
 };
 
 export const goToUser = (location) => {

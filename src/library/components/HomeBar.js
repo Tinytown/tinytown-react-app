@@ -9,23 +9,23 @@ import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
 import RES from 'res';
 
-const HomeBar = (props) => {
+const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   const signOutHandler = () => {
     auth().signOut()
-      .then(() => props.signOut());
+      .then(() => signOut());
     setShowMenu(false);
   };
 
   return (
     <View style={styles.container}>
-      {!props.userVisible ?
+      {!userVisible ?
         <IconButton
           icon="crosshairs"
           color={RES.COLORS.justWhite}
           style={styles.locationButton}
-          onPress={() => getLocation(props.goToUser)}/>
+          onPress={() => getLocation(goToUser)}/>
         : null }
       <Menu
         showing={showMenu}
@@ -35,7 +35,7 @@ const HomeBar = (props) => {
             style={styles.accountButton}
             onPress={() => setShowMenu(true)}>
             <Image
-              source={{ uri: props.photoURL }}
+              source={{ uri: photoURL }}
               style={styles.avatarImage}>
             </Image>
           </TouchableOpacity>}>

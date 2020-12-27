@@ -1,6 +1,6 @@
 const INITIAL_STATE = Object.freeze({
   auth: {
-    isSignedIn: false,
+    isSignedIn: null,
     user: {
       photoURL: '',
       displayName: '',

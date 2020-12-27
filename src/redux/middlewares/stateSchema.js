@@ -3,7 +3,7 @@ JSON SOURCE
 
 {
   "auth": {
-    "isSignedIn": false,
+    "isSignedIn": null,
     "user": {
       "photoURL": "url",
       "displayName": "name",
@@ -45,7 +45,7 @@ export default {
   examples: [
     {
       auth: {
-        isSignedIn: false,
+        isSignedIn: null,
         user: {
           photoURL: 'url',
           displayName: 'name',
@@ -73,7 +73,7 @@ export default {
       description: 'Schema for user\'s authentication state.',
       examples: [
         {
-          isSignedIn: false,
+          isSignedIn: null,
           user: {
             photoURL: 'url',
             displayName: 'name',
@@ -87,10 +87,10 @@ export default {
       properties: {
         isSignedIn: {
           $id: '#/properties/auth/properties/isSignedIn',
-          default: false,
+          default: null,
           examples: [false],
           title: 'The isSignedIn schema',
-          type: 'boolean',
+          type: ['null', 'boolean', 'string'],
         },
         user: {
           $id: '#/properties/auth/properties/user',
