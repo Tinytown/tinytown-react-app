@@ -1,30 +1,23 @@
-import 'react-native-gesture-handler';
 /**
  * @format
  * @flow strict-local
  */
-import React, { useEffect, useState } from 'react';
-import SplashScreen from 'react-native-splash-screen';
+import 'react-native-gesture-handler';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
+import { useAppLaunch } from 'library/hooks';
 import OnboardingScreen from 'screens/OnboardingScreen';
 import HomeScreen from 'screens/HomeScreen';
 
 const Stack = createStackNavigator();
 
 const App = ({ isSignedIn }) => {
-  const [appIsReady, setAppIsReady] = useState(false);
-
-  useEffect(() => {
-    if (isSignedIn !== null) {
-      SplashScreen.hide();
-      setAppIsReady(true);
-    }
-  }, [isSignedIn]);
+  const [appIsReady] = useAppLaunch(isSignedIn);
 
   return (
-    appIsReady ?
+    appIsReady &&
       <NavigationContainer>
         <Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: false }} >
           {isSignedIn ? (
@@ -38,7 +31,6 @@ const App = ({ isSignedIn }) => {
           )}
         </Stack.Navigator>
       </NavigationContainer>
-      : null
   );
 };
 
