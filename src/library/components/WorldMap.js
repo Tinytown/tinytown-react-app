@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
-import config from 'config/env.config.js';
+import { View } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import { create } from 'library/utils/normalize.js';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
+import config from 'config/env.config.js';
+import { create } from 'library/utils/normalize.js';
 import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import { useLocation, useMap } from 'library/hooks';
 import RES from 'res';
@@ -17,7 +19,7 @@ const WorldMap = (props) => {
   const [camera, regionChangeHandler, mapRendered, setMapRendered] = useMap(props, cameraRef.current, mapRef.current);
 
   return (
-    <>
+    <View style={styles.landscape}>
       <MapView
         ref={mapRef}
         animated={true}
@@ -54,11 +56,26 @@ const WorldMap = (props) => {
         >
         </Camera>
       </MapView>
-    </>
+      <SafeAreaView style={styles.safeArea} mode="margin" pointerEvents='box-none'>
+        {props.children}
+      </SafeAreaView>
+    </View>
+
   );
 };
 
 const styles = create({
+  landscape: {
+    height: '100%',
+    backgroundColor: RES.COLORS.asphaltGray,
+  },
+  safeArea: {
+    position: 'absolute',
+    width: '100%',
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+  },
   map: {
     height: '100%',
     width: '100%',

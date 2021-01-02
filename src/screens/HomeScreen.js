@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { create } from 'library/utils/normalize.js';
-import { MapView, FAB, HomeBar } from 'library/components';
+import { WorldMap, FAB, HomeBar } from 'library/components';
 import { withWait } from 'library/components/hoc';
 import RES from 'res';
 
@@ -10,7 +10,7 @@ const HomeScreen = (props) => {
   const ViewWithWait = withWait(View);
 
   return (
-    <MapView>
+    <WorldMap>
       <ViewWithWait waitFor={props.storageLoaded} style={styles.container} pointerEvents='box-none'>
         <HomeBar />
         <FAB
@@ -19,7 +19,7 @@ const HomeScreen = (props) => {
           icon='megaphone'
           branded onPress={() => console.log(`LOUD NOISES from ${props.displayName}`)}/>
       </ViewWithWait>
-    </MapView>
+    </WorldMap>
   );
 };
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { goToUser } from 'rdx/locationState';
 import { getLocation } from 'library/apis/geolocation';
 import { create } from 'library/utils/normalize.js';
-import { MapView, TwitterAuth, FAB, ActivityOverlay } from 'library/components';
+import { WorldMap, TwitterAuth, FAB, ActivityOverlay } from 'library/components';
 import { withWait } from 'library/components/hoc';
 import RES from 'res';
 
@@ -13,7 +13,7 @@ const OnboardingScreen = ({ storageLoaded, userVisible, goToUser }) => {
   const ViewWithWait = withWait(View);
 
   return (
-    <MapView>
+    <WorldMap>
       <ActivityOverlay showOverlay={authLoading} />
       <ViewWithWait waitFor={storageLoaded && !authLoading} style={styles.container} pointerEvents='box-none'>
         {userVisible ?
@@ -25,7 +25,7 @@ const OnboardingScreen = ({ storageLoaded, userVisible, goToUser }) => {
             icon='crosshairs'
             onPress={() => getLocation(goToUser)}/>}
       </ViewWithWait>
-    </MapView>
+    </WorldMap>
   );
 };
 
