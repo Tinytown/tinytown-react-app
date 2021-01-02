@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import PropTypes from 'prop-types';
 import { create } from 'library/utils/normalize.js';
 import RES from 'res';
 import IconButton from './IconButton';
 
-const NavBar = ({ label = 'Label', onClose, children }) => {
+const NavBar = ({ label, onClose, children }) => {
   return (
     <View style={styles.navContainer}>
       <View style={[styles.itemsContainer, { flexDirection: 'row' }]}>
@@ -38,5 +39,16 @@ const styles = create({
     ...RES.TYPOGRAPHY.headline5,
   },
 });
+
+NavBar.propTypes = {
+  label: PropTypes.string,
+  onClose: PropTypes.func,
+  children: PropTypes.element,
+};
+
+NavBar.defaultProps = {
+  label: 'Label',
+  onClose: () => console.log('Pass an onClose callback to this component'),
+};
 
 export default NavBar;

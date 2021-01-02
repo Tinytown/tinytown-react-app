@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { NativeModules } from 'react-native';
+import PropTypes from 'prop-types';
 import config from 'config/env.config.js';
 import auth from '@react-native-firebase/auth';
 const { RNTwitterSignIn } = NativeModules;
@@ -26,6 +27,14 @@ const TwitterAuth = ({ onLoading }) => {
   };
 
   return <FAB onPress={onLogInPress} label={RES.STRINGS.button.logIn} theme='blue' icon='twitter' />;
+};
+
+TwitterAuth.propTypes = {
+  onLoading: PropTypes.func,
+};
+
+TwitterAuth.defaultProps = {
+  onLoading: () => console.log('Pass an onLoading callback to this component'),
 };
 
 export default TwitterAuth;

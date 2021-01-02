@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { goToUser } from 'rdx/locationState';
@@ -91,5 +92,12 @@ const mapStateToProps = (state) => ({
   photoURL: state.auth.user?.photoURL,
   userVisible: state.location.userVisible,
 });
+
+HomeBar.propTypes = {
+  signOut: PropTypes.func,
+  goToUser: PropTypes.func,
+  userVisible: PropTypes.bool,
+  photoURL: PropTypes.string,
+};
 
 export default connect(mapStateToProps, { signOut, goToUser })(HomeBar);

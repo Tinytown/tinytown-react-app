@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import PropTypes from 'prop-types';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { create } from 'library/utils/normalize.js';
 import Scrim from './Scrim';
@@ -25,5 +26,13 @@ const styles = create({
     justifyContent: 'center',
   },
 });
+
+ActivityOverlay.propTypes = {
+  showOverlay: PropTypes.bool,
+};
+
+ActivityOverlay.defaultProps = {
+  showOverlay: false,
+};
 
 export default ActivityOverlay;
