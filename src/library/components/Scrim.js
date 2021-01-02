@@ -2,10 +2,10 @@ import React from 'react';
 import { View } from 'react-native';
 import { create } from 'library/utils/normalize.js';
 
-const Scrim = (props) => {
+const Scrim = ({ children }) => {
   return (
     <View style={styles.scrim} >
-      {props.children}
+      {children}
     </View>
   );
 };

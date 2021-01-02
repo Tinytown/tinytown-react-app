@@ -29,7 +29,7 @@ const AppContainer = () => {
   }, []);
 
   const appStateHandler = (event) => {
-    event !== 'unknown' ? store.dispatch(updateAppState(event)) : null;
+    event !== 'unknown' && store.dispatch(updateAppState(event));
   };
 
   return (

@@ -12,11 +12,16 @@ import RES from 'res';
 const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
-const WorldMap = (props) => {
+const WorldMap = ({ userLocation, appState, updateUserLocation, updateUserVisible, children }) => {
   const cameraRef = useRef(null);
   const mapRef = useRef(null);
-  const [heading] = useLocation(props.appState.active, props.updateUserLocation);
-  const [camera, regionChangeHandler, mapRendered, setMapRendered] = useMap(props, cameraRef.current, mapRef.current);
+  const [heading] = useLocation(appState.active, updateUserLocation);
+  const [
+    camera,
+    regionChangeHandler,
+    mapRendered,
+    setMapRendered,
+  ] = useMap(cameraRef.current, mapRef.current, updateUserVisible);
 
   return (
     <View style={styles.landscape}>
@@ -31,7 +36,7 @@ const WorldMap = (props) => {
         onRegionIsChanging={regionChangeHandler}
         onDidFinishRenderingMapFully={() => setMapRendered(true)}
       >
-        {props.userLocation ? <MapboxGL.UserLocation
+        {userLocation && <MapboxGL.UserLocation
           animated={true}
           visible={true}
         >
@@ -46,7 +51,7 @@ const WorldMap = (props) => {
             }}
             minZoomLevel={1}
           />
-        </MapboxGL.UserLocation> : null}
+        </MapboxGL.UserLocation>}
         <Camera
           ref={cameraRef}
           animationDuration={!mapRendered ? 0 : 2000}
@@ -57,7 +62,7 @@ const WorldMap = (props) => {
         </Camera>
       </MapView>
       <SafeAreaView style={styles.safeArea} mode="margin" pointerEvents='box-none'>
-        {props.children}
+        {children}
       </SafeAreaView>
     </View>
 
@@ -83,10 +88,7 @@ const styles = create({
 
 const mapStateToProps = (state) => ({
   userLocation: state.location.user,
-  goToUser: state.location.goToUser,
-  userVisible: state.location.userVisible,
   appState: state.app,
-  isSignedIn: state.auth.isSignedIn,
 });
 
 export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(WorldMap);

@@ -1,10 +1,12 @@
 import { useEffect, useReducer, useState } from 'react';
 import { storeMultiple, getMultiple } from 'library/apis/storage';
+import store from 'rdx/store';
 
-export default (props, cameraRef, mapRef) => {
+export default (cameraRef, mapRef, updateUserVisible) => {
   const [mapRendered, setMapRendered] = useState(false);
   const [dataRetrieved, setDataRetrieved] = useState(false);
   const cameraBounds = mapRef?.state.region?.properties.visibleBounds;
+  const { location: { user, goToUser, userVisible }, app: { active } } = store.getState();
 
   // Map Camera
   const cameraReducer = (state, action) => {
@@ -30,31 +32,31 @@ export default (props, cameraRef, mapRef) => {
   });
 
   const setCamera = ({ center, bounds, zoom, movedByUser }) => {
-    center ? dispatch({ type: 'update_center', payload: center }) : null;
-    bounds ? dispatch({ type: 'update_bounds', payload: bounds }) : null;
-    zoom ? dispatch({ type: 'update_zoom', payload: zoom }) : null;
-    movedByUser !== null ? dispatch({ type: 'update_moved', payload: movedByUser }) : null;
+    center && dispatch({ type: 'update_center', payload: center });
+    bounds && dispatch({ type: 'update_bounds', payload: bounds });
+    zoom && dispatch({ type: 'update_zoom', payload: zoom });
+    movedByUser !== null && dispatch({ type: 'update_moved', payload: movedByUser });
   };
 
   // Move camera to location
   useEffect(() => {
-    if (props.goToUser) {
-      cameraRef?.flyTo(props.userLocation, 1000);
+    if (goToUser) {
+      cameraRef?.flyTo(user, 1000);
       setCamera({
-        center: props.userLocation,
+        center: user,
         zoom: 12,
         movedByUser: false });
     }
-  }, [props.goToUser]);
+  }, [goToUser]);
 
   // Check if user is off screen
   const updateUserVisibility = (bounds) => {
     const isUserVisible = (
-      props.userLocation[0] < bounds[0][0] &&
-      props.userLocation[0] > bounds[1][0] &&
-      props.userLocation[1] < bounds[0][1] &&
-      props.userLocation[1] > bounds[1][1]);
-    isUserVisible !== props.userVisible ? props.updateUserVisible(isUserVisible) : null;
+      user[0] < bounds[0][0] &&
+      user[0] > bounds[1][0] &&
+      user[1] < bounds[0][1] &&
+      user[1] > bounds[1][1]);
+    isUserVisible !== userVisible && updateUserVisible(isUserVisible);
   };
 
   // Handle camera change
@@ -71,14 +73,14 @@ export default (props, cameraRef, mapRef) => {
   };
 
   // Handle user location change
-  const shouldUpdate = (props.userLocation && !props.goToUser && cameraBounds);
+  const shouldUpdate = (user && !goToUser && cameraBounds);
 
   useEffect(() => {
-    shouldUpdate ? updateUserVisibility(cameraBounds) : null;
-  }, [props.userLocation]);
+    shouldUpdate && updateUserVisibility(cameraBounds);
+  }, [user]);
 
   // Map Storage
-  const shouldStore = (!props.appState.active && props.userLocation);
+  const shouldStore = (!active && user);
 
   useEffect(() => {
     let isMounted = true;
@@ -91,7 +93,7 @@ export default (props, cameraRef, mapRef) => {
             zoom: data.cameraZoom,
             movedByUser: false,
           });
-          props.updateUserVisible(data.userVisible);
+          updateUserVisible(data.userVisible);
           setDataRetrieved(true);
         }
       });
@@ -99,10 +101,10 @@ export default (props, cameraRef, mapRef) => {
 
     if (shouldStore) {
       const data = [
-        ['userLocation', props.userLocation],
+        ['userLocation', user],
         ['cameraCenter', camera.center],
         ['cameraZoom', camera.zoom],
-        ['userVisible', props.userVisible],
+        ['userVisible', userVisible],
       ];
       storeMultiple(data);
     }

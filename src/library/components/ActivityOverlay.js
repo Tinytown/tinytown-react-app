@@ -5,18 +5,16 @@ import { create } from 'library/utils/normalize.js';
 import Scrim from './Scrim';
 import RES from 'res';
 
-const ActivityOverlay = (props) => {
+const ActivityOverlay = ({ showOverlay }) => {
   const insets = useSafeAreaInsets();
 
   return (
-    props.showOverlay ?
+    showOverlay &&
       <View style={[styles.container, { top: -insets.top, bottom: -insets.bottom }]} >
         <Scrim>
           <ActivityIndicator size="large" color={RES.COLORS.skyBlue600} />
         </Scrim>
       </View>
-      :
-      null
   );
 };
 

@@ -6,18 +6,18 @@ import { WorldMap, FAB, HomeBar } from 'library/components';
 import { withWait } from 'library/components/hoc';
 import RES from 'res';
 
-const HomeScreen = (props) => {
+const HomeScreen = ({ displayName, storageLoaded }) => {
   const ViewWithWait = withWait(View);
 
   return (
     <WorldMap>
-      <ViewWithWait waitFor={props.storageLoaded} style={styles.container} pointerEvents='box-none'>
+      <ViewWithWait waitFor={storageLoaded} style={styles.container} pointerEvents='box-none'>
         <HomeBar />
         <FAB
           label={RES.STRINGS.button.shout}
           theme='red'
           icon='megaphone'
-          branded onPress={() => console.log(`LOUD NOISES from ${props.displayName}`)}/>
+          branded onPress={() => console.log(`LOUD NOISES from ${displayName}`)}/>
       </ViewWithWait>
     </WorldMap>
   );

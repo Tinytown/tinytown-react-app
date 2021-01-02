@@ -21,13 +21,13 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
 
   return (
     <View style={styles.container}>
-      {!userVisible ?
+      {!userVisible &&
         <IconButton
           icon="crosshairs"
           color={RES.COLORS.justWhite}
           style={styles.locationButton}
           onPress={() => getLocation(goToUser)}/>
-        : null }
+      }
       <Menu
         showing={showMenu}
         hideMenu={() => setShowMenu(false)}

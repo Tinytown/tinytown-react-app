@@ -1,12 +1,6 @@
 import React from 'react';
 
 export default (ChildComponent) => {
-  const ComposedComponent = (props) => {
-    if (props.waitFor) {
-      return <ChildComponent {...props} />;
-    }
-    return null;
-  };
-
+  const ComposedComponent = ({ waitFor, ...props }) => waitFor && <ChildComponent {...props} />;
   return ComposedComponent;
 };

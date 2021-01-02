@@ -6,7 +6,7 @@ const { RNTwitterSignIn } = NativeModules;
 import FAB from './FAB';
 import RES from 'res';
 
-const TwitterAuth = (props) => {
+const TwitterAuth = ({ onLoading }) => {
   useEffect(() => {
     RNTwitterSignIn.init(config.TWITTER_API_KEY, config.TWITTER_API_SECRET)
       .then(() => console.log('Twitter SDK initialized'))
@@ -16,11 +16,11 @@ const TwitterAuth = (props) => {
   const onLogInPress = async () => {
     try {
       const { authToken, authTokenSecret } = await RNTwitterSignIn.logIn();
-      props.onLoading(true);
+      onLoading(true);
       const twitterCredential = auth.TwitterAuthProvider.credential(authToken, authTokenSecret);
       auth().signInWithCredential(twitterCredential);
     } catch (err) {
-      props.onLoading(false);
+      onLoading(false);
       console.log(err);
     }
   };
