@@ -31,8 +31,7 @@ const OnboardingScreen = ({ storageLoaded, userVisible, goToUser }) => {
 
 const styles = create({
   container: {
-    height: '100%',
-    width: '100%',
+    flex: 1,
     alignItems: 'center',
   },
 });

@@ -66,7 +66,7 @@ const WorldMap = (props) => {
 
 const styles = create({
   landscape: {
-    height: '100%',
+    flex: 1,
     backgroundColor: RES.COLORS.asphaltGray,
   },
   safeArea: {
@@ -77,8 +77,7 @@ const styles = create({
     alignItems: 'center',
   },
   map: {
-    height: '100%',
-    width: '100%',
+    flex: 1,
   },
 });
 

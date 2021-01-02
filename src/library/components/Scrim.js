@@ -14,8 +14,7 @@ export default Scrim;
 
 const styles = create({
   scrim: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
   },
