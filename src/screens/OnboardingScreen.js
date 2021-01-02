@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { goToUser } from 'rdx/actions';
+import { goToUser } from 'rdx/locationState';
 import { getLocation } from 'library/apis/geolocation';
 import { create } from 'library/utils/normalize.js';
 import { MapView, TwitterAuth, FAB, ActivityOverlay } from 'library/components';

@@ -3,7 +3,7 @@ import config from 'config/env.config.js';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { create } from 'library/utils/normalize.js';
 import { connect } from 'react-redux';
-import { updateUserVisible, updateUserLocation  } from 'rdx/actions';
+import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import { useLocation, useMap } from 'library/hooks';
 import RES from 'res';
 
