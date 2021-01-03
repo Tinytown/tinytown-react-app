@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react';
 import { AppState } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import auth from '@react-native-firebase/auth';
-import store from 'rdx/store';
+import { useDispatch } from 'react-redux';
 import { updateAppState, getStateFromLS } from 'rdx/appState';
 import { signIn, updateAuth } from 'rdx/authState';
 
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
+  const dispatch = useDispatch();
 
   // Initial setup / start listeners
   useEffect(() => {
-    store.dispatch(getStateFromLS());
+    dispatch(getStateFromLS());
     const unsubscribe = auth().onAuthStateChanged((user) =>
-      (user ? store.dispatch(signIn(user)) : store.dispatch(updateAuth(false))));
+      (user ? dispatch(signIn(user)) : dispatch(updateAuth(false))));
 
     AppState.addEventListener('change', appStateHandler);
 
@@ -24,7 +25,7 @@ export default (isSignedIn) => {
   }, []);
 
   const appStateHandler = (event) => {
-    event !== 'unknown' && store.dispatch(updateAppState(event));
+    event !== 'unknown' && dispatch(updateAppState(event));
   };
 
   // Hide splash screen

@@ -12,10 +12,10 @@ import RES from 'res';
 const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
-const WorldMap = ({ userLocation, appState, updateUserLocation, updateUserVisible, children }) => {
+const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, children }) => {
   const cameraRef = useRef(null);
   const mapRef = useRef(null);
-  const [heading] = useLocation(appState.active, updateUserLocation);
+  const [heading] = useLocation(updateUserLocation);
   const [
     camera,
     regionChangeHandler,
@@ -88,7 +88,6 @@ const styles = create({
 
 const mapStateToProps = (state) => ({
   userLocation: state.location.user,
-  appState: state.app,
 });
 
 export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(WorldMap);
