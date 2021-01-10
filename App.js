@@ -4,12 +4,14 @@
  */
 import 'react-native-gesture-handler';
 import React from 'react';
+import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import { useAppLaunch } from 'library/hooks';
 import OnboardingScreen from 'screens/OnboardingScreen';
 import HomeScreen from 'screens/HomeScreen';
+import RES from 'res';
 
 const Stack = createStackNavigator();
 
@@ -17,8 +19,8 @@ const App = ({ isSignedIn }) => {
   const [appIsReady] = useAppLaunch(isSignedIn);
 
   return (
-    appIsReady &&
-      <NavigationContainer>
+    appIsReady ?
+      (<NavigationContainer>
         <Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: false }} >
           {isSignedIn ? (
             <>
@@ -30,7 +32,9 @@ const App = ({ isSignedIn }) => {
             </>
           )}
         </Stack.Navigator>
-      </NavigationContainer>
+      </NavigationContainer>)
+      :
+      <View style={{ backgroundColor: RES.COLORS.asphaltGray, flex: 1 }}/>
   );
 };
 
