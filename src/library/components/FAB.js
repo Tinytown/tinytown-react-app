@@ -2,52 +2,28 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Pressable from './hoc/Pressable';
-import { SHAPES, COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
+import { SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const FAB = ({ icon, label, theme, branded, disabled, onPress }) => {
-  const getStyles = () => {
-    const pressableStyles = [styles.pressable];
-    const shadowStyles = [styles.shadow];
-    const labelStyles = [styles.label];
-    let iconColor = COLORS.justWhite;
+  const { backgroundTheme, shadowTheme, iconTheme, textTheme } = getThemeStyles(theme);
 
-    if (theme === 'green') {
-      pressableStyles.push(styles.containerGreen);
-      shadowStyles.push({ ...SHAPES.elevGreen5 });
-      labelStyles.push(styles.labelGray);
-      iconColor = COLORS.asphaltGray;
-    } else if (theme === 'blue') {
-      pressableStyles.push(styles.containerBlue);
-      shadowStyles.push({ ...SHAPES.elevBlue5 });
-      labelStyles.push(styles.labelGray);
-      iconColor = COLORS.asphaltGray;
-    } else if (theme === 'red') {
-      pressableStyles.push(styles.containerRed);
-      shadowStyles.push({ ...SHAPES.elevRed5 });
-    }
-
-    if (branded) {
-      labelStyles.push(styles.labelBranded);
-    }
-
-    return { pressableStyles, shadowStyles, iconColor, labelStyles };
-  };
-
-  const { pressableStyles, shadowStyles, iconColor, labelStyles } = getStyles();
+  const pressableStyle = [styles.pressable, backgroundTheme];
+  const shadowStyle = [styles.shadow, shadowTheme]
+  const labelStyle = [styles.label, textTheme, branded && styles.labelBranded]
 
   return (
     <Pressable
       animationType='bounce'
       containerStyle={styles.container}
-      pressableStyle={pressableStyles}
-      shadowStyle={shadowStyles}
+      pressableStyle={pressableStyle}
+      shadowStyle={shadowStyle}
       disabled={disabled}
       onPress={onPress}
     >
       <View style={styles.iconContainer}>
-        <Icon icon={icon} color={iconColor} />
+        <Icon icon={icon} color={iconTheme} />
       </View>
-      <Text style={labelStyles}>{label}</Text>
+      <Text style={labelStyle}>{label}</Text>
     </Pressable>
   )
 }
@@ -58,7 +34,6 @@ const styles = normalizeStyles({
     paddingLeft: 16,
     paddingRight: 20,
     paddingVertical: 12,
-    backgroundColor: COLORS.asphaltGray,
   },
 
   container: {
@@ -66,33 +41,13 @@ const styles = normalizeStyles({
     overflow: 'hidden',
   },
 
-  containerGreen: {
-    backgroundColor: COLORS.grassGreen600,
-    ...SHAPES.elevGreen5,
-  },
-
-  containerBlue: {
-    backgroundColor: COLORS.skyBlue600,
-    ...SHAPES.elevBlue5,
-  },
-
-  containerRed: {
-    backgroundColor: COLORS.bubblegumRed600,
-    ...SHAPES.elevRed5,
-  },
-
   shadow: {
     borderRadius: SHAPES.radiusAll,
-    ...SHAPES.elevGray5,
+
   },
 
   label: {
-    color: COLORS.justWhite,
     ...TYPOGRAPHY.subheader3,
-  },
-
-  labelGray: {
-    color: COLORS.asphaltGray,
   },
 
   labelBranded: {
@@ -108,7 +63,7 @@ const styles = normalizeStyles({
 
 FAB.propTypes = {
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['default', 'green', 'blue', 'red']),
+  theme: PropTypes.oneOf(['green', 'blue', 'red']),
   branded: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
@@ -116,7 +71,7 @@ FAB.propTypes = {
 
 FAB.defaultProps = {
   label: 'Button Label',
-  theme: 'default',
+  theme: null,
   branded: false,
   onPress: () => console.log('Pass an onPress callback to this component'),
   disabled: false,

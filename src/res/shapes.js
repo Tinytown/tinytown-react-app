@@ -1,4 +1,4 @@
-import * as COLORS from './colors';
+import COLORS from './colors';
 
 const elev5 = {
   shadowOffset: {
