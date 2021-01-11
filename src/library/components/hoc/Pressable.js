@@ -4,13 +4,18 @@ import { COLORS, getAnimationStyles } from 'res';
 
 const PressableHOC = ({
   animationType,
-  pressableStyle,
   containerStyle,
   shadowStyle,
   onPress,
   children,
   ...props }) => {
-  const { animationStyle, handlePressIn, handlePressOut } = getAnimationStyles(containerStyle, animationType);
+  const { animation, handlePressIn, handlePressOut } = getAnimationStyles(animationType);
+
+  const animationStyle = {
+    overflow: 'hidden',
+    borderRadius: containerStyle.borderRadius ?? 0,
+    ...animation,
+  }
 
   return (
     <View style={shadowStyle} pointerEvents='box-none'>
@@ -21,7 +26,7 @@ const PressableHOC = ({
           onPressOut={handlePressOut}
           disabled={props.disabled}
           android_ripple={{ color: COLORS.steelGray }}
-          style={pressableStyle}
+          style={containerStyle}
         >
           {children}
         </Pressable>

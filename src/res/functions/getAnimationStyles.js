@@ -1,14 +1,14 @@
 import {  Animated } from 'react-native'
 
-export default (initialStyle, animationType) => {
-  const animationStyle = [initialStyle];
+export default (animationType) => {
+  let animation = {};
   let handlePressIn = null;
   let handlePressOut = null;
 
   switch (animationType) {
   case 'bounce':
     const bounceValue = new Animated.Value(1);
-    animationStyle.push({ transform: [{ scale: bounceValue }] });
+    animation = { transform: [{ scale: bounceValue }] };
 
     handlePressIn = () => {
       Animated.spring(bounceValue, {
@@ -26,7 +26,7 @@ export default (initialStyle, animationType) => {
       }).start()
     }
 
-    return { animationStyle, handlePressIn, handlePressOut }
+    return { animation, handlePressIn, handlePressOut }
   default:
     break;
   }

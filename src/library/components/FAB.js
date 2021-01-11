@@ -7,16 +7,14 @@ import { SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
 const FAB = ({ icon, label, theme, branded, disabled, onPress }) => {
   const { backgroundTheme, shadowTheme, iconTheme, textTheme } = getThemeStyles(theme);
 
-  const pressableStyle = [styles.pressable, backgroundTheme];
-  const shadowStyle = [styles.shadow, shadowTheme]
+  const containerStyle = { ...styles.container, ...backgroundTheme };
   const labelStyle = [styles.label, textTheme, branded && styles.labelBranded]
 
   return (
     <Pressable
       animationType='bounce'
-      containerStyle={styles.container}
-      pressableStyle={pressableStyle}
-      shadowStyle={shadowStyle}
+      containerStyle={containerStyle}
+      shadowStyle={shadowTheme}
       disabled={disabled}
       onPress={onPress}
     >
@@ -29,21 +27,13 @@ const FAB = ({ icon, label, theme, branded, disabled, onPress }) => {
 }
 
 const styles = normalizeStyles({
-  pressable: {
+  container: {
     flexDirection: 'row',
     paddingLeft: 16,
     paddingRight: 20,
     paddingVertical: 12,
-  },
-
-  container: {
-    borderRadius: SHAPES.radiusAll,
     overflow: 'hidden',
-  },
-
-  shadow: {
     borderRadius: SHAPES.radiusAll,
-
   },
 
   label: {
