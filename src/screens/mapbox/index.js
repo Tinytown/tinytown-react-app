@@ -246,7 +246,8 @@ export default class Map extends Component {
           <View style={styles.fabContainer}>
             <FAB
               label={RES.STRINGS.button.gotoLocation}
-              theme='green' icon='crosshairs'
+              theme='green'
+              icon='crosshairs'
               onPress={this.goToLocation}
               disabled={goingToLocation}/>
           </View>
