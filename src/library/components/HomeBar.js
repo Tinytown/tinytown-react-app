@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
-import { create } from 'library/utils/normalize.js'
+import { normalizeStyles } from 'res/functions';
 import RES from 'res';
 import { Menu, MenuDivider, MenuItem } from './Menu';
 
@@ -31,7 +31,7 @@ const HomeBar = () => {
   )
 }
 
-const styles = create({
+const styles = normalizeStyles({
   homeContainer: {
     flexDirection: 'row',
     height: 72,

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Pressable from './hoc/Pressable';
-import { create } from 'library/utils/normalize.js';
+import { normalizeStyles } from 'res/functions';
 import RES from 'res';
 
 const FAB = ({ icon, label, theme, branded, disabled, onPress }) => {
@@ -53,7 +53,7 @@ const FAB = ({ icon, label, theme, branded, disabled, onPress }) => {
   )
 }
 
-const styles = create({
+const styles = normalizeStyles({
   pressable: {
     flexDirection: 'row',
     paddingLeft: 16,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, PermissionsAndroid, Platform } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import { create } from 'library/utils/normalize.js'
+import { normalizeStyles } from 'res/functions';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
 import CompassHeading from 'react-native-compass-heading';
@@ -17,7 +17,7 @@ MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const isAndroid = Platform.OS === 'android';
 
-const styles = create({
+const styles = normalizeStyles({
   landscape: {
     height: '100%',
   },

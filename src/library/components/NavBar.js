@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { create } from 'library/utils/normalize.js'
+import { normalizeStyles } from 'res/functions';
 import RES from 'res';
 import IconButton from './IconButton';
 
@@ -18,7 +18,7 @@ const NavBar = ({ label = 'Label', onClose, children }) => {
   )
 }
 
-const styles = create({
+const styles = normalizeStyles({
   navContainer: {
     flexDirection: 'row',
     height: 56,

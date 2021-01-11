@@ -7,7 +7,7 @@ import {
   TouchableNativeFeedback,
   View,
 } from 'react-native';
-import { create } from 'library/utils/normalize.js'
+import { normalizeStyles } from 'res/functions';
 import RES from 'res';
 
 const Touchable =
@@ -57,7 +57,7 @@ class MenuItem extends React.Component {
   }
 }
 
-const styles = create({
+const styles = normalizeStyles({
   container: {
     flexDirection: 'row',
     alignItems: 'center',

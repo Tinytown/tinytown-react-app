@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity, NativeModules, View } from 'react-native';
 import * as twitterApi from 'library/utils/@@vendor/twitter';
 import config from 'config/env.config.js';
-import { create } from 'library/utils/normalize.js'
+import { normalizeStyles } from 'res/functions';
 import RES from 'res';
 
 const { RNTwitterSignIn } = NativeModules;
@@ -53,7 +53,7 @@ export default class Splash extends Component {
   }
 }
 
-const styles = create({
+const styles = normalizeStyles({
   landscape: {
     backgroundColor: RES.COLORS.justWhite,
     height: '100%',

@@ -15,7 +15,7 @@ const normalize = (size) => {
   return (size / PixelRatio.get()) * ratio;
 };
 
-export const create = (
+export default normalizeStyles = (
   styles,
   targetProperties = [
     'fontSize',
@@ -49,5 +49,3 @@ export const create = (
   const normalizedStyles = map(propOverride, styles)
   return StyleSheet.create(normalizedStyles);
 };
-
-export default normalize;

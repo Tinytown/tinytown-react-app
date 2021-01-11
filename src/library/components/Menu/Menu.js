@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { create } from 'library/utils/normalize.js'
+import { normalizeStyles } from 'res/functions';
 import RES from 'res';
 
 const states = {
@@ -230,7 +230,7 @@ Menu.defaultProps = {
   animationDuration: 300,
 };
 
-const styles = create({
+const styles = normalizeStyles({
   shadowMenuContainer: {
     position: 'absolute',
     opacity: 0,
