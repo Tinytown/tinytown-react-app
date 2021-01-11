@@ -1,4 +1,4 @@
-export default STRINGS = {
+export default {
   button: {
     gotoLocation: 'Go to my location',
   },

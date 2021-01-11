@@ -11,7 +11,7 @@ const elev5 = {
   elevation: 12,
 };
 
-export default SHAPES = {
+export default {
   // ELEVATION - GRAYS
   elevHairline: {
     borderWidth: 2,

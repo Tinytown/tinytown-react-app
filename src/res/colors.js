@@ -1,4 +1,4 @@
-export default COLORS = {
+export default {
   // BLUES
   skyBlue50: '#E6F9FF',
   skyBlue100: '#B3EEFF',

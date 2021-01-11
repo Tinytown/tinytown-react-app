@@ -1,4 +1,4 @@
-export default TYPOGRAPHY = {
+export default {
 // DISPLAY
   display1: {
     fontFamily: 'NunitoSans-Black',

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Pressable, Animated, View, StyleSheet } from 'react-native'
-import { COLORS } from 'res';
+import { Pressable, Animated, View } from 'react-native'
+import { COLORS, getAnimationStyles } from 'res';
 
 const PressableHOC = ({
   animationType,
@@ -10,40 +10,11 @@ const PressableHOC = ({
   onPress,
   children,
   ...props }) => {
-  const bounceValue = new Animated.Value(1);
-
-  const getAnimationStyle = () => {
-    const style = [containerStyle];
-
-    switch (animationType) {
-    case 'bounce':
-      style.push({ transform: [{ scale: bounceValue }] });
-    default:
-      break;
-    }
-
-    return style;
-  }
-
-  const handlePressIn = () => {
-    Animated.spring(bounceValue, {
-      toValue: 0.93,
-      useNativeDriver: true,
-    }).start()
-  }
-
-  const handlePressOut = () => {
-    Animated.spring(bounceValue, {
-      toValue: 1,
-      friction: 3,
-      tension: 120,
-      useNativeDriver: true,
-    }).start()
-  }
+  const { animationStyle, handlePressIn, handlePressOut } = getAnimationStyles(containerStyle, animationType);
 
   return (
     <View style={shadowStyle} pointerEvents='box-none'>
-      <Animated.View style={getAnimationStyle()}>
+      <Animated.View style={animationStyle}>
         <Pressable
           onPress={onPress}
           onPressIn={handlePressIn}
@@ -58,8 +29,6 @@ const PressableHOC = ({
     </View>
   )
 }
-
-const styles = StyleSheet.create({});
 
 export default PressableHOC;
 

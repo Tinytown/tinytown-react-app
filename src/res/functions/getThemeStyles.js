@@ -1,6 +1,6 @@
 import { SHAPES, COLORS } from 'res';
 
-export default getThemeStyles = (theme) => {
+export default (theme) => {
   let shadowTheme = {};
   let backgroundTheme = {};
   let iconTheme = null;
