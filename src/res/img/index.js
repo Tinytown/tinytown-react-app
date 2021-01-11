@@ -1,1 +1,3 @@
-export const userMarker = require('./user_marker.png')
+export default IMAGES = {
+  userMarker: require('./user_marker.png'),
+}

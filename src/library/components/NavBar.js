@@ -1,14 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { normalizeStyles } from 'res/functions';
-import RES from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
 import IconButton from './IconButton';
 
 const NavBar = ({ label = 'Label', onClose, children }) => {
   return (
     <View style={styles.navContainer}>
       <View style={[styles.itemsContainer, { flexDirection: 'row' }]}>
-        <IconButton icon='close' color={RES.COLORS.graniteGray} onPress={onClose}/>
+        <IconButton icon='close' color={COLORS.graniteGray} onPress={onClose}/>
         <Text style={styles.navLabel}>{label}</Text>
       </View>
       <View style={[styles.itemsContainer, { flexDirection: 'row-reverse' }]}>
@@ -23,7 +22,7 @@ const styles = normalizeStyles({
     flexDirection: 'row',
     height: 56,
     paddingHorizontal: 4,
-    backgroundColor: RES.COLORS.justWhite,
+    backgroundColor: COLORS.justWhite,
   },
 
   itemsContainer: {
@@ -32,10 +31,10 @@ const styles = normalizeStyles({
   },
 
   navLabel: {
-    color: RES.COLORS.asphaltGray,
+    color: COLORS.asphaltGray,
     left: 12,
     top: 1,
-    ...RES.TYPOGRAPHY.headline5,
+    ...TYPOGRAPHY.headline5,
   },
 });
 

@@ -7,8 +7,7 @@ import {
   TouchableNativeFeedback,
   View,
 } from 'react-native';
-import { normalizeStyles } from 'res/functions';
-import RES from 'res';
+import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
 
 const Touchable =
   Platform.OS === 'android' && Platform.Version >= 21
@@ -36,13 +35,13 @@ class MenuItem extends React.Component {
       <Touchable
         disabled={disabled}
         onPress={onPress}
-        background={TouchableNativeFeedback.Ripple(RES.COLORS.sidewalkGray)}
-        underlayColor={RES.COLORS.snowGray}
+        background={TouchableNativeFeedback.Ripple(COLORS.sidewalkGray)}
+        underlayColor={COLORS.snowGray}
       >
-        <View style={[styles.container, disabled && RES.COLORS.opacity40]}>
+        <View style={[styles.container, disabled && COLORS.opacity40]}>
           <View style={styles.assetContainer}>
             <View style={styles.iconContainer}>
-              <RES.Icon icon={this.props.icon} color={RES.COLORS.graniteGray}/>
+              <Icon icon={this.props.icon} color={COLORS.graniteGray}/>
             </View>
           </View>
           <Text
@@ -80,8 +79,8 @@ const styles = normalizeStyles({
 
   label: {
     width: 120,
-    color: RES.COLORS.graniteGray,
-    ...RES.TYPOGRAPHY.subheader3,
+    color: COLORS.graniteGray,
+    ...TYPOGRAPHY.subheader3,
   },
 });
 

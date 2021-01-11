@@ -1,8 +1,10 @@
-export const button = {
-  gotoLocation: 'Go to my location',
-};
+export default STRINGS = {
+  button: {
+    gotoLocation: 'Go to my location',
+  },
 
-export const menuItem = {
-  about: 'About',
-  signOut: 'Sign Out',
-};
+  menuItem: {
+    about: 'About',
+    signOut: 'Sign Out',
+  },
+}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
-import { normalizeStyles } from 'res/functions';
-import RES from 'res';
+import { COLORS, SHAPES, STRINGS, normalizeStyles } from 'res';
 import { Menu, MenuDivider, MenuItem } from './Menu';
 
 const HomeBar = () => {
@@ -22,9 +21,9 @@ const HomeBar = () => {
                 style={styles.avatarImage}>
               </Image>
             </TouchableOpacity>}>
-          <MenuItem label={RES.STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
+          <MenuItem label={STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
           <MenuDivider />
-          <MenuItem label={RES.STRINGS.menuItem.signOut} icon='signOut' onPress={() => setShowMenu(false)}/>
+          <MenuItem label={STRINGS.menuItem.signOut} icon='signOut' onPress={() => setShowMenu(false)}/>
         </Menu>
       </View>
     </View>
@@ -49,14 +48,14 @@ const styles = normalizeStyles({
     marginRight: -2,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: RES.COLORS.asphaltGray,
-    borderRadius: RES.SHAPES.radiusAll,
+    backgroundColor: COLORS.asphaltGray,
+    borderRadius: SHAPES.radiusAll,
   },
 
   avatarImage: {
     width: 40,
     height: 40,
-    borderRadius: RES.SHAPES.radiusAll,
+    borderRadius: SHAPES.radiusAll,
   },
 });
 

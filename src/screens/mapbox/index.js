@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, PermissionsAndroid, Platform } from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-import { normalizeStyles } from 'res/functions';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from 'react-native-geolocation-service';
 import CompassHeading from 'react-native-compass-heading';
@@ -9,7 +8,7 @@ import _ from 'lodash';
 import config from 'config/env.config.js';
 import { bindMethods } from 'library/utils/component-ops';
 import { HomeBar, FAB } from 'library/components';
-import RES from 'res';
+import { IMAGES, STRINGS, normalizeStyles } from 'res';
 
 const { MapView, Camera } = MapboxGL;
 
@@ -225,7 +224,7 @@ export default class Map extends Component {
               id={'customUserLocationIcon'}
               style={{
                 iconAllowOverlap: true,
-                iconImage: RES.IMAGES.userMarker,
+                iconImage: IMAGES.userMarker,
                 iconSize: 0.4,
                 iconRotate: heading || 0,
               }}
@@ -245,7 +244,7 @@ export default class Map extends Component {
           <HomeBar />
           <View style={styles.fabContainer}>
             <FAB
-              label={RES.STRINGS.button.gotoLocation}
+              label={STRINGS.button.gotoLocation}
               theme='green'
               icon='crosshairs'
               onPress={this.goToLocation}

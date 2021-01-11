@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pressable, Animated, View, StyleSheet } from 'react-native'
-import RES from 'res';
+import { COLORS } from 'res';
 
 const PressableHOC = ({
   animationType,
@@ -49,7 +49,7 @@ const PressableHOC = ({
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           disabled={props.disabled}
-          android_ripple={{ color: RES.COLORS.steelGray }}
+          android_ripple={{ color: COLORS.steelGray }}
           style={pressableStyle}
         >
           {children}

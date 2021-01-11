@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity, NativeModules, View } from 'react-native';
 import * as twitterApi from 'library/utils/@@vendor/twitter';
 import config from 'config/env.config.js';
-import { normalizeStyles } from 'res/functions';
-import RES from 'res';
+import { COLORS, SHAPES, normalizeStyles } from 'res';
 
 const { RNTwitterSignIn } = NativeModules;
 
@@ -55,7 +54,7 @@ export default class Splash extends Component {
 
 const styles = normalizeStyles({
   landscape: {
-    backgroundColor: RES.COLORS.justWhite,
+    backgroundColor: COLORS.justWhite,
     height: '100%',
   },
   fadingContainer: {
@@ -64,15 +63,15 @@ const styles = normalizeStyles({
     justifyContent: 'center',
   },
   twitterButton: {
-    backgroundColor: RES.COLORS.bubblegumRed600,
-    borderRadius: RES.SHAPES.radiusAll,
+    backgroundColor: COLORS.bubblegumRed600,
+    borderRadius: SHAPES.radiusAll,
     width: 200,
     height: 50,
-    ...RES.SHAPES.elevRed5,
+    ...SHAPES.elevRed5,
   },
   twitterButtonText: {
     textAlign: 'center',
     marginTop: 14,
-    color: RES.COLORS.justWhite,
+    color: COLORS.justWhite,
   },
 });

@@ -10,8 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { normalizeStyles } from 'res/functions';
-import RES from 'res';
+import { COLORS, SHAPES, normalizeStyles } from 'res';
 
 const states = {
   hidden: 'hidden',
@@ -234,9 +233,9 @@ const styles = normalizeStyles({
   shadowMenuContainer: {
     position: 'absolute',
     opacity: 0,
-    backgroundColor: RES.COLORS.justWhite,
-    borderRadius: RES.SHAPES.radiusSm,
-    ...RES.SHAPES.elevGray2,
+    backgroundColor: COLORS.justWhite,
+    borderRadius: SHAPES.radiusSm,
+    ...SHAPES.elevGray2,
   },
   menuContainer: {
     overflow: 'hidden',
