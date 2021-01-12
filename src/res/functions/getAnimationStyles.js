@@ -1,4 +1,4 @@
-import {  Animated } from 'react-native'
+import { useSpring } from 'react-spring'
 
 export default (animationType) => {
   let animation = {};
@@ -7,24 +7,14 @@ export default (animationType) => {
 
   switch (animationType) {
   case 'bounce':
-    const bounceValue = new Animated.Value(1);
-    animation = { transform: [{ scale: bounceValue }] };
+    const [props, set] = useSpring(() => ({
+      scale: 1,
+      config: { mass: 1, tension: 300, friction: 10 },
+    }));
 
-    handlePressIn = () => {
-      Animated.spring(bounceValue, {
-        toValue: 0.93,
-        useNativeDriver: true,
-      }).start()
-    }
-
-    handlePressOut = () => {
-      Animated.spring(bounceValue, {
-        toValue: 1,
-        friction: 3,
-        tension: 120,
-        useNativeDriver: true,
-      }).start()
-    }
+    animation = { transform: [{ scale: props.scale }] };
+    handlePressIn = () => set({ scale: 0.93 });
+    handlePressOut = () => set({ scale: 1 });
 
     return { animation, handlePressIn, handlePressOut }
   default:

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Pressable, Animated, View } from 'react-native'
+import { Pressable, View } from 'react-native'
+import { animated } from 'react-spring'
 import { COLORS, getAnimationStyles } from 'res';
 
 const PressableHOC = ({
@@ -11,15 +12,22 @@ const PressableHOC = ({
   ...props }) => {
   const { animation, handlePressIn, handlePressOut } = getAnimationStyles(animationType);
 
+  const AnimatedView = animated(View);
+
   const animationStyle = {
-    overflow: 'hidden',
     borderRadius: containerStyle.borderRadius ?? 0,
+    ...shadowStyle,
     ...animation,
   }
 
+  const maskStyle = {
+    borderRadius: containerStyle.borderRadius ?? 0,
+    overflow: 'hidden',
+  }
+
   return (
-    <View style={shadowStyle} pointerEvents='box-none'>
-      <Animated.View style={animationStyle}>
+    <AnimatedView style={animationStyle} pointerEvents='box-none' >
+      <View style={maskStyle} >
         <Pressable
           onPress={onPress}
           onPressIn={handlePressIn}
@@ -30,8 +38,8 @@ const PressableHOC = ({
         >
           {children}
         </Pressable>
-      </Animated.View>
-    </View>
+      </View>
+    </AnimatedView>
   )
 }
 

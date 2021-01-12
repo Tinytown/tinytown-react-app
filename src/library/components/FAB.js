@@ -32,7 +32,6 @@ const styles = normalizeStyles({
     paddingLeft: 16,
     paddingRight: 20,
     paddingVertical: 12,
-    overflow: 'hidden',
     borderRadius: SHAPES.radiusAll,
   },
 

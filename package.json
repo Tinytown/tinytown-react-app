@@ -19,9 +19,9 @@
     "@react-navigation/stack": "^5.9.1",
     "axios": "^0.21.0",
     "lodash": "^4.17.20",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "0.63.3",
-    "prop-types": "^15.7.2",
     "react-native-compass-heading": "^1.0.2",
     "react-native-geolocation-service": "^5.0.0",
     "react-native-gesture-handler": "^1.8.0",
@@ -32,14 +32,15 @@
     "react-native-static-safe-area-insets": "^2.1.1",
     "react-native-svg": "^12.1.0",
     "react-native-svg-transformer": "^0.14.3",
-    "react-native-twitter-signin": "github:GoldenOwlAsia/react-native-twitter-signin#master"
+    "react-native-twitter-signin": "github:GoldenOwlAsia/react-native-twitter-signin#master",
+    "react-spring": "^8.0.27"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^2.0.0",
-    "babel-jest": "^25.1.0",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "eslint": "^7.12.0",
