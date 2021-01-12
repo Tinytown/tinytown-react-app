@@ -1,59 +1,36 @@
 import React from 'react';
+import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-import {
-  Platform,
-  Text,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-  View,
-} from 'react-native';
+import Pressable from '../hoc/Pressable';
 import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
 
-const Touchable =
-  Platform.OS === 'android' && Platform.Version >= 21
-    ? TouchableNativeFeedback
-    : TouchableHighlight;
+const MenuItem = ({
+  icon,
+  label = 'Menu item',
+  disabled = false,
+  onPress,
+}) => {
+  const containerStyle = { ...styles.container, ...(disabled && COLORS.disabled) };
 
-class MenuItem extends React.Component {
-  static propTypes = {
-    label: PropTypes.string.isRequired,
-    disabled: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    label: 'Menu item',
-    disabled: false,
-  };
-
-  render() {
-    const {
-      label,
-      disabled,
-      onPress,
-    } = this.props;
-    return (
-      <Touchable
-        disabled={disabled}
-        onPress={onPress}
-        background={TouchableNativeFeedback.Ripple(COLORS.sidewalkGray)}
-        underlayColor={COLORS.snowGray}
-      >
-        <View style={[styles.container, disabled && COLORS.opacity40]}>
-          <View style={styles.assetContainer}>
-            <View style={styles.iconContainer}>
-              <Icon icon={this.props.icon} color={COLORS.graniteGray}/>
-            </View>
-          </View>
-          <Text
-            numberOfLines={1}
-            style={styles.label}
-          >
-            {label}
-          </Text>
+  return (
+    <Pressable
+      containerStyle={containerStyle}
+      disabled={disabled}
+      onPress={onPress}
+    >
+      <View style={styles.assetContainer}>
+        <View style={styles.iconContainer}>
+          <Icon icon={icon} color={COLORS.graniteGray}/>
         </View>
-      </Touchable>
-    );
-  }
+      </View>
+      <Text
+        numberOfLines={1}
+        style={styles.label}
+      >
+        {label}
+      </Text>
+    </Pressable>
+  )
 }
 
 const styles = normalizeStyles({
@@ -63,7 +40,6 @@ const styles = normalizeStyles({
     height: 48,
     width: 200,
     paddingHorizontal: 8,
-    overflow: 'hidden',
   },
 
   assetContainer: {
@@ -83,5 +59,11 @@ const styles = normalizeStyles({
     ...TYPOGRAPHY.subheader3,
   },
 });
+
+MenuItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  onPress: PropTypes.func,
+}
 
 export default MenuItem;

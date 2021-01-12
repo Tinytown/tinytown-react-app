@@ -1,4 +1,5 @@
-import { SHAPES, COLORS } from 'res';
+import COLORS from '../colors';
+import SHAPES from '../shapes';
 
 export default (theme) => {
   let shadowTheme = {};

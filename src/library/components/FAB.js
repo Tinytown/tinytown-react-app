@@ -4,7 +4,14 @@ import PropTypes from 'prop-types';
 import Pressable from './hoc/Pressable';
 import { COLORS, SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
 
-const FAB = ({ icon, label, theme, branded, disabled, onPress }) => {
+const FAB = ({
+  icon,
+  label = 'Button Label',
+  theme = null,
+  branded = false,
+  disabled = false,
+  onPress,
+}) => {
   const { backgroundTheme, shadowTheme, iconTheme, textTheme } = getThemeStyles(disabled ? null : theme);
 
   const containerStyle = { ...styles.container, ...backgroundTheme, ...(disabled && COLORS.disabled) };
@@ -46,16 +53,8 @@ FAB.propTypes = {
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf(['green', 'blue', 'red']),
   branded: PropTypes.bool,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
   disabled: PropTypes.bool,
 }
-
-FAB.defaultProps = {
-  label: 'Button Label',
-  theme: null,
-  branded: false,
-  onPress: () => console.log('Pass an onPress callback to this component'),
-  disabled: false,
-};
 
 export default FAB;

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
+import PropTypes from 'prop-types';
 import { animated } from 'react-spring'
 import { COLORS, getAnimationStyles } from 'res';
 
@@ -7,7 +8,7 @@ const PressableHOC = ({
   animationType,
   containerStyle,
   shadowStyle,
-  onPress,
+  onPress = () => console.log('Pass an onPress callback to this component'),
   children,
   ...props }) => {
   const { animation, handlePressIn, handlePressOut } = getAnimationStyles(animationType);
@@ -15,13 +16,13 @@ const PressableHOC = ({
   const AnimatedView = animated(View);
 
   const animationStyle = {
-    borderRadius: containerStyle.borderRadius ?? 0,
+    borderRadius: containerStyle?.borderRadius ?? 0,
     ...shadowStyle,
     ...animation,
   }
 
   const maskStyle = {
-    borderRadius: containerStyle.borderRadius ?? 0,
+    borderRadius: containerStyle?.borderRadius ?? 0,
     overflow: 'hidden',
   }
 
@@ -42,6 +43,14 @@ const PressableHOC = ({
     </AnimatedView>
   )
 }
+
+Pressable.propTypes = {
+  animationType: PropTypes.string,
+  containerStyle: PropTypes.object,
+  shadowStyle: PropTypes.object,
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
 
 export default PressableHOC;
 

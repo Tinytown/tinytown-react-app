@@ -1,7 +1,7 @@
 import { useSpring } from 'react-spring'
 
 export default (animationType) => {
-  let animation = {};
+  let animation = null;
   let handlePressIn = null;
   let handlePressOut = null;
 
@@ -18,6 +18,6 @@ export default (animationType) => {
 
     return { animation, handlePressIn, handlePressOut }
   default:
-    break;
+    return { animation, handlePressIn, handlePressOut };
   }
 }

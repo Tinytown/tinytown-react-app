@@ -247,7 +247,7 @@ export default class Map extends Component {
               label={STRINGS.button.gotoLocation}
               theme='green'
               icon='crosshairs'
-              disabled/>
+            />
           </View>
         </View>
       </View>
