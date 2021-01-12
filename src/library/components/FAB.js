@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Pressable from './hoc/Pressable';
-import { SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { COLORS, SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const FAB = ({ icon, label, theme, branded, disabled, onPress }) => {
-  const { backgroundTheme, shadowTheme, iconTheme, textTheme } = getThemeStyles(theme);
+  const { backgroundTheme, shadowTheme, iconTheme, textTheme } = getThemeStyles(disabled ? null : theme);
 
-  const containerStyle = { ...styles.container, ...backgroundTheme };
-  const labelStyle = [styles.label, textTheme, branded && styles.labelBranded]
+  const containerStyle = { ...styles.container, ...backgroundTheme, ...(disabled && COLORS.disabled) };
+  const labelStyle = { ...TYPOGRAPHY.subheader3, ...textTheme, ...(branded && TYPOGRAPHY.brandedButton) }
 
   return (
     <Pressable
@@ -33,14 +33,6 @@ const styles = normalizeStyles({
     paddingRight: 20,
     paddingVertical: 12,
     borderRadius: SHAPES.radiusAll,
-  },
-
-  label: {
-    ...TYPOGRAPHY.subheader3,
-  },
-
-  labelBranded: {
-    ...TYPOGRAPHY.brandedButton,
   },
 
   iconContainer: {

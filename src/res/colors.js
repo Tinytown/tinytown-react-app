@@ -34,8 +34,9 @@ export default {
   snowGray: '#ECF1FA',
   justWhite: '#FFFFFF',
 
-  // TRANSPARENCY
-  opacity40: {
+  // COMPOSITES
+  disabled: {
+    backgroundColor: '#8392A5',
     opacity: 0.4,
   },
 
