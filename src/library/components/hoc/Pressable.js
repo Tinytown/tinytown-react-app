@@ -1,18 +1,18 @@
 import React from 'react'
-import { Pressable, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types';
+import Ripple from 'react-native-material-ripple';
 import { animated } from 'react-spring'
-import { COLORS, getAnimationStyles } from 'res';
+import { getAnimationStyles } from 'res';
 
-const PressableHOC = ({
+const Pressable = ({
   animationType,
   containerStyle,
   shadowStyle,
   onPress = () => console.log('Pass an onPress callback to this component'),
   children,
   ...props }) => {
-  const { animation, handlePressIn, handlePressOut } = getAnimationStyles(animationType);
-
+  const [animation, handlePressIn, handlePressOut]  = getAnimationStyles(animationType);
   const AnimatedView = animated(View);
 
   const animationStyle = {
@@ -29,16 +29,15 @@ const PressableHOC = ({
   return (
     <AnimatedView style={animationStyle} pointerEvents='box-none' >
       <View style={maskStyle} >
-        <Pressable
+        <Ripple
           onPress={onPress}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           disabled={props.disabled}
-          android_ripple={{ color: COLORS.steelGray }}
           style={containerStyle}
         >
           {children}
-        </Pressable>
+        </Ripple>
       </View>
     </AnimatedView>
   )
@@ -48,9 +47,9 @@ Pressable.propTypes = {
   animationType: PropTypes.string,
   containerStyle: PropTypes.object,
   shadowStyle: PropTypes.object,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
   disabled: PropTypes.bool,
 };
 
-export default PressableHOC;
+export default Pressable;
 
