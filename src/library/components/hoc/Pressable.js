@@ -9,6 +9,7 @@ const Pressable = ({
   animationType,
   containerStyle,
   shadowStyle,
+  keyColor = 'white',
   onPress = () => console.log('Pass an onPress callback to this component'),
   children,
   ...props }) => {
@@ -21,24 +22,19 @@ const Pressable = ({
     ...animation,
   }
 
-  const maskStyle = {
-    borderRadius: containerStyle?.borderRadius ?? 0,
-    overflow: 'hidden',
-  }
-
   return (
     <AnimatedView style={animationStyle} pointerEvents='box-none' >
-      <View style={maskStyle} >
-        <Ripple
-          onPress={onPress}
-          onPressIn={handlePressIn}
-          onPressOut={handlePressOut}
-          disabled={props.disabled}
-          style={containerStyle}
-        >
-          {children}
-        </Ripple>
-      </View>
+      <Ripple
+        onPress={onPress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        disabled={props.disabled}
+        style={containerStyle}
+        rippleContainerBorderRadius={containerStyle?.borderRadius ?? 0}
+        rippleColor={keyColor}
+      >
+        {children}
+      </Ripple>
     </AnimatedView>
   )
 }

@@ -36,7 +36,7 @@ export default {
 
   // COMPOSITES
   disabled: {
-    backgroundColor: '#8392A5',
+    backgroundColor: '#3C4858',
     opacity: 0.4,
   },
 

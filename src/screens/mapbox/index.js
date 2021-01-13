@@ -242,7 +242,6 @@ export default class Map extends Component {
         </MapView>
         <View style={styles.safeArea} pointerEvents='box-none'>
           <HomeBar />
-          <NavBar />
           <View style={styles.fabContainer}>
             <FAB
               label={STRINGS.button.gotoLocation}

@@ -12,40 +12,55 @@ const FAB = ({
   disabled = false,
   onPress,
 }) => {
-  const { backgroundTheme, shadowTheme, iconTheme, textTheme } = getThemeStyles(disabled ? null : theme);
+  const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? null : theme);
 
-  const containerStyle = { ...styles.container, ...backgroundTheme, ...(disabled && COLORS.disabled) };
+  const buttonStyle = { ...styles.button, ...backgroundTheme, ...(disabled && COLORS.disabled) };
   const labelStyle = { ...TYPOGRAPHY.subheader3, ...textTheme, ...(branded && TYPOGRAPHY.brandedButton) }
+  const cardStyle = { ...styles.card, backgroundColor: keyColor, ...(disabled && { opacity: 0 }) }
 
   return (
     <Pressable
       animationType='bounce'
-      containerStyle={containerStyle}
-      shadowStyle={shadowTheme}
+      containerStyle={styles.container}
+      keyColor={keyColor}
       disabled={disabled}
       onPress={onPress}
     >
-      <View style={styles.iconContainer}>
-        <Icon icon={icon} color={iconTheme} />
+      <View style={cardStyle} />
+      <View style={buttonStyle} >
+        <View style={styles.iconContainer}>
+          <Icon icon={icon} color={keyColor} />
+        </View>
+        <Text style={labelStyle}>{label}</Text>
       </View>
-      <Text style={labelStyle}>{label}</Text>
     </Pressable>
   )
 }
 
 const styles = normalizeStyles({
   container: {
+    borderRadius: SHAPES.radiusSm,
+    alignItems: 'center',
+  },
+  button: {
     flexDirection: 'row',
     paddingLeft: 16,
     paddingRight: 20,
-    paddingVertical: 12,
-    borderRadius: SHAPES.radiusAll,
+    paddingVertical: 8,
+    borderRadius: SHAPES.radiusSm,
+    borderWidth: 2,
   },
-
   iconContainer: {
     height: 24,
     width: 24,
     marginRight: 12,
+  },
+  card: {
+    position: 'absolute',
+    height: '100%',
+    width: '85%',
+    transform: [{ rotateZ: '6deg' }],
+    borderRadius: SHAPES.radiusSm,
   },
 });
 
