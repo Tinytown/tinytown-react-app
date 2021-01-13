@@ -1,17 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Platform,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-  View,
-} from 'react-native';
+import {  View } from 'react-native';
+import Pressable from './hoc/Pressable'
 import { COLORS, SHAPES, Icon, normalizeStyles } from 'res';
-
-const Touchable =
-  Platform.OS === 'android' && Platform.Version >= 21
-    ? TouchableNativeFeedback
-    : TouchableHighlight;
 
 class IconButton extends React.Component {
   static propTypes = {
@@ -28,35 +19,23 @@ class IconButton extends React.Component {
       onPress,
     } = this.props;
     return (
-      <View style={[styles.container, disabled && { opacity: COLORS.opacity40 }]}>
-        <Touchable
-          disabled={disabled}
-          onPress={onPress}
-          background={TouchableNativeFeedback.Ripple(COLORS.sidewalkGray, true)}
-          underlayColor={COLORS.snowGray}
-        >
-          <View style={styles.assetContainer}>
-            <View style={styles.iconContainer}>
-              <Icon icon={this.props.icon} color={COLORS.graniteGray}/>
-            </View>
-          </View>
-        </Touchable>
-      </View>
+      <Pressable disabled={disabled} onPress={onPress} containerStyle={styles.container}>
+        <View style={styles.iconContainer}>
+          <Icon icon={this.props.icon} color={COLORS.graniteGray} />
+        </View>
+      </Pressable>
     );
   }
 }
 
 const styles = normalizeStyles({
   container: {
-    borderRadius: SHAPES.radiusAll,
-    overflow: 'hidden',
-  },
-
-  assetContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     height: 48,
     width: 48,
+    borderRadius: SHAPES.radiusAll,
+    overflow: 'hidden',
   },
 
   iconContainer: {

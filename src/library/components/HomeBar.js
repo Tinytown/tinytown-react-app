@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image } from 'react-native';
 import { COLORS, SHAPES, STRINGS, normalizeStyles } from 'res';
+import Pressable from './hoc/Pressable'
 import { Menu, MenuDivider, MenuItem } from './Menu';
 
 const HomeBar = () => {
@@ -13,14 +14,14 @@ const HomeBar = () => {
           showing={showMenu}
           hideMenu={() => setShowMenu(false)}
           button={
-            <TouchableOpacity
-              style={styles.accountButton}
+            <Pressable
+              containerStyle={styles.accountButton}
               onPress={() => setShowMenu(true)}>
               <Image
                 source={require('res/img/placeholder.png')}
                 style={styles.avatarImage}>
               </Image>
-            </TouchableOpacity>}>
+            </Pressable>}>
           <MenuItem label={STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
           <MenuDivider />
           <MenuItem label={STRINGS.menuItem.signOut} icon='signOut' onPress={() => setShowMenu(false)}/>

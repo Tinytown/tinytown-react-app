@@ -7,7 +7,7 @@ import CompassHeading from 'react-native-compass-heading';
 import _ from 'lodash';
 import config from 'config/env.config.js';
 import { bindMethods } from 'library/utils/component-ops';
-import { HomeBar, FAB } from 'library/components';
+import { HomeBar, FAB, NavBar } from 'library/components';
 import { IMAGES, STRINGS, normalizeStyles } from 'res';
 
 const { MapView, Camera } = MapboxGL;
@@ -242,6 +242,7 @@ export default class Map extends Component {
         </MapView>
         <View style={styles.safeArea} pointerEvents='box-none'>
           <HomeBar />
+          <NavBar />
           <View style={styles.fabContainer}>
             <FAB
               label={STRINGS.button.gotoLocation}
