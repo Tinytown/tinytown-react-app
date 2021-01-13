@@ -8,55 +8,39 @@ const HomeBar = () => {
   const [showMenu, setShowMenu] = useState(false)
 
   return (
-    <View style={[styles.homeContainer]}>
-      <View style={[styles.itemsContainer, { flexDirection: 'row-reverse' }]}>
-        <Menu
-          showing={showMenu}
-          hideMenu={() => setShowMenu(false)}
-          button={
-            <Pressable
-              containerStyle={styles.accountButton}
-              onPress={() => setShowMenu(true)}>
-              <Image
-                source={require('res/img/placeholder.png')}
-                style={styles.avatarImage}>
-              </Image>
-            </Pressable>}>
-          <MenuItem label={STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
-          <MenuDivider />
-          <MenuItem label={STRINGS.menuItem.signOut} icon='signOut' onPress={() => setShowMenu(false)}/>
-        </Menu>
-      </View>
+    <View style={styles.container}>
+      <Menu
+        showing={showMenu}
+        hideMenu={() => setShowMenu(false)}
+        button={
+          <Pressable onPress={() => setShowMenu(true)} >
+            <Image
+              source={require('res/img/placeholder.png')}
+              style={styles.avatar}/>
+          </Pressable>}>
+        <MenuItem label={STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
+        <MenuDivider />
+        <MenuItem label={STRINGS.menuItem.signOut} icon='signOut' onPress={() => setShowMenu(false)}/>
+      </Menu>
     </View>
   )
 }
 
 const styles = normalizeStyles({
-  homeContainer: {
-    flexDirection: 'row',
+  container: {
+    flexDirection: 'row-reverse',
+    width: '100%',
     height: 72,
+    alignItems: 'center',
     paddingHorizontal: 16,
   },
 
-  itemsContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-
-  accountButton: {
-    width: 44,
-    height: 44,
-    marginRight: -2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: COLORS.asphaltGray,
+  avatar: {
+    width: 52,
+    height: 52,
     borderRadius: SHAPES.radiusAll,
-  },
-
-  avatarImage: {
-    width: 40,
-    height: 40,
-    borderRadius: SHAPES.radiusAll,
+    borderWidth: 2,
+    borderColor: COLORS.asphaltGray,
   },
 });
 
