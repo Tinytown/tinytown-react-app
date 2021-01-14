@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import Animated from 'react-native-reanimated'
 import Pressable from './hoc/Pressable';
 import { COLORS, SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { useAnimation } from 'library/hooks';
 
 const FAB = ({
   icon,
@@ -13,6 +15,7 @@ const FAB = ({
   onPress,
 }) => {
   const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? null : theme);
+  const [animation, animateOnPress] = useAnimation('twist');
 
   const buttonStyle = { ...styles.button, ...backgroundTheme, ...(disabled && COLORS.disabled) };
   const labelStyle = { ...TYPOGRAPHY.subheader3, ...textTheme, ...(branded && TYPOGRAPHY.brandedButton) }
@@ -25,8 +28,10 @@ const FAB = ({
       keyColor={keyColor}
       disabled={disabled}
       onPress={onPress}
+      onPressIn={() => animateOnPress('in')}
+      onPressOut={() => animateOnPress('out')}
     >
-      <View style={cardStyle} />
+      <Animated.View style={[cardStyle, animation]} />
       <View style={buttonStyle} >
         <View style={styles.iconContainer}>
           <Icon icon={icon} color={keyColor} />
@@ -39,15 +44,15 @@ const FAB = ({
 
 const styles = normalizeStyles({
   container: {
-    borderRadius: SHAPES.radiusSm,
+    borderRadius: SHAPES.radiusMd,
     alignItems: 'center',
   },
   button: {
     flexDirection: 'row',
     paddingLeft: 16,
     paddingRight: 20,
-    paddingVertical: 8,
-    borderRadius: SHAPES.radiusSm,
+    paddingVertical: 12,
+    borderRadius: SHAPES.radiusMd,
     borderWidth: 2,
   },
   iconContainer: {
@@ -58,9 +63,8 @@ const styles = normalizeStyles({
   card: {
     position: 'absolute',
     height: '100%',
-    width: '85%',
-    transform: [{ rotateZ: '6deg' }],
-    borderRadius: SHAPES.radiusSm,
+    width: '80%',
+    borderRadius: SHAPES.radiusMd,
   },
 });
 

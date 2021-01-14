@@ -26,15 +26,14 @@
     "react-native-geolocation-service": "^5.0.0",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-material-ripple": "^0.9.1",
-    "react-native-reanimated": "^1.13.1",
+    "react-native-reanimated": "^2.0.0-alpha.9.2",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screens": "^2.11.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-static-safe-area-insets": "^2.1.1",
     "react-native-svg": "^12.1.0",
     "react-native-svg-transformer": "^0.14.3",
-    "react-native-twitter-signin": "github:GoldenOwlAsia/react-native-twitter-signin#master",
-    "react-spring": "^8.0.27"
+    "react-native-twitter-signin": "github:GoldenOwlAsia/react-native-twitter-signin#master"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

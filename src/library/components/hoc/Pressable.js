@@ -1,9 +1,8 @@
 import React from 'react'
-import { View } from 'react-native'
 import PropTypes from 'prop-types';
+import Animated from 'react-native-reanimated'
 import Ripple from 'react-native-material-ripple';
-import { animated } from 'react-spring'
-import { getAnimationStyles } from 'res';
+import  { useAnimation }  from 'library/hooks';
 
 const Pressable = ({
   animationType,
@@ -11,10 +10,11 @@ const Pressable = ({
   shadowStyle,
   keyColor = 'white',
   onPress = () => console.log('Pass an onPress callback to this component'),
+  onPressIn = () => {},
+  onPressOut = () => {},
   children,
   ...props }) => {
-  const [animation, handlePressIn, handlePressOut]  = getAnimationStyles(animationType);
-  const AnimatedView = animated(View);
+  const [animation, animateOnPress]  = useAnimation(animationType);
 
   const animationStyle = {
     borderRadius: containerStyle?.borderRadius ?? 0,
@@ -22,12 +22,22 @@ const Pressable = ({
     ...animation,
   }
 
+  const handleOnPressIn = () => {
+    animationType && animateOnPress('in');
+    onPressIn();
+  };
+
+  const handleOnPressOut = () => {
+    animationType && animateOnPress('out');
+    onPressOut();
+  };
+
   return (
-    <AnimatedView style={animationStyle} pointerEvents='box-none' >
+    <Animated.View style={animationStyle} pointerEvents='box-none' >
       <Ripple
         onPress={onPress}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
+        onPressIn={handleOnPressIn}
+        onPressOut={handleOnPressOut}
         disabled={props.disabled}
         style={containerStyle}
         rippleContainerBorderRadius={containerStyle?.borderRadius ?? 0}
@@ -35,7 +45,7 @@ const Pressable = ({
       >
         {children}
       </Ripple>
-    </AnimatedView>
+    </Animated.View>
   )
 }
 

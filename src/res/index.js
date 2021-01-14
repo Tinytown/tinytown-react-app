@@ -6,5 +6,4 @@ export { default as IMAGES } from './img';
 export { default as Icon } from './svg';
 export { default as normalizeStyles } from './functions/normalizeStyles'
 export { default as getThemeStyles } from './functions/getThemeStyles'
-export { default as getAnimationStyles } from './functions/getAnimationStyles'
 

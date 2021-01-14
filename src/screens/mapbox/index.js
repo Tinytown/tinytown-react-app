@@ -33,7 +33,7 @@ const styles = normalizeStyles({
   },
   fabContainer: {
     position: 'absolute',
-    bottom: 24,
+    bottom: 32,
   },
 });
 
