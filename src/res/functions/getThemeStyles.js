@@ -8,7 +8,7 @@ export default (theme) => {
   switch (theme) {
   case 'green':
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray,
+      backgroundColor: COLORS.pitchBlack,
       borderColor: COLORS.grassGreen600,
     }
     keyColor = COLORS.grassGreen600
@@ -20,7 +20,7 @@ export default (theme) => {
 
   case 'blue':
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray,
+      backgroundColor: COLORS.pitchBlack,
       borderColor: COLORS.skyBlue600,
     }
     keyColor = COLORS.skyBlue600
@@ -32,7 +32,7 @@ export default (theme) => {
 
   case 'red':
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray,
+      backgroundColor: COLORS.pitchBlack,
       borderColor: COLORS.bubblegumRed600,
     }
     keyColor = COLORS.bubblegumRed600
@@ -44,7 +44,7 @@ export default (theme) => {
 
   default:
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray,
+      backgroundColor: COLORS.pitchBlack,
       borderColor: COLORS.justWhite,
     }
     keyColor = COLORS.justWhite

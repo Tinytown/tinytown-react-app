@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import Animated from 'react-native-reanimated'
+import Animated from 'react-native-reanimated';
+import RadialGradient from 'react-native-radial-gradient';
 import Pressable from './hoc/Pressable';
 import { COLORS, SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
 import { useAnimation } from 'library/hooks';
@@ -31,6 +32,12 @@ const FAB = ({
       onPressIn={() => animateOnPress('in')}
       onPressOut={() => animateOnPress('out')}
     >
+      <RadialGradient
+        style={styles.blur}
+        colors={[keyColor, 'transparent']}
+        stops={[0.1, 0.95]}
+        center={[160, 160]}
+        radius={160}/>
       <Animated.View style={[cardStyle, animation]} />
       <View style={buttonStyle} >
         <View style={styles.iconContainer}>
@@ -38,6 +45,7 @@ const FAB = ({
         </View>
         <Text style={labelStyle}>{label}</Text>
       </View>
+
     </Pressable>
   )
 }
@@ -46,6 +54,7 @@ const styles = normalizeStyles({
   container: {
     borderRadius: SHAPES.radiusMd,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   button: {
     flexDirection: 'row',
@@ -65,6 +74,13 @@ const styles = normalizeStyles({
     height: '100%',
     width: '80%',
     borderRadius: SHAPES.radiusMd,
+  },
+  blur: {
+    width: 320,
+    height: 320,
+    position: 'absolute',
+    left: 0,
+    opacity: 0.22,
   },
 });
 

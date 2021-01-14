@@ -27,6 +27,7 @@ export default {
   bubblegumRed600: '#FE4963',
 
   // GRAYS
+  pitchBlack: '#15191E',
   asphaltGray: '#1F262E',
   graniteGray: '#3C4858',
   steelGray: '#8392A5',

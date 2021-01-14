@@ -705,6 +705,8 @@ PODS:
     - React
   - RNSVG (12.1.0):
     - React
+  - SRSRadialGradient (1.0.8):
+    - React
   - TwitterCore (3.2.0)
   - TwitterKit5 (5.2.0):
     - TwitterCore (>= 3.1.0)
@@ -776,6 +778,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNStaticSafeAreaInsets (from `../node_modules/react-native-static-safe-area-insets`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - SRSRadialGradient (from `../node_modules/react-native-radial-gradient/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -895,6 +898,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-static-safe-area-insets"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  SRSRadialGradient:
+    :path: "../node_modules/react-native-radial-gradient/ios"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -970,6 +975,7 @@ SPEC CHECKSUMS:
   RNScreens: 2ad555d4d9fa10b91bb765ca07fe9b29d59573f0
   RNStaticSafeAreaInsets: 6103cf09647fa427186d30f67b0f5163c1ae8252
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  SRSRadialGradient: 71378a83e52b616c40367c37ee7cb6865f9f7c6e
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit5: 64095dfefcf39be2355711ef27112d55e340d90e
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
