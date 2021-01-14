@@ -3,36 +3,40 @@ import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reani
 
 export default (animationType) => {
   const bounceAnimation = () => {
-    const scale = useSharedValue(1);
+    const INITIAL_SCALE = 1;
+    const TARGET_SCALE = 0.94;
+    const scale = useSharedValue(INITIAL_SCALE);
     const config = {
       mass: 1,
       damping: 3,
-      stiffness: 500,
+      stiffness: 750,
     }
     const animation = useAnimatedStyle(() => {
       return { transform: [{ scale: scale.value }] }
     });
     const animateOnPress = (state) => {
-      scale.value = state === 'in' ? withSpring(0.93, config) : withSpring(1, config)
+      scale.value = state === 'in' ? withSpring(TARGET_SCALE, config) : withSpring(INITIAL_SCALE, config)
     }
 
     return [animation, animateOnPress]
   };
 
   const twistAnimation = () => {
-    const INITIAL_ROTATION = 6;
-    const TARGET_ROTATION = 12;
-    const rotation = useSharedValue(INITIAL_ROTATION);
+    const RANDOM_SIDE = Math.random() < 0.5 ? -1 : 1;
+    const ANGLE = 6 * RANDOM_SIDE;
+    const rotation = useSharedValue(ANGLE);
     const config = {
       mass: 1,
-      damping: 4,
-      stiffness: 250,
+      damping: 8,
+      stiffness: 500,
     }
     const animation = useAnimatedStyle(() => {
       return { transform: [{ rotateZ: `${rotation.value}deg` }] }
     });
     const animateOnPress = (state) => {
-      rotation.value = state === 'in' ? withSpring(TARGET_ROTATION, config) : withSpring(INITIAL_ROTATION, config)
+      rotation.value = state === 'in'
+        ? withSpring(-ANGLE, config)
+        : withSpring(ANGLE, config)
     }
 
     return [animation, animateOnPress]
