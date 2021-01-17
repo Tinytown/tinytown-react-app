@@ -17,6 +17,7 @@ const MenuItem = ({
       containerStyle={containerStyle}
       disabled={disabled}
       onPress={onPress}
+      keyColor={COLORS.asphaltGray}
     >
       <View style={styles.assetContainer}>
         <View style={styles.iconContainer}>

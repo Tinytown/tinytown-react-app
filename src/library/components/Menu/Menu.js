@@ -1,246 +1,134 @@
-import React from 'react';
-import {
-  Animated,
-  Dimensions,
-  Easing,
-  Modal,
-  Platform,
-  StatusBar,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { View, Modal, TouchableWithoutFeedback } from 'react-native'
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS, withTiming } from 'react-native-reanimated';
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { COLORS, SHAPES, normalizeStyles } from 'res';
 
-const states = {
-  hidden: 'hidden',
-  animating: 'animating',
-  shown: 'shown',
-};
+const Menu = ({
+  showMenu = false,
+  setShowMenu = () => console.log('Pass a setShowMenu callback to this component'),
+  triggerRef = {},
+  children }) => {
+  const window = useSafeAreaFrame();
+  const STYLE_INITIAL = 0;
+  const TRANSLATE_INITIAL = 0;
+  const TRANSLATE_AMOUNT = 48;
 
-const easing = Easing.bezier(0.4, 0, 0.2, 1);
-const screenIndent = 8;
+  const [menuSize, setMenuSize] = useState(null);
+  const [position, setPosition] = useState(null);
+  const [triggerProps, setTriggerProps] = useState(null);
+  const opacity = useSharedValue(STYLE_INITIAL);
+  const width = useSharedValue(STYLE_INITIAL);
+  const height = useSharedValue(STYLE_INITIAL);
+  const translateX = useSharedValue(TRANSLATE_INITIAL);
+  const translateY = useSharedValue(TRANSLATE_INITIAL);
 
-class Menu extends React.Component {
-  constructor(props) {
-    super(props);
+  const opacityConfig = {
+    duration: 200,
+  };
 
-    this.state = {
-      menuState: states.hidden,
+  const sizeConfig = {
+    duration: 250,
+  };
 
-      top: 0,
-      left: 0,
+  const translateConfig = {
+    mass: 1.5,
+    damping: 30,
+    stiffness: 500,
+  };
 
-      menuWidth: 0,
-      menuHeight: 0,
+  useEffect(() => {
+    triggerRef.current?.measureInWindow((left, top, width, height) => setTriggerProps({ left, top, width, height }))
+  }, [triggerRef?.current])
 
-      buttonWidth: 0,
-      buttonHeight: 0,
+  const animation = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      width: width.value,
+      height: height.value,
+      overflow: 'hidden',
+      transform: [{ translateX: translateX.value }, { translateY: translateY.value }],
+    }
+  });
 
-      menuSizeAnimation: new Animated.ValueXY({ x: 0, y: 0 }),
-      opacityAnimation: new Animated.Value(0),
-    };
-    this.container = null;
+  const hide = () => {
+    opacity.value = withTiming(STYLE_INITIAL, opacityConfig, () => {
+      runOnJS(setShowMenu)(false);
+      width.value = STYLE_INITIAL;
+      height.value = STYLE_INITIAL;
+      translateX.value = TRANSLATE_INITIAL;
+    });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { showing: showingOld } = prevProps;
-    if (this.props.showing !== showingOld) {
-      if (this.props.showing) {
-        this.show();
-      } else {
-        this.hide();
-      }
+  const show = () => {
+    setPosition({ left: triggerProps?.left, top: triggerProps?.top })
+
+    // Check if it fits horizontally
+    if (triggerProps?.left + menuSize?.width > window.width) {
+      translateX.value = triggerProps?.width - menuSize.width + TRANSLATE_AMOUNT;
+      translateX.value = withSpring(-menuSize.width + triggerProps.width, translateConfig)
+    } else {
+      translateX.value = -TRANSLATE_AMOUNT;
+      translateX.value = withSpring(TRANSLATE_INITIAL, translateConfig)
     }
+
+    // Check if it fits vertically
+    if (triggerProps?.top + menuSize?.height > window.height) {
+      translateY.value = -menuSize.height + triggerProps.height + TRANSLATE_AMOUNT;
+      translateY.value = withSpring(-menuSize.height + triggerProps.height, translateConfig)
+    } else {
+      translateY.value = -TRANSLATE_AMOUNT;
+      translateY.value = withSpring(TRANSLATE_INITIAL, translateConfig)
+    }
+
+    setShowMenu(true);
+
+    opacity.value = withTiming(1, opacityConfig);
+    width.value = withTiming(menuSize?.width, sizeConfig);
+    height.value = withTiming(menuSize?.height, sizeConfig);
   }
 
-  setContainerRef = (ref) => {
-    this.container = ref;
-  };
+  const setDimensions = ({ nativeEvent }) => {
+    const { width, height } = nativeEvent.layout;
+    setMenuSize({ width, height })
+  }
 
-  startMenuAnimation = (e) => {
-    if (this.state.menuState === states.animating) {
-      return;
-    }
-
-    const { width, height } = e.nativeEvent.layout;
-
-    this.setState(
-      {
-        menuState: states.animating,
-        menuWidth: width,
-        menuHeight: height,
-      },
-      () => {
-        Animated.parallel([
-          Animated.timing(this.state.menuSizeAnimation, {
-            toValue: { x: width, y: height },
-            duration: this.props.animationDuration,
-            easing,
-            useNativeDriver: false,
-          }),
-          Animated.timing(this.state.opacityAnimation, {
-            toValue: 1,
-            duration: this.props.animationDuration,
-            easing,
-            useNativeDriver: false,
-          }),
-        ]).start();
-      },
-    );
-  };
-
-  onDismiss = () => {
-    if (this.props.onHidden) {
-      this.props.onHidden();
-    }
-  };
-
-  show = () => {
-    this.container.measureInWindow((left, top, buttonWidth, buttonHeight) => {
-      this.setState({
-        buttonHeight,
-        buttonWidth,
-        left,
-        menuState: states.shown,
-        top,
-      });
-    });
-  };
-
-  hide = () => {
-    Animated.timing(this.state.opacityAnimation, {
-      toValue: 0,
-      duration: this.props.animationDuration,
-      easing,
-      useNativeDriver: false,
-    }).start(() => {
-      this.setState(
-        {
-          menuState: states.hidden,
-          menuSizeAnimation: new Animated.ValueXY({ x: 0, y: 0 }),
-          opacityAnimation: new Animated.Value(0),
-        },
-        () => {
-          if (Platform.OS !== 'ios' && this.props.onHidden) {
-            this.props.onHidden();
-          }
-        },
-      );
-    });
-  };
-
-  render() {
-    const dimensions = Dimensions.get('window');
-    const { width: windowWidth } = dimensions;
-    const windowHeight = dimensions.height - (StatusBar.currentHeight || 0);
-
-    const {
-      menuSizeAnimation,
-      menuWidth,
-      menuHeight,
-      buttonWidth,
-      buttonHeight,
-      opacityAnimation,
-    } = this.state;
-    const menuSize = {
-      width: menuSizeAnimation.x,
-      height: menuSizeAnimation.y,
-    };
-
-    // Adjust position of menu
-    let { left, top } = this.state;
-    const transforms = [];
-
-    if (left + menuWidth > windowWidth - screenIndent) {
-      transforms.push({
-        translateX: Animated.multiply(menuSizeAnimation.x, -1),
-      });
-
-      left = Math.min(windowWidth - screenIndent, left + buttonWidth);
-    } else if (left < screenIndent) {
-      left = screenIndent;
-    }
-
-    // Flip by Y axis if menu hits bottom screen border
-    if (top > windowHeight - menuHeight - screenIndent) {
-      transforms.push({
-        translateY: Animated.multiply(menuSizeAnimation.y, -1),
-      });
-
-      top = windowHeight - screenIndent;
-      top = Math.min(windowHeight - screenIndent, top + buttonHeight);
-    } else if (top < screenIndent) {
-      top = screenIndent;
-    }
-
-    const shadowMenuContainerStyle = {
-      opacity: opacityAnimation,
-      transform: transforms,
-      top,
-      left,
-    };
-
-    const { menuState } = this.state;
-    const animationStarted = menuState === states.animating;
-    const modalVisible = menuState === states.shown || animationStarted;
-
-    const { testID, button, style, children, hideMenu } = this.props;
-
-    return (
-      <View ref={this.setContainerRef} collapsable={false} testID={testID}>
-        <View>{button}</View>
-
-        <Modal
-          visible={modalVisible}
-          onRequestClose={this.hide}
-          supportedOrientations={[
-            'portrait',
-            'portrait-upside-down',
-            'landscape',
-            'landscape-left',
-            'landscape-right',
-          ]}
-          transparent
-          onDismiss={this.onDismiss}>
-          <TouchableWithoutFeedback onPress={hideMenu} accessible={false}>
-            <View style={StyleSheet.absoluteFill}>
-              <Animated.View
-                onLayout={this.startMenuAnimation}
-                style={[
-                  styles.shadowMenuContainer,
-                  shadowMenuContainerStyle,
-                  style,
-                ]}>
-                <Animated.View
-                  style={[styles.menuContainer, animationStarted && menuSize]}>
-                  {children}
-                </Animated.View>
-              </Animated.View>
+  return (
+    <Modal
+      transparent
+      visible={showMenu}
+      onShow={show}
+      onDismiss={() => console.log('hiding menu')}
+      onRequestClose={hide}
+    >
+      <TouchableWithoutFeedback onPress={hide} >
+        <View style={styles.background}>
+          <Animated.View style={[animation, position]}>
+            <View onLayout={setDimensions} style={styles.container} >
+              {children}
             </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      </View>
-    );
-  }
+          </Animated.View>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  )
 }
 
-Menu.defaultProps = {
-  animationDuration: 300,
-};
-
 const styles = normalizeStyles({
-  shadowMenuContainer: {
+  container: {
     position: 'absolute',
-    opacity: 0,
+    overflow: 'hidden',
+    opacity: 1,
     backgroundColor: COLORS.justWhite,
-    borderRadius: SHAPES.radiusSm,
+    paddingVertical: 8,
+    borderRadius: SHAPES.radiusMd,
     ...SHAPES.elevGray2,
   },
-  menuContainer: {
-    overflow: 'hidden',
-    paddingVertical: 8,
+  background: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
   },
 });
 
-export default Menu;
+export default Menu

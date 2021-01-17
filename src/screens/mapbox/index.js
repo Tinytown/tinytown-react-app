@@ -7,7 +7,7 @@ import CompassHeading from 'react-native-compass-heading';
 import _ from 'lodash';
 import config from 'config/env.config.js';
 import { bindMethods } from 'library/utils/component-ops';
-import { HomeBar, FAB, NavBar } from 'library/components';
+import { HomeBar, FAB } from 'library/components';
 import { IMAGES, STRINGS, normalizeStyles } from 'res';
 
 const { MapView, Camera } = MapboxGL;

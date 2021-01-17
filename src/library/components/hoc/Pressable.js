@@ -4,7 +4,7 @@ import Animated from 'react-native-reanimated'
 import Ripple from 'react-native-material-ripple';
 import  { useAnimation }  from 'library/hooks';
 
-const Pressable = ({
+const Pressable = React.forwardRef(({
   animationType,
   containerStyle,
   shadowStyle,
@@ -13,7 +13,7 @@ const Pressable = ({
   onPressIn = () => {},
   onPressOut = () => {},
   children,
-  ...props }) => {
+  ...props }, ref) => {
   const [animation, animateOnPress]  = useAnimation(animationType);
 
   const animationStyle = {
@@ -22,22 +22,22 @@ const Pressable = ({
     ...animation,
   }
 
-  const handleOnPressIn = () => {
+  const onPressInHandler = () => {
     animationType && animateOnPress('in');
     onPressIn();
   };
 
-  const handleOnPressOut = () => {
+  const onPressOutHandler = () => {
     animationType && animateOnPress('out');
     onPressOut();
   };
 
   return (
-    <Animated.View style={animationStyle} pointerEvents='box-none' >
+    <Animated.View style={animationStyle} pointerEvents='box-none' ref={ref} >
       <Ripple
         onPress={onPress}
-        onPressIn={handleOnPressIn}
-        onPressOut={handleOnPressOut}
+        onPressIn={onPressInHandler}
+        onPressOut={onPressOutHandler}
         disabled={props.disabled}
         style={containerStyle}
         rippleContainerBorderRadius={containerStyle?.borderRadius ?? 0}
@@ -47,7 +47,7 @@ const Pressable = ({
       </Ripple>
     </Animated.View>
   )
-}
+})
 
 Pressable.propTypes = {
   animationType: PropTypes.string,
