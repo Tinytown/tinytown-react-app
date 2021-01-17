@@ -11,10 +11,15 @@ const HomeBar = () => {
   return (
     <>
       <View style={styles.container}>
-        <Pressable onPress={() => setShowMenu(true)} ref={menuTrigger} >
+        <Pressable
+          onPress={() => setShowMenu(true)}
+          containerStyle={styles.avatar}
+          keyColor={COLORS.bubblegumRed600}
+          ref={menuTrigger} >
           <Image
             source={require('res/img/placeholder.png')}
-            style={styles.avatar}/>
+            style={styles.image}
+          />
         </Pressable>
       </View>
       <Menu showMenu={showMenu} setShowMenu={setShowMenu} triggerRef={menuTrigger}>
@@ -41,6 +46,14 @@ const styles = normalizeStyles({
     borderRadius: SHAPES.radiusAll,
     borderWidth: 2,
     borderColor: COLORS.asphaltGray,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+
+  image: {
+    flex: 1,
+    resizeMode: 'contain',
   },
 });
 
