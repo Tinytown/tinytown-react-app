@@ -33,7 +33,7 @@ const Pressable = React.forwardRef(({
   };
 
   return (
-    <Animated.View style={animationStyle} pointerEvents='box-none' ref={ref} >
+    <Animated.View style={animationStyle} ref={ref} >
       <Ripple
         onPress={onPress}
         onPressIn={onPressInHandler}
