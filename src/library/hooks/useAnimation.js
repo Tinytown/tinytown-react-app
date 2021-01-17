@@ -46,18 +46,20 @@ export default (animationType) => {
 
   const menuAnimation = () => {
     const STYLE_INITIAL = 0;
+    const SCALE_INITIAL = 0.5;
     const TRANSLATE_INITIAL = 0;
-    const TRANSLATE_AMOUNT = 48;
+    const TRANSLATE_AMOUNT = 16;
 
     const opacity = useSharedValue(STYLE_INITIAL);
-    const scaleX = useSharedValue(STYLE_INITIAL);
+    const scaleX = useSharedValue(SCALE_INITIAL);
+    const width = useSharedValue(STYLE_INITIAL);
+    const height = useSharedValue(STYLE_INITIAL);
     const translateX = useSharedValue(TRANSLATE_INITIAL);
     const translateY = useSharedValue(TRANSLATE_INITIAL);
 
     const [position, setPosition] = useState(null);
     const [trigger, setTrigger] = useState(null);
     const [menuSize, setMenuSize] = useState(null);
-    const [flip, setFlip] = useState(false);
     const window = useSafeAreaFrame();
 
     const opacityConfig = {
@@ -69,7 +71,7 @@ export default (animationType) => {
     };
 
     const translateConfig = {
-      mass: 1.5,
+      mass: 1.2,
       damping: 30,
       stiffness: 500,
     };
@@ -83,6 +85,8 @@ export default (animationType) => {
       return {
         position: 'absolute',
         opacity: opacity.value,
+        width: width.value,
+        height: height.value,
         transform: [{ translateX: translateX.value }, { translateY: translateY.value }, { scaleX: scaleX.value }],
       }
     });
@@ -90,40 +94,38 @@ export default (animationType) => {
     const animate = (state, callback) => {
       if (state === 'show') {
         setPosition({ left: trigger?.left, top: trigger?.top })
+        width.value = withTiming(menuSize.width, sizeConfig);
+        height.value = withTiming(menuSize.height, sizeConfig);
+        scaleX.value = withTiming(1, sizeConfig);
 
         // Check if it fits horizontally
         if (trigger?.left + menuSize?.width > window.width) {
-          setFlip(true);
-          scaleX.value = withTiming(-1, sizeConfig);
-          translateX.value = trigger.width + TRANSLATE_AMOUNT;
-          translateX.value = withSpring(trigger.width, translateConfig)
+          translateX.value = withTiming(- menuSize.width + trigger.width + TRANSLATE_AMOUNT, sizeConfig);
+          translateX.value = withSpring(- menuSize.width + trigger.width, translateConfig);
         } else {
-          scaleX.value = withTiming(1, sizeConfig);
-          translateX.value = -TRANSLATE_AMOUNT;
+          translateX.value = -TRANSLATE_AMOUNT * 6;
           translateX.value = withSpring(TRANSLATE_INITIAL, translateConfig)
         }
 
         // Check if it fits vertically
         if (trigger?.top + menuSize?.height > window.height) {
-          translateY.value = -menuSize.height + trigger.height + TRANSLATE_AMOUNT;
-          translateY.value = withSpring(-menuSize.height + trigger.height, translateConfig)
-        } else {
-          translateY.value = -TRANSLATE_AMOUNT;
-          translateY.value = withSpring(TRANSLATE_INITIAL, translateConfig)
-        }
+          translateY.value = -menuSize.height + trigger.height;
+        };
 
         opacity.value = withTiming(1, opacityConfig);
       } else if (state === 'hide') {
         opacity.value = withTiming(STYLE_INITIAL, opacityConfig, () => {
           runOnJS(callback)();
-          scaleX.value = withTiming(STYLE_INITIAL, sizeConfig);
+          width.value = STYLE_INITIAL;
+          height.value = STYLE_INITIAL;
+          scaleX.value = withTiming(SCALE_INITIAL, sizeConfig);
           translateX.value = TRANSLATE_INITIAL;
           translateY.value = TRANSLATE_INITIAL;
         });
       }
     }
 
-    return [[animation, position], flip, animate, setTrigger, setDimensions];
+    return [[animation, position], animate, setTrigger, setDimensions];
   }
 
   switch (animationType) {

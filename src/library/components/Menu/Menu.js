@@ -9,7 +9,7 @@ const Menu = ({
   setShowMenu = () => console.log('Pass a setShowMenu callback to this component'),
   triggerRef = {},
   children }) => {
-  const [animation, flip, animateMenu, setTriggerProps, setDimensions] = useAnimation('menu');
+  const [animation, animateMenu, setTriggerProps, setDimensions] = useAnimation('menu');
 
   useEffect(() => {
     triggerRef.current?.measureInWindow((left, top, width, height) => setTriggerProps({ left, top, width, height }))
@@ -36,7 +36,7 @@ const Menu = ({
           <View style={styles.background} />
         </TouchableWithoutFeedback>
         <Animated.View style={animation} >
-          <View onLayout={setDimensions} style={[styles.container, flip && { transform: [{ scaleX: -1 }] }]} >
+          <View onLayout={setDimensions} style={styles.container} >
             {children}
           </View>
         </Animated.View>
