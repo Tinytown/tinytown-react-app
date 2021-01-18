@@ -11,8 +11,12 @@ target 'tinytown' do
 
   pod 'react-native-twitter-signin', :path => '../node_modules/react-native-twitter-signin'
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-LocationAccuracy', :path => "#{permissions_path}/LocationAccuracy"
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
+  
   config = use_native_modules!
-
   use_react_native!(:path => config["reactNativePath"])
 
   target 'tinytownTests' do

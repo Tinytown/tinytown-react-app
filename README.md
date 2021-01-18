@@ -9,9 +9,12 @@ The main codebase for the Tinytown React Native app.
 4. From root directory, issue: `yarn install`
 
 **Environment Variables**
-1. From root directory, issue: `yarn setup` and follow the instructions
-2. For **Tinytown team**: enter your provided Developer Token and install [Doppler](https://doppler.com/) `brew install dopplerhq/cli/doppler`
-3. For **external contributors**: Open _/src/config/env.config.js_ and replace values with your own
+1. From root directory, issue: `yarn setup`
+2. For the **Tinytown Team**:
+    - Ask for your Developer Token on [Discord](https://ttown.app/discord).
+    - Install [Doppler](https://doppler.com/) `brew install dopplerhq/cli/doppler`
+    - **Important**: Make sure to run `yarn start` before `yarn android` | `yarn ios` in order for Doppler to work.
+3. For **external contributors**: Open _/src/config/env.config.js_ and replace values with your own.
 4. Run Metro Bundler using `yarn start`
 
 **For iOS**

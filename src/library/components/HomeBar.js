@@ -1,46 +1,63 @@
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
-import { create } from 'library/utils/normalize.js'
-import RES from 'res';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import auth from '@react-native-firebase/auth';
+import { goToUser } from 'rdx/locationState';
+import { signOut } from 'rdx/authState';
+import { getLocation } from 'library/apis/geolocation';
+import { create } from 'library/utils/normalize.js';
 import { Menu, MenuDivider, MenuItem } from './Menu';
+import IconButton from './IconButton';
+import RES from 'res';
 
-const HomeBar = () => {
-  const [showMenu, setShowMenu] = useState(false)
+const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const signOutHandler = () => {
+    auth().signOut()
+      .then(() => signOut());
+    setShowMenu(false);
+  };
 
   return (
-    <View style={[styles.homeContainer]}>
-      <View style={[styles.itemsContainer, { flexDirection: 'row-reverse' }]}>
-        <Menu
-          showing={showMenu}
-          hideMenu={() => setShowMenu(false)}
-          button={
-            <TouchableOpacity
-              style={styles.accountButton}
-              onPress={() => setShowMenu(true)}>
-              <Image
-                source={require('res/img/placeholder.png')}
-                style={styles.avatarImage}>
-              </Image>
-            </TouchableOpacity>}>
-          <MenuItem label={RES.STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
-          <MenuDivider />
-          <MenuItem label={RES.STRINGS.menuItem.signOut} icon='signOut' onPress={() => setShowMenu(false)}/>
-        </Menu>
-      </View>
+    <View style={styles.container}>
+      {!userVisible &&
+        <IconButton
+          icon="crosshairs"
+          color={RES.COLORS.justWhite}
+          style={styles.locationButton}
+          onPress={() => getLocation(goToUser)}/>
+      }
+      <Menu
+        showing={showMenu}
+        hideMenu={() => setShowMenu(false)}
+        button={
+          <TouchableOpacity
+            style={styles.accountButton}
+            onPress={() => setShowMenu(true)}>
+            <Image
+              source={{ uri: photoURL }}
+              style={styles.avatarImage}>
+            </Image>
+          </TouchableOpacity>}>
+        <MenuItem label={RES.STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
+        <MenuDivider />
+        <MenuItem label={RES.STRINGS.menuItem.signOut} icon='signOut' onPress={signOutHandler}/>
+      </Menu>
+
     </View>
-  )
-}
+  );
+};
 
 const styles = create({
-  homeContainer: {
+  container: {
     flexDirection: 'row',
+    width: '100%',
     height: 72,
     paddingHorizontal: 16,
-  },
-
-  itemsContainer: {
-    flex: 1,
     alignItems: 'center',
+    justifyContent: 'flex-end',
   },
 
   accountButton: {
@@ -49,7 +66,7 @@ const styles = create({
     marginRight: -2,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: RES.COLORS.asphaltGray,
+    backgroundColor: RES.COLORS.graniteGray,
     borderRadius: RES.SHAPES.radiusAll,
   },
 
@@ -58,6 +75,29 @@ const styles = create({
     height: 40,
     borderRadius: RES.SHAPES.radiusAll,
   },
+
+  locationButton: {
+    width: 44,
+    height: 44,
+    position: 'absolute',
+    right: 14,
+    top: 78,
+    backgroundColor: RES.COLORS.asphaltGray,
+    borderWidth: 2,
+    borderColor: RES.COLORS.graniteGray,
+  },
 });
 
-export default HomeBar;
+const mapStateToProps = (state) => ({
+  photoURL: state.auth.user?.photoURL,
+  userVisible: state.location.userVisible,
+});
+
+HomeBar.propTypes = {
+  signOut: PropTypes.func,
+  goToUser: PropTypes.func,
+  userVisible: PropTypes.bool,
+  photoURL: PropTypes.string,
+};
+
+export default connect(mapStateToProps, { signOut, goToUser })(HomeBar);

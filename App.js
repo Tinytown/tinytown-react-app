@@ -1,33 +1,43 @@
-import 'react-native-gesture-handler';
 /**
  * @format
  * @flow strict-local
  */
-import React, { useEffect } from 'react';
-import SplashScreen from 'react-native-splash-screen';
+import 'react-native-gesture-handler';
+import React from 'react';
+import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Map from 'screens/mapbox';
-import Splash from 'screens/splash';
+import { connect } from 'react-redux';
+import { useAppLaunch } from 'library/hooks';
+import OnboardingScreen from 'screens/OnboardingScreen';
+import HomeScreen from 'screens/HomeScreen';
+import RES from 'res';
 
 const Stack = createStackNavigator();
 
-const App = () => {
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
+const App = ({ isSignedIn }) => {
+  const [appIsReady] = useAppLaunch(isSignedIn);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Map"
-        headerMode="none"
-      >
-        <Stack.Screen name="Splash" options={{ title: 'Splash' }} component={Splash} />
-        <Stack.Screen name="Map" options={{ title: 'Map' }} component={Map} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    appIsReady ?
+      (<NavigationContainer>
+        <Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: false }} >
+          {isSignedIn ? (
+            <>
+              <Stack.Screen name='Home' component={HomeScreen} />
+            </>
+          ) : (
+            <>
+              <Stack.Screen name='Onboarding' component={OnboardingScreen} />
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>)
+      :
+      <View style={{ backgroundColor: RES.COLORS.asphaltGray, flex: 1 }}/>
   );
 };
 
-export default App;
+const mapStateToProps = (state) => ({ isSignedIn: state.auth.isSignedIn });
+
+export default connect(mapStateToProps)(App);

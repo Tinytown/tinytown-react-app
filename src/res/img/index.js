@@ -1,1 +1,1 @@
-export const userMarker = require('./user_marker.png')
+export const userMarker = require('./user_marker.png');
