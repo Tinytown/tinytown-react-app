@@ -16,7 +16,7 @@ const FAB = ({
   onPress,
 }) => {
   const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? null : theme);
-  const [animation, animateOnPress] = useAnimation('twist');
+  const [animation, animateOnPress] = useAnimation('jiggle');
 
   const buttonStyle = { ...styles.button, ...backgroundTheme, ...(disabled && COLORS.disabled) };
   const labelStyle = { ...TYPOGRAPHY.subheader3, ...textTheme, ...(branded && TYPOGRAPHY.brandedButton) }

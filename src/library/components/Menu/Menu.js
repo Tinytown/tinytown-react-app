@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
-import { View, TouchableWithoutFeedback } from 'react-native'
+import { View } from 'react-native'
 import Animated from 'react-native-reanimated';
 import { COLORS, SHAPES, normalizeStyles } from 'res';
 import { useAnimation } from 'library/hooks';
+import Modal from '../Modal'
 
 const Menu = ({
   showMenu = false,
@@ -20,16 +21,8 @@ const Menu = ({
     showMenu ? animateMenu('show') : animateMenu('hide');
   }, [showMenu])
 
-  const backgroundProps = {
-    style: [styles.background, !showMenu && {  display: 'none' }],
-    pointerEvents: !showMenu ? 'box-none' : 'auto',
-  }
-
   return (
-    <>
-      <TouchableWithoutFeedback onPress={() => setShowMenu(false)} >
-        <View {...backgroundProps} />
-      </TouchableWithoutFeedback>
+    <Modal visible={showMenu} setVisible={setShowMenu} >
       <Animated.View style={animation} >
         <View
           onLayout={setDimensions}
@@ -42,7 +35,7 @@ const Menu = ({
           {children}
         </View>
       </Animated.View>
-    </>
+    </Modal>
   )
 }
 
@@ -53,11 +46,6 @@ const styles = normalizeStyles({
     paddingVertical: 8,
     borderRadius: SHAPES.radiusMd,
     ...SHAPES.elevGray2,
-  },
-  background: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
   },
 });
 

@@ -25,7 +25,7 @@ export default (animationType) => {
     return [animation, animateOnPress]
   };
 
-  const twistAnimation = () => {
+  const jiggleAnimation = () => {
     const RANDOM_SIDE = Math.random() < 0.5 ? -1 : 1;
     const ANGLE = 6 * RANDOM_SIDE;
     const rotation = useSharedValue(ANGLE);
@@ -110,7 +110,7 @@ export default (animationType) => {
           translateX.value = withSpring(- menuSize.width + trigger.width, translateConfig);
         } else {
           translateX.value = -TRANSLATE_AMOUNT * 6;
-          translateX.value = withSpring(TRANSLATE_INITIAL, translateConfig)
+          translateX.value = withSpring(TRANSLATE_INITIAL, translateConfig);
         }
 
         // Check if it fits vertically
@@ -137,8 +137,8 @@ export default (animationType) => {
   switch (animationType) {
   case 'bounce':
     return bounceAnimation();
-  case 'twist':
-    return twistAnimation();
+  case 'jiggle':
+    return jiggleAnimation();
   case 'menu':
     return menuAnimation();
   default:
