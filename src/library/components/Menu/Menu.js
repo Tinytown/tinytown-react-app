@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, Modal, TouchableWithoutFeedback } from 'react-native'
+import { View, TouchableWithoutFeedback } from 'react-native'
 import Animated from 'react-native-reanimated';
 import { COLORS, SHAPES, normalizeStyles } from 'res';
 import { useAnimation } from 'library/hooks';
@@ -16,41 +16,33 @@ const Menu = ({
     triggerRef.current?.measureInWindow((left, top, width, height) => setTriggerProps({ left, top, width, height }))
   }, [triggerRef?.current])
 
-  const hide = () => {
-    animateMenu('hide', () => setShowMenu(false))
-  };
+  useEffect(() => {
+    showMenu ? animateMenu('show') : animateMenu('hide');
+  }, [showMenu])
 
-  const show = () => {
-    animateMenu('show', () => setShowMenu(true))
-  };
+  const backgroundProps = {
+    style: [styles.background, !showMenu && {  display: 'none' }],
+    pointerEvents: !showMenu ? 'box-none' : 'auto',
+  }
 
   return (
-    <Modal
-      transparent
-      visible={showMenu}
-      onShow={show}
-      onDismiss={() => console.log('hiding menu')}
-      onRequestClose={hide}
-    >
-      <View style={{ flex: 1 }}>
-        <TouchableWithoutFeedback onPress={hide} >
-          <View style={styles.background} />
-        </TouchableWithoutFeedback>
-        <Animated.View style={animation} >
-          <View
-            onLayout={setDimensions}
-            style={styles.container}
-            onStartShouldSetResponderCapture={() => {
-              setTimeout(() => {
-                hide();
-              }, RIPPLE_DURATION)
-            }} >
-            {children}
-          </View>
-        </Animated.View>
-      </View>
-
-    </Modal>
+    <>
+      <TouchableWithoutFeedback onPress={() => setShowMenu(false)} >
+        <View {...backgroundProps} />
+      </TouchableWithoutFeedback>
+      <Animated.View style={animation} >
+        <View
+          onLayout={setDimensions}
+          style={styles.container}
+          onStartShouldSetResponderCapture={() => {
+            setTimeout(() => {
+              setShowMenu(false);
+            }, RIPPLE_DURATION)
+          }}>
+          {children}
+        </View>
+      </Animated.View>
+    </>
   )
 }
 
@@ -63,6 +55,7 @@ const styles = normalizeStyles({
     ...SHAPES.elevGray2,
   },
   background: {
+    position: 'absolute',
     width: '100%',
     height: '100%',
   },

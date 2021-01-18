@@ -1,7 +1,9 @@
 
 import { useState } from 'react'
+import { Platform } from 'react-native'
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default (animationType) => {
   const bounceAnimation = () => {
@@ -62,6 +64,7 @@ export default (animationType) => {
     const [trigger, setTrigger] = useState(null);
     const [menuSize, setMenuSize] = useState(null);
     const window = useSafeAreaFrame();
+    const insets = useSafeAreaInsets();
 
     const opacityConfig = {
       duration: ANIMATION_DURATION,
@@ -92,11 +95,13 @@ export default (animationType) => {
       }
     });
 
-    const animate = (state, callback) => {
+    const animate = (state) => {
       if (state === 'show') {
-        setPosition({ left: trigger?.left, top: trigger?.top })
-        width.value = withTiming(menuSize.width, sizeConfig);
-        height.value = withTiming(menuSize.height, sizeConfig);
+        const adjustedTop = trigger?.top - (Platform.OS === 'ios' ? insets.top : 0)
+
+        setPosition({ left: trigger?.left, top: adjustedTop })
+        width.value = withTiming(menuSize?.width, sizeConfig);
+        height.value = withTiming(menuSize?.height, sizeConfig);
         scaleX.value = withTiming(1, sizeConfig);
 
         // Check if it fits horizontally
@@ -109,14 +114,14 @@ export default (animationType) => {
         }
 
         // Check if it fits vertically
-        if (trigger?.top + menuSize?.height > window.height) {
+        if (trigger?.top + menuSize?.height > window.height - insets.bottom - insets.top) {
           translateY.value = -menuSize.height + trigger.height;
         };
 
         opacity.value = withTiming(1, opacityConfig);
       } else if (state === 'hide') {
         opacity.value = withTiming(STYLE_INITIAL, opacityConfig, () => {
-          runOnJS(callback)();
+          runOnJS(setPosition)(null)
           width.value = STYLE_INITIAL;
           height.value = STYLE_INITIAL;
           scaleX.value = withTiming(SCALE_INITIAL, sizeConfig);
