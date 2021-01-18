@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Platform } from 'react-native'
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
@@ -134,6 +134,40 @@ export default (animationType) => {
     return [[animation, position], animate, setTrigger, setDimensions];
   }
 
+  const flipAnimation = () => {
+    const PERSPECTIVE = 275;
+    const [flip, setFlip] = useState(false);
+    const frontRotate = useSharedValue(0);
+    const backRotate = useSharedValue(180);
+
+    useEffect(() => {
+      if (flip) {
+        frontRotate.value = withSpring(-180);
+        backRotate.value = withSpring(0);
+      } else {
+        frontRotate.value = withSpring(0);
+        backRotate.value = withSpring(180);
+      }
+    }, [flip])
+
+    const frontAnimation = useAnimatedStyle(() => {
+      return {
+        position: 'absolute',
+        transform: [{ perspective: PERSPECTIVE }, { rotateX: `${frontRotate.value}deg` }],
+        backfaceVisibility: 'hidden',
+      }
+    });
+
+    const backAnimation = useAnimatedStyle(() => {
+      return {
+        transform: [{ perspective: PERSPECTIVE }, { rotateX: `${backRotate.value}deg` }],
+        backfaceVisibility: 'hidden',
+      }
+    });
+
+    return [frontAnimation, backAnimation, flip, setFlip];
+  }
+
   switch (animationType) {
   case 'bounce':
     return bounceAnimation();
@@ -141,6 +175,8 @@ export default (animationType) => {
     return jiggleAnimation();
   case 'menu':
     return menuAnimation();
+  case 'flip':
+    return flipAnimation();
   default:
     return [];
   }

@@ -45,7 +45,6 @@ const FAB = ({
         </View>
         <Text style={labelStyle}>{label}</Text>
       </View>
-
     </Pressable>
   )
 }
