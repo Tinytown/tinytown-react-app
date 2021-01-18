@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { COLORS, SHAPES, normalizeStyles } from 'res';
+import Modal from '../Modal';
 import { useAnimation } from 'library/hooks';
-import Modal from '../Modal'
+import { COLORS, SHAPES, normalizeStyles } from 'res';
 
 const Menu = ({
   showMenu = false,
@@ -14,12 +14,12 @@ const Menu = ({
   const [animation, animateMenu, setTriggerProps, setDimensions] = useAnimation('menu');
 
   useEffect(() => {
-    triggerRef.current?.measureInWindow((left, top, width, height) => setTriggerProps({ left, top, width, height }))
-  }, [triggerRef?.current])
+    triggerRef.current?.measureInWindow((left, top, width, height) => setTriggerProps({ left, top, width, height }));
+  }, [triggerRef?.current]);
 
   useEffect(() => {
     showMenu ? animateMenu('show') : animateMenu('hide');
-  }, [showMenu])
+  }, [showMenu]);
 
   return (
     <Modal visible={showMenu} setVisible={setShowMenu} >
@@ -30,14 +30,14 @@ const Menu = ({
           onStartShouldSetResponderCapture={() => {
             setTimeout(() => {
               setShowMenu(false);
-            }, RIPPLE_DURATION)
+            }, RIPPLE_DURATION);
           }}>
           {children}
         </View>
       </Animated.View>
     </Modal>
-  )
-}
+  );
+};
 
 const styles = normalizeStyles({
   container: {
@@ -49,4 +49,4 @@ const styles = normalizeStyles({
   },
 });
 
-export default Menu
+export default Menu;

@@ -31,8 +31,8 @@ const MenuItem = ({
         {label}
       </Text>
     </Pressable>
-  )
-}
+  );
+};
 
 const styles = normalizeStyles({
   container: {
@@ -65,6 +65,6 @@ MenuItem.propTypes = {
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
-}
+};
 
 export default MenuItem;

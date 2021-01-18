@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {  View } from 'react-native';
-import Pressable from './hoc/Pressable'
-import { COLORS, SHAPES, Icon, normalizeStyles } from 'res';
+import Pressable from './hoc/Pressable';
+import { SHAPES, Icon, normalizeStyles } from 'res';
 
 class IconButton extends React.Component {
   static propTypes = {
@@ -17,11 +17,13 @@ class IconButton extends React.Component {
     const {
       disabled,
       onPress,
+      icon,
+      color,
     } = this.props;
     return (
       <Pressable disabled={disabled} onPress={onPress} containerStyle={styles.container}>
         <View style={styles.iconContainer}>
-          <Icon icon={this.props.icon} color={COLORS.graniteGray} />
+          <Icon icon={icon} color={color} />
         </View>
       </Pressable>
     );

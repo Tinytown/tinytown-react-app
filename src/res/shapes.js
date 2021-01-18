@@ -62,7 +62,6 @@ export default {
     },
     shadowOpacity: 0.4,
     shadowRadius: 5.46,
-
     elevation: 9,
   },
 
@@ -107,5 +106,5 @@ export default {
   radiusMd: 8,
   radiusLg: 16,
   radiusAll: 100,
-}
+};
 

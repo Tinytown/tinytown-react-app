@@ -4,7 +4,7 @@ import { COLORS, normalizeStyles } from 'res';
 
 const MenuDivider = ({ color = COLORS.sidewalkGray }) => {
   return <View style={[styles.divider, { borderBottomColor: color }]} />;
-}
+};
 
 const styles = normalizeStyles({
   divider: {

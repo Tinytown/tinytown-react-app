@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
+import PropTypes from 'prop-types';
 import IconButton from './IconButton';
+import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const NavBar = ({ label = 'Label', onClose, children }) => {
+const NavBar = ({ label, onClose, children }) => {
   return (
     <View style={styles.container}>
       <View style={styles.leftSide}>
@@ -14,7 +15,7 @@ const NavBar = ({ label = 'Label', onClose, children }) => {
         {children}
       </View>
     </View>
-  )
+  );
 };
 
 const styles = normalizeStyles({
@@ -44,5 +45,16 @@ const styles = normalizeStyles({
     ...TYPOGRAPHY.headline5,
   },
 });
+
+NavBar.propTypes = {
+  label: PropTypes.string,
+  onClose: PropTypes.func,
+  children: PropTypes.element,
+};
+
+NavBar.defaultProps = {
+  label: 'Label',
+  onClose: () => console.log('Pass an onClose callback to this component'),
+};
 
 export default NavBar;

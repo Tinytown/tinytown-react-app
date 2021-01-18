@@ -3,7 +3,7 @@ import Path from 'path';
 import Axios from 'axios';
 import prompts from 'prompts';
 
-const relativePath = './src/config/env.config.js'
+const relativePath = './src/config/env.config.js';
 const path = Path.resolve(relativePath);
 
 const getConfig = async (url) => {

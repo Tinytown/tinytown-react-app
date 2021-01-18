@@ -37,15 +37,15 @@ export default normalizeStyles = (
     'left',
   ]
 ) => {
-  const isNumber = is(Number)
-  const isInTarget = (property) => targetProperties.includes(property)
+  const isNumber = is(Number);
+  const isInTarget = (property) => targetProperties.includes(property);
   const propertyToNormalize = (property, value) => isInTarget(property) && isNumber(value);
 
   const propOverride = (style) => {
     return mapObjIndexed((value, property) => {
-      return (propertyToNormalize(property, value) ? normalize(value) : value)
-    }, style)
-  }
-  const normalizedStyles = map(propOverride, styles)
+      return (propertyToNormalize(property, value) ? normalize(value) : value);
+    }, style);
+  };
+  const normalizedStyles = map(propOverride, styles);
   return StyleSheet.create(normalizedStyles);
 };

@@ -22,9 +22,9 @@ const IconRepo = {
   overflow: Platform.OS === 'android' ? OverflowDroidIcon : OverflowiOSIcon,
   info: InfoIcon,
   signOut: SignOutIcon,
-}
+};
 
 export default (props) => {
-  const ValidatedIcon = IconRepo[props.icon] || PlaceholderIcon
-  return <ValidatedIcon {...props} />
-}
+  const ValidatedIcon = IconRepo[props.icon] || PlaceholderIcon;
+  return <ValidatedIcon {...props} />;
+};

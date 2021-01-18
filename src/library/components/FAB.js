@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import RadialGradient from 'react-native-radial-gradient';
 import Pressable from './hoc/Pressable';
-import { COLORS, SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 import { useAnimation } from 'library/hooks';
 
 const FAB = ({
@@ -19,8 +19,8 @@ const FAB = ({
   const [animation, animateOnPress] = useAnimation('jiggle');
 
   const buttonStyle = { ...styles.button, ...backgroundTheme, ...(disabled && COLORS.disabled) };
-  const labelStyle = { ...TYPOGRAPHY.subheader3, ...textTheme, ...(branded && TYPOGRAPHY.brandedButton) }
-  const cardStyle = { ...styles.card, backgroundColor: keyColor, ...(disabled && { opacity: 0 }) }
+  const labelStyle = { ...TYPOGRAPHY.subheader3, ...textTheme, ...(branded && TYPOGRAPHY.brandedButton) };
+  const cardStyle = { ...styles.card, backgroundColor: keyColor, ...(disabled && { opacity: 0 }) };
 
   return (
     <Pressable
@@ -46,8 +46,8 @@ const FAB = ({
         <Text style={labelStyle}>{label}</Text>
       </View>
     </Pressable>
-  )
-}
+  );
+};
 
 const styles = normalizeStyles({
   container: {
@@ -89,6 +89,6 @@ FAB.propTypes = {
   branded: PropTypes.bool,
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
-}
+};
 
 export default FAB;
