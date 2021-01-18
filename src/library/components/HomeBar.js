@@ -14,7 +14,7 @@ const HomeBar = () => {
         <Pressable
           onPress={() => setShowMenu(true)}
           containerStyle={styles.avatar}
-          keyColor={COLORS.bubblegumRed600}
+          keyColor={COLORS.skyBlue600}
           ref={menuTrigger} >
           <Image
             source={require('res/img/placeholder.png')}

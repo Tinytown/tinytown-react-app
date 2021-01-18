@@ -9,6 +9,7 @@ const Menu = ({
   setShowMenu = () => console.log('Pass a setShowMenu callback to this component'),
   triggerRef = {},
   children }) => {
+  const RIPPLE_DURATION = 400;
   const [animation, animateMenu, setTriggerProps, setDimensions] = useAnimation('menu');
 
   useEffect(() => {
@@ -36,7 +37,14 @@ const Menu = ({
           <View style={styles.background} />
         </TouchableWithoutFeedback>
         <Animated.View style={animation} >
-          <View onLayout={setDimensions} style={styles.container} >
+          <View
+            onLayout={setDimensions}
+            style={styles.container}
+            onStartShouldSetResponderCapture={() => {
+              setTimeout(() => {
+                hide();
+              }, RIPPLE_DURATION)
+            }} >
             {children}
           </View>
         </Animated.View>

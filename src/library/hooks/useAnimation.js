@@ -49,6 +49,7 @@ export default (animationType) => {
     const SCALE_INITIAL = 0.5;
     const TRANSLATE_INITIAL = 0;
     const TRANSLATE_AMOUNT = 16;
+    const ANIMATION_DURATION = 200;
 
     const opacity = useSharedValue(STYLE_INITIAL);
     const scaleX = useSharedValue(SCALE_INITIAL);
@@ -63,11 +64,11 @@ export default (animationType) => {
     const window = useSafeAreaFrame();
 
     const opacityConfig = {
-      duration: 200,
+      duration: ANIMATION_DURATION,
     };
 
     const sizeConfig = {
-      duration: 200,
+      duration: ANIMATION_DURATION,
     };
 
     const translateConfig = {
