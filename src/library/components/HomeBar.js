@@ -23,14 +23,14 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
 
   return (
     <>
-      <View style={styles.container}>
-        {!userVisible &&
-          <IconButton
-            icon="crosshairs"
-            color={COLORS.justWhite}
-            style={styles.locationButton}
-            onPress={() => getLocation(goToUser)}/>
-        }
+      {!userVisible &&
+      <IconButton
+        icon='crosshairs'
+        onPress={() => getLocation(goToUser)}
+        wrapperStyle={styles.locationBtn}
+      />
+      }
+      <View style={styles.bar}>
         <Pressable
           onPress={() => setShowMenu(true)}
           containerStyle={styles.avatar}
@@ -52,7 +52,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
 };
 
 const styles = normalizeStyles({
-  container: {
+  bar: {
     position: 'absolute',
     flexDirection: 'row-reverse',
     width: '100%',
@@ -70,6 +70,7 @@ const styles = normalizeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
+    backgroundColor: 'white',
   },
 
   image: {
@@ -77,15 +78,10 @@ const styles = normalizeStyles({
     resizeMode: 'contain',
   },
 
-  locationButton: {
+  locationBtn: {
     position: 'absolute',
-    width: 44,
-    height: 44,
-    right: 14,
+    right: 16,
     top: 78,
-    backgroundColor: COLORS.asphaltGray,
-    borderWidth: 2,
-    borderColor: COLORS.graniteGray,
   },
 });
 

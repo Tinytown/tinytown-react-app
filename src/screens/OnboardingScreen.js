@@ -22,7 +22,9 @@ const OnboardingScreen = ({ storageLoaded, userVisible, goToUser }) => {
             label={STRINGS.button.goToLocation}
             theme='green'
             icon='crosshairs'
-            onPress={() => getLocation(goToUser)}/>}
+            onPress={() => getLocation(goToUser)}
+            wrapperStyle={styles.fab}
+          />}
       </ViewWithWait>
     </WorldMap>
   );
@@ -30,8 +32,15 @@ const OnboardingScreen = ({ storageLoaded, userVisible, goToUser }) => {
 
 const styles = normalizeStyles({
   container: {
-    flex: 1,
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
     alignItems: 'center',
+  },
+
+  fab: {
+    position: 'absolute',
+    bottom: 24,
   },
 });
 

@@ -14,6 +14,7 @@ const FAB = ({
   branded = false,
   disabled = false,
   onPress,
+  wrapperStyle,
 }) => {
   const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? null : theme);
   const [animation, animateOnPress] = useAnimation('jiggle');
@@ -23,29 +24,31 @@ const FAB = ({
   const cardStyle = { ...styles.card, backgroundColor: keyColor, ...(disabled && { opacity: 0 }) };
 
   return (
-    <Pressable
-      animationType='bounce'
-      containerStyle={styles.container}
-      keyColor={keyColor}
-      disabled={disabled}
-      onPress={onPress}
-      onPressIn={() => animateOnPress('in')}
-      onPressOut={() => animateOnPress('out')}
-    >
-      <RadialGradient
-        style={styles.blur}
-        colors={[keyColor, 'transparent']}
-        stops={[0.1, 0.95]}
-        center={[160, 160]}
-        radius={160}/>
-      <Animated.View style={[cardStyle, animation]} />
-      <View style={buttonStyle} >
-        <View style={styles.iconContainer}>
-          <Icon icon={icon} color={keyColor} />
+    <View style={wrapperStyle} pointerEvents='box-none'>
+      <Pressable
+        animationType='bounce'
+        containerStyle={styles.container}
+        keyColor={keyColor}
+        disabled={disabled}
+        onPress={onPress}
+        onPressIn={() => animateOnPress('in')}
+        onPressOut={() => animateOnPress('out')}
+      >
+        <RadialGradient
+          style={styles.blur}
+          colors={[keyColor, 'transparent']}
+          stops={[0.1, 0.95]}
+          center={[160, 160]}
+          radius={160}/>
+        <Animated.View style={[cardStyle, animation]} />
+        <View style={buttonStyle} >
+          <View style={styles.icon}>
+            <Icon icon={icon} color={keyColor} />
+          </View>
+          <Text style={labelStyle}>{label}</Text>
         </View>
-        <Text style={labelStyle}>{label}</Text>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   );
 };
 
@@ -63,7 +66,7 @@ const styles = normalizeStyles({
     borderRadius: SHAPES.radiusMd,
     borderWidth: 2,
   },
-  iconContainer: {
+  icon: {
     height: 24,
     width: 24,
     marginRight: 12,
@@ -75,15 +78,16 @@ const styles = normalizeStyles({
     borderRadius: SHAPES.radiusMd,
   },
   blur: {
+    position: 'absolute',
     width: 320,
     height: 320,
-    position: 'absolute',
-    left: 0,
+    transform: [{ translateX: 40 }],
     opacity: 0.22,
   },
 });
 
 FAB.propTypes = {
+  icon: PropTypes.string,
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf(['green', 'blue', 'red']),
   branded: PropTypes.bool,

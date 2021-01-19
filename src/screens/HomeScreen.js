@@ -12,14 +12,14 @@ const HomeScreen = ({ displayName, storageLoaded }) => {
     <WorldMap>
       <ViewWithWait waitFor={storageLoaded} style={styles.container} pointerEvents='box-none'>
         <HomeBar />
-        <View style={styles.fab} >
-          <FAB
-            label={STRINGS.button.shout}
-            theme='red'
-            icon='megaphone'
-            branded onPress={() => console.log(`LOUD NOISES from ${displayName}`)}/>
-
-        </View>
+        <FAB
+          label={STRINGS.button.shout}
+          theme='red'
+          icon='megaphone'
+          branded
+          onPress={() => console.log(`LOUD NOISES from ${displayName}`)}
+          wrapperStyle={styles.fab}
+        />
       </ViewWithWait>
     </WorldMap>
   );
@@ -27,7 +27,9 @@ const HomeScreen = ({ displayName, storageLoaded }) => {
 
 const styles = normalizeStyles({
   container: {
-    flex: 1,
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
     alignItems: 'center',
   },
   fab: {
