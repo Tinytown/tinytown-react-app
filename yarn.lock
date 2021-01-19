@@ -2643,6 +2643,11 @@ cssstyle@^2.0.0:
   dependencies:
     cssom "~0.3.6"
 
+cycle@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/cycle/-/cycle-1.0.3.tgz#21e80b2be8580f98b468f379430662b046c34ad2"
+  integrity sha1-IegLK+hYD5i0aPN5QwZisEbDStI=
+
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
@@ -2663,6 +2668,11 @@ dayjs@^1.8.15:
   version "1.9.7"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.9.7.tgz#4b260bb17dceed2d5f29038dfee03c65a6786fc0"
   integrity sha512-IC877KBdMhBrCfBfJXHQlo0G8keZ0Opy7YIIq5QKtUbCuHMzim8S4PyiVK4YmihI3iOF9lhfUBW4AQWHTR5WHA==
+
+dayjs@^1.8.29:
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.3.tgz#cf3357c8e7f508432826371672ebf376cb7d619b"
+  integrity sha512-/2fdLN987N8Ki7Id8BUN2nhuiRyxTLumQnSQf9CNncFCyqFsSKb9TNhzRYcC8K8eJSJOKvbvkImo/MKKhNi4iw==
 
 debounce@^1.2.0:
   version "1.2.0"
@@ -6193,6 +6203,11 @@ react-native-compass-heading@^1.0.2:
   resolved "https://registry.yarnpkg.com/react-native-compass-heading/-/react-native-compass-heading-1.0.2.tgz#f8f334037eaefb4e202af117979f5be1c8db68a1"
   integrity sha512-ZCKdzzL5LDXBzwQmEauyS+gWdMgNGWppC2PlOWcEv1dbmT4Ev3PzkZB+bt9WlRnDYwZdu44NqO//W7Yyyp2JoA==
 
+react-native-flipper@^0.71.0:
+  version "0.71.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.71.0.tgz#5fefaf702b2e12e6e0ec4721fe276a6904789517"
+  integrity sha512-ITTgmxopMYilr0AJbApmqrV7boOelqctGE2GpOf+lMhUunCMiplbkrtWRSPPunw046VmXpEk5FX55QA0975ovA==
+
 react-native-geolocation-service@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/react-native-geolocation-service/-/react-native-geolocation-service-5.1.1.tgz#21b4aba54c5ce00a2180b2807581131d31bec48b"
@@ -6382,10 +6397,13 @@ realpath-native@^2.0.0:
   resolved "https://registry.yarnpkg.com/realpath-native/-/realpath-native-2.0.0.tgz#7377ac429b6e1fd599dc38d08ed942d0d7beb866"
   integrity sha512-v1SEYUOXXdbBZK8ZuNgO4TBjamPsiSgcFr0aP+tEKpQZK8vooEUqV6nm6Cv502mX4NF2EfsnVqtNAHG+/6Ur1Q==
 
-redux-devtools-extension@^2.13.8:
-  version "2.13.8"
-  resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.8.tgz#37b982688626e5e4993ff87220c9bbb7cd2d96e1"
-  integrity sha512-8qlpooP2QqPtZHQZRhx3x3OP5skEV1py/zUdMY28WNAocbafxdG2tRD1MWE7sp8obGMNYuLWanhhQ7EQvT1FBg==
+redux-flipper@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/redux-flipper/-/redux-flipper-1.4.2.tgz#da765a675136e9893a002730703ec58d2f0e359b"
+  integrity sha512-VfSdmWATaZD2BHAiMOEzxk+KSiSTAv/N5AyY64+dU+qif/KfinSHWW3+YVMCO+5rxne1Fr92YwsYJl8l9injDA==
+  dependencies:
+    cycle "^1.0.3"
+    dayjs "^1.8.29"
 
 redux-thunk@^2.3.0:
   version "2.3.0"

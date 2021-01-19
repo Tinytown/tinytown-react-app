@@ -54,9 +54,7 @@ export default (cameraRef, mapRef, updateUserVisible) => {
 
   // Check if user is off screen
   const updateUserVisibility = (bounds) => {
-    if (!userLocation) {
-      userVisible !== false && updateUserVisible(false);
-    } else {
+    if (userLocation) {
       const visibilityCheck = (
         userLocation[0] < bounds[0][0] &&
         userLocation[0] > bounds[1][0] &&
@@ -79,12 +77,12 @@ export default (cameraRef, mapRef, updateUserVisible) => {
     }
   };
 
-  // Handle user location change
-  const shouldUpdate = (!goToUser && cameraBounds);
+  // Handle user location change and first load
+  const shouldUpdate = ((!goToUser && cameraBounds) || !userLocation);
 
   useEffect(() => {
-    shouldUpdate || !userLocation && updateUserVisibility(cameraBounds);
-  }, [userLocation]);
+    shouldUpdate && updateUserVisibility(cameraBounds);
+  }, [shouldUpdate]);
 
   // Load / store map state
   const shouldStore = (!appActive && userLocation);

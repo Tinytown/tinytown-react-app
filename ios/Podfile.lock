@@ -585,6 +585,8 @@ PODS:
   - React-jsinspector (0.63.3)
   - react-native-compass-heading (1.0.2):
     - React
+  - react-native-flipper (0.71.0):
+    - React
   - react-native-geolocation-service (5.1.1):
     - React
   - react-native-mapbox-gl (8.1.0-rc.9):
@@ -776,6 +778,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-compass-heading (from `../node_modules/react-native-compass-heading`)
+  - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
   - "react-native-mapbox-gl (from `../node_modules/@react-native-mapbox-gl/maps`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -882,6 +885,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-compass-heading:
     :path: "../node_modules/react-native-compass-heading"
+  react-native-flipper:
+    :path: "../node_modules/react-native-flipper"
   react-native-geolocation-service:
     :path: "../node_modules/react-native-geolocation-service"
   react-native-mapbox-gl:
@@ -990,6 +995,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b56c03e61c0dd5f5801255f2160a815f4a53d451
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
   react-native-compass-heading: 18742617bdb9e06ce104bd3b90f0dc700b791fd1
+  react-native-flipper: 4d3780a76fbffce4706a21df75573e02b82ca6b6
   react-native-geolocation-service: f33626f1ae12381ca2ae60f98b2f5edd676bf95a
   react-native-mapbox-gl: 2a4b1bbfb5708b4c997d312ad73337bafdc5baf5
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
