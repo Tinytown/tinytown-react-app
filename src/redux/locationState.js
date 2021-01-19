@@ -7,7 +7,7 @@ export const locationReducer = (state = null, action) => {
       ...state,
       user: action.payload.user,
       hasPermission: action.payload.hasPermission,
-      goToUser: false,
+      goToUser: action.payload.goToUser,
     };
   case GO_TO_USER:
     return {
@@ -31,12 +31,17 @@ export const goToUser = (location) => {
   return { type: GO_TO_USER, payload };
 };
 
-export const updateUserLocation = (location) => {
+export const updateUserLocation = (newLocation) => (dispatch, getState) => {
+  const { location } = getState();
+  const user = [newLocation.longitude, newLocation.latitude];
+  const goToUser = location.user.every((val, index) => val == user[index]);
+
   const payload = {
-    user: [location.longitude, location.latitude],
+    user,
     hasPermission: true,
+    goToUser,
   };
-  return { type: UPDATE_LOCATION, payload };
+  dispatch({ type: UPDATE_LOCATION, payload });
 };
 
 export const updateUserVisible = (payload) => {

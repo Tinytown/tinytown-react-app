@@ -41,7 +41,7 @@ export default (cameraRef, mapRef, updateUserVisible) => {
     movedByUser !== null && dispatch({ type: 'update_moved', payload: movedByUser });
   };
 
-  // Move camera to location
+  // Move camera to user location
   useEffect(() => {
     if (goToUser) {
       cameraRef?.flyTo(userLocation, 1000);
@@ -53,14 +53,14 @@ export default (cameraRef, mapRef, updateUserVisible) => {
   }, [goToUser]);
 
   // Check if user is off screen
-  const updateUserVisibility = (bounds) => {
+  const checkOnScreen = (bounds) => {
     if (userLocation) {
-      const visibilityCheck = (
+      const onScreen = (
         userLocation[0] < bounds[0][0] &&
         userLocation[0] > bounds[1][0] &&
         userLocation[1] < bounds[0][1] &&
         userLocation[1] > bounds[1][1]);
-      visibilityCheck !== userVisible && updateUserVisible(visibilityCheck);
+      onScreen !== userVisible && updateUserVisible(onScreen);
     }
   };
 
@@ -73,16 +73,20 @@ export default (cameraRef, mapRef, updateUserVisible) => {
         zoom: properties.zoomLevel,
         movedByUser: true,
       });
-      updateUserVisibility(properties.visibleBounds);
+      checkOnScreen(properties.visibleBounds);
     }
   };
 
-  // Handle user location change and first load
-  const shouldUpdate = ((!goToUser && cameraBounds) || !userLocation);
-
+  // Handle user location change and first launch
   useEffect(() => {
-    shouldUpdate && updateUserVisibility(cameraBounds);
-  }, [shouldUpdate]);
+    if (!userLocation && dataRetrieved && userVisible) {
+      // First launch
+      updateUserVisible(false);
+    } else if (userLocation && cameraBounds && !goToUser) {
+      // User moves
+      checkOnScreen(cameraBounds);
+    }
+  }, [userLocation, dataRetrieved, cameraBounds]);
 
   // Load / store map state
   const shouldStore = (!appActive && userLocation);
@@ -98,9 +102,10 @@ export default (cameraRef, mapRef, updateUserVisible) => {
             zoom: data.cameraZoom,
             movedByUser: false,
           });
+          console.log('storage update');
           updateUserVisible(data.userVisible);
-          setDataRetrieved(true);
         }
+        setDataRetrieved(true);
       });
     }
 
