@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { goToUser } from 'rdx/locationState';
 import { getLocation } from 'library/apis/geolocation';
 import { withWait } from 'library/components/hoc';
-import { TwitterAuth, FAB } from 'library/components';
+import FAB from '../components/FAB';
+import TwitterAuth from '../components/TwitterAuth';
 import { useAnimation } from 'library/hooks';
 import { STRINGS, normalizeStyles } from 'res';
 

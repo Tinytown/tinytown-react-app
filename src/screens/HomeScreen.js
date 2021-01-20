@@ -7,7 +7,7 @@ import { STRINGS, normalizeStyles } from 'res';
 
 const HomeScreen = ({ displayName, storageLoaded }) => {
   const ViewWithWait = withWait(View);
-  console.log('render');
+
   return (
     <WorldMap>
       <ViewWithWait waitFor={storageLoaded} style={styles.container} pointerEvents='box-none'>

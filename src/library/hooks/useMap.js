@@ -123,9 +123,7 @@ export default (cameraRef, mapRef, updateUserVisible) => {
       storeMultiple(data);
     }
 
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, [shouldStore]);
 
   return [camera, regionChangeHandler, mapRendered, setMapRendered];
