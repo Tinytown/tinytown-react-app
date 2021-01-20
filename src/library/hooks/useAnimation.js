@@ -1,11 +1,11 @@
 
-import { useState, useEffect } from 'react'
-import { Platform } from 'react-native'
+import { useState, useEffect } from 'react';
+import { Platform } from 'react-native';
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default (animationType) => {
+export default (animationType, ...args) => {
   const bounceAnimation = () => {
     const INITIAL_SCALE = 1;
     const TARGET_SCALE = 0.94;
@@ -14,15 +14,15 @@ export default (animationType) => {
       mass: 1,
       damping: 3,
       stiffness: 750,
-    }
+    };
     const animation = useAnimatedStyle(() => {
-      return { transform: [{ scale: scale.value }] }
+      return { transform: [{ scale: scale.value }] };
     });
     const animateOnPress = (state) => {
-      scale.value = state === 'in' ? withSpring(TARGET_SCALE, config) : withSpring(INITIAL_SCALE, config)
-    }
+      scale.value = state === 'in' ? withSpring(TARGET_SCALE, config) : withSpring(INITIAL_SCALE, config);
+    };
 
-    return [animation, animateOnPress]
+    return [animation, animateOnPress];
   };
 
   const jiggleAnimation = () => {
@@ -33,18 +33,18 @@ export default (animationType) => {
       mass: 1,
       damping: 8,
       stiffness: 500,
-    }
+    };
     const animation = useAnimatedStyle(() => {
-      return { transform: [{ rotateZ: `${rotation.value}deg` }] }
+      return { transform: [{ rotateZ: `${rotation.value}deg` }] };
     });
     const animateOnPress = (state) => {
       rotation.value = state === 'in'
         ? withSpring(-ANGLE, config)
-        : withSpring(ANGLE, config)
-    }
+        : withSpring(ANGLE, config);
+    };
 
-    return [animation, animateOnPress]
-  }
+    return [animation, animateOnPress];
+  };
 
   const menuAnimation = () => {
     const STYLE_INITIAL = 0;
@@ -82,8 +82,8 @@ export default (animationType) => {
 
     const setDimensions = ({ nativeEvent }) => {
       const { width, height } = nativeEvent.layout;
-      setMenuSize({ width, height })
-    }
+      setMenuSize({ width, height });
+    };
 
     const animation = useAnimatedStyle(() => {
       return {
@@ -92,14 +92,14 @@ export default (animationType) => {
         width: width.value,
         height: height.value,
         transform: [{ translateX: translateX.value }, { translateY: translateY.value }, { scaleX: scaleX.value }],
-      }
+      };
     });
 
     const animate = (state) => {
       if (state === 'show') {
-        const adjustedTop = trigger?.top - (Platform.OS === 'ios' ? insets.top : 0)
+        const adjustedTop = trigger?.top - (Platform.OS === 'ios' ? insets.top : 0);
 
-        setPosition({ left: trigger?.left, top: adjustedTop })
+        setPosition({ left: trigger?.left, top: adjustedTop });
         width.value = withTiming(menuSize?.width, sizeConfig);
         height.value = withTiming(menuSize?.height, sizeConfig);
         scaleX.value = withTiming(1, sizeConfig);
@@ -121,7 +121,7 @@ export default (animationType) => {
         opacity.value = withTiming(1, opacityConfig);
       } else if (state === 'hide') {
         opacity.value = withTiming(STYLE_INITIAL, opacityConfig, () => {
-          runOnJS(setPosition)(null)
+          runOnJS(setPosition)(null);
           width.value = STYLE_INITIAL;
           height.value = STYLE_INITIAL;
           scaleX.value = withTiming(SCALE_INITIAL, sizeConfig);
@@ -129,14 +129,13 @@ export default (animationType) => {
           translateY.value = TRANSLATE_INITIAL;
         });
       }
-    }
+    };
 
     return [[animation, position], animate, setTrigger, setDimensions];
-  }
+  };
 
-  const flipAnimation = () => {
+  const flipAnimation = ([flip]) => {
     const PERSPECTIVE = 275;
-    const [flip, setFlip] = useState(false);
     const frontRotate = useSharedValue(0);
     const backRotate = useSharedValue(180);
 
@@ -148,25 +147,25 @@ export default (animationType) => {
         frontRotate.value = withSpring(0);
         backRotate.value = withSpring(180);
       }
-    }, [flip])
+    }, [flip]);
 
     const frontAnimation = useAnimatedStyle(() => {
       return {
         position: 'absolute',
         transform: [{ perspective: PERSPECTIVE }, { rotateX: `${frontRotate.value}deg` }],
         backfaceVisibility: 'hidden',
-      }
+      };
     });
 
     const backAnimation = useAnimatedStyle(() => {
       return {
         transform: [{ perspective: PERSPECTIVE }, { rotateX: `${backRotate.value}deg` }],
         backfaceVisibility: 'hidden',
-      }
+      };
     });
 
-    return [frontAnimation, backAnimation, flip, setFlip];
-  }
+    return [frontAnimation, backAnimation];
+  };
 
   switch (animationType) {
   case 'bounce':
@@ -176,8 +175,8 @@ export default (animationType) => {
   case 'menu':
     return menuAnimation();
   case 'flip':
-    return flipAnimation();
+    return flipAnimation(args);
   default:
     return [];
   }
-}
+};

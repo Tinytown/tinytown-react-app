@@ -179,10 +179,10 @@ export default {
         },
         userVisible: {
           $id: '#/properties/location/properties/userVisible',
-          type: 'boolean',
+          type: ['boolean', 'null'],
           title: 'The userVisible schema',
-          default: true,
-          examples: [true],
+          default: null,
+          examples: [true, false, null],
         },
       },
       additionalProperties: true,

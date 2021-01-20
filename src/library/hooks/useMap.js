@@ -79,7 +79,7 @@ export default (cameraRef, mapRef, updateUserVisible) => {
 
   // Handle user location change and first launch
   useEffect(() => {
-    if (!userLocation && dataRetrieved && userVisible) {
+    if (!userLocation && dataRetrieved && userVisible === null) {
       // First launch
       updateUserVisible(false);
     } else if (userLocation && cameraBounds && !goToUser) {
@@ -102,7 +102,6 @@ export default (cameraRef, mapRef, updateUserVisible) => {
             zoom: data.cameraZoom,
             movedByUser: false,
           });
-          console.log('storage update');
           updateUserVisible(data.userVisible);
         }
         setDataRetrieved(true);

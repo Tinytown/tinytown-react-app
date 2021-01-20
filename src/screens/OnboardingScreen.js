@@ -1,46 +1,52 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { connect } from 'react-redux';
 import { goToUser } from 'rdx/locationState';
 import { getLocation } from 'library/apis/geolocation';
 import { withWait } from 'library/components/hoc';
 import { WorldMap, TwitterAuth, FAB, ActivityOverlay } from 'library/components';
+import { useAnimation } from 'library/hooks';
 import { STRINGS, normalizeStyles } from 'res';
 
 const OnboardingScreen = ({ storageLoaded, userVisible, goToUser }) => {
   const [authLoading, setAuthLoading] = useState(false);
+  const [frontAnimation, backAnimation] = useAnimation('flip', userVisible);
   const ViewWithWait = withWait(View);
+  const touchableProps = {
+    pointerEvents: userVisible ? 'none' : 'auto',
+  };
 
   return (
     <WorldMap>
       <ActivityOverlay showOverlay={authLoading} />
-      <ViewWithWait waitFor={storageLoaded && !authLoading} style={styles.container} pointerEvents='box-none'>
-        {userVisible ?
+      <ViewWithWait
+        waitFor={storageLoaded && !authLoading && userVisible !== null}
+        style={styles.flipContainer}
+        pointerEvents='box-none'
+      >
+        <Animated.View style={backAnimation} >
           <TwitterAuth onLoading={(state) => setAuthLoading(state)} />
-          :
+        </Animated.View>
+        <Animated.View style={frontAnimation} {...touchableProps} >
           <FAB
             label={STRINGS.button.goToLocation}
             theme='green'
             icon='crosshairs'
             onPress={() => getLocation(goToUser)}
-            wrapperStyle={styles.fab}
-          />}
+          />
+        </Animated.View>
       </ViewWithWait>
     </WorldMap>
   );
 };
 
 const styles = normalizeStyles({
-  container: {
+  flipContainer: {
     position: 'absolute',
-    height: '100%',
-    width: '100%',
+    bottom: 32,
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  fab: {
-    position: 'absolute',
-    bottom: 24,
   },
 });
 

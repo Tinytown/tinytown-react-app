@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import auth from '@react-native-firebase/auth';
 import config from 'config/env.config.js';
 import FAB from './FAB';
-import { STRINGS, normalizeStyles } from 'res';
+import { STRINGS } from 'res';
 
 const TwitterAuth = ({ onLoading }) => {
   const { RNTwitterSignIn } = NativeModules;
@@ -33,17 +33,9 @@ const TwitterAuth = ({ onLoading }) => {
       theme='blue'
       icon='twitter'
       onPress={onLogInPress}
-      wrapperStyle={styles.fab}
     />
   );
 };
-
-const styles = normalizeStyles({
-  fab: {
-    position: 'absolute',
-    bottom: 24,
-  },
-});
 
 TwitterAuth.propTypes = {
   onLoading: PropTypes.func,

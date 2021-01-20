@@ -9,9 +9,9 @@ const INITIAL_STATE = Object.freeze({
   },
   location: {
     user: null,
+    userVisible: null,
     hasPermission: false,
     goToUser: false,
-    userVisible: true,
   },
   app: {
     active: true,
