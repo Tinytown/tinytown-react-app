@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-import Pressable from '../hoc/Pressable';
+import { Pressable } from 'library/components/hoc';
 import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
 
 const MenuItem = ({

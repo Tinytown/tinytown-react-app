@@ -1,12 +1,12 @@
-import React from 'react'
-import { View, TouchableWithoutFeedback } from 'react-native'
+import React from 'react';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import { normalizeStyles } from 'res';
 
 const Modal = ({ visible, setVisible, children }) => {
   const backgroundProps = {
     style: [styles.background, !visible && {  display: 'none' }],
     pointerEvents: !visible ? 'box-none' : 'auto',
-  }
+  };
 
   return (
     <>
@@ -15,8 +15,8 @@ const Modal = ({ visible, setVisible, children }) => {
       </TouchableWithoutFeedback>
       {children}
     </>
-  )
-}
+  );
+};
 
 const styles = normalizeStyles({
   background: {
@@ -26,4 +26,4 @@ const styles = normalizeStyles({
   },
 });
 
-export default Modal
+export default Modal;

@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import RadialGradient from 'react-native-radial-gradient';
-import Pressable from './hoc/Pressable';
+import { Pressable } from 'library/components/hoc';
 import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 import { useAnimation } from 'library/hooks';
 

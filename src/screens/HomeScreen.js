@@ -5,12 +5,12 @@ import { withWait } from 'library/components/hoc';
 import { WorldMap, FAB, HomeBar } from 'library/components';
 import { STRINGS, normalizeStyles } from 'res';
 
-const HomeScreen = ({ displayName, storageLoaded, userVisible }) => {
+const HomeScreen = ({ displayName, storageLoaded }) => {
   const ViewWithWait = withWait(View);
-
+  console.log('render');
   return (
     <WorldMap>
-      <ViewWithWait waitFor={storageLoaded && userVisible !== null} style={styles.container} pointerEvents='box-none'>
+      <ViewWithWait waitFor={storageLoaded} style={styles.container} pointerEvents='box-none'>
         <HomeBar />
         <FAB
           label={STRINGS.button.shout}
@@ -41,7 +41,6 @@ const styles = normalizeStyles({
 const mapStateToProps = (state) => ({
   displayName: state.auth.user?.displayName,
   storageLoaded: state.app.storageLoaded,
-  userVisible: state.location.userVisible,
 });
 
 export default connect(mapStateToProps)(HomeScreen);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import Pressable from './hoc/Pressable';
+import { Pressable } from 'library/components/hoc';
 import { SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const IconButton = ({
