@@ -10,6 +10,7 @@ export default (cameraRef, mapRef, updateUserVisible) => {
   const goToUser = useSelector((state) => state.location.goToUser);
   const userVisible = useSelector((state) => state.location.userVisible);
   const appActive = useSelector((state) => state.app.active);
+  const DEFAULT_ZOOM = 12.83;
 
   // Map Camera
   const cameraReducer = (state, action) => {
@@ -30,7 +31,7 @@ export default (cameraRef, mapRef, updateUserVisible) => {
   const [camera, dispatch] = useReducer(cameraReducer, {
     center: [-93.26392, 44.98459],
     bounds: null,
-    zoom: 12.83,
+    zoom: DEFAULT_ZOOM,
     movedByUser: false,
   });
 
@@ -44,10 +45,14 @@ export default (cameraRef, mapRef, updateUserVisible) => {
   // Move camera to user location
   useEffect(() => {
     if (goToUser) {
-      cameraRef?.flyTo(userLocation, 1000);
+      cameraRef?.setCamera({
+        centerCoordinate: userLocation,
+        zoomLevel: DEFAULT_ZOOM,
+        animationDuration: 1000,
+      });
       setCamera({
         center: userLocation,
-        zoom: 12,
+        zoom: DEFAULT_ZOOM,
         movedByUser: false });
     }
   }, [goToUser]);
