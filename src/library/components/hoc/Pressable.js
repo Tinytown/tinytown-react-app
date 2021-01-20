@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
-import Animated from 'react-native-reanimated'
+import Animated from 'react-native-reanimated';
 import Ripple from 'react-native-material-ripple';
 import  { useAnimation }  from 'library/hooks';
 
@@ -20,7 +20,7 @@ const Pressable = React.forwardRef(({
     borderRadius: containerStyle?.borderRadius ?? 0,
     ...shadowStyle,
     ...animation,
-  }
+  };
 
   const onPressInHandler = () => {
     animationType && animateOnPress('in');
@@ -46,8 +46,8 @@ const Pressable = React.forwardRef(({
         {children}
       </Ripple>
     </Animated.View>
-  )
-})
+  );
+});
 
 Pressable.propTypes = {
   animationType: PropTypes.string,

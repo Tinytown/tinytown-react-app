@@ -146,5 +146,5 @@ export default {
     letterSpacing: 0.2,
     textTransform: 'uppercase',
   },
-}
+};
 
