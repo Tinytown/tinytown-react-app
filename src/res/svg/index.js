@@ -24,9 +24,7 @@ const IconRepo = {
   signOut: SignOutIcon,
 };
 
-const Icon = (props) => {
+export default (props) => {
   const ValidatedIcon = IconRepo[props.icon] || PlaceholderIcon;
   return <ValidatedIcon {...props} />;
 };
-
-export default Icon;

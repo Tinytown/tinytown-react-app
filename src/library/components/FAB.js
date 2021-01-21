@@ -1,165 +1,98 @@
 import React from 'react';
+import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import { Pressable, Animated, Text, View } from 'react-native';
-import { create } from 'library/utils/normalize.js';
-import RES from 'res';
+import Animated from 'react-native-reanimated';
+import RadialGradient from 'react-native-radial-gradient';
+import { Pressable } from 'library/components/hoc';
+import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { useAnimation } from 'library/hooks';
 
-const getStyles = ({
-  theme, branded,
+const FAB = ({
+  icon,
+  label = 'Button Label',
+  theme = null,
+  branded = false,
+  disabled = false,
+  onPress,
+  wrapperStyle,
 }) => {
-  const containerStyles = [styles.container];
-  const shadowStyles = [styles.shadowContainer];
-  const textStyles = [styles.text];
-  let iconColor = RES.COLORS.justWhite;
+  const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? null : theme);
+  const [animation, animateOnPress] = useAnimation('jiggle');
 
-  if (theme === 'green') {
-    containerStyles.push(styles.containerGreen);
-    shadowStyles.push({ ...RES.SHAPES.elevGreen5 });
-    textStyles.push(styles.textGray);
-    iconColor = RES.COLORS.asphaltGray;
-  } else if (theme === 'blue') {
-    containerStyles.push(styles.containerBlue);
-    shadowStyles.push({ ...RES.SHAPES.elevBlue5 });
-    textStyles.push(styles.textGray);
-    iconColor = RES.COLORS.asphaltGray;
-  } else if (theme === 'red') {
-    containerStyles.push(styles.containerRed);
-    shadowStyles.push({ ...RES.SHAPES.elevRed5 });
-  }
+  const buttonStyle = { ...styles.button, ...backgroundTheme, ...(disabled && COLORS.disabled) };
+  const labelStyle = { ...TYPOGRAPHY.subheader3, ...textTheme, ...(branded && TYPOGRAPHY.brandedButton) };
+  const cardStyle = { ...styles.card, backgroundColor: keyColor, ...(disabled && { opacity: 0 }) };
 
-  if (branded) {
-    textStyles.push(styles.textBranded);
-  }
-
-  return { containerStyles, shadowStyles, iconColor, textStyles };
+  return (
+    <View style={wrapperStyle} pointerEvents='box-none'>
+      <Pressable
+        animationType='bounce'
+        containerStyle={styles.container}
+        keyColor={keyColor}
+        disabled={disabled}
+        onPress={onPress}
+        onPressIn={() => animateOnPress('in')}
+        onPressOut={() => animateOnPress('out')}
+      >
+        <RadialGradient
+          style={styles.blur}
+          colors={[keyColor, 'transparent']}
+          stops={[0.1, 0.95]}
+          center={[160, 160]}
+          radius={160}/>
+        <Animated.View style={[cardStyle, animation]} />
+        <View style={buttonStyle} >
+          <View style={styles.icon}>
+            <Icon icon={icon} color={keyColor} />
+          </View>
+          <Text style={labelStyle}>{label}</Text>
+        </View>
+      </Pressable>
+    </View>
+  );
 };
 
-class FAB extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handlePressIn = this.handlePressIn.bind(this);
-    this.handlePressOut = this.handlePressOut.bind(this);
-    this.animatedValue = new Animated.Value(1);
-  }
-
-  static propTypes = {
-    label: PropTypes.string.isRequired,
-    theme: PropTypes.oneOf(['green', 'blue', 'red']),
-    branded: PropTypes.bool,
-    onPress: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    label: 'Button Label',
-    theme: 'default',
-    branded: false,
-    disabled: false,
-  };
-
-  handlePressIn() {
-    Animated.spring(this.animatedValue, {
-      toValue: 0.93,
-      useNativeDriver: true,
-    }).start();
-  }
-
-  handlePressOut() {
-    Animated.spring(this.animatedValue, {
-      toValue: 1,
-      friction: 3,
-      tension: 120,
-      useNativeDriver: true,
-    }).start();
-  }
-
-  render() {
-    const {
-      label,
-      theme,
-      branded,
-      onPress,
-      disabled,
-    } = this.props;
-    const { containerStyles, shadowStyles, iconColor, textStyles } = getStyles({ theme, branded });
-    const animatedStyle = {
-      transform: [{ scale: this.animatedValue }],
-      borderRadius: RES.SHAPES.radiusAll,
-      overflow: 'hidden',
-    };
-    return (
-      <View style={shadowStyles} pointerEvents='box-none'>
-        <Animated.View style={animatedStyle}>
-          <Pressable
-            onPress={onPress}
-            onPressIn={this.handlePressIn}
-            onPressOut={this.handlePressOut}
-            disabled={disabled}
-            android_ripple={{ color: RES.COLORS.steelGray }}
-            style={containerStyles}
-          >
-            <View style={styles.iconContainer}>
-              <RES.Icon icon={this.props.icon} color={iconColor} />
-            </View>
-            <Text style={textStyles}>{label}</Text>
-          </Pressable>
-        </Animated.View>
-      </View>
-    );
-  }
-}
-
-const styles = create({
+const styles = normalizeStyles({
   container: {
+    borderRadius: SHAPES.radiusMd,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
     flexDirection: 'row',
     paddingLeft: 16,
     paddingRight: 20,
     paddingVertical: 12,
-    borderRadius: RES.SHAPES.radiusAll,
-    backgroundColor: RES.COLORS.asphaltGray,
-    ...RES.SHAPES.elevGray5,
+    borderRadius: SHAPES.radiusMd,
+    borderWidth: 2,
   },
-
-  shadowContainer: {
-    position: 'absolute',
-    bottom: 24,
-    borderRadius: RES.SHAPES.radiusAll,
-    ...RES.SHAPES.elevGray5,
-  },
-
-  containerGreen: {
-    backgroundColor: RES.COLORS.grassGreen600,
-    ...RES.SHAPES.elevGreen5,
-  },
-
-  containerBlue: {
-    backgroundColor: RES.COLORS.skyBlue600,
-    ...RES.SHAPES.elevBlue5,
-  },
-
-  containerRed: {
-    backgroundColor: RES.COLORS.bubblegumRed600,
-    ...RES.SHAPES.elevRed5,
-  },
-
-  iconContainer: {
+  icon: {
     height: 24,
     width: 24,
     marginRight: 12,
   },
-
-  text: {
-    color: RES.COLORS.justWhite,
-    ...RES.TYPOGRAPHY.subheader3,
+  card: {
+    position: 'absolute',
+    height: '100%',
+    width: '80%',
+    borderRadius: SHAPES.radiusMd,
   },
-
-  textGray: {
-    color: RES.COLORS.asphaltGray,
-  },
-
-  textBranded: {
-    ...RES.TYPOGRAPHY.brandedButton,
+  blur: {
+    position: 'absolute',
+    width: 320,
+    height: 320,
+    transform: [{ translateX: 40 }],
+    opacity: 0.22,
   },
 });
+
+FAB.propTypes = {
+  icon: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  theme: PropTypes.oneOf(['green', 'blue', 'red']),
+  branded: PropTypes.bool,
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
+};
 
 export default FAB;

@@ -1,42 +1,46 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import { create } from 'library/utils/normalize.js';
-import RES from 'res';
 import IconButton from './IconButton';
+import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const NavBar = ({ label, onClose, children }) => {
-  return (
-    <View style={styles.navContainer}>
-      <View style={[styles.itemsContainer, { flexDirection: 'row' }]}>
-        <IconButton icon='close' color={RES.COLORS.graniteGray} onPress={onClose}/>
-        <Text style={styles.navLabel}>{label}</Text>
-      </View>
-      <View style={[styles.itemsContainer, { flexDirection: 'row-reverse' }]}>
-        {children}
-      </View>
+const NavBar = ({ label, onClose, children }) => (
+  <View style={styles.container}>
+    <View style={styles.leftSide}>
+      <IconButton icon='close' color={COLORS.graniteGray} onPress={onClose}/>
+      <Text style={styles.label}>{label}</Text>
     </View>
-  );
-};
+    <View style={styles.rightSide}>
+      {children}
+    </View>
+  </View>
+);
 
-const styles = create({
-  navContainer: {
+const styles = normalizeStyles({
+  container: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
     height: 56,
     paddingHorizontal: 4,
-    backgroundColor: RES.COLORS.justWhite,
+    backgroundColor: COLORS.justWhite,
   },
 
-  itemsContainer: {
-    flex: 1,
+  leftSide: {
     alignItems: 'center',
+    flexDirection: 'row',
   },
 
-  navLabel: {
-    color: RES.COLORS.asphaltGray,
-    left: 12,
-    top: 1,
-    ...RES.TYPOGRAPHY.headline5,
+  rightSide: {
+    alignItems: 'center',
+    flexDirection: 'row-reverse',
+  },
+
+  label: {
+    marginLeft: 12,
+    marginTop: 1,
+    color: COLORS.asphaltGray,
+    ...TYPOGRAPHY.headline5,
   },
 });
 

@@ -1,10 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { create } from 'library/utils/normalize.js';
-import { WorldMap, FAB, HomeBar } from 'library/components';
 import { withWait } from 'library/components/hoc';
-import RES from 'res';
+import { WorldMap, FAB, HomeBar } from 'library/components';
+import { STRINGS, normalizeStyles } from 'res';
 
 const HomeScreen = ({ displayName, storageLoaded }) => {
   const ViewWithWait = withWait(View);
@@ -14,19 +13,28 @@ const HomeScreen = ({ displayName, storageLoaded }) => {
       <ViewWithWait waitFor={storageLoaded} style={styles.container} pointerEvents='box-none'>
         <HomeBar />
         <FAB
-          label={RES.STRINGS.button.shout}
+          label={STRINGS.button.shout}
           theme='red'
           icon='megaphone'
-          branded onPress={() => console.log(`LOUD NOISES from ${displayName}`)}/>
+          branded
+          onPress={() => console.log(`LOUD NOISES from ${displayName}`)}
+          wrapperStyle={styles.fab}
+        />
       </ViewWithWait>
     </WorldMap>
   );
 };
 
-const styles = create({
+const styles = normalizeStyles({
   container: {
-    flex: 1,
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
     alignItems: 'center',
+  },
+  fab: {
+    position: 'absolute',
+    bottom: 24,
   },
 });
 

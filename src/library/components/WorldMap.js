@@ -3,11 +3,10 @@ import { View } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
-import config from 'config/env.config.js';
-import { create } from 'library/utils/normalize.js';
 import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
+import config from 'config/env.config.js';
 import { useLocation, useMap } from 'library/hooks';
-import RES from 'res';
+import { COLORS, IMAGES, normalizeStyles } from 'res';
 
 const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
@@ -45,7 +44,7 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
             style={{
               iconAllowOverlap: true,
               iconIgnorePlacement: true,
-              iconImage: RES.IMAGES.userMarker,
+              iconImage: IMAGES.userMarker,
               iconSize: 0.4,
               iconRotate: heading || 0,
             }}
@@ -69,10 +68,10 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
   );
 };
 
-const styles = create({
+const styles = normalizeStyles({
   landscape: {
     flex: 1,
-    backgroundColor: RES.COLORS.asphaltGray,
+    backgroundColor: COLORS.asphaltGray,
   },
   safeArea: {
     position: 'absolute',

@@ -31,14 +31,22 @@ export const goToUser = (location) => {
   return { type: GO_TO_USER, payload };
 };
 
-export const updateUserLocation = (location) => {
+export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getState) => {
+  const { location } = getState();
+  const user = [longitude, latitude];
+  const sameLocation = location.user.every((val, index) => val == user[index]);
+
+  if (sameLocation) {
+    return;
+  }
+
   const payload = {
-    user: [location.longitude, location.latitude],
+    user,
     hasPermission: true,
   };
-  return { type: UPDATE_LOCATION, payload };
+  dispatch({ type: UPDATE_LOCATION, payload });
 };
 
-export const updateUserVisible = (payload) => {
-  return { type: USER_VISIBLE, payload };
-};
+export const updateUserVisible = (payload) => (
+  { type: USER_VISIBLE, payload }
+);

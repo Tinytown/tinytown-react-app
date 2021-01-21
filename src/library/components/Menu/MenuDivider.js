@@ -1,17 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { create } from 'library/utils/normalize.js';
-import RES from 'res';
+import { COLORS, normalizeStyles } from 'res';
 
-function MenuDivider({ color }) {
-  return <View style={[styles.divider, { borderBottomColor: color }]} />;
-}
+const MenuDivider = ({ color = COLORS.sidewalkGray }) => (
+  <View style={[styles.divider, { borderBottomColor: color }]} />
+);
 
-MenuDivider.defaultProps = {
-  color: RES.COLORS.sidewalkGray,
-};
-
-const styles = create({
+const styles = normalizeStyles({
   divider: {
     flex: 1,
     borderBottomWidth: StyleSheet.hairlineWidth,

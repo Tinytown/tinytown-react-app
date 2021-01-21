@@ -8,10 +8,10 @@ import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
-import { useAppLaunch } from 'library/hooks';
 import OnboardingScreen from 'screens/OnboardingScreen';
 import HomeScreen from 'screens/HomeScreen';
-import RES from 'res';
+import { useAppLaunch } from 'library/hooks';
+import { COLORS } from 'res';
 
 const Stack = createStackNavigator();
 
@@ -34,7 +34,7 @@ const App = ({ isSignedIn }) => {
         </Stack.Navigator>
       </NavigationContainer>)
       :
-      <View style={{ backgroundColor: RES.COLORS.asphaltGray, flex: 1 }}/>
+      <View style={{ backgroundColor: COLORS.asphaltGray, flex: 1 }}/>
   );
 };
 

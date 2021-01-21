@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { NativeModules } from 'react-native';
 import PropTypes from 'prop-types';
-import config from 'config/env.config.js';
 import auth from '@react-native-firebase/auth';
-const { RNTwitterSignIn } = NativeModules;
+import config from 'config/env.config.js';
 import FAB from './FAB';
-import RES from 'res';
+import { STRINGS } from 'res';
 
 const TwitterAuth = ({ onLoading }) => {
+  const { RNTwitterSignIn } = NativeModules;
+
   useEffect(() => {
     RNTwitterSignIn.init(config.TWITTER_API_KEY, config.TWITTER_API_SECRET)
       .then(() => console.log('Twitter SDK initialized'))
@@ -26,7 +27,14 @@ const TwitterAuth = ({ onLoading }) => {
     }
   };
 
-  return <FAB onPress={onLogInPress} label={RES.STRINGS.button.logIn} theme='blue' icon='twitter' />;
+  return (
+    <FAB
+      label={STRINGS.button.logIn}
+      theme='blue'
+      icon='twitter'
+      onPress={onLogInPress}
+    />
+  );
 };
 
 TwitterAuth.propTypes = {

@@ -1,18 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
-import { create } from 'library/utils/normalize.js';
+import { normalizeStyles } from 'res';
 
-const Scrim = ({ children }) => {
-  return (
-    <View style={styles.scrim} >
-      {children}
-    </View>
-  );
-};
+const Scrim = ({ children }) => (
+  <View style={styles.scrim} >
+    {children}
+  </View>
+);
 
 export default Scrim;
 
-const styles = create({
+const styles = normalizeStyles({
   scrim: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',

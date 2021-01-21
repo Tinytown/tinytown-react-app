@@ -15,18 +15,18 @@ export const authReducer = (state = null, action) => {
   }
 };
 
-export const signIn = ({ photoURL, displayName, uid }) => {
-  return {
+export const signIn = ({ photoURL, displayName, uid }) => (
+  {
     type: SIGN_IN,
     payload: { photoURL, displayName, uid },
-  };
-};
+  }
+);
 
 export const signOut = () => {
   clearStorage();
   return { type: SIGN_OUT };
 };
 
-export const updateAuth = (payload) => {
-  return { type: UPDATE_AUTH, payload };
-};
+export const updateAuth = (payload) => (
+  { type: UPDATE_AUTH, payload }
+);

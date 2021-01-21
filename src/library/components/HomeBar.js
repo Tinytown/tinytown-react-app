@@ -1,90 +1,94 @@
+
 import React, { useState } from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { goToUser } from 'rdx/locationState';
 import { signOut } from 'rdx/authState';
 import { getLocation } from 'library/apis/geolocation';
-import { create } from 'library/utils/normalize.js';
+import { Pressable, withWait } from 'library/components/hoc';
+
 import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
-import RES from 'res';
+import { COLORS, SHAPES, STRINGS, normalizeStyles } from 'res';
 
 const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [triggerLayout, setTriggerLayout] = useState(null);
+  const IconButtonWithWait = withWait(IconButton);
 
   const signOutHandler = () => {
     auth().signOut()
       .then(() => signOut());
-    setShowMenu(false);
   };
 
   return (
-    <View style={styles.container}>
+    <>
       {!userVisible &&
-        <IconButton
-          icon="crosshairs"
-          color={RES.COLORS.justWhite}
-          style={styles.locationButton}
-          onPress={() => getLocation(goToUser)}/>
+      <IconButtonWithWait
+        icon='crosshairs'
+        onPress={() => getLocation(goToUser)}
+        wrapperStyle={styles.locationBtn}
+        waitFor={userVisible !== null}
+      />
       }
-      <Menu
-        showing={showMenu}
-        hideMenu={() => setShowMenu(false)}
-        button={
-          <TouchableOpacity
-            style={styles.accountButton}
-            onPress={() => setShowMenu(true)}>
-            <Image
-              source={{ uri: photoURL }}
-              style={styles.avatarImage}>
-            </Image>
-          </TouchableOpacity>}>
-        <MenuItem label={RES.STRINGS.menuItem.about} icon='info' onPress={() => setShowMenu(false)}/>
+      <View style={styles.bar}>
+        <Pressable
+          onPress={() => setShowMenu(true)}
+          containerStyle={styles.avatar}
+          keyColor={COLORS.skyBlue600}
+          onLayout={(event) => {
+            event.persist();
+            setTriggerLayout(event);
+          }}
+        >
+          <Image
+            source={{ uri: photoURL }}
+            style={styles.image}
+          />
+        </Pressable>
+      </View>
+      <Menu showMenu={showMenu} setShowMenu={setShowMenu} triggerLayout={triggerLayout}>
+        <MenuItem label={STRINGS.menuItem.about} icon='info'/>
         <MenuDivider />
-        <MenuItem label={RES.STRINGS.menuItem.signOut} icon='signOut' onPress={signOutHandler}/>
+        <MenuItem label={STRINGS.menuItem.signOut} icon='signOut' onPress={signOutHandler}/>
       </Menu>
-
-    </View>
+    </>
   );
 };
 
-const styles = create({
-  container: {
-    flexDirection: 'row',
+const styles = normalizeStyles({
+  bar: {
+    position: 'absolute',
+    flexDirection: 'row-reverse',
     width: '100%',
     height: 72,
+    alignItems: 'center',
     paddingHorizontal: 16,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
   },
 
-  accountButton: {
-    width: 44,
-    height: 44,
-    marginRight: -2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: RES.COLORS.graniteGray,
-    borderRadius: RES.SHAPES.radiusAll,
-  },
-
-  avatarImage: {
-    width: 40,
-    height: 40,
-    borderRadius: RES.SHAPES.radiusAll,
-  },
-
-  locationButton: {
-    width: 44,
-    height: 44,
-    position: 'absolute',
-    right: 14,
-    top: 78,
-    backgroundColor: RES.COLORS.asphaltGray,
+  avatar: {
+    width: 52,
+    height: 52,
+    borderRadius: SHAPES.radiusAll,
     borderWidth: 2,
-    borderColor: RES.COLORS.graniteGray,
+    borderColor: COLORS.asphaltGray,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    backgroundColor: 'white',
+  },
+
+  image: {
+    flex: 1,
+    resizeMode: 'contain',
+  },
+
+  locationBtn: {
+    position: 'absolute',
+    right: 16,
+    top: 78,
   },
 });
 

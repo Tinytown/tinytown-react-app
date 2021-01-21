@@ -5,9 +5,9 @@ import {
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
-import RES from 'res';
+import { STRINGS } from 'res';
 
-const { title, body } = RES.STRINGS.dialog.location;
+const { title, body } = STRINGS.dialog.location;
 
 const config = {
   enableHighAccuracy: true,
