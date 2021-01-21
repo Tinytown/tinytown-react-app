@@ -4,7 +4,7 @@ import Animated from 'react-native-reanimated';
 import Ripple from 'react-native-material-ripple';
 import  { useAnimation }  from 'library/hooks';
 
-const Pressable = React.forwardRef(({
+const Pressable = ({
   animationType,
   containerStyle,
   shadowStyle,
@@ -12,8 +12,9 @@ const Pressable = React.forwardRef(({
   onPress = () => console.log('Pass an onPress callback to this component'),
   onPressIn = () => {},
   onPressOut = () => {},
+  onLayout,
   children,
-  ...props }, ref) => {
+  ...props }) => {
   const [animation, animateOnPress]  = useAnimation(animationType);
 
   const animationStyle = {
@@ -33,7 +34,7 @@ const Pressable = React.forwardRef(({
   };
 
   return (
-    <Animated.View style={animationStyle} ref={ref} >
+    <Animated.View style={animationStyle} onLayout={onLayout}>
       <Ripple
         onPress={onPress}
         onPressIn={onPressInHandler}
@@ -47,7 +48,7 @@ const Pressable = React.forwardRef(({
       </Ripple>
     </Animated.View>
   );
-});
+};
 
 Pressable.propTypes = {
   animationType: PropTypes.string,

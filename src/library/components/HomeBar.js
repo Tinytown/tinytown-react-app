@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -15,7 +15,7 @@ import { COLORS, SHAPES, STRINGS, normalizeStyles } from 'res';
 
 const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const menuTrigger = useRef();
+  const [triggerLayout, setTriggerLayout] = useState(null);
   const IconButtonWithWait = withWait(IconButton);
 
   const signOutHandler = () => {
@@ -38,14 +38,18 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
           onPress={() => setShowMenu(true)}
           containerStyle={styles.avatar}
           keyColor={COLORS.skyBlue600}
-          ref={menuTrigger} >
+          onLayout={(event) => {
+            event.persist();
+            setTriggerLayout(event);
+          }}
+        >
           <Image
             source={{ uri: photoURL }}
             style={styles.image}
           />
         </Pressable>
       </View>
-      <Menu showMenu={showMenu} setShowMenu={setShowMenu} triggerRef={menuTrigger}>
+      <Menu showMenu={showMenu} setShowMenu={setShowMenu} triggerLayout={triggerLayout}>
         <MenuItem label={STRINGS.menuItem.about} icon='info'/>
         <MenuDivider />
         <MenuItem label={STRINGS.menuItem.signOut} icon='signOut' onPress={signOutHandler}/>

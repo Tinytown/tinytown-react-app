@@ -8,22 +8,31 @@ import { COLORS, SHAPES, normalizeStyles } from 'res';
 const Menu = ({
   showMenu = false,
   setShowMenu = () => console.log('Pass a setShowMenu callback to this component'),
-  triggerRef = {},
-  children }) => {
-  const [animation, animateMenu, setTriggerProps, setDimensions] = useAnimation('menu');
-
-  useEffect(() => {
-    triggerRef.current?.measureInWindow((left, top, width, height) => setTriggerProps({ left, top, width, height }));
-  }, [triggerRef?.current]);
+  triggerLayout = {},
+  children,
+}) => {
+  const [animation, animateMenu, setTriggerLayout, setMenuLayout] = useAnimation('menu');
 
   useEffect(() => {
     showMenu ? animateMenu('show') : animateMenu('hide');
   }, [showMenu]);
 
+  useEffect(() => {
+    if (triggerLayout) {
+      const { width, height, x, y } = triggerLayout.nativeEvent.layout;
+      setTriggerLayout({ width, height, x, y });
+    }
+  }, [triggerLayout]);
+
+  const onLayoutHandler = (menuLayout) => {
+    const { width, height } = menuLayout.nativeEvent.layout;
+    setMenuLayout({ width, height });
+  };
+
   return (
     <Modal visible={showMenu} setVisible={setShowMenu} >
       <Animated.View style={animation} >
-        <View onLayout={setDimensions} style={styles.container}>
+        <View onLayout={onLayoutHandler} style={styles.container}>
           {children}
         </View>
       </Animated.View>

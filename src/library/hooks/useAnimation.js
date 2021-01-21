@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -61,8 +60,8 @@ export default (animationType, ...args) => {
     const translateY = useSharedValue(TRANSLATE_INITIAL);
 
     const [position, setPosition] = useState(null);
-    const [trigger, setTrigger] = useState(null);
-    const [menuSize, setMenuSize] = useState(null);
+    const [triggerLayout, setTriggerLayout] = useState(null);
+    const [menuLayout, setMenuLayout] = useState(null);
     const window = useSafeAreaFrame();
     const insets = useSafeAreaInsets();
 
@@ -80,11 +79,6 @@ export default (animationType, ...args) => {
       stiffness: 500,
     };
 
-    const setDimensions = ({ nativeEvent }) => {
-      const { width, height } = nativeEvent.layout;
-      setMenuSize({ width, height });
-    };
-
     const animation = useAnimatedStyle(() => {
       return {
         position: 'absolute',
@@ -97,25 +91,23 @@ export default (animationType, ...args) => {
 
     const animate = (state) => {
       if (state === 'show') {
-        const adjustedTop = trigger?.top - (Platform.OS === 'ios' ? insets.top : 0);
-
-        setPosition({ left: trigger?.left, top: adjustedTop });
-        width.value = withTiming(menuSize?.width, sizeConfig);
-        height.value = withTiming(menuSize?.height, sizeConfig);
+        setPosition({ left: triggerLayout.x, top: triggerLayout.y });
+        width.value = withTiming(menuLayout.width, sizeConfig);
+        height.value = withTiming(menuLayout.height, sizeConfig);
         scaleX.value = withTiming(1, sizeConfig);
 
         // Check if it fits horizontally
-        if (trigger?.left + menuSize?.width > window.width) {
-          translateX.value = withTiming(- menuSize.width + trigger.width + TRANSLATE_AMOUNT, sizeConfig);
-          translateX.value = withSpring(- menuSize.width + trigger.width, translateConfig);
+        if (triggerLayout.x + menuLayout.width > window.width) {
+          translateX.value = withTiming(- menuLayout.width + triggerLayout.width + TRANSLATE_AMOUNT, sizeConfig);
+          translateX.value = withSpring(- menuLayout.width + triggerLayout.width, translateConfig);
         } else {
           translateX.value = -TRANSLATE_AMOUNT * 6;
           translateX.value = withSpring(TRANSLATE_INITIAL, translateConfig);
         }
 
         // Check if it fits vertically
-        if (trigger?.top + menuSize?.height > window.height - insets.bottom - insets.top) {
-          translateY.value = -menuSize.height + trigger.height;
+        if (triggerLayout.y + menuLayout.height > window.height - insets.bottom - insets.top) {
+          translateY.value = -menuLayout.height + triggerLayout.height;
         };
 
         opacity.value = withTiming(1, opacityConfig);
@@ -131,7 +123,7 @@ export default (animationType, ...args) => {
       }
     };
 
-    return [[animation, position], animate, setTrigger, setDimensions];
+    return [[animation, position], animate, setTriggerLayout, setMenuLayout];
   };
 
   const flipAnimation = ([flip]) => {
