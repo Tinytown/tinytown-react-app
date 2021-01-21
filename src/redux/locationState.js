@@ -47,6 +47,6 @@ export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getSta
   dispatch({ type: UPDATE_LOCATION, payload });
 };
 
-export const updateUserVisible = (payload) => {
-  return { type: USER_VISIBLE, payload };
-};
+export const updateUserVisible = (payload) => (
+  { type: USER_VISIBLE, payload }
+);

@@ -14,9 +14,9 @@ export default (animationType, ...args) => {
       damping: 3,
       stiffness: 750,
     };
-    const animation = useAnimatedStyle(() => {
-      return { transform: [{ scale: scale.value }] };
-    });
+    const animation = useAnimatedStyle(() => (
+      { transform: [{ scale: scale.value }] }
+    ));
     const animateOnPress = (state) => {
       scale.value = state === 'in' ? withSpring(TARGET_SCALE, config) : withSpring(INITIAL_SCALE, config);
     };
@@ -33,9 +33,9 @@ export default (animationType, ...args) => {
       damping: 8,
       stiffness: 500,
     };
-    const animation = useAnimatedStyle(() => {
-      return { transform: [{ rotateZ: `${rotation.value}deg` }] };
-    });
+    const animation = useAnimatedStyle(() => (
+      { transform: [{ rotateZ: `${rotation.value}deg` }] }
+    ));
     const animateOnPress = (state) => {
       rotation.value = state === 'in'
         ? withSpring(-ANGLE, config)
@@ -79,15 +79,15 @@ export default (animationType, ...args) => {
       stiffness: 500,
     };
 
-    const animation = useAnimatedStyle(() => {
-      return {
+    const animation = useAnimatedStyle(() => (
+      {
         position: 'absolute',
         opacity: opacity.value,
         width: width.value,
         height: height.value,
         transform: [{ translateX: translateX.value }, { translateY: translateY.value }, { scaleX: scaleX.value }],
-      };
-    });
+      }
+    ));
 
     const animate = (state) => {
       if (state === 'show') {
@@ -141,20 +141,20 @@ export default (animationType, ...args) => {
       }
     }, [flip]);
 
-    const frontAnimation = useAnimatedStyle(() => {
-      return {
+    const frontAnimation = useAnimatedStyle(() => (
+      {
         position: 'absolute',
         transform: [{ perspective: PERSPECTIVE }, { rotateX: `${frontRotate.value}deg` }],
         backfaceVisibility: 'hidden',
-      };
-    });
+      }
+    ));
 
-    const backAnimation = useAnimatedStyle(() => {
-      return {
+    const backAnimation = useAnimatedStyle(() => (
+      {
         transform: [{ perspective: PERSPECTIVE }, { rotateX: `${backRotate.value}deg` }],
         backfaceVisibility: 'hidden',
-      };
-    });
+      }
+    ));
 
     return [frontAnimation, backAnimation];
   };

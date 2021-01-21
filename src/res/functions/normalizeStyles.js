@@ -11,9 +11,7 @@ const ratio = cond([
   [otherwise, identity],
 ])(PixelRatio.get());
 
-const normalize = (size) => {
-  return (size / PixelRatio.get()) * ratio;
-};
+const normalize = (size) => (size / PixelRatio.get()) * ratio;
 
 export default normalizeStyles = (
   styles,
@@ -41,11 +39,11 @@ export default normalizeStyles = (
   const isInTarget = (property) => targetProperties.includes(property);
   const propertyToNormalize = (property, value) => isInTarget(property) && isNumber(value);
 
-  const propOverride = (style) => {
-    return mapObjIndexed((value, property) => {
-      return (propertyToNormalize(property, value) ? normalize(value) : value);
-    }, style);
-  };
+  const propOverride = (style) => (
+    mapObjIndexed((value, property) => (
+      (propertyToNormalize(property, value) ? normalize(value) : value)
+    ), style)
+  );
   const normalizedStyles = map(propOverride, styles);
   return StyleSheet.create(normalizedStyles);
 };

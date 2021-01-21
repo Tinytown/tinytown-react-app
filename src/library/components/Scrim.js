@@ -2,13 +2,11 @@ import React from 'react';
 import { View } from 'react-native';
 import { normalizeStyles } from 'res';
 
-const Scrim = ({ children }) => {
-  return (
-    <View style={styles.scrim} >
-      {children}
-    </View>
-  );
-};
+const Scrim = ({ children }) => (
+  <View style={styles.scrim} >
+    {children}
+  </View>
+);
 
 export default Scrim;
 

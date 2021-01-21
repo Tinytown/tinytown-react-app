@@ -4,19 +4,17 @@ import PropTypes from 'prop-types';
 import IconButton from './IconButton';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const NavBar = ({ label, onClose, children }) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.leftSide}>
-        <IconButton icon='close' color={COLORS.graniteGray} onPress={onClose}/>
-        <Text style={styles.label}>{label}</Text>
-      </View>
-      <View style={styles.rightSide}>
-        {children}
-      </View>
+const NavBar = ({ label, onClose, children }) => (
+  <View style={styles.container}>
+    <View style={styles.leftSide}>
+      <IconButton icon='close' color={COLORS.graniteGray} onPress={onClose}/>
+      <Text style={styles.label}>{label}</Text>
     </View>
-  );
-};
+    <View style={styles.rightSide}>
+      {children}
+    </View>
+  </View>
+);
 
 const styles = normalizeStyles({
   container: {

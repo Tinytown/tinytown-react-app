@@ -10,14 +10,12 @@ import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-c
 import App from './App';
 import { name as appName } from './app.json';
 
-const AppContainer = () => {
-  return (
-    <Provider store={store}>
-      <SafeAreaProvider initialMetrics={initialWindowMetrics} >
-        <App/>
-      </SafeAreaProvider>
-    </Provider>
-  );
-};
+const AppContainer = () => (
+  <Provider store={store}>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics} >
+      <App/>
+    </SafeAreaProvider>
+  </Provider>
+);
 
 AppRegistry.registerComponent(appName, () => AppContainer);
