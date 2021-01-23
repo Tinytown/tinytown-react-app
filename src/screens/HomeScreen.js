@@ -5,7 +5,7 @@ import { withWait } from 'library/components/hoc';
 import { WorldMap, FAB, HomeBar } from 'library/components';
 import { STRINGS, normalizeStyles } from 'res';
 
-const HomeScreen = ({ displayName, storageLoaded }) => {
+const HomeScreen = ({ storageLoaded, navigation }) => {
   const ViewWithWait = withWait(View);
 
   return (
@@ -17,7 +17,7 @@ const HomeScreen = ({ displayName, storageLoaded }) => {
           theme='red'
           icon='megaphone'
           branded
-          onPress={() => console.log(`LOUD NOISES from ${displayName}`)}
+          onPress={() => navigation.navigate('New Shout')}
           wrapperStyle={styles.fab}
         />
       </ViewWithWait>
