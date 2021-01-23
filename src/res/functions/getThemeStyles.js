@@ -41,6 +41,18 @@ export default (theme) => {
 
     return  [backgroundTheme, keyColor, textTheme];
 
+  case 'gray':
+    backgroundTheme = {
+      backgroundColor: COLORS.justWhite,
+      borderColor: COLORS.justWhite,
+    };
+    keyColor = COLORS.asphaltGray;
+    textTheme = {
+      color: COLORS.asphaltGray,
+    };
+
+    return  [backgroundTheme, keyColor, textTheme];
+
   default:
     backgroundTheme = {
       backgroundColor: COLORS.pitchBlack,

@@ -4,10 +4,14 @@ import PropTypes from 'prop-types';
 import IconButton from './IconButton';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const NavBar = ({ label, onClose, children }) => (
+const NavBar = ({
+  label = 'Label',
+  onClose = () => console.log('Pass an onClose callback to this component'),
+  children,
+}) => (
   <View style={styles.container}>
     <View style={styles.leftSide}>
-      <IconButton icon='close' color={COLORS.graniteGray} onPress={onClose}/>
+      <IconButton icon='close' theme='gray' onPress={onClose}/>
       <Text style={styles.label}>{label}</Text>
     </View>
     <View style={styles.rightSide}>
@@ -48,11 +52,6 @@ NavBar.propTypes = {
   label: PropTypes.string,
   onClose: PropTypes.func,
   children: PropTypes.element,
-};
-
-NavBar.defaultProps = {
-  label: 'Label',
-  onClose: () => console.log('Pass an onClose callback to this component'),
 };
 
 export default NavBar;

@@ -35,7 +35,7 @@ const IconButton = ({
 
 IconButton.propTypes = {
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(['green', 'blue', 'red']),
+  theme: PropTypes.oneOf(['green', 'blue', 'red', 'gray']),
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
 };
