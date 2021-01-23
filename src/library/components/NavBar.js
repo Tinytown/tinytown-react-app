@@ -11,7 +11,7 @@ const NavBar = ({
 }) => (
   <View style={styles.container}>
     <View style={styles.leftSide}>
-      <IconButton icon='close' theme='gray' onPress={onClose}/>
+      <IconButton icon='close' theme='gray'onPress={onClose} />
       <Text style={styles.label}>{label}</Text>
     </View>
     <View style={styles.rightSide}>
@@ -24,9 +24,8 @@ const styles = normalizeStyles({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
     height: 56,
-    paddingHorizontal: 4,
+    marginHorizontal: -12,
   },
 
   leftSide: {

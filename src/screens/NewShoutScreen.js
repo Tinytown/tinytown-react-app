@@ -1,31 +1,44 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NavBar, Scrim } from 'library/components';
-import { SHAPES, COLORS } from 'res';
+import { SHAPES, COLORS, normalizeStyles } from 'res';
 
 const NewShoutScreen = ({ navigation }) => {
+  const insets = useSafeAreaInsets();
+
+  const cardStyle = { ...styles.card, ...{ paddingBottom: insets.bottom } };
   return (
     <>
       <Scrim onPress={() => navigation.goBack()} />
-      <View style={{
-        backgroundColor: COLORS.justWhite,
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
-        height: 400,
-        paddingTop: 8,
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
-        ...SHAPES.elevGray2,
-      }} >
-
+      <View style={cardStyle} >
         <NavBar label='' onClose={() => navigation.goBack()} />
+        <View style={styles.placeholder} />
       </View>
     </>
 
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = normalizeStyles({
+  card: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
+    paddingTop: 8,
+    paddingHorizontal: 16,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    backgroundColor: COLORS.justWhite,
+    ...SHAPES.elevGray2,
+  },
+  placeholder: {
+    width: '100%',
+    height: 140,
+    marginVertical: 24,
+    borderRadius: 8,
+    backgroundColor: COLORS.snowGray,
+  },
+});
 
 export default NewShoutScreen;
