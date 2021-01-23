@@ -2,10 +2,12 @@ import React from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NavBar, Scrim } from 'library/components';
+import { useAnimation } from 'library/hooks';
 import { SHAPES, COLORS, normalizeStyles } from 'res';
 
 const NewShoutScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
+  const [animation] = useAnimation('sheet');
 
   const cardStyle = { ...styles.card, ...{ paddingBottom: insets.bottom } };
   return (
