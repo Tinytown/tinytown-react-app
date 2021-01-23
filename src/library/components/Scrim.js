@@ -2,8 +2,12 @@ import React from 'react';
 import { Pressable } from './hoc';
 import { normalizeStyles } from 'res';
 
-const Scrim = ({ children, onPress }) => (
-  <Pressable containerStyle={styles.scrim} ripple={false} onPress={onPress} >
+const Scrim = ({ children, onPress, animationStyle }) => (
+  <Pressable
+    containerStyle={styles.scrim}
+    animationStyle={animationStyle}
+    ripple={false}
+    onPress={onPress} >
     {children}
   </Pressable>
 );

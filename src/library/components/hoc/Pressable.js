@@ -8,6 +8,7 @@ const Pressable = ({
   animationType,
   containerStyle,
   shadowStyle,
+  animationStyle,
   keyColor = 'white',
   onPress = () => console.log('Pass an onPress callback to this component'),
   onPressIn = () => {},
@@ -18,9 +19,10 @@ const Pressable = ({
   ...props }) => {
   const [animation, animateOnPress]  = useAnimation(animationType);
 
-  const animationStyle = {
+  const animationStyles = {
     borderRadius: containerStyle?.borderRadius ?? 0,
     ...shadowStyle,
+    ...animationStyle,
     ...animation,
   };
 
@@ -35,7 +37,7 @@ const Pressable = ({
   };
 
   return (
-    <Animated.View style={animationStyle} onLayout={onLayout}>
+    <Animated.View style={animationStyles} onLayout={onLayout}>
       <Ripple
         onPress={onPress}
         onPressIn={onPressInHandler}

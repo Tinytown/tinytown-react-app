@@ -12,7 +12,7 @@ export default (animationType, ...args) => {
   case 'flip':
     return flipAnimation(...args);
   case 'sheet':
-    return sheetAnimation();
+    return sheetAnimation(...args);
   default:
     return [];
   }
