@@ -27,7 +27,6 @@ const styles = normalizeStyles({
     width: '100%',
     height: 56,
     paddingHorizontal: 4,
-    backgroundColor: COLORS.justWhite,
   },
 
   leftSide: {

@@ -43,8 +43,8 @@ export default (theme) => {
 
   case 'gray':
     backgroundTheme = {
-      backgroundColor: COLORS.justWhite,
-      borderColor: COLORS.justWhite,
+      backgroundColor: 'transparent',
+      borderColor: 'transparent',
     };
     keyColor = COLORS.asphaltGray;
     textTheme = {
