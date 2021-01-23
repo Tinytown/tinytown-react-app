@@ -13,6 +13,7 @@ const Pressable = ({
   onPressIn = () => {},
   onPressOut = () => {},
   onLayout,
+  ripple = true,
   children,
   ...props }) => {
   const [animation, animateOnPress]  = useAnimation(animationType);
@@ -43,6 +44,7 @@ const Pressable = ({
         style={containerStyle}
         rippleContainerBorderRadius={containerStyle?.borderRadius ?? 0}
         rippleColor={keyColor}
+        rippleOpacity={ripple ? 0.3 : 0}
       >
         {children}
       </Ripple>

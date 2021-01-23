@@ -1,18 +1,19 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Pressable } from './hoc';
 import { normalizeStyles } from 'res';
 
-const Scrim = ({ children }) => (
-  <View style={styles.scrim} >
+const Scrim = ({ children, onPress }) => (
+  <Pressable containerStyle={styles.scrim} ripple={false} onPress={onPress} >
     {children}
-  </View>
+  </Pressable>
 );
 
 export default Scrim;
 
 const styles = normalizeStyles({
   scrim: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
   },
