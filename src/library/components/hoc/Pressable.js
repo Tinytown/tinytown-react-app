@@ -67,7 +67,10 @@ Pressable.propTypes = {
   onLayout: PropTypes.func,
   ripple: PropTypes.bool,
   disabled: PropTypes.bool,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+  ]),
 };
 
 export default Pressable;

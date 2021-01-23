@@ -58,7 +58,10 @@ BottomSheet.propTypes = {
   openSheet: PropTypes.bool,
   setOpenSheet: PropTypes.func,
   onClose: PropTypes.func,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+  ]),
 };
 
 export default BottomSheet;

@@ -29,7 +29,10 @@ const styles = normalizeStyles({
 Scrim.propTypes = {
   onPress: PropTypes.func,
   animationStyle: PropTypes.object,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+  ]),
 };
 
 export default Scrim;

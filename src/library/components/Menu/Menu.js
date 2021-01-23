@@ -55,7 +55,10 @@ Menu.propTypes = {
   showMenu: PropTypes.bool,
   setShowMenu: PropTypes.func,
   triggerLayout: PropTypes.object,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+  ]),
 };
 
 export default Menu;

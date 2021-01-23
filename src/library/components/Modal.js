@@ -34,7 +34,10 @@ const styles = normalizeStyles({
 Modal.propTypes = {
   visible: PropTypes.bool,
   setVisible: PropTypes.func,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+  ]),
 };
 
 export default Modal;

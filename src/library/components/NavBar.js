@@ -49,7 +49,10 @@ const styles = normalizeStyles({
 NavBar.propTypes = {
   label: PropTypes.string,
   onClose: PropTypes.func,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+  ]),
 };
 
 export default NavBar;
