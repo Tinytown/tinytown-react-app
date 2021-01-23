@@ -1,8 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Pressable } from './hoc';
 import { normalizeStyles } from 'res';
 
-const Scrim = ({ children, onPress, animationStyle }) => (
+const Scrim = ({
+  onPress = () => console.log('Pass an onPress callback to this component'),
+  animationStyle,
+  children,
+}) => (
   <Pressable
     containerStyle={styles.scrim}
     animationStyle={animationStyle}
@@ -11,8 +16,6 @@ const Scrim = ({ children, onPress, animationStyle }) => (
     {children}
   </Pressable>
 );
-
-export default Scrim;
 
 const styles = normalizeStyles({
   scrim: {
@@ -23,3 +26,10 @@ const styles = normalizeStyles({
   },
 });
 
+Scrim.propTypes = {
+  onPress: PropTypes.func,
+  animationStyle: PropTypes.object,
+  children: PropTypes.element,
+};
+
+export default Scrim;

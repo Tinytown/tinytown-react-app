@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 
 export default (translateOffset) => {
-  const [sheetLayout, setSheetLayout] = useState(null);
-
   const OPACITY_INITIAL = 0;
   const ANIMATION_DURATION = 200;
-
+  const [sheetLayout, setSheetLayout] = useState(null);
   const scrimOpacity = useSharedValue(OPACITY_INITIAL);
   const sheetOpacity = useSharedValue(OPACITY_INITIAL);
   const translateY = useSharedValue(0);

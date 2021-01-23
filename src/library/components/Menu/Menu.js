@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
+import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import Modal from '../Modal';
 import { useAnimation } from 'library/hooks';
@@ -49,5 +50,12 @@ const styles = normalizeStyles({
     ...SHAPES.elevGray2,
   },
 });
+
+Menu.propTypes = {
+  showMenu: PropTypes.bool,
+  setShowMenu: PropTypes.func,
+  triggerLayout: PropTypes.object,
+  children: PropTypes.element,
+};
 
 export default Menu;

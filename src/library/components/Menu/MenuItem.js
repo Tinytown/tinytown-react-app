@@ -7,8 +7,8 @@ import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
 const MenuItem = ({
   icon,
   label = 'Menu item',
-  disabled = false,
   onPress,
+  disabled = false,
 }) => {
   const containerStyle = { ...styles.container, ...(disabled && COLORS.disabled) };
 
@@ -62,9 +62,10 @@ const styles = normalizeStyles({
 });
 
 MenuItem.propTypes = {
+  icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  disabled: PropTypes.bool,
   onPress: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default MenuItem;

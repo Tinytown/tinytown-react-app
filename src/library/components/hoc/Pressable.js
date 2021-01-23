@@ -13,10 +13,11 @@ const Pressable = ({
   onPress = () => console.log('Pass an onPress callback to this component'),
   onPressIn = () => {},
   onPressOut = () => {},
-  onLayout,
+  onLayout = () => {},
   ripple = true,
+  disabled,
   children,
-  ...props }) => {
+}) => {
   const [animation, animateOnPress]  = useAnimation(animationType);
 
   const animationStyles = {
@@ -42,7 +43,7 @@ const Pressable = ({
         onPress={onPress}
         onPressIn={onPressInHandler}
         onPressOut={onPressOutHandler}
-        disabled={props.disabled}
+        disabled={disabled}
         style={containerStyle}
         rippleContainerBorderRadius={containerStyle?.borderRadius ?? 0}
         rippleColor={keyColor}
@@ -58,8 +59,15 @@ Pressable.propTypes = {
   animationType: PropTypes.string,
   containerStyle: PropTypes.object,
   shadowStyle: PropTypes.object,
+  animationStyle: PropTypes.object,
+  keyColor: PropTypes.string,
   onPress: PropTypes.func,
+  onPressIn: PropTypes.func,
+  onPressOut: PropTypes.func,
+  onLayout: PropTypes.func,
+  ripple: PropTypes.bool,
   disabled: PropTypes.bool,
+  children: PropTypes.element,
 };
 
 export default Pressable;
