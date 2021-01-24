@@ -16,12 +16,8 @@ const FAB = ({
   wrapperStyle,
   disabled = false,
 }) => {
-  const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? null : theme);
   const [animation, animateOnPress] = useAnimation('jiggle');
-
-  const buttonStyle = { ...styles.button, ...backgroundTheme, ...(disabled && COLORS.disabled) };
-  const labelStyle = { ...TYPOGRAPHY.subheader3, ...textTheme, ...(branded && TYPOGRAPHY.brandedButton) };
-  const cardStyle = { ...styles.card, backgroundColor: keyColor, ...(disabled && { opacity: 0 }) };
+  const styles = generateStyles({ theme, branded, disabled });
 
   return (
     <View style={wrapperStyle} pointerEvents='box-none'>
@@ -40,51 +36,68 @@ const FAB = ({
           stops={[0.1, 0.95]}
           center={[160, 160]}
           radius={160}/>
-        <Animated.View style={[cardStyle, animation]} />
-        <View style={buttonStyle} >
+        <Animated.View style={[styles.card, animation]} />
+        <View style={styles.button} >
           <View style={styles.icon}>
             <Icon icon={icon} color={keyColor} />
           </View>
-          <Text style={labelStyle}>{label}</Text>
+          <Text style={styles.label}>{label}</Text>
         </View>
       </Pressable>
     </View>
   );
 };
 
-const styles = normalizeStyles({
-  container: {
-    borderRadius: SHAPES.radiusMd,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    flexDirection: 'row',
-    paddingLeft: 16,
-    paddingRight: 20,
-    paddingVertical: 12,
-    borderRadius: SHAPES.radiusMd,
-    borderWidth: 2,
-  },
-  icon: {
-    height: 24,
-    width: 24,
-    marginRight: 12,
-  },
-  card: {
-    position: 'absolute',
-    height: '100%',
-    width: '80%',
-    borderRadius: SHAPES.radiusMd,
-  },
-  blur: {
-    position: 'absolute',
-    width: 320,
-    height: 320,
-    transform: [{ translateX: 40 }],
-    opacity: 0.22,
-  },
-});
+const generateStyles = ({ theme, branded, disabled }) => {
+  const ICON_SIZE  = 24;
+  const BLUR_SIZE = 320;
+  const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? null : theme);
+
+  return (
+    normalizeStyles({
+      container: {
+        borderRadius: SHAPES.radiusMd,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      button: {
+        flexDirection: 'row',
+        paddingLeft: 16,
+        paddingRight: 20,
+        paddingVertical: 12,
+        borderRadius: SHAPES.radiusMd,
+        borderWidth: 2,
+        ...backgroundTheme,
+        ...(disabled && COLORS.disabled),
+      },
+      icon: {
+        height: ICON_SIZE,
+        width: ICON_SIZE,
+        marginRight: 12,
+      },
+      label: {
+        ...TYPOGRAPHY.subheader3,
+        ...textTheme,
+        ...(branded && TYPOGRAPHY.brandedButton),
+      },
+      card: {
+        position: 'absolute',
+        height: '100%',
+        width: '80%',
+        borderRadius: SHAPES.radiusMd,
+        backgroundColor: keyColor,
+        ...(disabled && { opacity: 0 }),
+      },
+      blur: {
+        position: 'absolute',
+        width: BLUR_SIZE,
+        height: BLUR_SIZE,
+        transform: [{ translateX: 40 }],
+        opacity: 0.22,
+      },
+    })
+  );
+};
 
 FAB.propTypes = {
   icon: PropTypes.string.isRequired,

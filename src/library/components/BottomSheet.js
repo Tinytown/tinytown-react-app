@@ -13,9 +13,8 @@ const BottomSheet = ({
   children,
 }) => {
   const ANIMATION_OFFSET = 80;
-  const insets = useSafeAreaInsets();
   const [sheetAnimation, scrimAnimation, closeSheet, setSheetLayout] = useAnimation('sheet', ANIMATION_OFFSET);
-  const cardStyle = { ...styles.card, ...{ paddingBottom: insets.bottom + ANIMATION_OFFSET } };
+  const styles = generateStyles({ ANIMATION_OFFSET });
 
   const onLayoutHandler = (event) => {
     event.persist();
@@ -31,7 +30,7 @@ const BottomSheet = ({
     <>
       <Scrim onPress={() => setOpenSheet(false)} animationStyle={scrimAnimation} />
       <Animated.View
-        style={[cardStyle, sheetAnimation]}
+        style={[styles.card, sheetAnimation]}
         onLayout={onLayoutHandler}
       >
         {children}
@@ -40,19 +39,25 @@ const BottomSheet = ({
   );
 };
 
-const styles = normalizeStyles({
-  card: {
-    position: 'absolute',
-    width: '100%',
-    bottom: 0,
-    paddingTop: 8,
-    paddingHorizontal: 16,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    backgroundColor: COLORS.justWhite,
-    ...SHAPES.elevGray2,
-  },
-});
+const generateStyles = ({ ANIMATION_OFFSET }) => {
+  const insets = useSafeAreaInsets();
+
+  return (
+    normalizeStyles({
+      card: {
+        position: 'absolute',
+        width: '100%',
+        bottom: 0,
+        paddingTop: 8,
+        paddingBottom: insets.bottom + ANIMATION_OFFSET,
+        paddingHorizontal: 16,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        backgroundColor: COLORS.justWhite,
+        ...SHAPES.elevGray2,
+      },
+    })
+  ); };
 
 BottomSheet.propTypes = {
   openSheet: PropTypes.bool,

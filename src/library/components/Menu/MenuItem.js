@@ -10,11 +10,11 @@ const MenuItem = ({
   onPress,
   disabled = false,
 }) => {
-  const containerStyle = { ...styles.container, ...(disabled && COLORS.disabled) };
+  const styles = generateStyles({ disabled });
 
   return (
     <Pressable
-      containerStyle={containerStyle}
+      containerStyle={styles.container}
       disabled={disabled}
       onPress={onPress}
       keyColor={COLORS.asphaltGray}
@@ -34,32 +34,37 @@ const MenuItem = ({
   );
 };
 
-const styles = normalizeStyles({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 48,
-    width: 200,
-    paddingHorizontal: 8,
-  },
+const generateStyles = ({ disabled }) => {
+  return (
+    normalizeStyles({
+      container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 48,
+        width: 200,
+        paddingHorizontal: 8,
+        ...(disabled && COLORS.disabled),
+      },
 
-  assetContainer: {
-    alignItems: 'center',
-    width: 48,
-    marginRight: 8,
-  },
+      assetContainer: {
+        alignItems: 'center',
+        width: 48,
+        marginRight: 8,
+      },
 
-  iconContainer: {
-    width: 24,
-    height: 24,
-  },
+      iconContainer: {
+        width: 24,
+        height: 24,
+      },
 
-  label: {
-    width: 120,
-    color: COLORS.graniteGray,
-    ...TYPOGRAPHY.subheader3,
-  },
-});
+      label: {
+        width: 120,
+        color: COLORS.graniteGray,
+        ...TYPOGRAPHY.subheader3,
+      },
+    })
+  );
+};
 
 MenuItem.propTypes = {
   icon: PropTypes.string.isRequired,
