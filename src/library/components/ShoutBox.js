@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput } from 'react-native';
 import IconButton from './IconButton';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const ShoutBox = () => {
+const ShoutBox = ({ onSubmit }) => {
+  const [value, setValue] = useState('');
+
   return (
     <View style={styles.container} >
       <TextInput
         style={styles.input}
         multiline
+        autoFocus
+        autoCorrect={false}
+        placeholder='LOUD NOISES!'
         textAlignVertical='top'
+        value={value}
+        onChangeText={setValue}
       />
-      <IconButton wrapperStyle={styles.shoutBtn} icon='megaphone' theme='super red' />
+      <IconButton
+        icon='megaphone'
+        theme='super red'
+        wrapperStyle={styles.shoutBtn}
+        onPress={() => onSubmit(value)}
+      />
     </View>
   );
 };
