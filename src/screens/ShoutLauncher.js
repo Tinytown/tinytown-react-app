@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
-import { NavBar, BottomSheet } from 'library/components';
-import { COLORS, normalizeStyles } from 'res';
+import { NavBar, BottomSheet, ShoutBox } from 'library/components';
+import { normalizeStyles } from 'res';
 
 const ShoutLauncher = ({ navigation }) => {
   const [openSheet, setOpenSheet] = useState(true);
@@ -9,19 +8,11 @@ const ShoutLauncher = ({ navigation }) => {
   return (
     <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()} >
       <NavBar label='' onClose={() => setOpenSheet(false)} />
-      <View style={styles.placeholder} />
+      <ShoutBox />
     </BottomSheet>
   );
 };
 
-const styles = normalizeStyles({
-  placeholder: {
-    width: '100%',
-    height: 360,
-    marginVertical: 24,
-    borderRadius: 8,
-    backgroundColor: COLORS.snowGray,
-  },
-});
+const styles = normalizeStyles({});
 
 export default ShoutLauncher;
