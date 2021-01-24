@@ -12,9 +12,9 @@ const FAB = ({
   label = 'Button Label',
   theme = null,
   branded = false,
-  disabled = false,
   onPress,
   wrapperStyle,
+  disabled = false,
 }) => {
   const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? null : theme);
   const [animation, animateOnPress] = useAnimation('jiggle');
@@ -87,11 +87,12 @@ const styles = normalizeStyles({
 });
 
 FAB.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf(['green', 'blue', 'red']),
   branded: PropTypes.bool,
   onPress: PropTypes.func,
+  wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
 };
 

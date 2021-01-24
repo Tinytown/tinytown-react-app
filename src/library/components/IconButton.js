@@ -7,9 +7,9 @@ import { SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 const IconButton = ({
   icon,
   theme = null,
-  disabled = false,
   onPress,
   wrapperStyle,
+  disabled = false,
 }) => {
   const [backgroundTheme, keyColor]  = getThemeStyles(disabled ? null : theme);
   const buttonStyle = { ...styles.button, ...backgroundTheme, ...(disabled && COLORS.disabled) };
@@ -33,13 +33,6 @@ const IconButton = ({
   );
 };
 
-IconButton.propTypes = {
-  icon: PropTypes.string,
-  theme: PropTypes.oneOf(['green', 'blue', 'red']),
-  onPress: PropTypes.func,
-  disabled: PropTypes.bool,
-};
-
 const styles = normalizeStyles({
   container: {
     borderRadius: SHAPES.radiusAll,
@@ -60,5 +53,13 @@ const styles = normalizeStyles({
   },
 
 });
+
+IconButton.propTypes = {
+  icon: PropTypes.string,
+  theme: PropTypes.oneOf(['green', 'blue', 'red', 'gray']),
+  onPress: PropTypes.func,
+  wrapperStyle: PropTypes.object,
+  disabled: PropTypes.bool,
+};
 
 export default IconButton;

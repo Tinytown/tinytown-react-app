@@ -1,20 +1,38 @@
 import React from 'react';
-import { View } from 'react-native';
+import PropTypes from 'prop-types';
+import { Pressable } from './hoc';
 import { normalizeStyles } from 'res';
 
-const Scrim = ({ children }) => (
-  <View style={styles.scrim} >
+const Scrim = ({
+  onPress = () => console.log('Pass an onPress callback to this component'),
+  animationStyle,
+  children,
+}) => (
+  <Pressable
+    containerStyle={styles.scrim}
+    animationStyle={animationStyle}
+    ripple={false}
+    onPress={onPress} >
     {children}
-  </View>
+  </Pressable>
 );
-
-export default Scrim;
 
 const styles = normalizeStyles({
   scrim: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
   },
 });
 
+Scrim.propTypes = {
+  onPress: PropTypes.func,
+  animationStyle: PropTypes.object,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+  ]),
+};
+
+export default Scrim;

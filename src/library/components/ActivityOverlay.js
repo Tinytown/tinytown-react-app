@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Scrim from './Scrim';
 import { COLORS, normalizeStyles } from 'res';
 
-const ActivityOverlay = ({ showOverlay }) => {
+const ActivityOverlay = ({ showOverlay = false }) => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -28,10 +28,6 @@ const styles = normalizeStyles({
 
 ActivityOverlay.propTypes = {
   showOverlay: PropTypes.bool,
-};
-
-ActivityOverlay.defaultProps = {
-  showOverlay: false,
 };
 
 export default ActivityOverlay;

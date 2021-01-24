@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { COLORS, normalizeStyles } from 'res';
 
@@ -13,5 +14,9 @@ const styles = normalizeStyles({
     marginVertical: 8,
   },
 });
+
+MenuDivider.propTypes = {
+  color: PropTypes.string,
+};
 
 export default MenuDivider;
