@@ -1,4 +1,5 @@
 import COLORS from '../colors';
+import SHAPES from '../shapes';
 
 export default (theme) => {
   let backgroundTheme = {};
@@ -49,6 +50,18 @@ export default (theme) => {
     keyColor = COLORS.asphaltGray;
     textTheme = {
       color: COLORS.asphaltGray,
+    };
+
+    return  [backgroundTheme, keyColor, textTheme];
+
+  case 'super red':
+    backgroundTheme = {
+      backgroundColor: COLORS.bubblegumRed600,
+      ...SHAPES.elevRed5,
+    };
+    keyColor = COLORS.justWhite;
+    textTheme = {
+      color: COLORS.justWhite,
     };
 
     return  [backgroundTheme, keyColor, textTheme];

@@ -11,7 +11,7 @@ const ShoutBox = () => {
         multiline
         textAlignVertical='top'
       />
-      <IconButton wrapperStyle={styles.shoutBtn} icon='megaphone' />
+      <IconButton wrapperStyle={styles.shoutBtn} icon='megaphone' theme='super red' />
     </View>
   );
 };
@@ -34,7 +34,7 @@ const styles = normalizeStyles({
   shoutBtn: {
     position: 'absolute',
     bottom: 24,
-    right: 40,
+    right: 24,
   },
 });
 
