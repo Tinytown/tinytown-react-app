@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { NavBar, BottomSheet } from 'library/components';
 import { COLORS, normalizeStyles } from 'res';
 
-const NewShoutScreen = ({ navigation }) => {
+const ShoutLauncher = ({ navigation }) => {
   const [openSheet, setOpenSheet] = useState(true);
 
   return (
@@ -24,4 +24,4 @@ const styles = normalizeStyles({
   },
 });
 
-export default NewShoutScreen;
+export default ShoutLauncher;
