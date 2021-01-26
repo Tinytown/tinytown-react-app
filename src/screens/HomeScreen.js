@@ -1,16 +1,14 @@
 import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { withWait } from 'library/components/hoc';
 import { WorldMap, FAB, HomeBar } from 'library/components';
 import { STRINGS, normalizeStyles } from 'res';
 
 const HomeScreen = ({ storageLoaded, navigation }) => {
-  const ViewWithWait = withWait(View);
-
   return (
     <WorldMap>
-      <ViewWithWait waitFor={storageLoaded} style={styles.container} pointerEvents='box-none'>
+      {storageLoaded &&
+      <View style={styles.container} pointerEvents='box-none'>
         <HomeBar />
         <FAB
           label={STRINGS.button.shout}
@@ -20,7 +18,8 @@ const HomeScreen = ({ storageLoaded, navigation }) => {
           onPress={() => navigation.navigate('New Shout')}
           wrapperStyle={styles.fab}
         />
-      </ViewWithWait>
+      </View>
+      }
     </WorldMap>
   );
 };
