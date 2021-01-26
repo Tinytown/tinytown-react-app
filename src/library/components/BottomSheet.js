@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { KeyboardAvoidingView  } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -27,7 +28,7 @@ const BottomSheet = ({
   }, [openSheet]);
 
   return (
-    <>
+    <KeyboardAvoidingView behavior='position'>
       <Scrim onPress={() => setOpenSheet(false)} animationStyle={scrimAnimation} />
       <Animated.View
         style={[styles.card, sheetAnimation]}
@@ -35,7 +36,7 @@ const BottomSheet = ({
       >
         {children}
       </Animated.View>
-    </>
+    </KeyboardAvoidingView>
   );
 };
 
