@@ -5,7 +5,7 @@ import {
   menuAnimation,
   flipAnimation,
   pressAnimation,
-  sheetAnimation } from 'res';
+  sheetAnimation } from './animations';
 
 export default (animationType, ...args) => {
   switch (animationType) {

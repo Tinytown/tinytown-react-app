@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
-import { useAnimation } from 'library/hooks';
+import  useAnimation  from './useAnimation';
 
 export default () => {
   const CHAR_LIMIT = 80;
