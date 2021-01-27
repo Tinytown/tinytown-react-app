@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Scrim from './Scrim';
 import { useAnimation } from 'library/hooks';
-import { SHAPES, COLORS, normalizeStyles } from 'res';
+import { SHAPES, COLORS, normalizeStyles, normalizeValue } from 'res';
 
 const BottomSheet = ({
   openSheet = true,
@@ -13,7 +13,7 @@ const BottomSheet = ({
   onClose = () => console.log('Pass an onClose callback to this component'),
   children,
 }) => {
-  const ANIMATION_OFFSET = 80;
+  const ANIMATION_OFFSET = normalizeValue(80);
   const [sheetAnimation, scrimAnimation, closeSheet, setSheetLayout] = useAnimation('sheet', ANIMATION_OFFSET);
   const styles = generateStyles({ ANIMATION_OFFSET });
 
@@ -28,7 +28,7 @@ const BottomSheet = ({
   }, [openSheet]);
 
   return (
-    <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={-48}>
+    <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={normalizeValue(-40)}>
       <Scrim onPress={() => setOpenSheet(false)} animationStyle={scrimAnimation} />
       <Animated.View
         style={[styles.card, sheetAnimation]}
