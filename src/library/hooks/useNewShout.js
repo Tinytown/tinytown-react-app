@@ -22,18 +22,24 @@ export default () => {
       setDisabled(true);
       setShowLimit(true);
       debouncedBounce.current();
+    } else if (shoutString.length === 0) {
+      setDisabled(true);
     } else {
       setDisabled(false);
       setShowLimit(false);
     }
   }, [shoutString]);
 
-  const limitChip = {
+  const limitIndicator = {
     string: `${shoutString.length} / ${CHAR_LIMIT}`,
     animation,
     show: showLimit,
     disabled,
   };
 
-  return [shoutString, setShoutString, limitChip];
+  const createNewShout = () => {
+    console.log('send to firebase:', shoutString);
+  };
+
+  return [shoutString, setShoutString, limitIndicator, createNewShout];
 };

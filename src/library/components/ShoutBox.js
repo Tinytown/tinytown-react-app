@@ -6,8 +6,13 @@ import { useNewShout } from 'library/hooks';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, normalizeStyles } from 'res';
 
 const ShoutBox = ({ onSubmit }) => {
-  const [value, setValue, limitChip] = useNewShout();
-  const styles = generateStyles(limitChip);
+  const [value, setValue, limitIndicator, createNewShout] = useNewShout();
+  const styles = generateStyles(limitIndicator);
+
+  const onSubmitHandler = () => {
+    createNewShout();
+    onSubmit();
+  };
 
   return (
     <View style={styles.container} >
@@ -23,17 +28,17 @@ const ShoutBox = ({ onSubmit }) => {
         keyboardType='twitter'
         value={value}
         onChangeText={setValue}
-        onSubmitEditing={() => onSubmit(value)}
+        onSubmitEditing={onSubmitHandler}
       />
       <View style={styles.btnContainer} >
-        <Animated.View style={[styles.limitChip, limitChip.animation]} >
-          <Text style={styles.limitLabel}>{limitChip.string}</Text>
+        <Animated.View style={[styles.chipContainer, limitIndicator.animation]} >
+          <Text style={styles.chipLabel}>{limitIndicator.string}</Text>
         </Animated.View>
         <IconButton
           icon='megaphone'
           theme='super red'
-          onPress={() => onSubmit(value)}
-          disabled={limitChip.disabled}
+          onPress={onSubmitHandler}
+          disabled={limitIndicator.disabled}
         />
       </View>
     </View>
@@ -59,12 +64,12 @@ const generateStyles = ({ show, disabled }) => {
     btnContainer: {
       flexDirection: 'row',
       position: 'absolute',
-      bottom: 24,
+      bottom: 20,
       right: 24,
       justifyContent: 'center',
       alignItems: 'center',
     },
-    limitChip: {
+    chipContainer: {
       backgroundColor: disabled ? COLORS.bubblegumRed600 : COLORS.justWhite,
       paddingHorizontal: 12,
       paddingVertical: 6,
@@ -75,7 +80,7 @@ const generateStyles = ({ show, disabled }) => {
       alignItems: 'center',
       ...SHAPES.elevGray5,
     },
-    limitLabel: {
+    chipLabel: {
       color: disabled ? COLORS.justWhite : COLORS.bubblegumRed600,
       textAlign: 'right',
       ...TYPOGRAPHY.overline3,

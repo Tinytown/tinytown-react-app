@@ -40,7 +40,7 @@ const styles = normalizeStyles({
 
   label: {
     marginLeft: 12,
-    marginTop: 1,
+    marginTop: 6,
     color: COLORS.asphaltGray,
     ...TYPOGRAPHY.headline5,
   },

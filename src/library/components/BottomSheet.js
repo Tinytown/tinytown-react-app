@@ -28,7 +28,7 @@ const BottomSheet = ({
   }, [openSheet]);
 
   return (
-    <KeyboardAvoidingView behavior='position'>
+    <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={-48}>
       <Scrim onPress={() => setOpenSheet(false)} animationStyle={scrimAnimation} />
       <Animated.View
         style={[styles.card, sheetAnimation]}
