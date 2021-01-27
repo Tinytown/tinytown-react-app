@@ -7,7 +7,7 @@ import auth from '@react-native-firebase/auth';
 import { goToUser } from 'rdx/locationState';
 import { signOut } from 'rdx/authState';
 import { getLocation } from 'library/apis/geolocation';
-import { Pressable, withWait } from 'library/components/hoc';
+import { Pressable } from 'library/components/hoc';
 
 import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
@@ -16,7 +16,7 @@ import { COLORS, SHAPES, STRINGS, normalizeStyles } from 'res';
 const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [triggerLayout, setTriggerLayout] = useState(null);
-  const IconButtonWithWait = withWait(IconButton);
+  const showButton = userVisible !== null && !userVisible;
 
   const signOutHandler = () => {
     auth().signOut()
@@ -25,12 +25,11 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
 
   return (
     <>
-      {!userVisible &&
-      <IconButtonWithWait
+      {showButton &&
+      <IconButton
         icon='crosshairs'
         onPress={() => getLocation(goToUser)}
         wrapperStyle={styles.locationBtn}
-        waitFor={userVisible !== null}
       />
       }
       <View style={styles.bar}>

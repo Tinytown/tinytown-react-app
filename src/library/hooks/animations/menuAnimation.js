@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { normalizeValue } from 'res';
 
 export default () => {
   const STYLE_INITIAL = 0;
   const SCALE_INITIAL = 0.5;
   const TRANSLATE_INITIAL = 0;
-  const TRANSLATE_AMOUNT = 16;
+  const TRANSLATE_AMOUNT = normalizeValue(16);
   const ANIMATION_DURATION = 200;
 
   const opacity = useSharedValue(STYLE_INITIAL);

@@ -16,5 +16,8 @@ export default {
       body: `The ${appConfig.displayName} app is not very useful without access to your location.`,
     },
   },
+  placeholder: {
+    shoutBox: 'What\'s happening nearby?',
+  },
 };
 

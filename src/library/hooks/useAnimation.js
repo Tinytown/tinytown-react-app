@@ -1,5 +1,11 @@
 
-import { bounceAnimation, jiggleAnimation, menuAnimation, flipAnimation, sheetAnimation } from 'res';
+import {
+  bounceAnimation,
+  jiggleAnimation,
+  menuAnimation,
+  flipAnimation,
+  pressAnimation,
+  sheetAnimation } from './animations';
 
 export default (animationType, ...args) => {
   switch (animationType) {
@@ -11,6 +17,8 @@ export default (animationType, ...args) => {
     return menuAnimation();
   case 'flip':
     return flipAnimation(...args);
+  case 'press':
+    return pressAnimation();
   case 'sheet':
     return sheetAnimation(...args);
   default:

@@ -11,9 +11,9 @@ const ratio = cond([
   [otherwise, identity],
 ])(PixelRatio.get());
 
-const normalize = (size) => (size / PixelRatio.get()) * ratio;
+export const normalizeValue = (size) => (size / PixelRatio.get()) * ratio;
 
-export default normalizeStyles = (
+export const normalizeStyles = (
   styles,
   targetProperties = [
     'fontSize',
@@ -41,7 +41,7 @@ export default normalizeStyles = (
 
   const propOverride = (style) => (
     mapObjIndexed((value, property) => (
-      (propertyToNormalize(property, value) ? normalize(value) : value)
+      (propertyToNormalize(property, value) ? normalizeValue(value) : value)
     ), style)
   );
   const normalizedStyles = map(propOverride, styles);

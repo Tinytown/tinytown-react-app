@@ -1,27 +1,15 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
-import { NavBar, BottomSheet } from 'library/components';
-import { COLORS, normalizeStyles } from 'res';
+import { NavBar, BottomSheet, ShoutBox } from 'library/components';
 
 const ShoutLauncher = ({ navigation }) => {
   const [openSheet, setOpenSheet] = useState(true);
 
   return (
     <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()} >
-      <NavBar label='' onClose={() => setOpenSheet(false)} />
-      <View style={styles.placeholder} />
+      <NavBar label='New Shout' onClose={() => setOpenSheet(false)} />
+      <ShoutBox onSubmit={() => navigation.goBack()} />
     </BottomSheet>
   );
 };
-
-const styles = normalizeStyles({
-  placeholder: {
-    width: '100%',
-    height: 360,
-    marginVertical: 24,
-    borderRadius: 8,
-    backgroundColor: COLORS.snowGray,
-  },
-});
 
 export default ShoutLauncher;

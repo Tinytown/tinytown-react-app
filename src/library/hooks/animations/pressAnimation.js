@@ -15,9 +15,9 @@ export default () => {
     { transform: [{ scale: scale.value }] }
   ));
 
-  const animateOnPress = (state) => {
+  const animate = (state) => {
     scale.value = state === 'in' ? withSpring(TARGET_SCALE, config) : withSpring(INITIAL_SCALE, config);
   };
 
-  return [animation, animateOnPress];
+  return [animation, animate];
 };
