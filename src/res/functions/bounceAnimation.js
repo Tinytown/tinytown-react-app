@@ -1,23 +1,20 @@
-import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 export default () => {
   const INITIAL_SCALE = 1;
-  const TARGET_SCALE = 0.94;
+  const TARGET_SCALE = 1.2;
   const scale = useSharedValue(INITIAL_SCALE);
 
   const config = {
-    mass: 1,
-    damping: 3,
-    stiffness: 750,
+    duration: 100,
   };
 
   const animation = useAnimatedStyle(() => (
     { transform: [{ scale: scale.value }] }
   ));
 
-  const animateOnPress = (state) => {
-    scale.value = state === 'in' ? withSpring(TARGET_SCALE, config) : withSpring(INITIAL_SCALE, config);
+  const animate = () => {
+    scale.value = withTiming(TARGET_SCALE, config, () => scale.value = withTiming(INITIAL_SCALE, config));
   };
-
-  return [animation, animateOnPress];
+  return [animation, animate];
 };

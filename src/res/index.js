@@ -15,4 +15,5 @@ export { default as bounceAnimation } from './functions/bounceAnimation';
 export { default as jiggleAnimation } from './functions/jiggleAnimation';
 export { default as menuAnimation } from './functions/menuAnimation';
 export { default as flipAnimation } from './functions/flipAnimation';
+export { default as pressAnimation } from './functions/pressAnimation';
 export { default as sheetAnimation } from './functions/sheetAnimation';

@@ -22,7 +22,7 @@ const FAB = ({
   return (
     <View style={wrapperStyle} pointerEvents='box-none'>
       <Pressable
-        animationType='bounce'
+        animationType='press'
         containerStyle={styles.container}
         keyColor={keyColor}
         disabled={disabled}

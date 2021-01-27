@@ -15,11 +15,11 @@ export default () => {
     { transform: [{ rotateZ: `${rotation.value}deg` }] }
   ));
 
-  const animateOnPress = (state) => {
+  const animate = (state) => {
     rotation.value = state === 'in'
       ? withSpring(-ANGLE, config)
       : withSpring(ANGLE, config);
   };
 
-  return [animation, animateOnPress];
+  return [animation, animate];
 };
