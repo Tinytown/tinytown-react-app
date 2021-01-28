@@ -1,7 +1,7 @@
-import Fs from 'fs';
-import Path from 'path';
-import Axios from 'axios';
-import prompts from 'prompts';
+const Fs = require('fs')
+const Path = require('path');
+const axios = require('axios');
+const prompts = require('prompts');
 
 const relativePath = './react-app/src/config/env.config.js';
 const path = Path.resolve(relativePath);
@@ -9,7 +9,7 @@ const path = Path.resolve(relativePath);
 const getConfig = async (url) => {
   const writer = Fs.createWriteStream(path);
 
-  const response = await Axios({
+  const response = await axios({
     url,
     method: 'GET',
     responseType: 'stream',
