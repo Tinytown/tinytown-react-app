@@ -1,5 +1,5 @@
-import { spawn } from 'child_process';
-import config from '../../config/env.config.js';
+const { spawn } = require('child_process');
+const config = require('../../config/env.config');
 
 if (config.DEV_TOKEN) {
   spawn(

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { NativeModules } from 'react-native';
 import PropTypes from 'prop-types';
 import auth from '@react-native-firebase/auth';
+import functions from '@react-native-firebase/functions';
 import config from 'config/env.config.js';
 import FAB from './FAB';
 import { STRINGS } from 'res';
@@ -20,7 +21,8 @@ const TwitterAuth = ({ onLoading }) => {
       const { authToken, authTokenSecret } = await RNTwitterSignIn.logIn();
       onLoading(true);
       const twitterCredential = auth.TwitterAuthProvider.credential(authToken, authTokenSecret);
-      auth().signInWithCredential(twitterCredential);
+      await auth().signInWithCredential(twitterCredential);
+      functions().httpsCallable('storeOauthTokens')(twitterCredential);
     } catch (err) {
       onLoading(false);
       console.log(err);

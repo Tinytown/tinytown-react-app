@@ -15,12 +15,15 @@ export const authReducer = (state = null, action) => {
   }
 };
 
-export const signIn = ({ photoURL, displayName, uid }) => (
-  {
+export const signIn = (user) => {
+  const { displayName, uid } = user;
+  const photoURL = user.providerData[0].photoURL.replace(/_normal/i, '');
+
+  return {
     type: SIGN_IN,
     payload: { photoURL, displayName, uid },
-  }
-);
+  };
+};
 
 export const signOut = () => {
   clearStorage();
