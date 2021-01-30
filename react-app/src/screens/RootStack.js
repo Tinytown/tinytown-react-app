@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from 'screens/HomeScreen';
-import ShoutLauncher from 'screens/ShoutLauncher';
+import NewShout from 'screens/NewShout';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +19,7 @@ const RootStack = () => {
       mode="modal"
     >
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="New Shout" component={ShoutLauncher} />
+      <Stack.Screen name="New Shout" component={NewShout} />
     </Stack.Navigator>
   );
 };
