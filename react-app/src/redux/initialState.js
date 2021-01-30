@@ -17,6 +17,9 @@ const INITIAL_STATE = Object.freeze({
     active: true,
     storageLoaded: false,
   },
+  shouts: {
+    pending: [],
+  },
 });
 
 export default INITIAL_STATE;
