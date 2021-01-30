@@ -76,12 +76,12 @@ const styles = normalizeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    backgroundColor: 'white',
+    backgroundColor: COLORS.justWhite,
   },
 
   image: {
-    flex: 1,
-    resizeMode: 'contain',
+    width: '100%',
+    height: '100%',
   },
 
   locationBtn: {
