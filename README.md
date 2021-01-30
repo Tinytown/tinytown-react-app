@@ -30,7 +30,7 @@ The main codebase for the Tinytown React Native app.
 
 **For Firebase**
 1. Ask for your _serviceAccount.json_ file on [Discord](https://ttown.app/discord) and place it in the directory _firebase/functions/config_ relative to repository's root directory.
-2. From the root directory, go into Firebase folder: `cd firebase` and run Firebase Emulators using `yarn start`
+2. From the root directory, go into Firebase Functions folder: `cd firebase/functions` and run Firebase Emulators using `yarn start`
 
 ## Troubleshooting
 **EMFILE: too many open files**\

@@ -9,5 +9,9 @@
   "dependencies": {
     "axios": "^0.21.1",
     "prompts": "^2.4.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.18.0"
   }
 }
