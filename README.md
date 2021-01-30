@@ -11,11 +11,10 @@ The main codebase for the Tinytown React Native app.
 **Environment Variables**
 1. For the **Tinytown Team**:
     - Ask for your Developer Token on [Discord](https://ttown.app/discord).
-    - Install [Doppler](https://doppler.com/) `brew install dopplerhq/cli/doppler`
+    - Install [Doppler](https://doppler.com/) `brew install dopplerhq/cli/doppler` if you didn't during setup.
     - **Important**: Make sure to run `yarn start` before `yarn android` | `yarn ios` in order for Doppler to work.
 2. For **external contributors**: Open _react-app/src/config/env.config.js_ and replace values with your own.
 3. Go into React folder: `cd react-app` and run Metro Bundler using `yarn start`
-4. Go into Firebase folder: `cd firebase` and run Firebase Emulators using `yarn start`
 
 **For iOS**
 1. Go into the iOS folder: `cd ios`
@@ -25,9 +24,13 @@ The main codebase for the Tinytown React Native app.
 4. Run the iOS simulator: `yarn ios`
 
 **For Android**
-1. Download _google-services.json_ from Firebase console and place it in the directory _android/app_ relative to repository's root directory.
+1. Download _google-services.json_ from Firebase console and place it in the directory _react-app/android/app_.
 2. Open a new tab in your terminal and run your Android emulator from any location. For instance: `emulator -avd Pixel_3_API_28`
-3. In original tab, from the root of repository, run `yarn android`
+3. From the _react-app_ directory, run `yarn android`
+
+**For Firebase**
+1. Ask for your _serviceAccount.json_ file on [Discord](https://ttown.app/discord) and place it in the directory _firebase/functions/config_ relative to repository's root directory.
+2. From the root directory, go into Firebase folder: `cd firebase` and run Firebase Emulators using `yarn start`
 
 ## Troubleshooting
 **EMFILE: too many open files**\
