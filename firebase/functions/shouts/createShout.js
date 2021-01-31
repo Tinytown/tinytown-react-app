@@ -29,7 +29,10 @@ module.exports = async (data, context) => {
 
     await admin.database().ref(`/users/${auth.uid}/shouts/${shoutRef.key}`)
       .set(shout);
+
+    return { shoutId: shoutRef.key };
   } catch (error) {
     console.log(error);
+    return;
   }
 };
