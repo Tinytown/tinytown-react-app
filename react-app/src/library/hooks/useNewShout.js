@@ -20,6 +20,8 @@ export default () => {
 
   useEffect(() => {
     const charsLeft = CHAR_LIMIT - shoutString.length;
+
+    // Change state depending on chars left
     if (charsLeft >= 0 && charsLeft <= CHAR_WARNING) {
       setDisabled(false);
       setShowLimit(true);
