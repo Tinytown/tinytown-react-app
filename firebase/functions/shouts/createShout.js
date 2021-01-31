@@ -1,16 +1,13 @@
 /* eslint-disable camelcase*/
 const admin = require('firebase-admin');
+const geocodes = require('../api/geocodes');
 
 module.exports = async (data, context) => {
   const { createdAt, text, sourcePlatform, coordinates  } = data;
   const { auth } = context;
 
-  const shoutRef = admin.database().ref('/shouts')
-    .push();
-
   const shout = {
     created_at: createdAt,
-    id: shoutRef.key,
     text,
     source_platform: sourcePlatform,
     coordinates,
@@ -21,9 +18,25 @@ module.exports = async (data, context) => {
   };
 
   try {
+    const { data: { features } } = await geocodes.get(`${coordinates}.json`);
+    let refPath;
+
+    if (features[0]) {
+      const postcode = features[0].text;
+      const { short_code } = features[0].context.find((context) =>
+        context.id.includes('country'));
+      refPath = `${short_code}/${postcode}`;
+    } else {
+      refPath = 'world';
+    }
+
+    const shoutRef = admin.database().ref(`/shouts/${refPath}`)
+      .push();
+    shout.id = shoutRef.key;
     await shoutRef.set(shout);
+
     await admin.database().ref(`/users/${auth.uid}/shouts/${shoutRef.key}`)
-      .update(shout);
+      .set(shout);
   } catch (error) {
     console.log(error);
   }
