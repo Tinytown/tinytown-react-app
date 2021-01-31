@@ -1,6 +1,6 @@
 /* eslint-disable camelcase*/
 const admin = require('firebase-admin');
-const geocodes = require('../api/geocodes');
+const geocodes = require('../library/geocodes');
 
 module.exports = async (data, context) => {
   const { createdAt, text, sourcePlatform, coordinates  } = data;
