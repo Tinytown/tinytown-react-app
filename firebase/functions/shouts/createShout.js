@@ -11,10 +11,11 @@ module.exports = async (data, context) => {
     text,
     source_platform: sourcePlatform,
     coordinates,
-    user: {
-      uid: auth.uid,
-      name: auth.token.name,
-    },
+  };
+
+  const user = {
+    uid: auth.uid,
+    name: auth.token.name,
   };
 
   try {
@@ -33,7 +34,7 @@ module.exports = async (data, context) => {
     const shoutRef = admin.database().ref(`/shouts/${refPath}`)
       .push();
     shout.id = shoutRef.key;
-    await shoutRef.set(shout);
+    await shoutRef.set({ ...shout, user });
 
     await admin.database().ref(`/users/${auth.uid}/shouts/${shoutRef.key}`)
       .set(shout);
