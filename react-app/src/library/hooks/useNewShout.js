@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import { Platform } from 'react-native';
 import _ from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { createShout } from 'rdx/shoutState';
 import  useAnimation  from './useAnimation';
 
 export default () => {
@@ -10,11 +13,15 @@ export default () => {
   const [showLimit, setShowLimit] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [animation, animate] = useAnimation('bounce');
+  const dispatch = useDispatch();
+  const userLocation = useSelector((state) => state.location.user);
 
   const debouncedBounce = useRef(_.debounce(animate, 400, { leading: true, trailing: false })); // 10/10 func name
 
   useEffect(() => {
     const charsLeft = CHAR_LIMIT - shoutString.length;
+
+    // Change state depending on chars left
     if (charsLeft >= 0 && charsLeft <= CHAR_WARNING) {
       setDisabled(false);
       setShowLimit(true);
@@ -38,7 +45,13 @@ export default () => {
   };
 
   const createNewShout = () => {
-    console.log('send to firebase:', shoutString);
+    const shout = {
+      text: shoutString,
+      sourcePlatform: Platform.OS,
+      coordinates: userLocation,
+    };
+
+    dispatch(createShout(shout));
   };
 
   return [shoutString, setShoutString, limitIndicator, createNewShout];
