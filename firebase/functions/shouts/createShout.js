@@ -1,13 +1,14 @@
 /* eslint-disable camelcase*/
 const admin = require('firebase-admin');
-const geocodes = require('../library/geocodes');
+const OpenLocationCode = require('../library/openlocationcode');
 
 module.exports = async (data, context) => {
-  const { createdAt, text, sourcePlatform, coordinates  } = data;
+  const CODE_LENGTH = 6;
+  const { text, sourcePlatform, coordinates  } = data;
   const { auth } = context;
 
   const shout = {
-    created_at: createdAt,
+    created_at: Date.now(),
     text,
     source_platform: sourcePlatform,
     coordinates,
@@ -19,19 +20,9 @@ module.exports = async (data, context) => {
   };
 
   try {
-    const { data: { features } } = await geocodes.get(`${coordinates}.json`);
-    let refPath;
+    const plusCode = OpenLocationCode.encode(coordinates[1], coordinates[0], CODE_LENGTH);
 
-    if (features[0]) {
-      const postcode = features[0].text;
-      const { short_code } = features[0].context.find((context) =>
-        context.id.includes('country'));
-      refPath = `${short_code}/${postcode}`;
-    } else {
-      refPath = 'world';
-    }
-
-    const shoutRef = admin.database().ref(`/shouts/${refPath}`)
+    const shoutRef = admin.database().ref(`/shouts/${plusCode}`)
       .push();
     shout.id = shoutRef.key;
     await shoutRef.set({ ...shout, user });

@@ -44,7 +44,6 @@ export default () => {
 
   const createNewShout = () => {
     const shout = {
-      createdAt: Date.now(),
       text: shoutString,
       sourcePlatform: Platform.OS,
       coordinates: userLocation,
