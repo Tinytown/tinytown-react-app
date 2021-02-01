@@ -24,4 +24,3 @@ export const createShout = (shout) => async (dispatch, getState) => {
     dispatch({ type: CREATE_SHOUT, payload: created });
   }
 };
-

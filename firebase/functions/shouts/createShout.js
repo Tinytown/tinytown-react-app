@@ -3,7 +3,6 @@ const admin = require('firebase-admin');
 const OpenLocationCode = require('../library/openlocationcode');
 
 module.exports = async (data, context) => {
-  const CODE_LENGTH = 6;
   const { text, sourcePlatform, coordinates  } = data;
   const { auth } = context;
 
@@ -20,7 +19,7 @@ module.exports = async (data, context) => {
   };
 
   try {
-    const plusCode = OpenLocationCode.encode(coordinates[1], coordinates[0], CODE_LENGTH);
+    const plusCode = OpenLocationCode.encode(coordinates[1], coordinates[0], OpenLocationCode.CODE_PRECISION_WIDE);
 
     const shoutRef = admin.database().ref(`/shouts/${plusCode}`)
       .push();

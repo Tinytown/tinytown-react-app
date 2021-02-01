@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CompassHeading from 'react-native-compass-heading';
 import { useSelector } from 'react-redux';
-import { watchLocation, stopWatchingLocation } from '../apis/geolocation';
+import { watchLocation, stopWatchingLocation } from 'library/apis/geolocation';
 
 let watchId = null;
 
