@@ -2,7 +2,7 @@ import React from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { useShouts } from 'library/hooks';
 
-const shoutsTemp = ({ userLocation }) => {
+const shoutsTemp = React.memo(({ userLocation }) => {
   const [shouts] = useShouts(userLocation);
 
   if (!shouts) {
@@ -22,6 +22,6 @@ const shoutsTemp = ({ userLocation }) => {
       }}
     />
   );
-};
+});
 
 export default shoutsTemp;
