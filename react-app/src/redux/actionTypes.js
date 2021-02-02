@@ -13,4 +13,5 @@ export const APP_STATE = 'app_state';
 export const APP_STORAGE = 'app_storage';
 
 // Shout
-export const CREATE_SHOUT = 'create_shout';
+export const UPDATE_SHOUTS = 'update_shouts';
+

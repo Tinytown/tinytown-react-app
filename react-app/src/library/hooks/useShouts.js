@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
+import { useDispatch } from 'react-redux';
+import { removeShout } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
 
 export default (userLocation) => {
@@ -8,6 +10,7 @@ export default (userLocation) => {
   const LAT_DISTANCE = 111.11;
   const LON_DISTANCE = 111;
   const [shouts, setShouts] = useState(null);
+  const dispatch = useDispatch();
 
   const translateCoords = (coords, amountLon, amountLat) => {
     // calculate new coords
@@ -57,6 +60,10 @@ export default (userLocation) => {
           shoutsSnapshot.docChanges().forEach((change) => {
             if (change.type === 'added') {
               // console.log('Added shout: ', change.doc.data());
+
+              // check if shout was just created and remove from redux
+              dispatch(removeShout(change.doc.id));
+
               shoutsArr.push(change.doc.data());
               setShouts(shoutsArr);
             }
