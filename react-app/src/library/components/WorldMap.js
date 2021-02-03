@@ -62,7 +62,7 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
         </Camera>
       </MapView>
       <SafeAreaView style={styles.safeArea} mode="margin" pointerEvents='box-none'>
-        <ShoutsTemp userLocation={userLocation} />
+        {userLocation && <ShoutsTemp userLocation={userLocation} />}
         {children}
       </SafeAreaView>
     </View>

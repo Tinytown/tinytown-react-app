@@ -27,6 +27,7 @@ module.exports = async (data, context) => {
   const mapRef =  db.collection('map').doc(plusCode);
   const userRef =  db.collection('users').doc(uid);
   shout.id = shoutRef.id;
+  shout.plus_code = plusCode;
 
   try {
     await shoutRef.set({ ...shout, user });
