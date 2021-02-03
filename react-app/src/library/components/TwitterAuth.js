@@ -3,7 +3,7 @@ import { NativeModules } from 'react-native';
 import PropTypes from 'prop-types';
 import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
-import config from 'config/env.config.js';
+import config from 'config/env.config';
 import FAB from './FAB';
 import { STRINGS } from 'res';
 

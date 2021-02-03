@@ -7,6 +7,7 @@ import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import config from 'config/env.config.js';
 import { useLocation, useMap } from 'library/hooks';
 import { COLORS, IMAGES, normalizeStyles } from 'res';
+import ShoutsTemp from './ShoutsTemp';
 
 const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
@@ -61,6 +62,7 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
         </Camera>
       </MapView>
       <SafeAreaView style={styles.safeArea} mode="margin" pointerEvents='box-none'>
+        {userLocation && <ShoutsTemp userLocation={userLocation} />}
         {children}
       </SafeAreaView>
     </View>

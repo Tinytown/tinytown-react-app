@@ -12,13 +12,16 @@ JSON SOURCE
   },
   "location": {
     "user": null,
+    "userVisible": null
     "hasPermission": false,
     "goToUser": false,
-    "userVisible": true
   },
   "app": {
     "active": true,
     "storageLoaded": false
+  },
+  "shouts": {
+    created: [],
   }
 }
 
@@ -62,9 +65,12 @@ export default {
         active: true,
         storageLoaded: false,
       },
+      shouts: {
+        created: [],
+      },
     },
   ],
-  required: ['auth', 'location', 'app'],
+  required: ['auth', 'location', 'app', 'shouts'],
   type: 'object',
   properties: {
     auth: {
@@ -214,6 +220,29 @@ export default {
           title: 'The storageLoaded schema',
           default: false,
           examples: [false],
+        },
+      },
+      additionalProperties: true,
+    },
+    shouts: {
+      $id: '#/properties/shouts',
+      default: {},
+      description: 'Schema for local shouts created/edited by the user.',
+      examples: [
+        {
+          created: [],
+        },
+      ],
+      required: ['created'],
+      title: 'The shouts schema',
+      type: 'object',
+      properties: {
+        created: {
+          $id: '#/properties/shouts/properties/created',
+          type: 'array',
+          title: 'The created schema',
+          default: false,
+          examples: [{ id: 123, text: 'LOUD NOISES!' }],
         },
       },
       additionalProperties: true,

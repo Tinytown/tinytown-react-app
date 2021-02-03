@@ -1066,6 +1066,11 @@ path-to-regexp@0.1.7:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
   integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
 
+pluscodes@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/pluscodes/-/pluscodes-2.5.1.tgz#eb69d7cfc71f7c387b439b34bdc241d777e13312"
+  integrity sha512-VwVx0vcuXN/IhRWc3Mn5PnGQVvbzE+l/p+tl/fD8OK7wk+4UxlYYgu1656RzKgqWPeYnfiXn+o56uNWW1yAh0Q==
+
 protobufjs@^6.10.2, protobufjs@^6.8.6:
   version "6.10.2"
   resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.10.2.tgz#b9cb6bd8ec8f87514592ba3fdfd28e93f33a469b"

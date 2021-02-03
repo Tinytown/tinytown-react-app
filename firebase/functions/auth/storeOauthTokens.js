@@ -1,14 +1,20 @@
 const admin = require('firebase-admin');
 
-module.exports = (data, context) => {
+module.exports = async (data, context) => {
   const { token, secret } = data;
-  const { auth } = context;
+  const { auth: { uid, token: { name } } } = context;
+  const db = admin.firestore();
 
   // Remove '.com' from provider Id
   const providerId = String(data.providerId).replace(/\..*$/g, '');
 
-  admin.database().ref(`users/${auth.uid}/oauth/${providerId}`)
-    .update({ token, secret })
-    .then(() => console.log(`${providerId} OAuth updated`))
-    .catch((err) => console.log(err));
+  const userRef = db.collection('users').doc(uid);
+  const oauthRef = userRef.collection('oauth').doc(providerId);
+
+  try {
+    await userRef.set({ uid, name }, { merge: true });
+    await oauthRef.set({ token, secret });
+  } catch (error) {
+    console.log(error);
+  }
 };
