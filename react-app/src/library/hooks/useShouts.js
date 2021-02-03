@@ -106,16 +106,22 @@ export default (userLocation) => {
   };
 
   useEffect(() => {
-    // return early if location is the same
-    const sameLocation = userLocation.every((val, index) => val == prevLocation[index]);
-    if (sameLocation) {
-      return;
+    let isMounted = true;
+    let subscribers = [];
+
+    if (isMounted) {
+      // return early if location is the same
+      const sameLocation = userLocation.every((val, index) => val == prevLocation[index]);
+      if (sameLocation) {
+        return;
+      }
+
+      setPrevLocation(userLocation);
+      subscribers = fetchShouts();
     }
 
-    setPrevLocation(userLocation);
-    const subscribers = fetchShouts();
-
     return () => {
+      isMounted = false;
       subscribers.forEach((unsubscribe) => {
         unsubscribe();
       });
