@@ -77,7 +77,7 @@ export default {
   },
 
   elevPurple5: {
-    shadowColor: COLORS.flowerPurple600,
+    shadowColor: COLORS.flowerPurple400,
     ...elev5,
   },
 

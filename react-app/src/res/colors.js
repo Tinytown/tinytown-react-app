@@ -32,8 +32,8 @@ export default {
   bubblegumRed50: '#FFF0F2',
 
   // PURPLE
-  flowerPurple400: '#9558D1',
-  flowerPurple100: '#D6B7F4',
+  flowerPurple400: '#993DF5',
+  flowerPurple100: '#E6CCFF',
 
   // BASIC
   pureBlack: '#000000',
