@@ -7,7 +7,6 @@ import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import config from 'config/env.config.js';
 import { useLocation, useMap } from 'library/hooks';
 import { COLORS, IMAGES, normalizeStyles } from 'res';
-import ShoutsTemp from './ShoutsTemp';
 
 const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
@@ -29,7 +28,7 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
         ref={mapRef}
         animated={true}
         style={styles.map}
-        styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+        styleURL={config.MAPBOX_STYLE_URL}
         logoEnabled={false}
         compassEnabled={false}
         attributionEnabled={false}
@@ -62,7 +61,6 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
         </Camera>
       </MapView>
       <SafeAreaView style={styles.safeArea} mode="margin" pointerEvents='box-none'>
-        {userLocation && <ShoutsTemp userLocation={userLocation} />}
         {children}
       </SafeAreaView>
     </View>
