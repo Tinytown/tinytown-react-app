@@ -21,9 +21,9 @@ export default (theme) => {
   case 'blue':
     backgroundTheme = {
       backgroundColor: COLORS.asphaltGray900,
-      borderColor: COLORS.skyBlue600,
+      borderColor: COLORS.skyBlue400,
     };
-    keyColor = COLORS.skyBlue600;
+    keyColor = COLORS.skyBlue400;
     textTheme = {
       color: COLORS.justWhite,
     };

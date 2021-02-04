@@ -1,8 +1,8 @@
 export default {
   // BLUES
-  skyBlue50: '#E6F9FF',
-  skyBlue100: '#B3EEFF',
-  skyBlue600: '#36D1FF',
+  skyBlue400: '#3891FF',
+  skyBlue100: '#CCE3FF',
+  skyBlue50: '#F0F7FF',
 
   // PURPLES
   flowerPurple100: '#D6B7F4',

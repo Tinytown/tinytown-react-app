@@ -97,7 +97,7 @@ export default {
   },
 
   elevBlue5: {
-    shadowColor: COLORS.skyBlue600,
+    shadowColor: COLORS.skyBlue400,
     ...elev5,
   },
 

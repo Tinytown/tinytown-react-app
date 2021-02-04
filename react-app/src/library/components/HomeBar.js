@@ -36,7 +36,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
         <Pressable
           onPress={() => setShowMenu(true)}
           containerStyle={styles.avatar}
-          keyColor={COLORS.skyBlue600}
+          keyColor={COLORS.skyBlue400}
           onLayout={(event) => {
             event.persist();
             setTriggerLayout(event);
