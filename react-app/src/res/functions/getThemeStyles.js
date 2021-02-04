@@ -8,7 +8,7 @@ export default (theme) => {
   switch (theme) {
   case 'green':
     backgroundTheme = {
-      backgroundColor: COLORS.pitchBlack,
+      backgroundColor: COLORS.asphaltGray900,
       borderColor: COLORS.grassGreen600,
     };
     keyColor = COLORS.grassGreen600;
@@ -20,7 +20,7 @@ export default (theme) => {
 
   case 'blue':
     backgroundTheme = {
-      backgroundColor: COLORS.pitchBlack,
+      backgroundColor: COLORS.asphaltGray900,
       borderColor: COLORS.skyBlue600,
     };
     keyColor = COLORS.skyBlue600;
@@ -32,7 +32,7 @@ export default (theme) => {
 
   case 'red':
     backgroundTheme = {
-      backgroundColor: COLORS.pitchBlack,
+      backgroundColor: COLORS.asphaltGray900,
       borderColor: COLORS.bubblegumRed600,
     };
     keyColor = COLORS.bubblegumRed600;
@@ -47,9 +47,9 @@ export default (theme) => {
       backgroundColor: 'transparent',
       borderColor: 'transparent',
     };
-    keyColor = COLORS.asphaltGray;
+    keyColor = COLORS.asphaltGray800;
     textTheme = {
-      color: COLORS.asphaltGray,
+      color: COLORS.asphaltGray800,
     };
 
     return  [backgroundTheme, keyColor, textTheme];
@@ -68,7 +68,7 @@ export default (theme) => {
 
   default:
     backgroundTheme = {
-      backgroundColor: COLORS.pitchBlack,
+      backgroundColor: COLORS.asphaltGray900,
       borderColor: COLORS.justWhite,
     };
     keyColor = COLORS.justWhite;

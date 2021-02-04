@@ -72,7 +72,7 @@ const styles = normalizeStyles({
     height: 52,
     borderRadius: SHAPES.radiusAll,
     borderWidth: 2,
-    borderColor: COLORS.asphaltGray,
+    borderColor: COLORS.justWhite,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',

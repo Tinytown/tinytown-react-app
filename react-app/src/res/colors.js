@@ -27,12 +27,16 @@ export default {
   bubblegumRed600: '#FE4963',
 
   // GRAYS
-  pitchBlack: '#15191E',
-  asphaltGray: '#1F262E',
-  graniteGray: '#3C4858',
-  steelGray: '#8392A5',
-  sidewalkGray: '#C0CCDA',
-  snowGray: '#ECF1FA',
+  asphaltGray900: '#1F262E',
+  asphaltGray800: '#2D3443',
+  asphaltGray700: '#3E4A5B',
+  asphaltGray400: '#8997A9',
+  asphaltGray200: '#BFCBD9',
+  asphaltGray100: '#D5E0EC',
+  asphaltGray50: '#F3F6FC',
+
+  // BASICS
+  pureBlack: '#000000',
   justWhite: '#FFFFFF',
 
   // COMPOSITES

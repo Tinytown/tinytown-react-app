@@ -23,7 +23,7 @@ const ShoutBox = ({ onSubmit }) => {
         enablesReturnKeyAutomatically
         autoCorrect={false}
         placeholder={STRINGS.placeholder.shoutBox}
-        placeholderTextColor={COLORS.sidewalkGray}
+        placeholderTextColor={COLORS.asphaltGray200}
         textAlignVertical='top'
         keyboardType='twitter'
         value={value}
@@ -58,7 +58,8 @@ const generateStyles = ({ show, disabled }) => {
       paddingTop: 24,
       paddingBottom: 24,
       borderRadius: 8,
-      backgroundColor: COLORS.snowGray,
+      color: COLORS.asphaltGray800,
+      backgroundColor: COLORS.asphaltGray50,
       ...TYPOGRAPHY.subheader2,
     },
     btnContainer: {

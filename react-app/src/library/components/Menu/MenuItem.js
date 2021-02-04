@@ -17,11 +17,11 @@ const MenuItem = ({
       containerStyle={styles.container}
       disabled={disabled}
       onPress={onPress}
-      keyColor={COLORS.asphaltGray}
+      keyColor={COLORS.asphaltGray800}
     >
       <View style={styles.assetContainer}>
         <View style={styles.iconContainer}>
-          <Icon icon={icon} color={COLORS.graniteGray}/>
+          <Icon icon={icon} color={COLORS.asphaltGray800}/>
         </View>
       </View>
       <Text
@@ -59,7 +59,7 @@ const generateStyles = ({ disabled }) => {
 
       label: {
         width: 120,
-        color: COLORS.graniteGray,
+        color: COLORS.asphaltGray800,
         ...TYPOGRAPHY.subheader3,
       },
     })

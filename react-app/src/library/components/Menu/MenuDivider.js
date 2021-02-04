@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { COLORS, normalizeStyles } from 'res';
 
-const MenuDivider = ({ color = COLORS.sidewalkGray }) => (
+const MenuDivider = ({ color = COLORS.asphaltGray100 }) => (
   <View style={[styles.divider, { borderBottomColor: color }]} />
 );
 

@@ -41,7 +41,7 @@ const styles = normalizeStyles({
   label: {
     marginLeft: 12,
     marginTop: 6,
-    color: COLORS.asphaltGray,
+    color: COLORS.asphaltGray900,
     ...TYPOGRAPHY.headline5,
   },
 });

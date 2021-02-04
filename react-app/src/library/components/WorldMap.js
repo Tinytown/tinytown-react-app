@@ -71,7 +71,7 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
 const styles = normalizeStyles({
   landscape: {
     flex: 1,
-    backgroundColor: COLORS.asphaltGray,
+    backgroundColor: COLORS.asphaltGray100,
   },
   safeArea: {
     position: 'absolute',

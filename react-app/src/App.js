@@ -34,7 +34,7 @@ const App = ({ isSignedIn }) => {
         </Stack.Navigator>
       </NavigationContainer>)
       :
-      <View style={{ backgroundColor: COLORS.asphaltGray, flex: 1 }}/>
+      <View style={{ backgroundColor: COLORS.asphaltGray100, flex: 1 }}/>
   );
 };
 

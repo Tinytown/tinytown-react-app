@@ -15,11 +15,11 @@ export default {
   // ELEVATION - GRAYS
   elevHairline: {
     borderWidth: 2,
-    borderColor: COLORS.snowGray,
+    borderColor: COLORS.asphaltGray50,
   },
 
   elevGray1: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -31,7 +31,7 @@ export default {
   },
 
   elevGray2: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -43,7 +43,7 @@ export default {
   },
 
   elevGray3: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     shadowOffset: {
       width: 0,
       height: 3,
@@ -55,7 +55,7 @@ export default {
   },
 
   elevGray4: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -66,7 +66,7 @@ export default {
   },
 
   elevGray5: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     ...elev5,
   },
 
