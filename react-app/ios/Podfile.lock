@@ -690,10 +690,6 @@ PODS:
     - Firebase/Auth (~> 7.4.0)
     - React-Core
     - RNFBApp
-  - RNFBDatabase (10.5.1):
-    - Firebase/Database (~> 7.4.0)
-    - React-Core
-    - RNFBApp
   - RNFBFirestore (10.5.1):
     - Firebase/Firestore (~> 7.4.0)
     - React-Core
@@ -812,7 +808,6 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
-  - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNFBFunctions (from `../node_modules/@react-native-firebase/functions`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -942,8 +937,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
-  RNFBDatabase:
-    :path: "../node_modules/@react-native-firebase/database"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNFBFunctions:
@@ -1037,7 +1030,6 @@ SPEC CHECKSUMS:
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNFBApp: 43a062dc6a1a88edd934d2229d1ba64f25381598
   RNFBAuth: b5b1ba3df98f23b1f41829b762477ccb60b0e747
-  RNFBDatabase: cd8b460f4facd63a22c71edfb46631effc72764a
   RNFBFirestore: b596de5f7cb73ec799cf0eb24db5be69540be25f
   RNFBFunctions: 3acf73eb42cb1cd434e3a0515944ea1663620a14
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
