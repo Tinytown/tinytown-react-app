@@ -1,17 +1,26 @@
 export default {
+  // GRAYS
+  asphaltGray900: '#1F262E',
+  asphaltGray800: '#2D3443',
+  asphaltGray700: '#3E4A5B',
+  asphaltGray400: '#8997A9',
+  asphaltGray200: '#BFCBD9',
+  asphaltGray100: '#D5E0EC',
+  asphaltGray50: '#F3F6FC',
+
   // BLUES
   skyBlue400: '#3891FF',
   skyBlue100: '#CCE3FF',
   skyBlue50: '#F0F7FF',
 
+  // GREENS
+  poolCyan400: '#3DF5C4',
+  poolCyan100: '#CFFCF0',
+  poolCyan50: '#F0FFFB',
+
   // PURPLES
   flowerPurple100: '#D6B7F4',
   flowerPurple600: '#9558D1',
-
-  // GREENS
-  grassGreen50: '#E6FFF3',
-  grassGreen100: '#B3FFDA',
-  grassGreen600: '#16E07D',
 
   // YELLOWS
   funLime100: '#F5FF8C',
@@ -25,15 +34,6 @@ export default {
   bubblegumRed50: '#FFE6E9',
   bubblegumRed100: '#FFC7CF',
   bubblegumRed600: '#FE4963',
-
-  // GRAYS
-  asphaltGray900: '#1F262E',
-  asphaltGray800: '#2D3443',
-  asphaltGray700: '#3E4A5B',
-  asphaltGray400: '#8997A9',
-  asphaltGray200: '#BFCBD9',
-  asphaltGray100: '#D5E0EC',
-  asphaltGray50: '#F3F6FC',
 
   // BASICS
   pureBlack: '#000000',

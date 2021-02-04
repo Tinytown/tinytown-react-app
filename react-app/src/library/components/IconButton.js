@@ -64,7 +64,7 @@ const generateStyles = ({ superSize, theme, disabled }) => {
 
 IconButton.propTypes = {
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(['green', 'blue', 'red', 'gray', 'super red']),
+  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'gray', 'super red']),
   onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,

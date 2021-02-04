@@ -6,12 +6,12 @@ export default (theme) => {
   let textTheme = {};
 
   switch (theme) {
-  case 'green':
+  case 'cyan':
     backgroundTheme = {
       backgroundColor: COLORS.asphaltGray900,
-      borderColor: COLORS.grassGreen600,
+      borderColor: COLORS.poolCyan400,
     };
-    keyColor = COLORS.grassGreen600;
+    keyColor = COLORS.poolCyan400;
     textTheme = {
       color: COLORS.justWhite,
     };

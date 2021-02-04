@@ -86,8 +86,8 @@ export default {
     ...elev5,
   },
 
-  elevGreen5: {
-    shadowColor: COLORS.grassGreen600,
+  elevCyan5: {
+    shadowColor: COLORS.poolCyan400,
     ...elev5,
   },
 
