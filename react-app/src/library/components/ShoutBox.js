@@ -71,7 +71,7 @@ const generateStyles = ({ show, disabled }) => {
       alignItems: 'center',
     },
     chipContainer: {
-      backgroundColor: disabled ? COLORS.bubblegumRed600 : COLORS.justWhite,
+      backgroundColor: disabled ? COLORS.bubblegumRed400 : COLORS.justWhite,
       paddingHorizontal: 12,
       paddingVertical: 6,
       marginRight: 12,
@@ -82,7 +82,7 @@ const generateStyles = ({ show, disabled }) => {
       ...SHAPES.elevGray5,
     },
     chipLabel: {
-      color: disabled ? COLORS.justWhite : COLORS.bubblegumRed600,
+      color: disabled ? COLORS.justWhite : COLORS.bubblegumRed400,
       textAlign: 'right',
       ...TYPOGRAPHY.overline3,
     },

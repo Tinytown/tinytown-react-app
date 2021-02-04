@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bubblegum_red">#FE4963</color>
+    <color name="bubblegum_red">#FF4763</color>
     <color name="gradient_end">#DE1853</color>
     <color name="primary_dark">#000</color>
     <color name="translucent">#99000000</color>

@@ -72,7 +72,7 @@ export default {
 
   // ELEVATION - COLORS
   elevRed5: {
-    shadowColor: COLORS.bubblegumRed600,
+    shadowColor: COLORS.bubblegumRed400,
     ...elev5,
   },
 
@@ -82,7 +82,7 @@ export default {
   },
 
   elevLime5: {
-    shadowColor: COLORS.funLime600,
+    shadowColor: COLORS.funLime400,
     ...elev5,
   },
 
@@ -92,7 +92,7 @@ export default {
   },
 
   elevOrange5: {
-    shadowColor: COLORS.trafficOrange600,
+    shadowColor: COLORS.trafficOrange400,
     ...elev5,
   },
 

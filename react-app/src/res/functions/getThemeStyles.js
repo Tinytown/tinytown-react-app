@@ -33,9 +33,9 @@ export default (theme) => {
   case 'red':
     backgroundTheme = {
       backgroundColor: COLORS.asphaltGray900,
-      borderColor: COLORS.bubblegumRed600,
+      borderColor: COLORS.bubblegumRed400,
     };
-    keyColor = COLORS.bubblegumRed600;
+    keyColor = COLORS.bubblegumRed400;
     textTheme = {
       color: COLORS.justWhite,
     };
@@ -56,7 +56,7 @@ export default (theme) => {
 
   case 'super red':
     backgroundTheme = {
-      backgroundColor: COLORS.bubblegumRed600,
+      backgroundColor: COLORS.bubblegumRed400,
       ...SHAPES.elevRed5,
     };
     keyColor = COLORS.justWhite;
