@@ -65,7 +65,7 @@ const generateStyles = ({ show, disabled }) => {
     btnContainer: {
       flexDirection: 'row',
       position: 'absolute',
-      bottom: 20,
+      bottom: 24,
       right: 24,
       justifyContent: 'center',
       alignItems: 'center',

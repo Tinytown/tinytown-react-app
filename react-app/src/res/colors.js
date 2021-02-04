@@ -41,8 +41,7 @@ export default {
 
   // COMPOSITE
   disabled: {
-    backgroundColor: '#3C4858',
-    opacity: 0.4,
+    backgroundColor: '#BFCBD9',
   },
 
 };

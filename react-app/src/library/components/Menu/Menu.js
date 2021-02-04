@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import Modal from '../Modal';
@@ -12,7 +11,7 @@ const Menu = ({
   triggerLayout = {},
   children,
 }) => {
-  const [animation, animateMenu, setTriggerLayout, setMenuLayout] = useAnimation('menu');
+  const [animation, animateMenu, setTriggerLayout, setMenuLayout, containerAnimation] = useAnimation('menu');
 
   useEffect(() => {
     showMenu ? animateMenu('show') : animateMenu('hide');
@@ -33,9 +32,9 @@ const Menu = ({
   return (
     <Modal visible={showMenu} setVisible={setShowMenu} >
       <Animated.View style={animation} >
-        <View onLayout={onLayoutHandler} style={styles.container}>
+        <Animated.View onLayout={onLayoutHandler} style={[styles.container, containerAnimation]}>
           {children}
-        </View>
+        </Animated.View>
       </Animated.View>
     </Modal>
   );
