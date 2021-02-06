@@ -35,8 +35,6 @@ const generateStyles = ({ theme, disabled }) => {
   const SIZE = 56;
   const [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
 
-  console.log(contentColor);
-
   return (
     { ...normalizeStyles({
       container: {

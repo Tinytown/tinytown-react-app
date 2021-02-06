@@ -48,8 +48,8 @@ const ShoutBox = ({ onSubmit }) => {
 const generateStyles = ({ show, disabled }) => {
   return normalizeStyles({
     container: {
-      paddingTop: 16,
-      paddingBottom: 50,
+      marginTop: 16,
+      marginBottom: 50,
     },
     input: {
       width: '100%',
@@ -65,7 +65,7 @@ const generateStyles = ({ show, disabled }) => {
     btnContainer: {
       flexDirection: 'row',
       position: 'absolute',
-      bottom: 24,
+      bottom: -28,
       right: 24,
       justifyContent: 'center',
       alignItems: 'center',
