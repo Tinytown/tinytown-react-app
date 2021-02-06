@@ -10,17 +10,20 @@ const Chip = ({
   theme = null,
   onPress,
   wrapperStyle,
+  animationType = 'press',
   disabled = false,
+  ripple = true,
 }) => {
   const styles = generateStyles({ disabled, theme });
 
   return (
     <View style={wrapperStyle} >
       <Pressable
-        animationType='press'
+        animationType={animationType}
         containerStyle={styles.container}
         keyColor={styles.keyColor}
         disabled={disabled}
+        ripple={ripple}
         onPress={onPress}
       >
         {icon &&
@@ -67,7 +70,9 @@ Chip.propTypes = {
   theme: PropTypes.oneOf(['cyan', 'blue', 'red']),
   onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
+  animationType: PropTypes.string,
   disabled: PropTypes.bool,
+  ripple: PropTypes.bool,
 };
 
 export default Chip;

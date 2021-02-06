@@ -34,7 +34,12 @@ const ShoutBox = ({ onSubmit }) => {
       />
       <View style={styles.btnContainer} >
         <Animated.View style={[styles.chipContainer, animation]} >
-          <Chip label={string} theme={disabled ? 'red' : null} />
+          <Chip
+            label={string}
+            theme={disabled ? 'red' : null}
+            animationType={null}
+            ripple={false}
+          />
         </Animated.View>
         <IconButton
           icon='megaphone'
