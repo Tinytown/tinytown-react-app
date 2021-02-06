@@ -36,7 +36,7 @@ const ShoutBox = ({ onSubmit }) => {
         </Animated.View>
         <IconButton
           icon='megaphone'
-          theme='super red'
+          theme='red'
           onPress={onSubmitHandler}
           disabled={limitIndicator.disabled}
         />

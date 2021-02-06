@@ -11,13 +11,12 @@ const IconButton = ({
   wrapperStyle,
   disabled = false,
 }) => {
-  const superSize = theme?.includes('super');
-  const styles = generateStyles({ superSize, theme, disabled });
+  const styles = generateStyles({ theme, disabled });
 
   return (
     <View style={wrapperStyle} >
       <Pressable
-        keyColor={keyColor}
+        keyColor={styles.keyColor}
         containerStyle={styles.container}
         disabled={disabled}
         onPress={onPress}
@@ -32,15 +31,16 @@ const IconButton = ({
   );
 };
 
-const generateStyles = ({ superSize, theme, disabled }) => {
-  const SIZE = superSize ? 52 : 48;
-  const BORDER = superSize ? 0 : 2;
-  const [backgroundTheme, keyColor]  = getThemeStyles(disabled ? null : theme);
+const generateStyles = ({ theme, disabled }) => {
+  const SIZE = 56;
+  const [backgroundTheme, keyColor]  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
     { ...normalizeStyles({
       container: {
         borderRadius: SHAPES.radiusAll,
+        ...backgroundTheme,
+        ...(disabled && COLORS.disabled),
       },
 
       button: {
@@ -48,10 +48,6 @@ const generateStyles = ({ superSize, theme, disabled }) => {
         width: SIZE,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: SHAPES.radiusAll,
-        borderWidth: BORDER,
-        ...backgroundTheme,
-        ...(disabled && COLORS.disabled),
       },
 
       icon: {
@@ -64,7 +60,7 @@ const generateStyles = ({ superSize, theme, disabled }) => {
 
 IconButton.propTypes = {
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'gray', 'super red']),
+  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'gray']),
   onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,

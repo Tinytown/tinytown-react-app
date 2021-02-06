@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import Ripple from 'react-native-material-ripple';
 import  { useAnimation }  from 'library/hooks';
+import { COLORS  } from 'res';
 
 const Pressable = ({
   animationType,
   containerStyle,
   shadowStyle,
   animationStyle,
-  keyColor = 'white',
+  keyColor = COLORS.asphaltGray800,
   onPress = () => console.log('Pass an onPress callback to this component'),
   onPressIn = () => {},
   onPressOut = () => {},

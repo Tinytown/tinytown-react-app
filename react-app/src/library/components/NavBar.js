@@ -25,7 +25,7 @@ const styles = normalizeStyles({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 56,
-    marginHorizontal: -12,
+    marginHorizontal: -16,
   },
 
   leftSide: {
@@ -39,7 +39,7 @@ const styles = normalizeStyles({
   },
 
   label: {
-    marginLeft: 12,
+    marginLeft: 8,
     marginTop: 6,
     color: COLORS.asphaltGray900,
     ...TYPOGRAPHY.headline5,

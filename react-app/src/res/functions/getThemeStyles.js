@@ -54,26 +54,26 @@ export default (theme) => {
 
     return  [backgroundTheme, keyColor, textTheme];
 
-  case 'super red':
+  case 'disabled':
     backgroundTheme = {
-      backgroundColor: COLORS.bubblegumRed400,
-      ...SHAPES.elevRed5,
+      backgroundColor: 'transparent',
+      borderColor: 'transparent',
     };
-    keyColor = COLORS.justWhite;
+    keyColor = COLORS.asphaltGray800;
     textTheme = {
-      color: COLORS.justWhite,
+      color: COLORS.asphaltGray800,
     };
 
     return  [backgroundTheme, keyColor, textTheme];
 
   default:
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray900,
-      borderColor: COLORS.justWhite,
+      backgroundColor: COLORS.justWhite,
+      ...SHAPES.elevGray2,
     };
-    keyColor = COLORS.justWhite;
+    keyColor = COLORS.asphaltGray800;
     textTheme = {
-      color: COLORS.justWhite,
+      color: COLORS.asphaltGray800,
     };
 
     return  [backgroundTheme, keyColor, textTheme] ;
