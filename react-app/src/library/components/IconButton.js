@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Pressable } from 'library/components/hoc';
-import { COLORS, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const IconButton = ({
   icon,
@@ -40,7 +40,6 @@ const generateStyles = ({ theme, disabled }) => {
       container: {
         borderRadius: SHAPES.radiusAll,
         ...backgroundTheme,
-        ...(disabled && COLORS.disabled),
       },
 
       button: {

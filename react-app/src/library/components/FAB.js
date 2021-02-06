@@ -51,7 +51,7 @@ const FAB = ({
 const generateStyles = ({ theme, branded, disabled }) => {
   const ICON_SIZE  = 24;
   const BLUR_SIZE = 320;
-  const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? null : theme);
+  const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
     normalizeStyles({
@@ -68,7 +68,6 @@ const generateStyles = ({ theme, branded, disabled }) => {
         borderRadius: SHAPES.radiusMd,
         borderWidth: 2,
         ...backgroundTheme,
-        ...(disabled && COLORS.disabled),
       },
       icon: {
         height: ICON_SIZE,

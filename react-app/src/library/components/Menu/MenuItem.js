@@ -43,7 +43,7 @@ const generateStyles = ({ disabled }) => {
         height: 48,
         width: 200,
         paddingHorizontal: 8,
-        ...(disabled && COLORS.disabled),
+        ...(disabled && { opacity: 0.4 }),
       },
 
       assetContainer: {

@@ -3,6 +3,7 @@ export default {
   asphaltGray900: '#1F262E',
   asphaltGray800: '#2D3443',
   asphaltGray700: '#3E4A5B',
+  asphaltGray500: '#6F7E90',
   asphaltGray400: '#8997A9',
   asphaltGray200: '#BFCBD9',
   asphaltGray100: '#D5E0EC',
@@ -38,11 +39,5 @@ export default {
   // BASIC
   pureBlack: '#000000',
   justWhite: '#FFFFFF',
-
-  // COMPOSITE
-  disabled: {
-    backgroundColor: '#BFCBD9',
-  },
-
 };
 

@@ -8,7 +8,6 @@ import { goToUser } from 'rdx/locationState';
 import { signOut } from 'rdx/authState';
 import { getLocation } from 'library/apis/geolocation';
 import { Pressable } from 'library/components/hoc';
-
 import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
 import { COLORS, SHAPES, STRINGS, normalizeStyles } from 'res';
