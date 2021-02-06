@@ -30,14 +30,8 @@ const FAB = ({
         onPressIn={() => animateOnPress('in')}
         onPressOut={() => animateOnPress('out')}
       >
-        <RadialGradient
-          style={styles.blur}
-          colors={[styles.keyColor, 'transparent']}
-          stops={[0.1, 0.95]}
-          center={[160, 160]}
-          radius={160}/>
         <Animated.View style={[styles.card, animation]} />
-        <View style={styles.button} >
+        <View style={styles.button}>
           <View style={styles.icon}>
             <Icon icon={icon} color={styles.contentColor} />
           </View>

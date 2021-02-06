@@ -10,6 +10,7 @@ export default (theme) => {
       backgroundColor: COLORS.poolCyan400,
       borderColor: COLORS.justWhite,
       borderWidth: 2,
+      ...SHAPES.elevCyan5,
     };
     keyColor = COLORS.poolCyan400;
     contentColor = COLORS.asphaltGray800;
@@ -21,6 +22,7 @@ export default (theme) => {
       backgroundColor: COLORS.skyBlue400,
       borderColor: COLORS.justWhite,
       borderWidth: 2,
+      ...SHAPES.elevBlue5,
     };
     keyColor = COLORS.skyBlue400;
     contentColor = COLORS.justWhite;
@@ -32,6 +34,7 @@ export default (theme) => {
       backgroundColor: COLORS.bubblegumRed400,
       borderColor: COLORS.justWhite,
       borderWidth: 2,
+      ...SHAPES.elevRed5,
     };
     keyColor = COLORS.bubblegumRed400;
     contentColor = COLORS.justWhite;
