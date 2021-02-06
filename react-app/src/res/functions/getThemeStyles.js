@@ -45,6 +45,7 @@ export default (theme) => {
     backgroundTheme = {
       backgroundColor: 'transparent',
       borderColor: 'transparent',
+      borderWidth: 2,
     };
     keyColor = 'transparent';
     contentColor = COLORS.asphaltGray800;
@@ -54,6 +55,8 @@ export default (theme) => {
   case 'disabled':
     backgroundTheme = {
       backgroundColor: COLORS.asphaltGray200,
+      borderColor: 'transparent',
+      borderWidth: 2,
     };
     keyColor = 'transparent';
     contentColor = COLORS.asphaltGray500;
@@ -63,6 +66,8 @@ export default (theme) => {
   default:
     backgroundTheme = {
       backgroundColor: COLORS.justWhite,
+      borderColor: 'transparent',
+      borderWidth: 2,
       ...SHAPES.elevGray2,
     };
     keyColor = COLORS.asphaltGray800;

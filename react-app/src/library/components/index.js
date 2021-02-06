@@ -1,6 +1,7 @@
 export { Menu, MenuDivider, MenuItem } from './Menu';
 export { default as ActivityOverlay } from './ActivityOverlay';
 export { default as BottomSheet } from './BottomSheet';
+export { default as Chip } from './Chip';
 export { default as FAB } from './FAB';
 export { default as HomeBar } from './HomeBar';
 export { default as IconButton } from './IconButton';

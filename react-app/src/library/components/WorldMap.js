@@ -35,7 +35,8 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
         onRegionIsChanging={regionChangeHandler}
         onDidFinishRenderingMapFully={() => setMapRendered(true)}
       >
-        {userLocation && <MapboxGL.UserLocation
+        {userLocation &&
+        <MapboxGL.UserLocation
           animated={true}
           visible={true}
         >

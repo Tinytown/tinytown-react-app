@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, TextInput, Text } from 'react-native';
+import { View, TextInput } from 'react-native';
 import Animated from 'react-native-reanimated';
 import IconButton from './IconButton';
+import Chip from './Chip';
 import { useNewShout } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, normalizeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
 
 const ShoutBox = ({ onSubmit }) => {
   const [value, setValue, limitIndicator, createNewShout] = useNewShout();
-  const styles = generateStyles(limitIndicator);
+  const { string, animation, show, disabled } = limitIndicator;
+  const styles = generateStyles({ show });
 
   const onSubmitHandler = () => {
     createNewShout();
@@ -31,21 +33,21 @@ const ShoutBox = ({ onSubmit }) => {
         onSubmitEditing={onSubmitHandler}
       />
       <View style={styles.btnContainer} >
-        <Animated.View style={[styles.chipContainer, limitIndicator.animation]} >
-          <Text style={styles.chipLabel}>{limitIndicator.string}</Text>
+        <Animated.View style={[styles.chipContainer, animation]} >
+          <Chip label={string} theme={disabled ? 'red' : null} />
         </Animated.View>
         <IconButton
           icon='megaphone'
           theme='red'
           onPress={onSubmitHandler}
-          disabled={limitIndicator.disabled}
+          disabled={disabled}
         />
       </View>
     </View>
   );
 };
 
-const generateStyles = ({ show, disabled }) => {
+const generateStyles = ({ show }) => {
   return normalizeStyles({
     container: {
       marginTop: 16,
@@ -71,20 +73,8 @@ const generateStyles = ({ show, disabled }) => {
       alignItems: 'center',
     },
     chipContainer: {
-      backgroundColor: disabled ? COLORS.bubblegumRed400 : COLORS.justWhite,
-      paddingHorizontal: 12,
-      paddingVertical: 6,
       marginRight: 12,
-      borderRadius: SHAPES.radiusAll,
       opacity: show ? 1 : 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      ...SHAPES.elevGray5,
-    },
-    chipLabel: {
-      color: disabled ? COLORS.justWhite : COLORS.bubblegumRed400,
-      textAlign: 'right',
-      ...TYPOGRAPHY.overline3,
     },
   });
 };
