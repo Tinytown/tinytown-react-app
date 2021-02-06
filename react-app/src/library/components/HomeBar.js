@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
+import Animated from 'react-native-reanimated';
 import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { goToUser } from 'rdx/locationState';
@@ -10,12 +11,14 @@ import { getLocation } from 'library/apis/geolocation';
 import { Pressable } from 'library/components/hoc';
 import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
+import { useAnimation } from 'library/hooks';
 import { COLORS, SHAPES, STRINGS, normalizeStyles } from 'res';
 
 const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [triggerLayout, setTriggerLayout] = useState(null);
   const showButton = userVisible !== null && !userVisible;
+  const [showAnimation] = useAnimation('show', showButton);
 
   const signOutHandler = () => {
     auth().signOut()
@@ -24,13 +27,12 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
 
   return (
     <>
-      {showButton &&
-      <IconButton
-        icon='crosshairs'
-        onPress={() => getLocation(goToUser)}
-        wrapperStyle={styles.locationBtn}
-      />
-      }
+      <Animated.View style={[styles.locationBtn, showAnimation]} >
+        <IconButton
+          icon='crosshairs'
+          onPress={() => getLocation(goToUser)}
+        />
+      </Animated.View>
       <View style={styles.bar}>
         <Pressable
           onPress={() => setShowMenu(true)}
