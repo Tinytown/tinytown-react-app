@@ -67,8 +67,8 @@ const styles = normalizeStyles({
   },
 
   avatar: {
-    width: 52,
-    height: 52,
+    width: 56,
+    height: 56,
     borderRadius: SHAPES.radiusAll,
     borderWidth: 2,
     borderColor: COLORS.justWhite,
@@ -86,7 +86,7 @@ const styles = normalizeStyles({
   locationBtn: {
     position: 'absolute',
     right: 16,
-    top: 78,
+    top: 76,
   },
 });
 

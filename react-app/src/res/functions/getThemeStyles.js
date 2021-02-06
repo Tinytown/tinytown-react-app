@@ -42,7 +42,7 @@ export default (theme) => {
 
     return  [backgroundTheme, keyColor, textTheme];
 
-  case 'gray':
+  case 'transparent':
     backgroundTheme = {
       backgroundColor: 'transparent',
       borderColor: 'transparent',

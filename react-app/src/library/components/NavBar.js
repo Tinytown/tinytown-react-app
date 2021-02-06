@@ -11,7 +11,7 @@ const NavBar = ({
 }) => (
   <View style={styles.container}>
     <View style={styles.leftSide}>
-      <IconButton icon='close' theme='gray'onPress={onClose} />
+      <IconButton icon='close' theme='transparent' onPress={onClose} />
       <Text style={styles.label}>{label}</Text>
     </View>
     <View style={styles.rightSide}>
