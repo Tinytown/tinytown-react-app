@@ -54,12 +54,12 @@ export default (theme) => {
 
   case 'disabled':
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray200,
-      borderColor: 'transparent',
+      backgroundColor: COLORS.asphaltGray50,
+      borderColor: COLORS.asphaltGray100,
       borderWidth: 2,
     };
     keyColor = 'transparent';
-    contentColor = COLORS.asphaltGray500;
+    contentColor = COLORS.asphaltGray200;
 
     return  [backgroundTheme, keyColor, contentColor];
 
