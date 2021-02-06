@@ -88,7 +88,7 @@ const generateStyles = ({ avatarColors }) => {
         borderWidth: 2,
         borderColor: COLORS.justWhite,
         backgroundColor: COLORS.justWhite,
-        ...SHAPES.elevGray5,
+        ...(avatarColors && SHAPES.elevGray5),
         shadowColor: avatarColors?.background,
       },
 

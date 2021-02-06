@@ -49,7 +49,7 @@ const generateStyles = ({ show, disabled }) => {
   return normalizeStyles({
     container: {
       marginTop: 16,
-      marginBottom: 50,
+      marginBottom: 84,
     },
     input: {
       width: '100%',
