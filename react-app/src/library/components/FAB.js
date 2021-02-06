@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
-import RadialGradient from 'react-native-radial-gradient';
 import { Pressable } from 'library/components/hoc';
 import { useAnimation } from 'library/hooks';
 import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
@@ -44,7 +43,6 @@ const FAB = ({
 
 const generateStyles = ({ theme, branded, disabled }) => {
   const ICON_SIZE  = 24;
-  const BLUR_SIZE = 320;
   const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
@@ -79,13 +77,6 @@ const generateStyles = ({ theme, branded, disabled }) => {
         borderRadius: SHAPES.radiusMd,
         backgroundColor: COLORS.asphaltGray800,
         ...(disabled && { opacity: 0 }),
-      },
-      blur: {
-        position: 'absolute',
-        width: BLUR_SIZE,
-        height: BLUR_SIZE,
-        transform: [{ translateX: 40 }],
-        opacity: 0.22,
       },
     }), keyColor, contentColor }
   );
