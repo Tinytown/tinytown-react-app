@@ -23,7 +23,7 @@ const IconButton = ({
       >
         <View style={styles.button}>
           <View style={styles.icon}>
-            <Icon icon={icon} color={styles.keyColor} />
+            <Icon icon={icon} color={styles.contentColor} />
           </View>
         </View>
       </Pressable>
@@ -33,7 +33,9 @@ const IconButton = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const SIZE = 56;
-  const [backgroundTheme, keyColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+
+  console.log(contentColor);
 
   return (
     { ...normalizeStyles({
@@ -53,7 +55,7 @@ const generateStyles = ({ theme, disabled }) => {
         height: 24,
         width: 24,
       },
-    }), keyColor }
+    }), keyColor, contentColor }
   );
 };
 

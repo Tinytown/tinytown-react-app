@@ -3,67 +3,59 @@ import SHAPES from '../shapes';
 
 export default (theme) => {
   let backgroundTheme = {};
-  let textTheme = {};
 
   switch (theme) {
   case 'cyan':
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray900,
-      borderColor: COLORS.poolCyan400,
+      backgroundColor: COLORS.poolCyan400,
+      borderColor: COLORS.justWhite,
+      borderWidth: 2,
     };
     keyColor = COLORS.poolCyan400;
-    textTheme = {
-      color: COLORS.justWhite,
-    };
+    contentColor = COLORS.asphaltGray800;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
   case 'blue':
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray900,
-      borderColor: COLORS.skyBlue400,
+      backgroundColor: COLORS.skyBlue400,
+      borderColor: COLORS.justWhite,
+      borderWidth: 2,
     };
     keyColor = COLORS.skyBlue400;
-    textTheme = {
-      color: COLORS.justWhite,
-    };
+    contentColor = COLORS.justWhite;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
   case 'red':
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray900,
-      borderColor: COLORS.bubblegumRed400,
+      backgroundColor: COLORS.bubblegumRed400,
+      borderColor: COLORS.justWhite,
+      borderWidth: 2,
     };
     keyColor = COLORS.bubblegumRed400;
-    textTheme = {
-      color: COLORS.justWhite,
-    };
+    contentColor = COLORS.justWhite;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
   case 'transparent':
     backgroundTheme = {
       backgroundColor: 'transparent',
       borderColor: 'transparent',
     };
-    keyColor = COLORS.asphaltGray800;
-    textTheme = {
-      color: COLORS.asphaltGray800,
-    };
+    keyColor = 'transparent';
+    contentColor = COLORS.asphaltGray800;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
   case 'disabled':
     backgroundTheme = {
       backgroundColor: COLORS.asphaltGray200,
     };
-    keyColor = COLORS.asphaltGray500;
-    textTheme = {
-      color: COLORS.asphaltGray500,
-    };
+    keyColor = 'transparent';
+    contentColor = COLORS.asphaltGray500;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
   default:
     backgroundTheme = {
@@ -71,10 +63,8 @@ export default (theme) => {
       ...SHAPES.elevGray2,
     };
     keyColor = COLORS.asphaltGray800;
-    textTheme = {
-      color: COLORS.asphaltGray800,
-    };
+    contentColor = COLORS.asphaltGray800;
 
-    return  [backgroundTheme, keyColor, textTheme] ;
+    return  [backgroundTheme, keyColor, contentColor];
   }
 };

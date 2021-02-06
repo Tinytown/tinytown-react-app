@@ -24,7 +24,7 @@ const FAB = ({
       <Pressable
         animationType='press'
         containerStyle={styles.container}
-        keyColor={keyColor}
+        keyColor={styles.keyColor}
         disabled={disabled}
         onPress={onPress}
         onPressIn={() => animateOnPress('in')}
@@ -32,14 +32,14 @@ const FAB = ({
       >
         <RadialGradient
           style={styles.blur}
-          colors={[keyColor, 'transparent']}
+          colors={[styles.keyColor, 'transparent']}
           stops={[0.1, 0.95]}
           center={[160, 160]}
           radius={160}/>
         <Animated.View style={[styles.card, animation]} />
         <View style={styles.button} >
           <View style={styles.icon}>
-            <Icon icon={icon} color={keyColor} />
+            <Icon icon={icon} color={styles.contentColor} />
           </View>
           <Text style={styles.label}>{label}</Text>
         </View>
@@ -51,10 +51,10 @@ const FAB = ({
 const generateStyles = ({ theme, branded, disabled }) => {
   const ICON_SIZE  = 24;
   const BLUR_SIZE = 320;
-  const  [backgroundTheme, keyColor, textTheme]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
-    normalizeStyles({
+    { ...normalizeStyles({
       container: {
         borderRadius: SHAPES.radiusMd,
         alignItems: 'center',
@@ -62,11 +62,10 @@ const generateStyles = ({ theme, branded, disabled }) => {
       },
       button: {
         flexDirection: 'row',
-        paddingLeft: 16,
-        paddingRight: 20,
-        paddingVertical: 12,
+        paddingLeft: 14,
+        paddingRight: 18,
+        paddingVertical: 10,
         borderRadius: SHAPES.radiusMd,
-        borderWidth: 2,
         ...backgroundTheme,
       },
       icon: {
@@ -75,8 +74,8 @@ const generateStyles = ({ theme, branded, disabled }) => {
         marginRight: 12,
       },
       label: {
+        color: contentColor,
         ...TYPOGRAPHY.subheader3,
-        ...textTheme,
         ...(branded && TYPOGRAPHY.brandedButton),
       },
       card: {
@@ -84,7 +83,7 @@ const generateStyles = ({ theme, branded, disabled }) => {
         height: '100%',
         width: '80%',
         borderRadius: SHAPES.radiusMd,
-        backgroundColor: keyColor,
+        backgroundColor: COLORS.asphaltGray800,
         ...(disabled && { opacity: 0 }),
       },
       blur: {
@@ -94,7 +93,7 @@ const generateStyles = ({ theme, branded, disabled }) => {
         transform: [{ translateX: 40 }],
         opacity: 0.22,
       },
-    })
+    }), keyColor, contentColor }
   );
 };
 
