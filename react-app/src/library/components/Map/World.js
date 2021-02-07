@@ -11,7 +11,7 @@ import { COLORS, IMAGES, normalizeStyles } from 'res';
 const { MapView, Camera, SymbolLayer, UserLocation } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
-const WorldMap = ({
+const World = ({
   userLocation,
   updateUserLocation,
   updateUserVisible,
@@ -101,4 +101,4 @@ const mapStateToProps = (state) => ({
   userLocation: state.location.user,
 });
 
-export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(WorldMap);
+export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(World);

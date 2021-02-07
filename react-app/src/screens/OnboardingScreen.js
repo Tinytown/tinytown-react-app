@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
-import { WorldMap, ActivityOverlay, OnboardingButtons } from 'library/components';
+import { World, ActivityOverlay, OnboardingButtons } from 'library/components';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 
 const OnboardingScreen = () => {
@@ -8,7 +8,7 @@ const OnboardingScreen = () => {
   const [showSign, setShowSign] = useState(false);
 
   return (
-    <WorldMap onTouchStart={() => setShowSign(false)} onMapRendered={() => setShowSign(true)} >
+    <World onTouchStart={() => setShowSign(false)} onMapRendered={() => setShowSign(true)} >
       <ActivityOverlay showOverlay={authLoading} />
       <OnboardingButtons setAuthLoading={setAuthLoading} authLoading={authLoading} />
       {showSign &&
@@ -20,7 +20,7 @@ const OnboardingScreen = () => {
         </View>
       </View>
       }
-    </WorldMap>
+    </World>
   );
 };
 

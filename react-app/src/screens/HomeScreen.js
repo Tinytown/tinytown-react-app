@@ -1,12 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { WorldMap, FAB, HomeBar } from 'library/components';
+import { World, FAB, HomeBar } from 'library/components';
 import { STRINGS, normalizeStyles } from 'res';
 
 const HomeScreen = ({ storageLoaded, navigation }) => {
   return (
-    <WorldMap>
+    <World>
       {storageLoaded &&
       <View style={styles.container} pointerEvents='box-none'>
         <HomeBar />
@@ -20,7 +20,7 @@ const HomeScreen = ({ storageLoaded, navigation }) => {
         />
       </View>
       }
-    </WorldMap>
+    </World>
   );
 };
 
