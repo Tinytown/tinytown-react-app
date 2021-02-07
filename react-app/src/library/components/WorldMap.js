@@ -8,10 +8,17 @@ import config from 'config/env.config.js';
 import { useLocation, useMap } from 'library/hooks';
 import { COLORS, IMAGES, normalizeStyles } from 'res';
 
-const { MapView, Camera } = MapboxGL;
+const { MapView, Camera, SymbolLayer, UserLocation } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
-const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, children }) => {
+const WorldMap = ({
+  userLocation,
+  updateUserLocation,
+  updateUserVisible,
+  children,
+  onTouchStart,
+  onMapRendered,
+}) => {
   const cameraRef = useRef(null);
   const mapRef = useRef(null);
   const [heading] = useLocation(updateUserLocation);
@@ -33,14 +40,18 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
         compassEnabled={false}
         attributionEnabled={false}
         onRegionIsChanging={regionChangeHandler}
-        onDidFinishRenderingMapFully={() => setMapRendered(true)}
+        onDidFinishRenderingMapFully={() => {
+          onMapRendered();
+          setMapRendered(true);
+        }}
+        onTouchStart={onTouchStart}
       >
         {userLocation &&
-        <MapboxGL.UserLocation
+        <UserLocation
           animated={true}
           visible={true}
         >
-          <MapboxGL.SymbolLayer
+          <SymbolLayer
             id={'customUserLocationIcon'}
             style={{
               iconAllowOverlap: true,
@@ -51,7 +62,7 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
             }}
             minZoomLevel={1}
           />
-        </MapboxGL.UserLocation>}
+        </UserLocation>}
         <Camera
           ref={cameraRef}
           animationDuration={!mapRendered ? 0 : 2000}

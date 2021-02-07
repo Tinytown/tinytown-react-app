@@ -29,7 +29,7 @@ export default (cameraRef, mapRef, updateUserVisible) => {
   };
 
   const [camera, dispatch] = useReducer(cameraReducer, {
-    center: [-70.0989682598842, 41.29406055096156],
+    center: [-70.09716612969417, 41.30054837367213],
     bounds: null,
     zoom: DEFAULT_ZOOM,
     movedByUser: false,

@@ -19,5 +19,8 @@ export default {
   placeholder: {
     shoutBox: 'What\'s happening nearby?',
   },
+  onboarding: {
+    welcome: 'Welcome to',
+  },
 };
 
