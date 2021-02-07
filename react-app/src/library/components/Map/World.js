@@ -17,6 +17,7 @@ const World = ({
   updateUserLocation,
   updateUserVisible,
   children,
+  onTouchStart,
 }) => {
   // Custom Hooks
   const cameraRef = useRef(null);
@@ -47,6 +48,7 @@ const World = ({
         attributionEnabled={false}
         onRegionIsChanging={regionChangeHandler}
         onDidFinishRenderingMapFully={() => setMapRendered(true)}
+        onTouchStart={onTouchStart}
       >
         {userLocation && userMarker}
         {showWelcomeSign && welcomeSign}
