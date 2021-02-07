@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import config from 'config/env.config.js';
 import { useLocation, useMap } from 'library/hooks';
-import { COLORS, IMAGES, normalizeStyles } from 'res';
+import { renderUser, renderWelcomeSign } from './renderContent';
+import { COLORS, normalizeStyles } from 'res';
 
-const { MapView, Camera, SymbolLayer, UserLocation } = MapboxGL;
+const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const World = ({
@@ -16,9 +17,8 @@ const World = ({
   updateUserLocation,
   updateUserVisible,
   children,
-  onTouchStart,
-  onMapRendered,
 }) => {
+  // Custom Hooks
   const cameraRef = useRef(null);
   const mapRef = useRef(null);
   const [heading] = useLocation(updateUserLocation);
@@ -27,7 +27,13 @@ const World = ({
     regionChangeHandler,
     mapRendered,
     setMapRendered,
+    DEFAULT_ZOOM,
   ] = useMap(cameraRef.current, mapRef.current, updateUserVisible);
+
+  // Map Content
+  const userMarker = renderUser(heading);
+  const welcomeSign = renderWelcomeSign();
+  const showWelcomeSign = !userLocation && camera.zoom === DEFAULT_ZOOM;
 
   return (
     <View style={styles.landscape}>
@@ -40,29 +46,10 @@ const World = ({
         compassEnabled={false}
         attributionEnabled={false}
         onRegionIsChanging={regionChangeHandler}
-        onDidFinishRenderingMapFully={() => {
-          onMapRendered();
-          setMapRendered(true);
-        }}
-        onTouchStart={onTouchStart}
+        onDidFinishRenderingMapFully={() => setMapRendered(true)}
       >
-        {userLocation &&
-        <UserLocation
-          animated={true}
-          visible={true}
-        >
-          <SymbolLayer
-            id={'customUserLocationIcon'}
-            style={{
-              iconAllowOverlap: true,
-              iconIgnorePlacement: true,
-              iconImage: IMAGES.userMarker,
-              iconSize: 0.4,
-              iconRotate: heading || 0,
-            }}
-            minZoomLevel={1}
-          />
-        </UserLocation>}
+        {userLocation && userMarker}
+        {showWelcomeSign && welcomeSign}
         <Camera
           ref={cameraRef}
           animationDuration={!mapRendered ? 0 : 2000}
