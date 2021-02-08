@@ -11,4 +11,5 @@ export { default as NavBar } from './NavBar';
 export { default as OnboardingButtons } from './OnboardingButtons';
 export { default as Scrim } from './Scrim';
 export { default as ShoutBox } from './ShoutBox';
+export { default as SpeechBubble } from './SpeechBubble';
 export { default as TwitterAuth } from './TwitterAuth';

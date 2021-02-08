@@ -5,10 +5,11 @@ import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
 
 const SpeechBubble = ({
   content = 'Speech Bubble',
+  elevation = SHAPES.elevGray2,
   wrapperStyle,
   flip = false,
 }) => {
-  const styles = generateStyles({ flip });
+  const styles = generateStyles({ flip, elevation });
 
   return (
     <View style={wrapperStyle}>
@@ -16,11 +17,10 @@ const SpeechBubble = ({
         <Text style={styles.content}>{content}</Text>
       </View>
     </View>
-
   );
 };
 
-const generateStyles = ({ flip }) => (
+const generateStyles = ({ flip, elevation }) => (
   normalizeStyles({
     container: {
       paddingVertical: 8,
@@ -30,17 +30,18 @@ const generateStyles = ({ flip }) => (
       borderTopRightRadius: SHAPES.radiusLg,
       borderBottomRightRadius: flip ? SHAPES.radiusSm : SHAPES.radiusLg,
       borderBottomLeftRadius: flip ? SHAPES.radiusLg : SHAPES.radiusSm,
-      ...SHAPES.elevGray2,
+      ...elevation,
     },
     content: {
       color: COLORS.asphaltGray800,
-      ...TYPOGRAPHY.brandedButton,
+      ...TYPOGRAPHY.subheader3,
     },
   })
 );
 
 SpeechBubble.propTypes = {
   content: PropTypes.string.isRequired,
+  elevation: PropTypes.object,
   flip: PropTypes.bool,
 };
 

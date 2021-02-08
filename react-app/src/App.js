@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
-import OnboardingScreen from 'screens/OnboardingScreen';
+import OnboardingStack from 'screens/OnboardingStack';
 import RootStack from 'screens/RootStack';
 import { useAppLaunch } from 'library/hooks';
 import { COLORS } from 'res';
@@ -24,11 +24,11 @@ const App = ({ isSignedIn }) => {
         <Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: false }} >
           {isSignedIn ? (
             <>
-              <Stack.Screen name='Root' component={RootStack} />
+              <Stack.Screen name='Root Stack' component={RootStack} />
             </>
           ) : (
             <>
-              <Stack.Screen name='Onboarding' component={OnboardingScreen} />
+              <Stack.Screen name='Onboarding Stack' component={OnboardingStack} />
             </>
           )}
         </Stack.Navigator>
