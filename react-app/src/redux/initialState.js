@@ -19,6 +19,7 @@ const INITIAL_STATE = Object.freeze({
   },
   shouts: {
     created: [],
+    loading: true,
   },
 });
 

@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import firestore from '@react-native-firebase/firestore';
+import _ from 'lodash';
 import { useDispatch } from 'react-redux';
-import { removeShout } from 'rdx/shoutState';
+import { removeShout, updateShoutsLoading } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
 
 export default (userLocation) => {
@@ -41,6 +42,11 @@ export default (userLocation) => {
 
     return codes;
   };
+
+  // Update loading state
+  const debouncedLoading = useRef(_.debounce(() => {
+    dispatch(updateShoutsLoading(false));
+  }, 500, { leading: false, trailing: true }));
 
   const fetchShouts = () => {
     if (!userLocation) {
@@ -83,7 +89,7 @@ export default (userLocation) => {
                 if (duplicate) {
                   return currentValue;
                 }
-
+                debouncedLoading.current();
                 return [...currentValue, change.doc.data()];
               });
 

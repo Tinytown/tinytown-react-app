@@ -22,6 +22,7 @@ JSON SOURCE
   },
   "shouts": {
     created: [],
+    loading: true,
   }
 }
 
@@ -67,6 +68,7 @@ export default {
       },
       shouts: {
         created: [],
+        loading: true,
       },
     },
   ],
@@ -231,9 +233,10 @@ export default {
       examples: [
         {
           created: [],
+          loading: true,
         },
       ],
-      required: ['created'],
+      required: ['created', 'loading'],
       title: 'The shouts schema',
       type: 'object',
       properties: {
@@ -243,6 +246,13 @@ export default {
           title: 'The created schema',
           default: false,
           examples: [{ id: 123, text: 'LOUD NOISES!' }],
+        },
+        loading: {
+          $id: '#/properties/shouts/properties/loading',
+          type: 'boolean',
+          title: 'The loading schema',
+          default: true,
+          examples: [true],
         },
       },
       additionalProperties: true,

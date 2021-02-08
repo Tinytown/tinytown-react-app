@@ -14,4 +14,5 @@ export const APP_STORAGE = 'app_storage';
 
 // Shout
 export const UPDATE_SHOUTS = 'update_shouts';
+export const SHOUTS_LOADING = 'shouts_loading';
 
