@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Pressable } from 'library/components/hoc';
 import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
 
-const Shout = ({
+const Shout = React.memo(({
   label = 'Shout Label',
   onPress,
 }) => {
@@ -27,7 +27,7 @@ const Shout = ({
       </Pressable>
     </View>
   );
-};
+});
 
 const generateStyles = ({ wrapperLayout }) => {
   const HORIZONTAL_PADDING = 12;
