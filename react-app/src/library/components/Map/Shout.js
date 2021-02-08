@@ -7,12 +7,15 @@ import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
 const Shout = React.memo(({
   label = 'Shout Label',
   onPress,
+  onLayout,
+  styleOffset = { WRAPPER_PADDING: 8, PIN_OFFSET: 14 },
 }) => {
   const [wrapperLayout, setWrapperLayout] = useState(null);
-  const styles = generateStyles({ wrapperLayout });
+  const styles = generateStyles({ wrapperLayout, styleOffset });
 
   const onLayoutHandler = ({ nativeEvent: { layout } }) => {
     setWrapperLayout(layout);
+    onLayout && onLayout(layout);
   };
 
   return (
@@ -29,28 +32,21 @@ const Shout = React.memo(({
   );
 });
 
-const generateStyles = ({ wrapperLayout }) => {
-  const HORIZONTAL_PADDING = 12;
-  const PIN_OFFSET = 14;
-  const PIN_BORDER_WIDTH = 2;
-  const MAX_WIDTH = 180;
+const generateStyles = ({ wrapperLayout, styleOffset: { PIN_OFFSET, WRAPPER_PADDING } }) => {
+  const MAX_WIDTH = 240;
 
   return (
     normalizeStyles({
       wrapper: {
-        padding: 8,
+        padding: WRAPPER_PADDING,
         alignSelf: 'center',
         maxWidth: MAX_WIDTH,
         opacity: wrapperLayout ? 1 : 0,
-        transform: wrapperLayout ? [
-          { translateY: -(wrapperLayout.height / 2) + (PIN_BORDER_WIDTH / 2) },
-          { translateX: wrapperLayout.width / 2 - HORIZONTAL_PADDING - PIN_OFFSET - PIN_BORDER_WIDTH / 2 },
-        ] : [],
       },
       container: {
         flexDirection: 'row',
         paddingVertical: 8,
-        paddingHorizontal: HORIZONTAL_PADDING,
+        paddingHorizontal: 12,
         borderRadius: SHAPES.radiusAll,
         backgroundColor: COLORS.asphaltGray800,
         ...SHAPES.elevGray2,
@@ -67,7 +63,7 @@ const generateStyles = ({ wrapperLayout }) => {
         height: 10,
         borderRadius: SHAPES.radiusAll,
         borderColor: COLORS.asphaltGray800,
-        borderWidth: PIN_BORDER_WIDTH,
+        borderWidth: 2,
         backgroundColor: COLORS.justWhite,
       },
     })
@@ -77,6 +73,8 @@ const generateStyles = ({ wrapperLayout }) => {
 Shout.propTypes = {
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func,
+  onLayout: PropTypes.func,
+  styleOffset: PropTypes.object,
 };
 
 export default Shout;

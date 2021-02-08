@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { onboardingRaftShape } from './GeoJSON';
 import Shout from './Shout';
-import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
+import mockShouts from './mockShouts';
+import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles, normalizeValue } from 'res';
 const { SymbolLayer, UserLocation, MarkerView, ShapeSource } = MapboxGL;
 
 export const renderUser = (heading) => {
@@ -81,19 +82,42 @@ export const renderWelcomeSign = () => {
 
 export const renderShouts = (shouts) => {
   let renderedShouts = null;
-  // console.log('shouts', shouts);
-  const mockShouts = [{ 'coordinates': [175.0494383, -41.1333], 'created_at': 1612803116600, 'id': 'cZHN1yZVRZWaTj0zOBA4', 'plus_code': '4VCQV200+', 'source_platform': 'android', 'text': 'This is a really, really long shout' }, { 'coordinates': [175.066293, -41.126075], 'created_at': 1612804338873, 'id': 'sGHCFnVmSE7BlBSL3Mia', 'plus_code': '4VCQV300+', 'source_platform': 'ios', 'text': 'Shorty' }, { 'coordinates': [-122.334009, 47.6912765], 'created_at': 1612803116600, 'id': 'cZHN1yZVRZWaTj0zOBA3', 'plus_code': '4VCQV200+', 'source_platform': 'android', 'text': 'This is a really, really long shout' }];
 
   if (shouts) {
     renderedShouts = mockShouts.map((shout) => {
+      const WRAPPER_PADDING = 8;
+      const PIN_OFFSET = 14;
+      const normalizedPadding = normalizeValue(WRAPPER_PADDING);
+      const normalizedOffset = normalizeValue(PIN_OFFSET);
+      const [shoutLayout, setShoutLayout] = useState(null);
+
+      // Tweak anchor on each platform
+      let adjustX = 0;
+      let adjustY = 0;
+
+      if (Platform.OS === 'ios' && shoutLayout) {
+        adjustX = -((shoutLayout.width / 48) * 0.09);
+        adjustY = 0.3;
+      } else if (Platform.OS === 'android' && shoutLayout) {
+        adjustX = 0.03;
+      }
+
+      // Dynamically adjust marker anchor based on width / height
+      const anchor = {
+        x: shoutLayout ? (normalizedPadding + normalizedOffset) / shoutLayout.width + adjustX : 0,
+        y: shoutLayout ? ((shoutLayout.height - normalizedPadding) / shoutLayout.height) + adjustY : 0,
+      };
+
       return (
         <MarkerView
           key={shout.id}
           id={shout.id}
           coordinate={shout.coordinates}
+          anchor={anchor}
         >
-          <Shout label={shout.text}/>
+          <Shout label={shout.text} onLayout={setShoutLayout} styleOffset={{ WRAPPER_PADDING, PIN_OFFSET }} />
         </MarkerView>
+
       );
     });
   }
