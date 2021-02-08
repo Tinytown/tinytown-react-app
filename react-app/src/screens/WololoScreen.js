@@ -41,11 +41,11 @@ const styles = normalizeStyles({
     ...TYPOGRAPHY.display3,
   },
   container: {
+    alignItems: 'center',
     marginTop: 80,
     marginBottom: 40,
   },
   image: {
-    left: -16,
     width: '120%',
     height: 240,
     resizeMode: 'contain',
@@ -54,7 +54,7 @@ const styles = normalizeStyles({
     position: 'absolute',
     flexDirection: 'row',
     alignItems: 'flex-end',
-    transform: [{ translateY: -48 }, { translateX: 72 }],
+    transform: [{ translateX: 8 }, { translateY: -48 }],
   },
   leftBubble: {
     maxWidth: 90,

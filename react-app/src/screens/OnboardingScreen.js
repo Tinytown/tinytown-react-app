@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Animated, Image } from 'react-native';
+import { connect } from 'react-redux';
 import { World, ActivityOverlay, OnboardingButtons, SpeechBubble } from 'library/components';
 import { IMAGES, normalizeStyles } from 'res';
 
-const OnboardingScreen = ({ navigation }) => {
+const OnboardingScreen = ({ navigation, userLocation }) => {
   const [authLoading, setAuthLoading] = useState(false);
   const [toasty, setToasty] = useState(true);
   const slideAnimation = useRef(new Animated.Value(240)).current;
 
   useEffect(() => {
     let timeoutId;
-    if (toasty) {
+    if (toasty && !userLocation) {
       timeoutId = setTimeout(() => {
         Animated.sequence([
           Animated.spring(
@@ -71,4 +72,8 @@ const styles = normalizeStyles({
   },
 });
 
-export default OnboardingScreen;
+const mapStateToProps = (state) => ({
+  userLocation: state.location.user,
+});
+
+export default connect(mapStateToProps, {})(OnboardingScreen);
