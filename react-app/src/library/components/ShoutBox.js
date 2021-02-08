@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, TextInput, Text } from 'react-native';
+import { View, TextInput } from 'react-native';
 import Animated from 'react-native-reanimated';
 import IconButton from './IconButton';
+import Chip from './Chip';
 import { useNewShout } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, normalizeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
 
 const ShoutBox = ({ onSubmit }) => {
   const [value, setValue, limitIndicator, createNewShout] = useNewShout();
-  const styles = generateStyles(limitIndicator);
+  const { string, animation, show, disabled } = limitIndicator;
+  const styles = generateStyles({ show });
 
   const onSubmitHandler = () => {
     createNewShout();
@@ -23,7 +25,7 @@ const ShoutBox = ({ onSubmit }) => {
         enablesReturnKeyAutomatically
         autoCorrect={false}
         placeholder={STRINGS.placeholder.shoutBox}
-        placeholderTextColor={COLORS.sidewalkGray}
+        placeholderTextColor={COLORS.asphaltGray200}
         textAlignVertical='top'
         keyboardType='twitter'
         value={value}
@@ -31,25 +33,30 @@ const ShoutBox = ({ onSubmit }) => {
         onSubmitEditing={onSubmitHandler}
       />
       <View style={styles.btnContainer} >
-        <Animated.View style={[styles.chipContainer, limitIndicator.animation]} >
-          <Text style={styles.chipLabel}>{limitIndicator.string}</Text>
+        <Animated.View style={[styles.chipContainer, animation]} >
+          <Chip
+            label={string}
+            theme={disabled ? 'red' : null}
+            animationType={null}
+            ripple={false}
+          />
         </Animated.View>
         <IconButton
           icon='megaphone'
-          theme='super red'
+          theme='red'
           onPress={onSubmitHandler}
-          disabled={limitIndicator.disabled}
+          disabled={disabled}
         />
       </View>
     </View>
   );
 };
 
-const generateStyles = ({ show, disabled }) => {
+const generateStyles = ({ show }) => {
   return normalizeStyles({
     container: {
-      paddingTop: 16,
-      paddingBottom: 50,
+      marginTop: 16,
+      marginBottom: 84,
     },
     input: {
       width: '100%',
@@ -58,32 +65,21 @@ const generateStyles = ({ show, disabled }) => {
       paddingTop: 24,
       paddingBottom: 24,
       borderRadius: 8,
-      backgroundColor: COLORS.snowGray,
+      color: COLORS.asphaltGray800,
+      backgroundColor: COLORS.asphaltGray50,
       ...TYPOGRAPHY.subheader2,
     },
     btnContainer: {
       flexDirection: 'row',
       position: 'absolute',
-      bottom: 20,
+      bottom: -28,
       right: 24,
       justifyContent: 'center',
       alignItems: 'center',
     },
     chipContainer: {
-      backgroundColor: disabled ? COLORS.bubblegumRed600 : COLORS.justWhite,
-      paddingHorizontal: 12,
-      paddingVertical: 6,
       marginRight: 12,
-      borderRadius: SHAPES.radiusAll,
       opacity: show ? 1 : 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      ...SHAPES.elevGray5,
-    },
-    chipLabel: {
-      color: disabled ? COLORS.justWhite : COLORS.bubblegumRed600,
-      textAlign: 'right',
-      ...TYPOGRAPHY.overline3,
     },
   });
 };

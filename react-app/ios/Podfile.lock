@@ -241,9 +241,6 @@ PODS:
     - FirebaseAnalytics (= 7.4.0)
   - Firebase/CoreOnly (7.4.0):
     - FirebaseCore (= 7.4.0)
-  - Firebase/Database (7.4.0):
-    - Firebase/CoreOnly
-    - FirebaseDatabase (~> 7.4.0)
   - Firebase/Firestore (7.4.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 7.4.0)
@@ -273,9 +270,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
     - nanopb (~> 2.30907.0)
-  - FirebaseDatabase (7.4.0):
-    - FirebaseCore (~> 7.0)
-    - leveldb-library (~> 1.22)
   - FirebaseFirestore (7.4.0):
     - abseil/algorithm (= 0.20200225.0)
     - abseil/base (= 0.20200225.0)
@@ -700,6 +694,8 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.9.0):
     - React-Core
+  - RNImageColors (1.2.5):
+    - React
   - RNPermissions (3.0.0):
     - React-Core
   - RNReanimated (2.0.0-rc.2):
@@ -811,6 +807,7 @@ DEPENDENCIES:
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNFBFunctions (from `../node_modules/@react-native-firebase/functions`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageColors (from `../node_modules/react-native-image-colors`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -831,7 +828,6 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
-    - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseFunctions
     - FirebaseInstallations
@@ -943,6 +939,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/functions"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageColors:
+    :path: "../node_modules/react-native-image-colors"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
@@ -971,7 +969,6 @@ SPEC CHECKSUMS:
   FirebaseAuth: d8dba8db90a1705ee2493857047282ca4f6e7598
   FirebaseCore: 99c06e5a1e8d6952e75cb1f0a6d0b23c0f5ccdcf
   FirebaseCoreDiagnostics: 3770093ac4f2be4590fa03cfa1d3a6e5602d4557
-  FirebaseDatabase: 0a619c887a9565bf4808eba37d2f0ed1d62f62d0
   FirebaseFirestore: ab4e4d98aea35b4af696a96554769903123f83cc
   FirebaseFunctions: ab9df1b7091b14af71798d70b87147aeeaff78ba
   FirebaseInstallations: 30646fc9a61c6f4ee3cd7a8b7231721842b40c95
@@ -1033,6 +1030,7 @@ SPEC CHECKSUMS:
   RNFBFirestore: b596de5f7cb73ec799cf0eb24db5be69540be25f
   RNFBFunctions: 3acf73eb42cb1cd434e3a0515944ea1663620a14
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
+  RNImageColors: f55f90cc27ef799c80e6b9a5798c9405919d328e
   RNPermissions: 99dd8d4a30ff13509b949ca63cd1f69edc461775
   RNReanimated: e8a1520b15df106c96214161078c69e4a23b8b29
   RNScreens: 3d682bcaba69a4f8e55543d90818704f34338db1

@@ -48,6 +48,12 @@ export default () => {
     }
   ));
 
+  const containerAnimation = useAnimatedStyle(() => (
+    {
+      opacity: opacity.value,
+    }
+  ));
+
   const animate = (state) => {
     if (state === 'show') {
       setPosition({ left: triggerLayout.x, top: triggerLayout.y });
@@ -82,5 +88,5 @@ export default () => {
     }
   };
 
-  return [[animation, position], animate, setTriggerLayout, setMenuLayout];
+  return [[animation, position], animate, setTriggerLayout, setMenuLayout, containerAnimation];
 };

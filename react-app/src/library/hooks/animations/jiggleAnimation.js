@@ -2,7 +2,7 @@ import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reani
 
 export default () => {
   const RANDOM_SIDE = Math.random() < 0.5 ? -1 : 1;
-  const ANGLE = 6 * RANDOM_SIDE;
+  const ANGLE = 8 * RANDOM_SIDE;
   const rotation = useSharedValue(ANGLE);
 
   const config = {

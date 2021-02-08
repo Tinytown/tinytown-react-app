@@ -1,45 +1,45 @@
 export default {
-  // BLUES
-  skyBlue50: '#E6F9FF',
-  skyBlue100: '#B3EEFF',
-  skyBlue600: '#36D1FF',
+  // GRAY
+  asphaltGray900: '#1F262E',
+  asphaltGray800: '#2D3443',
+  asphaltGray700: '#3E4A5B',
+  asphaltGray600: '#566376',
+  asphaltGray500: '#6F7E90',
+  asphaltGray400: '#8997A9',
+  asphaltGray300: '#A2B1C3',
+  asphaltGray200: '#BFCBD9',
+  asphaltGray100: '#D5E0EC',
+  asphaltGray50: '#F3F6FC',
 
-  // PURPLES
-  flowerPurple100: '#D6B7F4',
-  flowerPurple600: '#9558D1',
+  // BLUE
+  skyBlue400: '#3891FF',
+  skyBlue100: '#CCE3FF',
+  skyBlue50: '#F0F7FF',
 
-  // GREENS
-  grassGreen50: '#E6FFF3',
-  grassGreen100: '#B3FFDA',
-  grassGreen600: '#16E07D',
+  // CYAN
+  poolCyan400: '#3DF5C4',
+  poolCyan100: '#CFFCF0',
+  poolCyan50: '#F0FFFB',
 
-  // YELLOWS
-  funLime100: '#F5FF8C',
-  funLime600: '#E3F901',
+  // LIME
+  funLime400: '#E0FF14',
+  funLime100: '#F8FFCC',
 
-  // ORANGES
-  trafficOrange100: '#FFBD7B',
-  trafficOrange600: '#FE7F00',
+  // ORANGE
+  trafficOrange400: '#FA8F42',
+  trafficOrange100: '#FFE1CC',
 
-  // REDS
-  bubblegumRed50: '#FFE6E9',
-  bubblegumRed100: '#FFC7CF',
-  bubblegumRed600: '#FE4963',
+  // RED
+  bubblegumRed400: '#FF4763',
+  bubblegumRed100: '#FFCCD4',
+  bubblegumRed50: '#FFF0F2',
 
-  // GRAYS
-  pitchBlack: '#15191E',
-  asphaltGray: '#1F262E',
-  graniteGray: '#3C4858',
-  steelGray: '#8392A5',
-  sidewalkGray: '#C0CCDA',
-  snowGray: '#ECF1FA',
+  // PURPLE
+  flowerPurple400: '#993DF5',
+  flowerPurple100: '#E6CCFF',
+
+  // BASIC
+  pureBlack: '#000000',
   justWhite: '#FFFFFF',
-
-  // COMPOSITES
-  disabled: {
-    backgroundColor: '#3C4858',
-    opacity: 0.4,
-  },
-
 };
 

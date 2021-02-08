@@ -19,5 +19,11 @@ export default {
   placeholder: {
     shoutBox: 'What\'s happening nearby?',
   },
+  onboarding: {
+    welcome: 'Welcome to',
+  },
+  secrets: {
+    wololo: 'Niko, I\'ve a feeling we\'re not in the Tinytown website anymore.',
+  },
 };
 

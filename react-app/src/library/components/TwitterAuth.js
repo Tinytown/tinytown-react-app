@@ -32,7 +32,7 @@ const TwitterAuth = ({ onLoading }) => {
   return (
     <FAB
       label={STRINGS.button.logIn}
-      theme='blue'
+      theme='red'
       icon='twitter'
       onPress={onLogInPress}
     />

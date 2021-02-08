@@ -3,79 +3,76 @@ import SHAPES from '../shapes';
 
 export default (theme) => {
   let backgroundTheme = {};
-  let textTheme = {};
 
   switch (theme) {
-  case 'green':
+  case 'cyan':
     backgroundTheme = {
-      backgroundColor: COLORS.pitchBlack,
-      borderColor: COLORS.grassGreen600,
+      backgroundColor: COLORS.poolCyan400,
+      borderColor: COLORS.justWhite,
+      borderWidth: 2,
+      ...SHAPES.elevCyan5,
     };
-    keyColor = COLORS.grassGreen600;
-    textTheme = {
-      color: COLORS.justWhite,
-    };
+    keyColor = COLORS.poolCyan400;
+    contentColor = COLORS.asphaltGray800;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
   case 'blue':
     backgroundTheme = {
-      backgroundColor: COLORS.pitchBlack,
-      borderColor: COLORS.skyBlue600,
+      backgroundColor: COLORS.skyBlue400,
+      borderColor: COLORS.justWhite,
+      borderWidth: 2,
+      ...SHAPES.elevBlue5,
     };
-    keyColor = COLORS.skyBlue600;
-    textTheme = {
-      color: COLORS.justWhite,
-    };
+    keyColor = COLORS.skyBlue400;
+    contentColor = COLORS.justWhite;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
   case 'red':
     backgroundTheme = {
-      backgroundColor: COLORS.pitchBlack,
-      borderColor: COLORS.bubblegumRed600,
+      backgroundColor: COLORS.bubblegumRed400,
+      borderColor: COLORS.justWhite,
+      borderWidth: 2,
+      ...SHAPES.elevRed5,
     };
-    keyColor = COLORS.bubblegumRed600;
-    textTheme = {
-      color: COLORS.justWhite,
-    };
+    keyColor = COLORS.bubblegumRed400;
+    contentColor = COLORS.justWhite;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
-  case 'gray':
+  case 'transparent':
     backgroundTheme = {
       backgroundColor: 'transparent',
       borderColor: 'transparent',
+      borderWidth: 2,
     };
-    keyColor = COLORS.asphaltGray;
-    textTheme = {
-      color: COLORS.asphaltGray,
-    };
+    keyColor = 'transparent';
+    contentColor = COLORS.asphaltGray800;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
-  case 'super red':
+  case 'disabled':
     backgroundTheme = {
-      backgroundColor: COLORS.bubblegumRed600,
-      ...SHAPES.elevRed5,
+      backgroundColor: COLORS.asphaltGray50,
+      borderColor: COLORS.asphaltGray100,
+      borderWidth: 2,
     };
-    keyColor = COLORS.justWhite;
-    textTheme = {
-      color: COLORS.justWhite,
-    };
+    keyColor = 'transparent';
+    contentColor = COLORS.asphaltGray200;
 
-    return  [backgroundTheme, keyColor, textTheme];
+    return  [backgroundTheme, keyColor, contentColor];
 
   default:
     backgroundTheme = {
-      backgroundColor: COLORS.pitchBlack,
-      borderColor: COLORS.justWhite,
+      backgroundColor: COLORS.justWhite,
+      borderColor: 'transparent',
+      borderWidth: 2,
+      ...SHAPES.elevGray2,
     };
-    keyColor = COLORS.justWhite;
-    textTheme = {
-      color: COLORS.justWhite,
-    };
+    keyColor = COLORS.asphaltGray800;
+    contentColor = COLORS.asphaltGray800;
 
-    return  [backgroundTheme, keyColor, textTheme] ;
+    return  [backgroundTheme, keyColor, contentColor];
   }
 };

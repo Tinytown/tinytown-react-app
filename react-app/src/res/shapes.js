@@ -15,11 +15,11 @@ export default {
   // ELEVATION - GRAYS
   elevHairline: {
     borderWidth: 2,
-    borderColor: COLORS.snowGray,
+    borderColor: COLORS.asphaltGray50,
   },
 
   elevGray1: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -31,7 +31,7 @@ export default {
   },
 
   elevGray2: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -43,7 +43,7 @@ export default {
   },
 
   elevGray3: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     shadowOffset: {
       width: 0,
       height: 3,
@@ -55,7 +55,7 @@ export default {
   },
 
   elevGray4: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -66,38 +66,38 @@ export default {
   },
 
   elevGray5: {
-    shadowColor: COLORS.asphaltGray,
+    shadowColor: COLORS.asphaltGray800,
     ...elev5,
   },
 
   // ELEVATION - COLORS
   elevRed5: {
-    shadowColor: COLORS.bubblegumRed600,
+    shadowColor: COLORS.bubblegumRed400,
     ...elev5,
   },
 
   elevPurple5: {
-    shadowColor: COLORS.flowerPurple600,
+    shadowColor: COLORS.flowerPurple400,
     ...elev5,
   },
 
   elevLime5: {
-    shadowColor: COLORS.funLime600,
+    shadowColor: COLORS.funLime400,
     ...elev5,
   },
 
-  elevGreen5: {
-    shadowColor: COLORS.grassGreen600,
+  elevCyan5: {
+    shadowColor: COLORS.poolCyan400,
     ...elev5,
   },
 
   elevOrange5: {
-    shadowColor: COLORS.trafficOrange600,
+    shadowColor: COLORS.trafficOrange400,
     ...elev5,
   },
 
   elevBlue5: {
-    shadowColor: COLORS.skyBlue600,
+    shadowColor: COLORS.skyBlue400,
     ...elev5,
   },
 

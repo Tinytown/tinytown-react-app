@@ -6,52 +6,50 @@ import { connect } from 'react-redux';
 import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import config from 'config/env.config.js';
 import { useLocation, useMap } from 'library/hooks';
-import { COLORS, IMAGES, normalizeStyles } from 'res';
-import ShoutsTemp from './ShoutsTemp';
+import { renderUser, renderWelcomeSign } from './renderContent';
+import { COLORS, normalizeStyles } from 'res';
 
 const { MapView, Camera } = MapboxGL;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
-const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, children }) => {
+const World = ({
+  userLocation,
+  updateUserLocation,
+  updateUserVisible,
+  children,
+  onTouchStart,
+}) => {
+  // Custom Hooks
   const cameraRef = useRef(null);
-  const mapRef = useRef(null);
   const [heading] = useLocation(updateUserLocation);
   const [
     camera,
     regionChangeHandler,
     mapRendered,
     setMapRendered,
-  ] = useMap(cameraRef.current, mapRef.current, updateUserVisible);
+    DEFAULT_ZOOM,
+  ] = useMap(cameraRef.current, updateUserVisible);
+
+  // Map Content
+  const userMarker = renderUser(heading);
+  const welcomeSign = renderWelcomeSign();
+  const showWelcomeSign = !userLocation && camera.zoom === DEFAULT_ZOOM;
 
   return (
     <View style={styles.landscape}>
       <MapView
-        ref={mapRef}
         animated={true}
         style={styles.map}
-        styleURL={'mapbox://styles/alfalcon/cka1xbje712931ipd6i5uxam8'}
+        styleURL={config.MAPBOX_STYLE_URL}
         logoEnabled={false}
         compassEnabled={false}
         attributionEnabled={false}
         onRegionIsChanging={regionChangeHandler}
         onDidFinishRenderingMapFully={() => setMapRendered(true)}
+        onTouchStart={onTouchStart}
       >
-        {userLocation && <MapboxGL.UserLocation
-          animated={true}
-          visible={true}
-        >
-          <MapboxGL.SymbolLayer
-            id={'customUserLocationIcon'}
-            style={{
-              iconAllowOverlap: true,
-              iconIgnorePlacement: true,
-              iconImage: IMAGES.userMarker,
-              iconSize: 0.4,
-              iconRotate: heading || 0,
-            }}
-            minZoomLevel={1}
-          />
-        </MapboxGL.UserLocation>}
+        {userLocation && userMarker}
+        {showWelcomeSign && welcomeSign}
         <Camera
           ref={cameraRef}
           animationDuration={!mapRendered ? 0 : 2000}
@@ -62,7 +60,6 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
         </Camera>
       </MapView>
       <SafeAreaView style={styles.safeArea} mode="margin" pointerEvents='box-none'>
-        {userLocation && <ShoutsTemp userLocation={userLocation} />}
         {children}
       </SafeAreaView>
     </View>
@@ -73,7 +70,7 @@ const WorldMap = ({ userLocation, updateUserLocation, updateUserVisible, childre
 const styles = normalizeStyles({
   landscape: {
     flex: 1,
-    backgroundColor: COLORS.asphaltGray,
+    backgroundColor: COLORS.asphaltGray100,
   },
   safeArea: {
     position: 'absolute',
@@ -91,4 +88,4 @@ const mapStateToProps = (state) => ({
   userLocation: state.location.user,
 });
 
-export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(WorldMap);
+export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(World);

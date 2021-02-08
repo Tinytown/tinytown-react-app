@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavBar, BottomSheet, ShoutBox } from 'library/components';
 
-const ShoutLauncher = ({ navigation }) => {
+const NewShoutScreen = ({ navigation }) => {
   const [openSheet, setOpenSheet] = useState(true);
 
   return (
@@ -12,4 +12,4 @@ const ShoutLauncher = ({ navigation }) => {
   );
 };
 
-export default ShoutLauncher;
+export default NewShoutScreen;
