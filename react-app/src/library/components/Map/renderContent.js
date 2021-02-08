@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { onboardingRaftShape } from './GeoJSON';
+import Shout from './Shout';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 const { SymbolLayer, UserLocation, MarkerView, ShapeSource } = MapboxGL;
 
@@ -76,4 +77,26 @@ export const renderWelcomeSign = () => {
       </ShapeSource>
     </View>
   );
+};
+
+export const renderShouts = (shouts) => {
+  let renderedShouts = null;
+  // console.log('shouts', shouts);
+  const mockShouts = [{ 'coordinates': [175.0494383, -41.1333], 'created_at': 1612803116600, 'id': 'cZHN1yZVRZWaTj0zOBA4', 'plus_code': '4VCQV200+', 'source_platform': 'android', 'text': 'This is a really, really long shout' }, { 'coordinates': [175.066293, -41.126075], 'created_at': 1612804338873, 'id': 'sGHCFnVmSE7BlBSL3Mia', 'plus_code': '4VCQV300+', 'source_platform': 'ios', 'text': 'Shorty' }, { 'coordinates': [-122.334009, 47.6912765], 'created_at': 1612803116600, 'id': 'cZHN1yZVRZWaTj0zOBA3', 'plus_code': '4VCQV200+', 'source_platform': 'android', 'text': 'This is a really, really long shout' }];
+
+  if (shouts) {
+    renderedShouts = mockShouts.map((shout) => {
+      return (
+        <MarkerView
+          key={shout.id}
+          id={shout.id}
+          coordinate={shout.coordinates}
+        >
+          <Shout label={shout.text}/>
+        </MarkerView>
+      );
+    });
+  }
+
+  return renderedShouts;
 };

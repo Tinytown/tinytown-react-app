@@ -5,8 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import config from 'config/env.config.js';
-import { useLocation, useMap } from 'library/hooks';
-import { renderUser, renderWelcomeSign } from './renderContent';
+import { useLocation, useMap, useShouts } from 'library/hooks';
+import { renderUser, renderWelcomeSign, renderShouts } from './renderContent';
 import { COLORS, normalizeStyles } from 'res';
 
 const { MapView, Camera } = MapboxGL;
@@ -29,11 +29,13 @@ const World = ({
     setMapRendered,
     DEFAULT_ZOOM,
   ] = useMap(cameraRef.current, updateUserVisible);
+  const [shouts] = useShouts(userLocation);
 
   // Map Content
   const userMarker = renderUser(heading);
   const welcomeSign = renderWelcomeSign();
   const showWelcomeSign = !userLocation && camera.zoom === DEFAULT_ZOOM;
+  const shoutMarkers = renderShouts(shouts);
 
   return (
     <View style={styles.landscape}>
@@ -50,6 +52,7 @@ const World = ({
       >
         {userLocation && userMarker}
         {showWelcomeSign && welcomeSign}
+        {userLocation && shoutMarkers}
         <Camera
           ref={cameraRef}
           animationDuration={!mapRendered ? 0 : 2000}

@@ -1,51 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import { Pressable } from 'library/components/hoc';
-import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
 
 const Shout = ({
   label = 'Shout Label',
   onPress,
-  wrapperStyle,
 }) => {
-  const styles = generateStyles({ disabled });
+  const [wrapperLayout, setWrapperLayout] = useState(null);
+  const styles = generateStyles({ wrapperLayout });
+
+  const onLayoutHandler = ({ nativeEvent: { layout } }) => {
+    setWrapperLayout(layout);
+  };
 
   return (
-    <View style={wrapperStyle} >
+    <View style={styles.wrapper} onLayout={onLayoutHandler} >
       <Pressable
-        animationType={animationType}
         containerStyle={styles.container}
-        keyColor={styles.keyColor}
-        disabled={disabled}
-        ripple={ripple}
         onPress={onPress}
+        keyColor={COLORS.justWhite}
       >
-        {icon &&
-        <View style={styles.icon}>
-          <Icon icon={icon} color={styles.contentColor} />
-        </View>
-        }
-        <Text style={styles.label}>{label}</Text>
-
+        <Text style={styles.label} numberOfLines={1} >{label}</Text>
+        <View style={styles.pin} />
       </Pressable>
     </View>
   );
 };
 
-const generateStyles = () => {
+const generateStyles = ({ wrapperLayout }) => {
+  const HORIZONTAL_PADDING = 12;
+  const PIN_OFFSET = 14;
+  const PIN_BORDER_WIDTH = 2;
+  const MAX_WIDTH = 180;
+
   return (
     normalizeStyles({
+      wrapper: {
+        padding: 8,
+        alignSelf: 'center',
+        maxWidth: MAX_WIDTH,
+        opacity: wrapperLayout ? 1 : 0,
+        transform: wrapperLayout ? [
+          { translateY: -(wrapperLayout.height / 2) + (PIN_BORDER_WIDTH / 2) },
+          { translateX: wrapperLayout.width / 2 - HORIZONTAL_PADDING - PIN_OFFSET - PIN_BORDER_WIDTH / 2 },
+        ] : [],
+      },
       container: {
         flexDirection: 'row',
-        paddingHorizontal: 10,
-        paddingVertical: 4,
+        paddingVertical: 8,
+        paddingHorizontal: HORIZONTAL_PADDING,
         borderRadius: SHAPES.radiusAll,
-        ...backgroundTheme,
+        backgroundColor: COLORS.asphaltGray800,
+        ...SHAPES.elevGray2,
       },
       label: {
-        color: contentColor,
-        ...TYPOGRAPHY.overline3,
+        color: COLORS.justWhite,
+        ...TYPOGRAPHY.overline2,
+      },
+      pin: {
+        position: 'absolute',
+        bottom: -5,
+        left: PIN_OFFSET,
+        width: 10,
+        height: 10,
+        borderRadius: SHAPES.radiusAll,
+        borderColor: COLORS.asphaltGray800,
+        borderWidth: PIN_BORDER_WIDTH,
+        backgroundColor: COLORS.justWhite,
       },
     })
   );
@@ -54,7 +77,6 @@ const generateStyles = () => {
 Shout.propTypes = {
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func,
-  wrapperStyle: PropTypes.object,
 };
 
 export default Shout;

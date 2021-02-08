@@ -109,7 +109,7 @@ export default (userLocation) => {
     let isMounted = true;
     let subscribers = [];
 
-    if (isMounted) {
+    if (isMounted && userLocation) {
       // return early if location is the same
       const sameLocation = userLocation.every((val, index) => val == prevLocation[index]);
       if (sameLocation) {
