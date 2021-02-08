@@ -2,10 +2,9 @@ import { useEffect, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { storeMultiple, getMultiple } from 'library/apis/storage';
 
-export default (cameraRef, mapRef, updateUserVisible) => {
+export default (cameraRef, updateUserVisible) => {
   const [mapRendered, setMapRendered] = useState(false);
   const [dataRetrieved, setDataRetrieved] = useState(false);
-  const cameraBounds = mapRef?.state.region?.properties.visibleBounds;
   const userLocation = useSelector((state) => state.location.user);
   const goToUser = useSelector((state) => state.location.goToUser);
   const userVisible = useSelector((state) => state.location.userVisible);
@@ -72,13 +71,13 @@ export default (cameraRef, mapRef, updateUserVisible) => {
 
   // Handle camera change
   const regionChangeHandler = async ({ properties, geometry }) => {
+    setCamera({
+      center: geometry.coordinates,
+      bounds: properties.visibleBounds,
+      zoom: properties.zoomLevel,
+      movedByUser: true,
+    });
     if (properties.isUserInteraction) {
-      setCamera({
-        center: geometry.coordinates,
-        bounds: properties.visibleBounds,
-        zoom: properties.zoomLevel,
-        movedByUser: true,
-      });
       checkOnScreen(properties.visibleBounds);
     }
   };
@@ -88,11 +87,11 @@ export default (cameraRef, mapRef, updateUserVisible) => {
     if (!userLocation && dataRetrieved && userVisible === null) {
       // First launch
       updateUserVisible(false);
-    } else if (userLocation && cameraBounds && !goToUser) {
+    } else if (userLocation && camera.bounds && !goToUser) {
       // User moves
-      checkOnScreen(cameraBounds);
+      checkOnScreen(camera.bounds);
     }
-  }, [userLocation, dataRetrieved, cameraBounds]);
+  }, [userLocation, dataRetrieved]);
 
   // Load / store map state
   const shouldStore = (!appActive && userLocation);

@@ -21,7 +21,6 @@ const World = ({
 }) => {
   // Custom Hooks
   const cameraRef = useRef(null);
-  const mapRef = useRef(null);
   const [heading] = useLocation(updateUserLocation);
   const [
     camera,
@@ -29,7 +28,7 @@ const World = ({
     mapRendered,
     setMapRendered,
     DEFAULT_ZOOM,
-  ] = useMap(cameraRef.current, mapRef.current, updateUserVisible);
+  ] = useMap(cameraRef.current, updateUserVisible);
 
   // Map Content
   const userMarker = renderUser(heading);
@@ -39,7 +38,6 @@ const World = ({
   return (
     <View style={styles.landscape}>
       <MapView
-        ref={mapRef}
         animated={true}
         style={styles.map}
         styleURL={config.MAPBOX_STYLE_URL}
