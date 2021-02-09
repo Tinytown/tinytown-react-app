@@ -7,7 +7,7 @@ import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 const Chip = ({
   icon,
   label = 'Chip Label',
-  theme = null,
+  theme = 'hairline',
   onPress,
   wrapperStyle,
   animationType = 'press',
@@ -60,7 +60,7 @@ const generateStyles = ({ theme, disabled }) => {
         color: contentColor,
         ...TYPOGRAPHY.overline3,
       },
-    }), keyColor }
+    }), keyColor, contentColor }
   );
 };
 

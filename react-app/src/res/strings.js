@@ -10,6 +10,10 @@ export default {
     logIn: 'Log in with Twitter',
     shout: 'Shout',
   },
+  chip: {
+    lannOff: 'Lann Mode is off',
+    lannOn: 'Lann Mode is on',
+  },
   dialog: {
     location: {
       title: 'Turn on Location',
