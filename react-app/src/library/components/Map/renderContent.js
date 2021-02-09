@@ -21,6 +21,7 @@ export const renderUser = (heading) => {
           iconImage: IMAGES.userMarker,
           iconSize: 0.4,
           iconRotate: heading || 0,
+          iconRotationAlignment: 'map',
         }}
         minZoomLevel={1}
       />
