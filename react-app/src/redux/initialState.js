@@ -18,7 +18,7 @@ const INITIAL_STATE = Object.freeze({
     storageLoaded: false,
   },
   shouts: {
-    created: [],
+    local: [],
     loading: true,
   },
 });

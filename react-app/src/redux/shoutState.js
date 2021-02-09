@@ -4,7 +4,7 @@ import { UPDATE_SHOUTS, SHOUTS_LOADING } from './actionTypes';
 export const shoutReducer = (state = null, action) => {
   switch (action.type) {
   case UPDATE_SHOUTS:
-    return { ...state,  created: [...action.payload] };
+    return { ...state,  local: [...action.payload] };
   case SHOUTS_LOADING:
     return { ...state,  loading: action.payload };
   default:
@@ -13,30 +13,22 @@ export const shoutReducer = (state = null, action) => {
 };
 
 export const createShout = (shout) => async (dispatch, getState) => {
-  const { shouts: { created } } = getState();
-  shout.tempId = Math.floor(Math.random() * 1000);
-  shout.created = true;
-  created.push(shout);
+  const { shouts: { local } } = getState();
+  shout.localId = Math.floor(Math.random() * 1000);
+  shout.local = true;
+  local.push(shout);
 
-  dispatch({ type: UPDATE_SHOUTS, payload: created });
+  dispatch({ type: UPDATE_SHOUTS, payload: local });
 
   // Add shout Id when successfully uploaded
-  const { data: { shoutId } } = await functions().httpsCallable('createShout')(shout);
-
-  if (shoutId) {
-    created[created.length - 1] = { ...shout, id: shoutId };
-    dispatch({ type: UPDATE_SHOUTS, payload: created });
-  }
+  functions().httpsCallable('createShout')(shout);
 };
 
-export const removeShout = (shoutId) => async (dispatch, getState) => {
-  const { shouts: { created } } = getState();
-  const shoutToRemove = created.find((shout) => shout.id === shoutId);
+export const removeShout = (remoteShout) => async (dispatch, getState) => {
+  const { shouts: { local } } = getState();
+  const filteredShouts = local.filter((shout) => shout.localId !== remoteShout.local_id);
 
-  if (shoutToRemove) {
-    const filteredShouts = created.filter((shout) => shout.id !== shoutId);
-    dispatch({ type: UPDATE_SHOUTS, payload: filteredShouts });
-  }
+  dispatch({ type: UPDATE_SHOUTS, payload: filteredShouts });
 };
 
 export const updateShoutsLoading = (payload) => {

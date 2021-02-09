@@ -21,7 +21,7 @@ JSON SOURCE
     "storageLoaded": false
   },
   "shouts": {
-    created: [],
+    local: [],
     loading: true,
   }
 }
@@ -67,7 +67,7 @@ export default {
         storageLoaded: false,
       },
       shouts: {
-        created: [],
+        local: [],
         loading: true,
       },
     },
@@ -232,18 +232,18 @@ export default {
       description: 'Schema for local shouts created/edited by the user.',
       examples: [
         {
-          created: [],
+          local: [],
           loading: true,
         },
       ],
-      required: ['created', 'loading'],
+      required: ['local', 'loading'],
       title: 'The shouts schema',
       type: 'object',
       properties: {
-        created: {
-          $id: '#/properties/shouts/properties/created',
+        local: {
+          $id: '#/properties/shouts/properties/local',
           type: 'array',
-          title: 'The created schema',
+          title: 'The local schema',
           default: false,
           examples: [{ id: 123, text: 'LOUD NOISES!' }],
         },

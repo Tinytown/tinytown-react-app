@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { removeShout, updateShoutsLoading } from 'rdx/shoutState';
@@ -15,6 +16,7 @@ export default (userLocation) => {
   const [prevLocation, setPrevLocation] = useState([]);
   const subscribers = [];
   const dispatch = useDispatch();
+  const { uid } = auth().currentUser;
 
   // Translate coords by given amount (km)
   const translateCoords = (coords, amountLon, amountLat) => {
@@ -94,7 +96,10 @@ export default (userLocation) => {
               });
 
               // check if shout was just created and remove from redux
-              dispatch(removeShout(change.doc.id));
+              const remoteShout = change.doc.data();
+              if (remoteShout.uid === uid) {
+                dispatch(removeShout(change.doc.data()));
+              }
             }
             if (change.type === 'modified') {
               console.log('Modified shout: ', change.doc.data());

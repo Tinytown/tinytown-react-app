@@ -8,9 +8,9 @@ const Shout = React.memo(({
   label = 'Shout Label',
   onPress,
   showPin = true,
-  created = false,
+  local = false,
 }) => {
-  const styles = generateStyles({ created });
+  const styles = generateStyles({ local });
 
   return (
     <View style={styles.wrapper}>
@@ -19,7 +19,7 @@ const Shout = React.memo(({
         onPress={onPress}
         keyColor={COLORS.justWhite}
       >
-        {created && <ActivityIndicator size='small' color={COLORS.grassGreen400} />}
+        {local && <ActivityIndicator size='small' color={COLORS.grassGreen400} />}
         <Text style={styles.label} numberOfLines={1} >{label}</Text>
         {showPin && <View style={styles.pin}/>}
       </Pressable>
@@ -27,7 +27,7 @@ const Shout = React.memo(({
   );
 });
 
-const generateStyles = ({ created }) => {
+const generateStyles = ({ local }) => {
   const WIDTH = 240;
   const PADDING = 8;
   const PIN_OFFSET = 14;
@@ -60,7 +60,7 @@ const generateStyles = ({ created }) => {
       },
       label: {
         flexShrink: 1,
-        marginLeft: created ? PADDING : 0,
+        marginLeft: local ? PADDING : 0,
         color: COLORS.justWhite,
         ...TYPOGRAPHY.overline2,
       },
@@ -83,7 +83,7 @@ Shout.propTypes = {
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   showPin: PropTypes.bool,
-  created: PropTypes.bool,
+  local: PropTypes.bool,
 };
 
 export default Shout;

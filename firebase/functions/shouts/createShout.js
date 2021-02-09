@@ -4,7 +4,7 @@ const { encode, decode } = require('pluscodes');
 
 module.exports = async (data, context) => {
   CODE_PRECISION = 6;
-  const { text, sourcePlatform, coordinates  } = data;
+  const { text, sourcePlatform, coordinates, localId  } = data;
   const { auth: { uid, token: { name } } } = context;
   const db = admin.firestore();
 
@@ -13,6 +13,8 @@ module.exports = async (data, context) => {
     text,
     source_platform: sourcePlatform,
     coordinates,
+    local_id: localId,
+    uid,
   };
 
   const user = {
@@ -36,7 +38,7 @@ module.exports = async (data, context) => {
     mapRef.set({ area });
     userRef.collection('shouts').add(shout);
 
-    return { shoutId: shoutRef.id };
+    return;
   } catch (error) {
     console.log(error);
     return;

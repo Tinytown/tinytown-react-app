@@ -82,14 +82,14 @@ export const renderWelcomeSign = () => {
   );
 };
 
-export const renderShouts = (downloadedShouts, zoom) => {
+export const renderShouts = (remoteShouts, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [allShouts, setAllShouts] = useState(null);
-  const createdShouts = useSelector((state) => state.shouts.created);
+  const localShouts = useSelector((state) => state.shouts.local);
 
   useEffect(() => {
-    setAllShouts([...createdShouts, ...downloadedShouts]);
-  }, [createdShouts, downloadedShouts]);
+    setAllShouts([...localShouts, ...remoteShouts]);
+  }, [localShouts, remoteShouts]);
 
   useEffect(() => {
     // Adjust marker anchor for Android (this doesn't work reliably for iOS)
@@ -102,12 +102,12 @@ export const renderShouts = (downloadedShouts, zoom) => {
       setRenderedShouts(allShouts?.map((shout) => {
         return (
           <MarkerView
-            key={shout.tempId ? shout.tempId : shout.id}
-            id={shout.tempId ? shout.tempId.toString() : shout.id}
+            key={shout.localId ? shout.localId : shout.id}
+            id={shout.localId ? shout.localId.toString() : shout.id}
             coordinate={shout.coordinates}
             anchor={Platform.OS === 'android' ? anchor : null}
           >
-            <Shout label={shout.text} created={!!shout.tempId} />
+            <Shout label={shout.text} local={!!shout.localId} />
           </MarkerView>
         );
       }));
