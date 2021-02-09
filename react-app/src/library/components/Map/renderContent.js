@@ -97,7 +97,7 @@ export const renderShouts = (remoteShouts, zoom) => {
   useEffect(() => {
     // Adjust marker anchor for Android (this doesn't work reliably for iOS)
     const anchor = {
-      x: 0.11,
+      x: 0.13,
       y: 0.9,
     };
 

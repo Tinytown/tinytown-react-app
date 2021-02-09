@@ -16,7 +16,7 @@ export default (userLocation) => {
   const [prevLocation, setPrevLocation] = useState([]);
   const subscribers = [];
   const dispatch = useDispatch();
-  const { uid } = auth().currentUser;
+  const uid = auth().currentUser?.uid;
 
   // Translate coords by given amount (km)
   const translateCoords = (coords, amountLon, amountLat) => {
