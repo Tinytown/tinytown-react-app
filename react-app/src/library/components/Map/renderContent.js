@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { onboardingRaftShape } from './GeoJSON';
 import Shout from './Shout';
 import mockShouts from './mockShouts';
-import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles, normalizeValue } from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 const { SymbolLayer, UserLocation, MarkerView, ShapeSource } = MapboxGL;
 
 export const renderUser = (heading) => {
@@ -81,25 +81,29 @@ export const renderWelcomeSign = () => {
 };
 
 export const renderShouts = (shouts) => {
-  const renderedShouts = mockShouts?.map((shout) => {
-    // Adjust marker anchor for Android (this doesn't work reliably for iOS)
-    const anchor = {
-      x: 0.11,
-      y: 0.9,
-    };
+  const [renderedShouts, setRenderedShouts] = useState(null);
 
-    return (
-      <MarkerView
-        key={shout.id}
-        id={shout.id}
-        coordinate={shout.coordinates}
-        anchor={Platform.OS === 'android' ? anchor : null}
-      >
-        <Shout label={shout.text} />
-      </MarkerView>
+  useEffect(() => {
+    setRenderedShouts(mockShouts?.map((shout) => {
+      // Adjust marker anchor for Android (this doesn't work reliably for iOS)
+      const anchor = {
+        x: 0.11,
+        y: 0.9,
+      };
 
-    );
-  });
+      return (
+        <MarkerView
+          key={shout.id}
+          id={shout.id}
+          coordinate={shout.coordinates}
+          anchor={Platform.OS === 'android' ? anchor : null}
+        >
+          <Shout label={shout.text} />
+        </MarkerView>
+
+      );
+    }));
+  }, [shouts, mockShouts]);
 
   return renderedShouts;
 };

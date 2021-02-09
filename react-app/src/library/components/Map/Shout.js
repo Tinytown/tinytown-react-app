@@ -35,6 +35,8 @@ const generateStyles = () => {
       wrapper: {
         padding: PADDING,
         width: WIDTH,
+        backgroundColor: 'transparent', // fix Android clipping bug
+
         // Adjust marker anchor for iOS (this doesn't work reliably for Android)
         ...(Platform.OS === 'ios' && {
           transform: [
