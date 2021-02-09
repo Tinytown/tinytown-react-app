@@ -27,17 +27,14 @@ const styles = normalizeStyles({
     height: 56,
     marginHorizontal: -16,
   },
-
   leftSide: {
     alignItems: 'center',
     flexDirection: 'row',
   },
-
   rightSide: {
     alignItems: 'center',
     flexDirection: 'row-reverse',
   },
-
   label: {
     marginLeft: 8,
     marginTop: 6,

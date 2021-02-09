@@ -15,12 +15,12 @@ export default [
     'source_platform': 'ios',
     'text': 'ios',
   },
-  {
-    'coordinates': [-122.3341303, 47.6911425],
-    'created_at': 1612803116600,
-    'id': 'iIyPhV3gjkVna9wnX7EZ',
-    'plus_code': '4VCQV200+',
-    'source_platform': 'android',
-    'text': 'on physical device',
-  },
+  // {
+  //   'coordinates': [-122.3341303, 47.6911425],
+  //   'created_at': 1612803116600,
+  //   'id': 'iIyPhV3gjkVna9wnX7EZ',
+  //   'plus_code': '4VCQV200+',
+  //   'source_platform': 'android',
+  //   'text': 'on physical device',
+  // },
 ];

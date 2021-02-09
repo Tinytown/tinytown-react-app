@@ -7,6 +7,7 @@ import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
 const Shout = React.memo(({
   label = 'Shout Label',
   onPress,
+  showPin = true,
 }) => {
   const styles = generateStyles();
 
@@ -18,7 +19,7 @@ const Shout = React.memo(({
         keyColor={COLORS.justWhite}
       >
         <Text style={styles.label} numberOfLines={1} >{label}</Text>
-        <View style={styles.pin} />
+        {showPin && <View style={styles.pin}/>}
       </Pressable>
     </View>
   );

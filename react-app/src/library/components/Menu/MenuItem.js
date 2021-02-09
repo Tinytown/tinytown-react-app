@@ -45,18 +45,15 @@ const generateStyles = ({ disabled }) => {
         paddingHorizontal: 8,
         ...(disabled && { opacity: 0.4 }),
       },
-
       assetContainer: {
         alignItems: 'center',
         width: 48,
         marginRight: 8,
       },
-
       iconContainer: {
         width: 24,
         height: 24,
       },
-
       label: {
         width: 120,
         color: COLORS.asphaltGray800,

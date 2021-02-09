@@ -38,7 +38,7 @@ const World = ({
   const userMarker = renderUser(heading);
   const welcomeSign = renderWelcomeSign();
   const showWelcomeSign = !userLocation && camera.zoom === DEFAULT_ZOOM;
-  const shoutMarkers = renderShouts(shouts);
+  const shoutMarkers = renderShouts(shouts, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
 
   return (

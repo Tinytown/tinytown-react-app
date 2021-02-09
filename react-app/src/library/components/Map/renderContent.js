@@ -81,30 +81,49 @@ export const renderWelcomeSign = () => {
   );
 };
 
-export const renderShouts = (shouts) => {
+export const renderShouts = (shouts, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
 
   useEffect(() => {
-    setRenderedShouts(mockShouts?.map((shout) => {
-      // Adjust marker anchor for Android (this doesn't work reliably for iOS)
-      const anchor = {
-        x: 0.11,
-        y: 0.9,
-      };
+    // Adjust marker anchor for Android (this doesn't work reliably for iOS)
+    const anchor = {
+      x: 0.11,
+      y: 0.9,
+    };
 
-      return (
+    if (zoom > 11) {
+      setRenderedShouts(mockShouts?.map((shout) => {
+        return (
+          <MarkerView
+            key={shout.id}
+            id={shout.id}
+            coordinate={shout.coordinates}
+            anchor={Platform.OS === 'android' ? anchor : null}
+          >
+            <Shout label={shout.text} />
+          </MarkerView>
+
+        );
+      }));
+    } else if (zoom > 9 && zoom <= 11) {
+      // Calculate avg center coordinates
+      const avgCoords = mockShouts.reduce((sum, { coordinates }) => (
+        [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
+        .map((coord) => coord / mockShouts.length);
+
+      setRenderedShouts(
         <MarkerView
-          key={shout.id}
-          id={shout.id}
-          coordinate={shout.coordinates}
+          id='bundle'
+          coordinate={avgCoords}
           anchor={Platform.OS === 'android' ? anchor : null}
         >
-          <Shout label={shout.text} />
+          <Shout label={mockShouts.length.toString()} showPin={false} />
         </MarkerView>
-
       );
-    }));
-  }, [shouts]);
+    } else {
+      setRenderedShouts(null);
+    }
+  }, [shouts, zoom]);
 
   return renderedShouts;
 };

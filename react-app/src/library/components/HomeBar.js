@@ -78,7 +78,6 @@ const generateStyles = ({ avatarColors }) => {
         alignItems: 'center',
         paddingHorizontal: 16,
       },
-
       avatar: {
         width: 56,
         height: 56,
@@ -91,13 +90,11 @@ const generateStyles = ({ avatarColors }) => {
         ...(avatarColors && SHAPES.elevGray5),
         shadowColor: avatarColors?.background,
       },
-
       image: {
         width: '100%',
         height: '100%',
         borderRadius: SHAPES.radiusAll,
       },
-
       locationBtn: {
         position: 'absolute',
         right: 16,

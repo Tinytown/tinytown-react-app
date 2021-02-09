@@ -41,14 +41,12 @@ const generateStyles = ({ theme, disabled }) => {
         borderRadius: SHAPES.radiusAll,
         ...backgroundTheme,
       },
-
       button: {
         height: SIZE,
         width: SIZE,
         justifyContent: 'center',
         alignItems: 'center',
       },
-
       icon: {
         height: 24,
         width: 24,
