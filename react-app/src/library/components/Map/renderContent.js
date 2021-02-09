@@ -81,46 +81,25 @@ export const renderWelcomeSign = () => {
 };
 
 export const renderShouts = (shouts) => {
-  let renderedShouts = null;
+  const renderedShouts = mockShouts?.map((shout) => {
+    // Adjust marker anchor for Android (this doesn't work reliably for iOS)
+    const anchor = {
+      x: 0.11,
+      y: 0.9,
+    };
 
-  if (shouts) {
-    renderedShouts = mockShouts.map((shout) => {
-      const WRAPPER_PADDING = 8;
-      const PIN_OFFSET = 14;
-      const normalizedPadding = normalizeValue(WRAPPER_PADDING);
-      const normalizedOffset = normalizeValue(PIN_OFFSET);
-      const [shoutLayout, setShoutLayout] = useState(null);
+    return (
+      <MarkerView
+        key={shout.id}
+        id={shout.id}
+        coordinate={shout.coordinates}
+        anchor={Platform.OS === 'android' ? anchor : null}
+      >
+        <Shout label={shout.text} />
+      </MarkerView>
 
-      // Tweak anchor on each platform
-      let adjustX = 0;
-      let adjustY = 0;
-
-      if (Platform.OS === 'ios' && shoutLayout) {
-        adjustX = -((shoutLayout.width / 48) * 0.09);
-        adjustY = 0.3;
-      } else if (Platform.OS === 'android' && shoutLayout) {
-        adjustX = 0.03;
-      }
-
-      // Dynamically adjust marker anchor based on width / height
-      const anchor = {
-        x: shoutLayout ? (normalizedPadding + normalizedOffset) / shoutLayout.width + adjustX : 0,
-        y: shoutLayout ? ((shoutLayout.height - normalizedPadding) / shoutLayout.height) + adjustY : 0,
-      };
-
-      return (
-        <MarkerView
-          key={shout.id}
-          id={shout.id}
-          coordinate={shout.coordinates}
-          anchor={anchor}
-        >
-          <Shout label={shout.text} onLayout={setShoutLayout} styleOffset={{ WRAPPER_PADDING, PIN_OFFSET }} />
-        </MarkerView>
-
-      );
-    });
-  }
+    );
+  });
 
   return renderedShouts;
 };

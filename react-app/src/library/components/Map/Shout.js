@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import React from 'react';
+import { View, Text, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { Pressable } from 'library/components/hoc';
 import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
@@ -7,19 +7,11 @@ import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
 const Shout = React.memo(({
   label = 'Shout Label',
   onPress,
-  onLayout,
-  styleOffset = { WRAPPER_PADDING: 8, PIN_OFFSET: 14 },
 }) => {
-  const [wrapperLayout, setWrapperLayout] = useState(null);
-  const styles = generateStyles({ wrapperLayout, styleOffset });
-
-  const onLayoutHandler = ({ nativeEvent: { layout } }) => {
-    setWrapperLayout(layout);
-    onLayout && onLayout(layout);
-  };
+  const styles = generateStyles();
 
   return (
-    <View style={styles.wrapper} onLayout={onLayoutHandler} >
+    <View style={styles.wrapper}>
       <Pressable
         containerStyle={styles.container}
         onPress={onPress}
@@ -32,18 +24,27 @@ const Shout = React.memo(({
   );
 });
 
-const generateStyles = ({ wrapperLayout, styleOffset: { PIN_OFFSET, WRAPPER_PADDING } }) => {
-  const MAX_WIDTH = 240;
+const generateStyles = () => {
+  const WIDTH = 240;
+  const PADDING = 8;
+  const PIN_OFFSET = 14;
+  const PIN_SIZE = 10;
 
   return (
     normalizeStyles({
       wrapper: {
-        padding: WRAPPER_PADDING,
-        alignSelf: 'center',
-        maxWidth: MAX_WIDTH,
-        opacity: wrapperLayout ? 1 : 0,
+        padding: PADDING,
+        width: WIDTH,
+        // Adjust marker anchor for iOS (this doesn't work reliably for Android)
+        ...(Platform.OS === 'ios' && {
+          transform: [
+            { translateX: WIDTH / 2 - PADDING - PIN_OFFSET - PIN_SIZE / 2 },
+            { translateY: -16 },
+          ],
+        }),
       },
       container: {
+        alignSelf: 'flex-start',
         flexDirection: 'row',
         paddingVertical: 8,
         paddingHorizontal: 12,
@@ -59,8 +60,8 @@ const generateStyles = ({ wrapperLayout, styleOffset: { PIN_OFFSET, WRAPPER_PADD
         position: 'absolute',
         bottom: -5,
         left: PIN_OFFSET,
-        width: 10,
-        height: 10,
+        width: PIN_SIZE,
+        height: PIN_SIZE,
         borderRadius: SHAPES.radiusAll,
         borderColor: COLORS.asphaltGray800,
         borderWidth: 2,

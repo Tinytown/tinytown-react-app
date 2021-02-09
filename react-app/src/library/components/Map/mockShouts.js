@@ -1,11 +1,11 @@
 export default [
   {
-    'coordinates': [175.0494383, -41.1333],
+    'coordinates': [175.0406783, -41.1265167],
     'created_at': 1612803116600,
     'id': 'cZHN1yZVRZWaTj0zOBA4',
     'plus_code': '4VCQV200+',
     'source_platform': 'android',
-    'text': '123456789112345',
+    'text': 'android',
   },
   {
     'coordinates': [175.066293, -41.126075],
@@ -13,7 +13,7 @@ export default [
     'id': 'sGHCFnVmSE7BlBSL3Mia',
     'plus_code': '4VCQV300+',
     'source_platform': 'ios',
-    'text': '123456789112345678',
+    'text': 'ios',
   },
   {
     'coordinates': [-122.33382036970515, 47.69107035939767],
