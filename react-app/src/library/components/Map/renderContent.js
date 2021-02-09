@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import { useSelector } from 'react-redux';
 import { onboardingRaftShape } from './GeoJSON';
 import Shout from './Shout';
 import mockShouts from './mockShouts';
@@ -81,8 +82,14 @@ export const renderWelcomeSign = () => {
   );
 };
 
-export const renderShouts = (shouts, zoom) => {
+export const renderShouts = (downloadedShouts, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
+  const [allShouts, setAllShouts] = useState(null);
+  const createdShouts = useSelector((state) => state.shouts.created);
+
+  useEffect(() => {
+    setAllShouts([...createdShouts, ...downloadedShouts]);
+  }, [createdShouts, downloadedShouts]);
 
   useEffect(() => {
     // Adjust marker anchor for Android (this doesn't work reliably for iOS)
@@ -92,24 +99,23 @@ export const renderShouts = (shouts, zoom) => {
     };
 
     if (zoom > 11) {
-      setRenderedShouts(mockShouts?.map((shout) => {
+      setRenderedShouts(allShouts?.map((shout) => {
         return (
           <MarkerView
-            key={shout.id}
-            id={shout.id}
+            key={shout.tempId ? shout.tempId : shout.id}
+            id={shout.tempId ? shout.tempId.toString() : shout.id}
             coordinate={shout.coordinates}
             anchor={Platform.OS === 'android' ? anchor : null}
           >
-            <Shout label={shout.text} />
+            <Shout label={shout.text} created={!!shout.tempId} />
           </MarkerView>
-
         );
       }));
     } else if (zoom > 9 && zoom <= 11) {
       // Calculate avg center coordinates
-      const avgCoords = mockShouts.reduce((sum, { coordinates }) => (
+      const avgCoords = allShouts.reduce((sum, { coordinates }) => (
         [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
-        .map((coord) => coord / mockShouts.length);
+        .map((coord) => coord / allShouts.length);
 
       setRenderedShouts(
         <MarkerView
@@ -117,13 +123,13 @@ export const renderShouts = (shouts, zoom) => {
           coordinate={avgCoords}
           anchor={Platform.OS === 'android' ? anchor : null}
         >
-          <Shout label={mockShouts.length.toString()} showPin={false} />
+          <Shout label={allShouts.length.toString()} showPin={false} />
         </MarkerView>
       );
     } else {
       setRenderedShouts(null);
     }
-  }, [shouts, zoom]);
+  }, [allShouts, zoom]);
 
   return renderedShouts;
 };

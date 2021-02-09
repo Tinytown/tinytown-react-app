@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import { Pressable } from 'library/components/hoc';
 import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
@@ -8,8 +8,9 @@ const Shout = React.memo(({
   label = 'Shout Label',
   onPress,
   showPin = true,
+  created = false,
 }) => {
-  const styles = generateStyles();
+  const styles = generateStyles({ created });
 
   return (
     <View style={styles.wrapper}>
@@ -18,6 +19,7 @@ const Shout = React.memo(({
         onPress={onPress}
         keyColor={COLORS.justWhite}
       >
+        {created && <ActivityIndicator size='small' color={COLORS.grassGreen400} />}
         <Text style={styles.label} numberOfLines={1} >{label}</Text>
         {showPin && <View style={styles.pin}/>}
       </Pressable>
@@ -25,7 +27,7 @@ const Shout = React.memo(({
   );
 });
 
-const generateStyles = () => {
+const generateStyles = ({ created }) => {
   const WIDTH = 240;
   const PADDING = 8;
   const PIN_OFFSET = 14;
@@ -34,8 +36,8 @@ const generateStyles = () => {
   return (
     normalizeStyles({
       wrapper: {
-        padding: PADDING,
         width: WIDTH,
+        padding: PADDING,
         backgroundColor: 'transparent', // fix Android clipping bug
 
         // Adjust marker anchor for iOS (this doesn't work reliably for Android)
@@ -47,8 +49,9 @@ const generateStyles = () => {
         }),
       },
       container: {
-        alignSelf: 'flex-start',
         flexDirection: 'row',
+        alignSelf: 'flex-start',
+        maxWidth: WIDTH,
         paddingVertical: 8,
         paddingHorizontal: 12,
         borderRadius: SHAPES.radiusAll,
@@ -56,15 +59,17 @@ const generateStyles = () => {
         ...SHAPES.elevGray2,
       },
       label: {
+        flexShrink: 1,
+        marginLeft: created ? PADDING : 0,
         color: COLORS.justWhite,
         ...TYPOGRAPHY.overline2,
       },
       pin: {
         position: 'absolute',
-        bottom: -5,
-        left: PIN_OFFSET,
         width: PIN_SIZE,
         height: PIN_SIZE,
+        bottom: -5,
+        left: PIN_OFFSET,
         borderRadius: SHAPES.radiusAll,
         borderColor: COLORS.asphaltGray800,
         borderWidth: 2,
@@ -77,8 +82,8 @@ const generateStyles = () => {
 Shout.propTypes = {
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func,
-  onLayout: PropTypes.func,
-  styleOffset: PropTypes.object,
+  showPin: PropTypes.bool,
+  created: PropTypes.bool,
 };
 
 export default Shout;

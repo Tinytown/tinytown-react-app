@@ -14,7 +14,7 @@ export const shoutReducer = (state = null, action) => {
 
 export const createShout = (shout) => async (dispatch, getState) => {
   const { shouts: { created } } = getState();
-  shout.id = Math.floor(Math.random() * 1000);
+  shout.tempId = Math.floor(Math.random() * 1000);
   shout.created = true;
   created.push(shout);
 
