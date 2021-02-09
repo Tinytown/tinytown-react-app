@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const World = ({
   userLocation,
+  loadingShouts,
   updateUserLocation,
   updateUserVisible,
   children,
@@ -30,12 +31,15 @@ const World = ({
     DEFAULT_ZOOM,
   ] = useMap(cameraRef.current, updateUserVisible);
   const [shouts] = useShouts(userLocation);
+  // Used on Android due to performance issues
+  const [hideMarkers, setHideMarkers] = useState(false);
 
   // Map Content
   const userMarker = renderUser(heading);
   const welcomeSign = renderWelcomeSign();
   const showWelcomeSign = !userLocation && camera.zoom === DEFAULT_ZOOM;
   const shoutMarkers = renderShouts(shouts);
+  const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
 
   return (
     <View style={styles.landscape}>
@@ -46,13 +50,15 @@ const World = ({
         logoEnabled={false}
         compassEnabled={false}
         attributionEnabled={false}
+        onRegionWillChange={({ properties: { isUserInteraction } }) => !isUserInteraction && setHideMarkers(true)}
+        onRegionDidChange={({ properties: { isUserInteraction } }) => !isUserInteraction && setHideMarkers(false)}
         onRegionIsChanging={regionChangeHandler}
         onDidFinishRenderingMapFully={() => setMapRendered(true)}
         onTouchStart={onTouchStart}
       >
         {userLocation && userMarker}
         {showWelcomeSign && welcomeSign}
-        {userLocation && shoutMarkers}
+        {showShouts && shoutMarkers}
         <Camera
           ref={cameraRef}
           animationDuration={!mapRendered ? 0 : 2000}
@@ -89,6 +95,7 @@ const styles = normalizeStyles({
 
 const mapStateToProps = (state) => ({
   userLocation: state.location.user,
+  loadingShouts: state.shouts.loading,
 });
 
 export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(World);

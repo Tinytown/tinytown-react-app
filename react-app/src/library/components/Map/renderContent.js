@@ -103,7 +103,7 @@ export const renderShouts = (shouts) => {
 
       );
     }));
-  }, [shouts, mockShouts]);
+  }, [shouts]);
 
   return renderedShouts;
 };

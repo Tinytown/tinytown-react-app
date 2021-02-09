@@ -16,11 +16,11 @@ export default [
     'text': 'ios',
   },
   {
-    'coordinates': [-122.33382036970515, 47.69107035939767],
+    'coordinates': [-122.3341303, 47.6911425],
     'created_at': 1612803116600,
     'id': 'iIyPhV3gjkVna9wnX7EZ',
     'plus_code': '4VCQV200+',
     'source_platform': 'android',
-    'text': 'This is a really, really long shout',
+    'text': 'on physical device',
   },
 ];
