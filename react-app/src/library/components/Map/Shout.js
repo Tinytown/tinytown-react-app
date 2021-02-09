@@ -13,7 +13,7 @@ const Shout = React.memo(({
   const styles = generateStyles({ local });
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} pointerEvents='box-none' >
       <Pressable
         containerStyle={styles.container}
         onPress={onPress}
@@ -28,7 +28,7 @@ const Shout = React.memo(({
 });
 
 const generateStyles = ({ local }) => {
-  const WIDTH = 240;
+  const WIDTH = 200;
   const PADDING = 8;
   const PIN_OFFSET = 14;
   const PIN_SIZE = 10;

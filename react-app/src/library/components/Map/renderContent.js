@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { onboardingRaftShape } from './GeoJSON';
 import Shout from './Shout';
 import mockShouts from './mockShouts';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
+
 const { SymbolLayer, UserLocation, MarkerView, ShapeSource } = MapboxGL;
 
 export const renderUser = (heading) => {
@@ -86,6 +88,7 @@ export const renderShouts = (remoteShouts, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [allShouts, setAllShouts] = useState(null);
   const localShouts = useSelector((state) => state.shouts.local);
+  const navigation = useNavigation();
 
   useEffect(() => {
     setAllShouts([...localShouts, ...remoteShouts]);
@@ -107,12 +110,16 @@ export const renderShouts = (remoteShouts, zoom) => {
             coordinate={shout.coordinates}
             anchor={Platform.OS === 'android' ? anchor : null}
           >
-            <Shout label={shout.text} local={!!shout.localId} />
+            <Shout
+              label={shout.text}
+              local={!!shout.localId}
+              onPress={() => navigation.navigate('Open Shout', { shout })}
+            />
           </MarkerView>
         );
       }));
     } else if (zoom > 9 && zoom <= 11) {
-      // Calculate avg center coordinates
+      // Calculate avg center coordinates for bundle
       const avgCoords = allShouts.reduce((sum, { coordinates }) => (
         [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
         .map((coord) => coord / allShouts.length);
