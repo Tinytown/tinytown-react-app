@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { Pressable } from 'library/components/hoc';
 import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
@@ -57,6 +57,7 @@ const generateStyles = ({ theme, disabled }) => {
         marginRight: 8,
       },
       label: {
+        marginTop: Platform.OS === 'android' ? 1 : 0,
         color: contentColor,
         ...TYPOGRAPHY.overline3,
       },
@@ -67,7 +68,7 @@ const generateStyles = ({ theme, disabled }) => {
 Chip.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red']),
+  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'hairline', 'hairline red']),
   onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
   animationType: PropTypes.string,

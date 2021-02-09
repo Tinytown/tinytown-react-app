@@ -33,6 +33,7 @@ export default {
   trafficOrange100: '#FFE1CC',
 
   // RED
+  bubblegumRed600: '#CC001F',
   bubblegumRed400: '#FF4763',
   bubblegumRed100: '#FFCCD4',
   bubblegumRed50: '#FFF0F2',
