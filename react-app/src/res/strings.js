@@ -20,6 +20,9 @@ export default {
       body: `The ${appConfig.displayName} app is not very useful without access to your location.`,
     },
   },
+  toast: {
+    lannMode: 'Shout will be stored with random location information for testing purposes.',
+  },
   placeholder: {
     shoutBox: 'What\'s happening nearby?',
   },
