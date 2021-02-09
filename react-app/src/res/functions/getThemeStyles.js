@@ -66,7 +66,7 @@ export default (theme) => {
   default:
     backgroundTheme = {
       backgroundColor: COLORS.justWhite,
-      borderColor: 'transparent',
+      borderColor: 'white',
       borderWidth: 2,
       ...SHAPES.elevGray2,
     };

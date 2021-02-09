@@ -32,12 +32,14 @@ const OnboardingScreen = ({ navigation, userLocation }) => {
             }
           ),
         ]).start();
-      }, 60000);
+      }, 15000);
+    } else {
+      clearTimeout(timeoutId);
     }
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [toasty]);
+  }, [toasty, userLocation]);
 
   return (
     <World onTouchStart={() => setToasty(false)}>
