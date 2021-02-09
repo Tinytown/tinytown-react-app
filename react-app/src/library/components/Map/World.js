@@ -25,14 +25,14 @@ const World = ({
   const [heading] = useLocation(updateUserLocation);
   const [
     camera,
-    regionChangeHandler,
+    onRegionIsChangingHandler,
     mapRendered,
     setMapRendered,
     DEFAULT_ZOOM,
   ] = useMap(cameraRef.current, updateUserVisible);
   const [shouts] = useShouts(userLocation);
   // Used on Android due to performance issues
-  const [hideMarkers, setHideMarkers] = useState(false);
+  const [hideMarkers, setHideMarkers] = useState(true);
 
   // Map Content
   const userMarker = renderUser(heading);
@@ -40,6 +40,14 @@ const World = ({
   const showWelcomeSign = !userLocation && camera.zoom === DEFAULT_ZOOM;
   const shoutMarkers = renderShouts(shouts, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
+
+  const onRegionDidChangeHandler = ({ properties, geometry }) => {
+    // Extra call for Android due to bug in onRegionIsChanging
+    if (Platform.OS == 'android') {
+      onRegionIsChangingHandler({ properties, geometry });
+    }
+    setHideMarkers(false);
+  };
 
   return (
     <View style={styles.landscape}>
@@ -51,8 +59,8 @@ const World = ({
         compassEnabled={false}
         attributionEnabled={false}
         onRegionWillChange={({ properties: { isUserInteraction } }) => !isUserInteraction && setHideMarkers(true)}
-        onRegionDidChange={({ properties: { isUserInteraction } }) => !isUserInteraction && setHideMarkers(false)}
-        onRegionIsChanging={regionChangeHandler}
+        onRegionDidChange={onRegionDidChangeHandler}
+        onRegionIsChanging={onRegionIsChangingHandler}
         onDidFinishRenderingMapFully={() => setMapRendered(true)}
         onTouchStart={onTouchStart}
       >
