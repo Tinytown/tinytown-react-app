@@ -18,8 +18,9 @@ const NewShoutScreen = ({ navigation }) => {
     lannMode && Toast.show(STRINGS.toast.lannMode);
   }, [lannMode]);
 
-  const onSubmitHandler = (shout) => {
-
+  const onSubmitHandler = (createNewShout) => {
+    createNewShout(lannMode ? 'lann' : null);
+    navigation.goBack();
   };
 
   return (
@@ -32,7 +33,7 @@ const NewShoutScreen = ({ navigation }) => {
           onPress={() => setLannMode(!lannMode)}
         />
       </NavBar>
-      <ShoutBox onSubmit={() => navigation.goBack()} />
+      <ShoutBox onSubmit={onSubmitHandler} />
     </BottomSheet>
   );
 };

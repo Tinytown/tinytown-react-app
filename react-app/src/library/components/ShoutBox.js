@@ -12,8 +12,7 @@ const ShoutBox = ({ onSubmit }) => {
   const styles = generateStyles({ show });
 
   const onSubmitHandler = () => {
-    createNewShout();
-    onSubmit();
+    onSubmit(createNewShout);
   };
 
   return (

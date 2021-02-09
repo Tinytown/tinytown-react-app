@@ -44,11 +44,23 @@ export default () => {
     disabled,
   };
 
-  const createNewShout = () => {
+  const createNewShout = (mode) => {
+    let coordinates = [userLocation[0], userLocation[1]];
+
+    if (mode === 'lann') {
+      const MAX = 1.0002;
+      const MIN = 0.9998;
+
+      const randLon = Math.random() * (MAX - MIN) + MIN;
+      const randLat = Math.random() * (MAX - MIN) + MIN;
+
+      coordinates = [userLocation[0] * randLon, userLocation[1] * randLat];
+    }
+
     const shout = {
       text: shoutString,
       sourcePlatform: Platform.OS,
-      coordinates: userLocation,
+      coordinates,
     };
 
     dispatch(createShout(shout));
