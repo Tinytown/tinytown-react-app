@@ -1,8 +1,13 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import { onboardingRaftShape } from './GeoJSON';
+import Shout from './Shout';
+import mockShouts from './mockShouts';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
+
 const { SymbolLayer, UserLocation, MarkerView, ShapeSource } = MapboxGL;
 
 export const renderUser = (heading) => {
@@ -19,6 +24,7 @@ export const renderUser = (heading) => {
           iconImage: IMAGES.userMarker,
           iconSize: 0.4,
           iconRotate: heading || 0,
+          iconRotationAlignment: 'map',
         }}
         minZoomLevel={1}
       />
@@ -76,4 +82,61 @@ export const renderWelcomeSign = () => {
       </ShapeSource>
     </View>
   );
+};
+
+export const renderShouts = (remoteShouts, zoom) => {
+  const [renderedShouts, setRenderedShouts] = useState(null);
+  const [allShouts, setAllShouts] = useState(null);
+  const localShouts = useSelector((state) => state.shouts.local);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    setAllShouts([...localShouts, ...remoteShouts]);
+  }, [localShouts, remoteShouts]);
+
+  useEffect(() => {
+    // Adjust marker anchor for Android (this doesn't work reliably for iOS)
+    const anchor = {
+      x: 0.13,
+      y: 0.9,
+    };
+
+    if (zoom > 11) {
+      setRenderedShouts(allShouts?.map((shout) => {
+        return (
+          <MarkerView
+            key={shout.localId ? shout.localId : shout.id}
+            id={shout.localId ? shout.localId.toString() : shout.id}
+            coordinate={shout.coordinates}
+            anchor={Platform.OS === 'android' ? anchor : null}
+          >
+            <Shout
+              label={shout.text}
+              local={!!shout.localId}
+              onPress={() => navigation.navigate('Open Shout', { shout })}
+            />
+          </MarkerView>
+        );
+      }));
+    } else if (zoom > 9 && zoom <= 11) {
+      // Calculate avg center coordinates for bundle
+      const avgCoords = allShouts.reduce((sum, { coordinates }) => (
+        [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
+        .map((coord) => coord / allShouts.length);
+
+      setRenderedShouts(
+        <MarkerView
+          id='bundle'
+          coordinate={avgCoords}
+          anchor={Platform.OS === 'android' ? anchor : null}
+        >
+          <Shout label={allShouts.length.toString()} showPin={false} />
+        </MarkerView>
+      );
+    } else {
+      setRenderedShouts(null);
+    }
+  }, [allShouts, zoom]);
+
+  return renderedShouts;
 };

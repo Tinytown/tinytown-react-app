@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import _ from 'lodash';
 import { useDispatch } from 'react-redux';
-import { removeShout } from 'rdx/shoutState';
+import { removeShout, updateShoutsLoading } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
 
 export default (userLocation) => {
@@ -14,6 +16,7 @@ export default (userLocation) => {
   const [prevLocation, setPrevLocation] = useState([]);
   const subscribers = [];
   const dispatch = useDispatch();
+  const uid = auth().currentUser?.uid;
 
   // Translate coords by given amount (km)
   const translateCoords = (coords, amountLon, amountLat) => {
@@ -41,6 +44,11 @@ export default (userLocation) => {
 
     return codes;
   };
+
+  // Update loading state
+  const debouncedLoading = useRef(_.debounce(() => {
+    dispatch(updateShoutsLoading(false));
+  }, 500, { leading: false, trailing: true }));
 
   const fetchShouts = () => {
     if (!userLocation) {
@@ -83,12 +91,15 @@ export default (userLocation) => {
                 if (duplicate) {
                   return currentValue;
                 }
-
+                debouncedLoading.current();
                 return [...currentValue, change.doc.data()];
               });
 
               // check if shout was just created and remove from redux
-              dispatch(removeShout(change.doc.id));
+              const remoteShout = change.doc.data();
+              if (remoteShout.uid === uid) {
+                dispatch(removeShout(change.doc.data()));
+              }
             }
             if (change.type === 'modified') {
               console.log('Modified shout: ', change.doc.data());
@@ -109,7 +120,7 @@ export default (userLocation) => {
     let isMounted = true;
     let subscribers = [];
 
-    if (isMounted) {
+    if (isMounted && userLocation) {
       // return early if location is the same
       const sameLocation = userLocation.every((val, index) => val == prevLocation[index]);
       if (sameLocation) {

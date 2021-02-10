@@ -17,7 +17,6 @@ const IconButton = ({
     <View style={wrapperStyle} >
       <Pressable
         keyColor={styles.keyColor}
-        containerStyle={styles.container}
         disabled={disabled}
         onPress={onPress}
       >
@@ -37,18 +36,14 @@ const generateStyles = ({ theme, disabled }) => {
 
   return (
     { ...normalizeStyles({
-      container: {
-        borderRadius: SHAPES.radiusAll,
-        ...backgroundTheme,
-      },
-
       button: {
         height: SIZE,
         width: SIZE,
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: SHAPES.radiusAll,
+        ...backgroundTheme,
       },
-
       icon: {
         height: 24,
         width: 24,

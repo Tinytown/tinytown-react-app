@@ -21,6 +21,9 @@ export default {
   poolCyan100: '#CFFCF0',
   poolCyan50: '#F0FFFB',
 
+  // GREEN
+  grassGreen400: '#71D071',
+
   // LIME
   funLime400: '#E0FF14',
   funLime100: '#F8FFCC',
@@ -30,6 +33,7 @@ export default {
   trafficOrange100: '#FFE1CC',
 
   // RED
+  bubblegumRed600: '#CC001F',
   bubblegumRed400: '#FF4763',
   bubblegumRed100: '#FFCCD4',
   bubblegumRed50: '#FFF0F2',

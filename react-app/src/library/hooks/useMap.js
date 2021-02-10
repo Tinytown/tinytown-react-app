@@ -49,6 +49,7 @@ export default (cameraRef, updateUserVisible) => {
         centerCoordinate: userLocation,
         zoomLevel: DEFAULT_ZOOM,
         animationDuration: 1000,
+        heading: 0,
       });
       setCamera({
         center: userLocation,
