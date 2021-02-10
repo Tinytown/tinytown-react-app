@@ -28,7 +28,7 @@ const NewShoutScreen = ({ navigation }) => {
       <NavBar label='' onClose={() => setOpenSheet(false)}>
         <Chip
           {...chipProps}
-          icon='settings'
+          icon='lab'
           wrapperStyle={styles.lann}
           onPress={() => setLannMode(!lannMode)}
         />

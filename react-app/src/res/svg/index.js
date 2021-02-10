@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import CloseIcon from './ic_close_24dp';
 import CrosshairsIcon from './ic_crosshairs_24dp';
 import InfoIcon from './ic_info_circle_24dp';
+import LabIcon from './ic_lab_24dp';
 import MegaphoneIcon from './ic_megaphone_24dp';
 import OverflowDroidIcon from './ic_overflow_droid_24dp';
 import OverflowiOSIcon from './ic_overflow_ios_24dp';
@@ -18,6 +19,7 @@ const IconRepo = {
   close: CloseIcon,
   crosshairs: CrosshairsIcon,
   info: InfoIcon,
+  lab: LabIcon,
   megaphone: MegaphoneIcon,
   overflow: Platform.OS === 'android' ? OverflowDroidIcon : OverflowiOSIcon,
   settings: SettingsIcon,
