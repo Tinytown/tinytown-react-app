@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 
 export default () => {
@@ -9,6 +8,12 @@ export default () => {
 
   const opacityConfig = {
     duration: ANIMATION_DURATION,
+  };
+
+  const scaleConfig = {
+    mass: 1.2,
+    damping: 30,
+    stiffness: 500,
   };
 
   const scrimAnimation = useAnimatedStyle(() => (
@@ -25,7 +30,7 @@ export default () => {
 
   const animateOpen = () => {
     scrimOpacity.value = withTiming(1, opacityConfig);
-    dialogScale.value = withTiming(1, opacityConfig);
+    dialogScale.value = withSpring(1, scaleConfig);
   };
 
   const animateClose = (callback) => {

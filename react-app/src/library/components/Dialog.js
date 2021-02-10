@@ -38,7 +38,7 @@ const generateStyles = () => {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        paddingHorizontal: 16,
+        paddingHorizontal: 24,
         justifyContent: 'center',
       },
       dialog: {
