@@ -1,4 +1,5 @@
 export { default as bounceAnimation } from './bounceAnimation';
+export { default as dialogAnimation } from './dialogAnimation';
 export { default as jiggleAnimation } from './jiggleAnimation';
 export { default as menuAnimation } from './menuAnimation';
 export { default as flipAnimation } from './flipAnimation';
