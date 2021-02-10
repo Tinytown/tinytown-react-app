@@ -76,13 +76,17 @@ export default (userLocation) => {
 
     // start listening for changes in all areas
     const areaSubscriber = areasRef.onSnapshot((areasSnapshot) => {
-      if (areasSnapshot.size === 0) {
+      if (!areasSnapshot || areasSnapshot?.size === 0) {
         return;
       }
 
       // start listening for changes in each area
       areasSnapshot.forEach((doc) => {
         const shoutSubscriber = doc.ref.collection('shouts').onSnapshot((shoutsSnapshot) => {
+          if (!shoutsSnapshot) {
+            return;
+          }
+
           shoutsSnapshot.docChanges().forEach((change) => {
             if (change.type === 'added') {
               setShouts((currentValue) => {
