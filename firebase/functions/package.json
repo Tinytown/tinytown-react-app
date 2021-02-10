@@ -5,7 +5,8 @@
     "serve": "node ./library/utils/serve.js",
     "shell": "node ./library/utils/shell.js",
     "start": "yarn serve",
-    "deploy": "firebase deploy --only functions",
+    "deploy": "npm run update_config && firebase deploy --only functions",
+    "update_config": "firebase functions:config:unset env && firebase functions:config:set env=\"$(doppler secrets download --config prd --no-file --silent)\"",
     "logs": "firebase functions:log"
   },
   "engines": {
