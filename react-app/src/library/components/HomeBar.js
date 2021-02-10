@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 import ImageColors from 'react-native-image-colors';
 import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth';
@@ -21,6 +22,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   const [avatarColors, setAvatarColors] = useState(null);
   const showButton = userVisible !== null && !userVisible;
   const [showAnimation] = useAnimation('show', showButton);
+  const navigation = useNavigation();
   const styles = generateStyles({ avatarColors });
 
   useEffect(() => {
@@ -59,7 +61,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
         </Pressable>
       </View>
       <Menu showMenu={showMenu} setShowMenu={setShowMenu} triggerLayout={triggerLayout}>
-        <MenuItem label={STRINGS.menuItem.about} icon='info'/>
+        <MenuItem label={STRINGS.menuItem.about} icon='info' onPress={() => navigation.navigate('About')} />
         <MenuDivider />
         <MenuItem label={STRINGS.menuItem.signOut} icon='signOut' onPress={signOutHandler}/>
       </Menu>
