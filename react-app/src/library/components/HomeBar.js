@@ -20,9 +20,10 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [triggerLayout, setTriggerLayout] = useState(null);
   const [avatarColors, setAvatarColors] = useState(null);
+  const navigation = useNavigation();
+
   const showButton = userVisible !== null && !userVisible;
   const [showAnimation] = useAnimation('show', showButton);
-  const navigation = useNavigation();
   const styles = generateStyles({ avatarColors });
 
   useEffect(() => {
@@ -42,6 +43,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
         <IconButton
           icon='crosshairs'
           onPress={() => getLocation(goToUser)}
+          disabled={!showButton}
         />
       </Animated.View>
       <View style={styles.bar}>
