@@ -19,6 +19,7 @@ export default {
       title: 'Turn on Location',
       body: `The ${appConfig.displayName} app is not very useful without access to your location.`,
     },
+    tagline: 'Made with ❤️ for the local village',
   },
   toast: {
     lannMode: 'Shout will be stored with random location information for testing purposes.',
