@@ -1,6 +1,7 @@
 
 import {
   bounceAnimation,
+  dialogAnimation,
   jiggleAnimation,
   menuAnimation,
   flipAnimation,
@@ -12,6 +13,8 @@ export default (animationType, ...args) => {
   switch (animationType) {
   case 'bounce':
     return bounceAnimation();
+  case 'dialog':
+    return dialogAnimation();
   case 'jiggle':
     return jiggleAnimation();
   case 'menu':

@@ -6,8 +6,6 @@ import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 const NewShoutScreen = ({ navigation, route: { params: { shout } } }) => {
   const [openSheet, setOpenSheet] = useState(true);
 
-  console.log(shout);
-
   return (
     <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()} >
       <NavBar label='' onClose={() => setOpenSheet(false)}/>

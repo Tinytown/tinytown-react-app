@@ -51,7 +51,8 @@ export const renderWelcomeSign = () => {
       ...TYPOGRAPHY.display3,
     },
     subtitle: {
-      marginBottom: 4,
+      marginTop: 4,
+      marginBottom: 8,
       color: COLORS.asphaltGray300,
       ...TYPOGRAPHY.brandedButton,
     },

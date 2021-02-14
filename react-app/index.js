@@ -4,11 +4,11 @@
 
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import store from 'rdx/store';
-import { Provider } from 'react-redux';
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
-import App from './src/App';
+import { Provider } from 'react-redux';
+import store from 'rdx/store';
 import { name as appName } from './app.json';
+import App from './src/App';
 
 const AppContainer = () => (
   <Provider store={store}>
