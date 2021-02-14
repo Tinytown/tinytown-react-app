@@ -589,6 +589,9 @@ PODS:
     - React
   - react-native-geolocation-service (5.1.1):
     - React
+  - react-native-login-twitter (3.0.4):
+    - React
+    - TwitterKit5
   - react-native-mapbox-gl (8.1.0):
     - "@react-native-mapbox-gl-mapbox-static (~> 5.9.0)"
     - Mapbox-iOS-SDK (~> 5.9.0)
@@ -613,9 +616,6 @@ PODS:
     - Toast (~> 4.0.0)
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-twitter-signin (1.1.0):
-    - React
-    - TwitterKit5
   - React-RCTActionSheet (0.63.3):
     - React-Core/RCTActionSheetHeaders (= 0.63.3)
   - React-RCTAnimation (0.63.3):
@@ -790,11 +790,11 @@ DEPENDENCIES:
   - react-native-compass-heading (from `../node_modules/react-native-compass-heading`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
+  - react-native-login-twitter (from `../node_modules/react-native-login-twitter`)
   - "react-native-mapbox-gl (from `../node_modules/@react-native-mapbox-gl/maps`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
-  - react-native-twitter-signin (from `../node_modules/react-native-twitter-signin`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -903,6 +903,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-flipper"
   react-native-geolocation-service:
     :path: "../node_modules/react-native-geolocation-service"
+  react-native-login-twitter:
+    :path: "../node_modules/react-native-login-twitter"
   react-native-mapbox-gl:
     :path: "../node_modules/@react-native-mapbox-gl/maps"
   react-native-safe-area-context:
@@ -911,8 +913,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-simple-toast"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
-  react-native-twitter-signin:
-    :path: "../node_modules/react-native-twitter-signin"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -1017,11 +1017,11 @@ SPEC CHECKSUMS:
   react-native-compass-heading: 18742617bdb9e06ce104bd3b90f0dc700b791fd1
   react-native-flipper: 4d3780a76fbffce4706a21df75573e02b82ca6b6
   react-native-geolocation-service: f33626f1ae12381ca2ae60f98b2f5edd676bf95a
+  react-native-login-twitter: f0f71fa99f7ec2cd7578b0982c2ef11a4cc90a03
   react-native-mapbox-gl: eec7e5be5b874cfceb79fcfe24d595411015153a
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-twitter-signin: 566ee053b20b5afbd8141160ba4a9d725ab8ab8f
   React-RCTActionSheet: 53ea72699698b0b47a6421cb1c8b4ab215a774aa
   React-RCTAnimation: 1befece0b5183c22ae01b966f5583f42e69a83c2
   React-RCTBlob: 0b284339cbe4b15705a05e2313a51c6d8b51fa40
@@ -1051,6 +1051,6 @@ SPEC CHECKSUMS:
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 16fdd98c9116b1f7d6ad648339bcb397b408c642
+PODFILE CHECKSUM: 441a60419cf622c79bf0cc08b0c866de47468391
 
 COCOAPODS: 1.10.0
