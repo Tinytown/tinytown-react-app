@@ -6116,6 +6116,11 @@ react-native-iphone-x-helper@^1.3.0:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
 
+react-native-login-twitter@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-login-twitter/-/react-native-login-twitter-3.0.4.tgz#33bbbe9b37713468f919fb99853ce51b43616470"
+  integrity sha512-mA54vK+FlttXEYH05oUA72OVr8KN1Lo8t8/WoGn3RSrAvuaFab6rjje8Pp9nwRWLZPSLckdd3XAGJ4WKH97Smw==
+
 react-native-material-ripple@^0.9.1:
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/react-native-material-ripple/-/react-native-material-ripple-0.9.1.tgz#db1ad9dd7cf97011e4cd8475ae2041ade0f891cb"
@@ -6179,10 +6184,6 @@ react-native-svg@^12.1.0:
   dependencies:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
-
-"react-native-twitter-signin@github:GoldenOwlAsia/react-native-twitter-signin#master":
-  version "1.1.0"
-  resolved "https://codeload.github.com/GoldenOwlAsia/react-native-twitter-signin/tar.gz/c93bd1c399dd8cd98a0c80e0f2341126690caf67"
 
 react-native-version@^4.0.0:
   version "4.0.0"

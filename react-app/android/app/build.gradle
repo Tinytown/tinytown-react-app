@@ -209,8 +209,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-
-    compile project(':react-native-twitter-signin')
+    
+    compile project(':react-native-login-twitter')
 }
 
 // Run this once to be able to run the application with BUCK
