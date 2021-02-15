@@ -3,12 +3,13 @@ import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { onboardingRaftShape } from './GeoJSON';
+import * as turf from '@turf/turf';
 import Shout from './Shout';
 import mockShouts from './mockShouts';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 
-const { SymbolLayer, UserLocation, MarkerView, ShapeSource } = MapboxGL;
+const { SymbolLayer, UserLocation, MarkerView, ShapeSource, FillLayer } = MapboxGL;
+const ZOOM_STEP_1 = 11.5;
 
 export const renderUser = (heading) => {
   return (
@@ -29,6 +30,29 @@ export const renderUser = (heading) => {
         minZoomLevel={1}
       />
     </UserLocation>
+  );
+};
+
+export const renderFog = (userLocation, zoom) => {
+  const RADIUS = 2.5;
+  const world = turf.polygon([[[-180, -90], [-180, 90], [180, 90], [180, -90], [-180, -90]]], { name: 'outside' });
+  const user = turf.circle(userLocation, RADIUS, { units: 'kilometers' });
+  const fog = turf.difference(world, user);
+
+  return (
+    <ShapeSource
+      id="fogOfWar"
+      shape={fog}
+    >
+      <FillLayer
+        id="fogOfWarPolygon"
+        style={{
+          fillColor: COLORS.justWhite,
+          fillOpacity: zoom > ZOOM_STEP_1 ? 0.5 : 0,
+          fillOpacityTransition: { duration: 500 },
+        }}
+      />
+    </ShapeSource>
   );
 };
 
@@ -58,6 +82,8 @@ export const renderWelcomeSign = () => {
     },
   });
 
+  raftShape = turf.point([-70.0815, 41.3135]);
+
   return (
     <View>
       <MarkerView
@@ -71,7 +97,7 @@ export const renderWelcomeSign = () => {
       </MarkerView>
       <ShapeSource
         id="onboardingRaft"
-        shape={onboardingRaftShape}
+        shape={raftShape}
       >
         <SymbolLayer
           id='onboardingRaftImg'
@@ -102,7 +128,7 @@ export const renderShouts = (remoteShouts, zoom) => {
       y: 0.9,
     };
 
-    if (zoom > 11) {
+    if (zoom > ZOOM_STEP_1) {
       setRenderedShouts(allShouts?.map((shout) => {
         return (
           <MarkerView
@@ -119,7 +145,7 @@ export const renderShouts = (remoteShouts, zoom) => {
           </MarkerView>
         );
       }));
-    } else if (zoom > 9 && zoom <= 11) {
+    } else if (zoom > 9 && zoom <= ZOOM_STEP_1) {
       // Calculate avg center coordinates for bundle
       const avgCoords = allShouts.reduce((sum, { coordinates }) => (
         [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])

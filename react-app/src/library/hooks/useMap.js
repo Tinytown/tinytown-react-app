@@ -9,7 +9,8 @@ export default (cameraRef, updateUserVisible) => {
   const goToUser = useSelector((state) => state.location.goToUser);
   const userVisible = useSelector((state) => state.location.userVisible);
   const appActive = useSelector((state) => state.app.active);
-  const DEFAULT_ZOOM = 12.285641625082706;
+  const INITIAL_ZOOM = 12.285641625082706;
+  const DEFAULT_ZOOM = 13.2;
   const DEFAULT_COORDS = [-70.09716612969417, 41.30054837367213];
 
   // Map Camera
@@ -31,7 +32,7 @@ export default (cameraRef, updateUserVisible) => {
   const [camera, dispatch] = useReducer(cameraReducer, {
     center: DEFAULT_COORDS,
     bounds: null,
-    zoom: DEFAULT_ZOOM,
+    zoom: INITIAL_ZOOM,
     movedByUser: false,
   });
 

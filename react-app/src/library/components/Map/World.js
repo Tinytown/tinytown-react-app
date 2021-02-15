@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import config from 'config/env.config.js';
 import { useLocation, useMap, useShouts } from 'library/hooks';
-import { renderUser, renderWelcomeSign, renderShouts } from './renderContent';
+import { renderUser, renderWelcomeSign, renderShouts, renderFog } from './renderContent';
 import { COLORS, normalizeStyles } from 'res';
 
 const { MapView, Camera } = MapboxGL;
@@ -36,6 +36,7 @@ const World = ({
 
   // Map Content
   const userMarker = renderUser(heading);
+  const fogOfWar = userLocation && renderFog(userLocation, camera.zoom);
   const welcomeSign = renderWelcomeSign();
   const showWelcomeSign = !userLocation && camera.zoom === DEFAULT_ZOOM;
   const shoutMarkers = renderShouts(shouts, camera.zoom);
@@ -65,6 +66,7 @@ const World = ({
         onTouchStart={onTouchStart}
       >
         {userLocation && userMarker}
+        {userLocation && fogOfWar}
         {showWelcomeSign && welcomeSign}
         {showShouts && shoutMarkers}
         <Camera
