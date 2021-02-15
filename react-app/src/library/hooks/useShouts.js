@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import _ from 'lodash';
+import * as turf from '@turf/turf';
 import { useDispatch } from 'react-redux';
 import { removeShout, updateShoutsLoading } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
@@ -10,8 +11,6 @@ import { mapConfig } from 'library/components/Map';
 export default (userLocation) => {
   const { SIGHT_RADIUS, PLUSCODE_PRECISION } = mapConfig;
 
-  const LAT_DISTANCE = 111.11;
-  const LON_DISTANCE = 111;
   const [shouts, setShouts] = useState([]);
   const [areas, setAreas] = useState([]);
   const [prevLocation, setPrevLocation] = useState([]);
@@ -19,24 +18,22 @@ export default (userLocation) => {
   const dispatch = useDispatch();
   const uid = auth().currentUser?.uid;
 
-  // Translate coords by given amount (km)
-  const translateCoords = (coords, amountLon, amountLat) => {
-    // calculate new coords
-    const translatedLat = amountLat / LAT_DISTANCE;
-    const translatedLon = (amountLon / LON_DISTANCE) * Math.cos(coords[1]);
-    const translated = [(coords[0] - translatedLon), (coords[1] - translatedLat)];
-
-    return translated;
-  };
-
   // Get nearby plus codes
   const getSurroundingCodes = () => {
-    const surroundingCoords = [];
+    const userPoint = turf.point(userLocation);
+
     // generate four sets of coords from user location
-    surroundingCoords.push(translateCoords(userLocation, -SIGHT_RADIUS, -SIGHT_RADIUS));
-    surroundingCoords.push(translateCoords(userLocation, SIGHT_RADIUS, -SIGHT_RADIUS));
-    surroundingCoords.push(translateCoords(userLocation, SIGHT_RADIUS, SIGHT_RADIUS));
-    surroundingCoords.push(translateCoords(userLocation, -SIGHT_RADIUS, SIGHT_RADIUS));
+    const NE = turf.transformTranslate(userPoint, SIGHT_RADIUS, 45, { units: 'kilometers' });
+    const SE = turf.transformTranslate(userPoint, SIGHT_RADIUS, 135, { units: 'kilometers' });
+    const SW = turf.transformTranslate(userPoint, SIGHT_RADIUS, 225, { units: 'kilometers' });
+    const NW = turf.transformTranslate(userPoint, SIGHT_RADIUS, 315, { units: 'kilometers' });
+
+    const surroundingCoords = [
+      NE.geometry.coordinates,
+      SE.geometry.coordinates,
+      SW.geometry.coordinates,
+      NW.geometry.coordinates,
+    ];
 
     // encode plus codes for each set of coords
     const codes = surroundingCoords.map((coord) => {
@@ -59,6 +56,8 @@ export default (userLocation) => {
     // generate plus codes based on user's location and surrounding areas
     const plusCodes =
     [...new Set([encode(userLocation[1], userLocation[0], PLUSCODE_PRECISION), ...getSurroundingCodes()])];
+
+    console.log(plusCodes);
 
     // select unused codes from previous state
     const oldCodes = areas.filter((area) => !plusCodes.includes(area));
