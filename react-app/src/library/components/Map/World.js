@@ -37,10 +37,10 @@ const World = ({
 
   // Map Content
   const userMarker = renderUser(heading);
-  const fogOfWar = userLocation && renderFog(userLocation, camera.zoom);
+  const fogOfWar = renderFog(userLocation, camera.zoom);
   const welcomeSign = renderWelcomeSign();
   const showWelcomeSign = !userLocation && camera.zoom === INITIAL_ZOOM;
-  const shoutMarkers = renderShouts(shouts, camera.zoom);
+  const shoutMarkers = renderShouts(shouts, userLocation, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
 
   const onRegionDidChangeHandler = ({ properties, geometry }) => {

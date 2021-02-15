@@ -57,8 +57,6 @@ export default (userLocation) => {
     const plusCodes =
     [...new Set([encode(userLocation[1], userLocation[0], PLUSCODE_PRECISION), ...getSurroundingCodes()])];
 
-    console.log(plusCodes);
-
     // select unused codes from previous state
     const oldCodes = areas.filter((area) => !plusCodes.includes(area));
     setAreas(plusCodes);
@@ -83,7 +81,7 @@ export default (userLocation) => {
       // start listening for changes in each area
       areasSnapshot.forEach((doc) => {
         const shoutSubscriber = doc.ref.collection('shouts').onSnapshot((shoutsSnapshot) => {
-          if (!shoutsSnapshot) {
+          if (!shoutsSnapshot || shoutsSnapshot?.size === 0) {
             return;
           }
 
@@ -95,6 +93,7 @@ export default (userLocation) => {
                 if (duplicate) {
                   return currentValue;
                 }
+
                 debouncedLoading.current();
                 return [...currentValue, change.doc.data()];
               });

@@ -35,9 +35,13 @@ export const renderUser = (heading) => {
 };
 
 export const renderFog = (userLocation, zoom) => {
+  if (!userLocation) {
+    return;
+  }
+
   const world = turf.polygon([[[-180, -90], [-180, 90], [180, 90], [180, -90], [-180, -90]]], { name: 'outside' });
-  const user = turf.circle(userLocation, SIGHT_RADIUS, { units: 'kilometers' });
-  const fog = turf.difference(world, user);
+  const userSight = turf.circle(userLocation, SIGHT_RADIUS, { units: 'kilometers' });
+  const fog = turf.difference(world, userSight);
 
   return (
     <ShapeSource
@@ -111,7 +115,7 @@ export const renderWelcomeSign = () => {
   );
 };
 
-export const renderShouts = (remoteShouts, zoom) => {
+export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [allShouts, setAllShouts] = useState(null);
   const localShouts = useSelector((state) => state.shouts.local);
@@ -122,14 +126,30 @@ export const renderShouts = (remoteShouts, zoom) => {
   }, [localShouts, remoteShouts]);
 
   useEffect(() => {
+    if (!userLocation) {
+      return;
+    }
+
     // Adjust marker anchor for Android (this doesn't work reliably for iOS)
     const anchor = {
       x: 0.13,
       y: 0.9,
     };
 
+    // area within within user's sight
+    const userSight = turf.circle(userLocation, SIGHT_RADIUS, { units: 'kilometers' });
+
     if (zoom > ZOOM_STEP_1) {
       setRenderedShouts(allShouts?.map((shout) => {
+        // check if shout is within user's sight
+        const { coordinates } = shout;
+        const shoutPoint = turf.point(coordinates);
+        const inside = turf.booleanPointInPolygon(shoutPoint, userSight);
+
+        if (!inside) {
+          return;
+        }
+
         return (
           <MarkerView
             key={shout.localId ? shout.localId : shout.id}
