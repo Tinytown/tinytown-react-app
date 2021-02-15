@@ -5,10 +5,11 @@ import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { removeShout, updateShoutsLoading } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
+import { mapConfig } from 'library/components/Map';
 
 export default (userLocation) => {
-  const CODE_PRECISION = 6;
-  const RADIUS = 2.5;
+  const { SIGHT_RADIUS, PLUSCODE_PRECISION } = mapConfig;
+
   const LAT_DISTANCE = 111.11;
   const LON_DISTANCE = 111;
   const [shouts, setShouts] = useState([]);
@@ -32,14 +33,14 @@ export default (userLocation) => {
   const getSurroundingCodes = () => {
     const surroundingCoords = [];
     // generate four sets of coords from user location
-    surroundingCoords.push(translateCoords(userLocation, -RADIUS, -RADIUS));
-    surroundingCoords.push(translateCoords(userLocation, RADIUS, -RADIUS));
-    surroundingCoords.push(translateCoords(userLocation, RADIUS, RADIUS));
-    surroundingCoords.push(translateCoords(userLocation, -RADIUS, RADIUS));
+    surroundingCoords.push(translateCoords(userLocation, -SIGHT_RADIUS, -SIGHT_RADIUS));
+    surroundingCoords.push(translateCoords(userLocation, SIGHT_RADIUS, -SIGHT_RADIUS));
+    surroundingCoords.push(translateCoords(userLocation, SIGHT_RADIUS, SIGHT_RADIUS));
+    surroundingCoords.push(translateCoords(userLocation, -SIGHT_RADIUS, SIGHT_RADIUS));
 
     // encode plus codes for each set of coords
     const codes = surroundingCoords.map((coord) => {
-      return encode(coord[1], coord[0], CODE_PRECISION);
+      return encode(coord[1], coord[0], PLUSCODE_PRECISION);
     });
 
     return codes;
@@ -57,7 +58,7 @@ export default (userLocation) => {
 
     // generate plus codes based on user's location and surrounding areas
     const plusCodes =
-    [...new Set([encode(userLocation[1], userLocation[0], CODE_PRECISION), ...getSurroundingCodes()])];
+    [...new Set([encode(userLocation[1], userLocation[0], PLUSCODE_PRECISION), ...getSurroundingCodes()])];
 
     // select unused codes from previous state
     const oldCodes = areas.filter((area) => !plusCodes.includes(area));

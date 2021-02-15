@@ -5,11 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import * as turf from '@turf/turf';
 import Shout from './Shout';
+import mapConfig from './config';
 import mockShouts from './mockShouts';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 
 const { SymbolLayer, UserLocation, MarkerView, ShapeSource, FillLayer } = MapboxGL;
-const ZOOM_STEP_1 = 11.5;
+const { SIGHT_RADIUS, ZOOM_STEP_1, ZOOM_STEP_2, RAFT_COORD, WELCOME_COORD } = mapConfig;
 
 export const renderUser = (heading) => {
   return (
@@ -34,9 +35,8 @@ export const renderUser = (heading) => {
 };
 
 export const renderFog = (userLocation, zoom) => {
-  const RADIUS = 2.5;
   const world = turf.polygon([[[-180, -90], [-180, 90], [180, 90], [180, -90], [-180, -90]]], { name: 'outside' });
-  const user = turf.circle(userLocation, RADIUS, { units: 'kilometers' });
+  const user = turf.circle(userLocation, SIGHT_RADIUS, { units: 'kilometers' });
   const fog = turf.difference(world, user);
 
   return (
@@ -47,8 +47,8 @@ export const renderFog = (userLocation, zoom) => {
       <FillLayer
         id="fogOfWarPolygon"
         style={{
-          fillColor: COLORS.justWhite,
-          fillOpacity: zoom > ZOOM_STEP_1 ? 0.5 : 0,
+          fillColor: COLORS.asphaltGray900,
+          fillOpacity: zoom > ZOOM_STEP_1 ? 0.2 : 0,
           fillOpacityTransition: { duration: 500 },
         }}
       />
@@ -82,13 +82,13 @@ export const renderWelcomeSign = () => {
     },
   });
 
-  raftShape = turf.point([-70.0815, 41.3135]);
+  raftShape = turf.point(RAFT_COORD);
 
   return (
     <View>
       <MarkerView
         id='welcomeSign'
-        coordinate={[-70.1015, 41.3248]}
+        coordinate={WELCOME_COORD}
       >
         <View style={styles.welcomeSign} >
           <Text style={styles.subtitle} >{STRINGS.onboarding.welcome}</Text>
@@ -145,7 +145,7 @@ export const renderShouts = (remoteShouts, zoom) => {
           </MarkerView>
         );
       }));
-    } else if (zoom > 9 && zoom <= ZOOM_STEP_1) {
+    } else if (zoom > ZOOM_STEP_2 && zoom <= ZOOM_STEP_1) {
       // Calculate avg center coordinates for bundle
       const avgCoords = allShouts.reduce((sum, { coordinates }) => (
         [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])

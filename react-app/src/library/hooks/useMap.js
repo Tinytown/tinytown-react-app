@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { mapConfig } from 'library/components/Map';
 import { storeMultiple, getMultiple } from 'library/apis/storage';
 
 export default (cameraRef, updateUserVisible) => {
@@ -9,9 +10,8 @@ export default (cameraRef, updateUserVisible) => {
   const goToUser = useSelector((state) => state.location.goToUser);
   const userVisible = useSelector((state) => state.location.userVisible);
   const appActive = useSelector((state) => state.app.active);
-  const INITIAL_ZOOM = 12.285641625082706;
-  const DEFAULT_ZOOM = 13.2;
-  const DEFAULT_COORDS = [-70.09716612969417, 41.30054837367213];
+
+  const { INITIAL_ZOOM, DEFAULT_ZOOM, DEFAULT_COORDS } = mapConfig;
 
   // Map Camera
   const cameraReducer = (state, action) => {
@@ -128,5 +128,5 @@ export default (cameraRef, updateUserVisible) => {
     return () => { isMounted = false; };
   }, [shouldStore]);
 
-  return [camera, regionChangeHandler, mapRendered, setMapRendered, DEFAULT_ZOOM];
+  return [camera, regionChangeHandler, mapRendered, setMapRendered];
 };
