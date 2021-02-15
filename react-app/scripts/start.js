@@ -1,5 +1,5 @@
 const { spawn } = require('child_process');
-const config = require('../../config/env.config');
+const config = require('../src/config/env.config');
 
 if (config.DEV_TOKEN) {
   spawn(

@@ -5,9 +5,10 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "node ./src/library/utils/start.js",
+    "start": "node ./scripts/start.js",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "node ./scripts/stfu.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",

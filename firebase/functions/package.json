@@ -2,8 +2,8 @@
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
-    "serve": "node ./library/utils/serve.js",
-    "shell": "node ./library/utils/shell.js",
+    "serve": "node ./scripts/serve.js",
+    "shell": "node ./scripts/shell.js",
     "start": "yarn serve",
     "deploy": "npm run update_config && firebase deploy --only functions",
     "update_config": "firebase functions:config:unset env && firebase functions:config:set env=\"$(doppler secrets download --config prd --no-file --silent)\"",
