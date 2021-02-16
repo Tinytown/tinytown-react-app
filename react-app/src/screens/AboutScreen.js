@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, Linking } from 'react-native';
 import { displayName as appName, version } from 'root/app.json';
 import { BottomSheet, MenuItem, MenuDivider } from 'library/components';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
@@ -22,6 +22,7 @@ const NewShoutScreen = ({ navigation }) => {
           primaryIcon='lightbulb'
           secondaryIcon='openExternal'
           tall
+          onPress={() => Linking.openURL(STRINGS.links.feature)}
         />
         <MenuDivider margin={0} />
         <MenuItem
@@ -29,6 +30,7 @@ const NewShoutScreen = ({ navigation }) => {
           primaryIcon='help'
           secondaryIcon='openExternal'
           tall
+          onPress={() => Linking.openURL(STRINGS.links.help)}
         />
         <MenuDivider margin={0} />
         <MenuItem
@@ -36,6 +38,7 @@ const NewShoutScreen = ({ navigation }) => {
           primaryIcon='discord'
           secondaryIcon='openExternal'
           tall
+          onPress={() => Linking.openURL(STRINGS.links.discord)}
         />
         <MenuDivider margin={0} />
         <MenuItem
@@ -43,6 +46,7 @@ const NewShoutScreen = ({ navigation }) => {
           primaryIcon='twitter'
           secondaryIcon='openExternal'
           tall
+          onPress={() => Linking.openURL(STRINGS.links.twitter)}
         />
         <MenuDivider margin={0} />
       </View>

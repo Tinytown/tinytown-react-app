@@ -49,5 +49,12 @@ export default {
   secrets: {
     wololo: 'Niko, I\'ve a feeling we\'re not in the Tinytown website anymore.',
   },
+  links: {
+    wololo: 'https://twitter.com/search?q=wolologang',
+    feature: 'https://ttown.app/feature-requests',
+    help: 'https://ttown.app/feedback',
+    discord: 'https://ttown.app/discord',
+    twitter: 'https://twitter.com/GetTinytown',
+  },
 };
 
