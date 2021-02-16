@@ -9,6 +9,10 @@ export default {
   menuItem: {
     about: 'About',
     signOut: 'Sign Out',
+    feature: 'Request a feature',
+    help: 'Help and Feedback',
+    discord: 'Join our Discord',
+    twitter: 'Follow us on Twitter',
   },
   button: {
     goToLocation: 'Go to my location',
