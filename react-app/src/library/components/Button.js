@@ -12,7 +12,7 @@ const Button = ({
   wrapperStyle,
   disabled = false,
 }) => {
-  const styles = generateStyles({ theme, disabled });
+  const styles = generateStyles({ icon, theme, disabled });
 
   return (
     <View style={wrapperStyle} pointerEvents='box-none'>
@@ -24,9 +24,11 @@ const Button = ({
         onPress={onPress}
       >
         <View style={styles.button}>
+          {icon &&
           <View style={styles.icon}>
             <Icon icon={icon} color={styles.contentColor} />
           </View>
+          }
           <Text style={styles.label}>{label}</Text>
         </View>
       </Pressable>
@@ -34,7 +36,7 @@ const Button = ({
   );
 };
 
-const generateStyles = ({ theme, disabled }) => {
+const generateStyles = ({ icon, theme, disabled }) => {
   const ICON_SIZE = 20;
   const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
 
@@ -47,7 +49,7 @@ const generateStyles = ({ theme, disabled }) => {
       },
       button: {
         flexDirection: 'row',
-        paddingHorizontal: 10,
+        paddingHorizontal: icon ? 10 : 14,
         paddingVertical: 6,
         borderRadius: SHAPES.radiusSm,
         ...backgroundTheme,
@@ -69,7 +71,7 @@ const generateStyles = ({ theme, disabled }) => {
 Button.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red']),
+  theme: PropTypes.oneOf(['white', 'hairline']),
   onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
