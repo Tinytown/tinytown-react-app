@@ -1,22 +1,18 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import PropTypes from 'prop-types';
-import Animated from 'react-native-reanimated';
 import { Pressable } from 'library/components/hoc';
-import { useAnimation } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 
-const FAB = ({
+const Button = ({
   icon,
   label = 'Button Label',
   theme = null,
-  branded = false,
   onPress,
   wrapperStyle,
   disabled = false,
 }) => {
-  const [animation, animateOnPress] = useAnimation('jiggle');
-  const styles = generateStyles({ theme, branded, disabled });
+  const styles = generateStyles({ theme, disabled });
 
   return (
     <View style={wrapperStyle} pointerEvents='box-none'>
@@ -26,10 +22,7 @@ const FAB = ({
         keyColor={styles.keyColor}
         disabled={disabled}
         onPress={onPress}
-        onPressIn={() => animateOnPress('in')}
-        onPressOut={() => animateOnPress('out')}
       >
-        <Animated.View style={[styles.card, animation]} />
         <View style={styles.button}>
           <View style={styles.icon}>
             <Icon icon={icon} color={styles.contentColor} />
@@ -41,55 +34,45 @@ const FAB = ({
   );
 };
 
-const generateStyles = ({ theme, branded, disabled }) => {
-  const ICON_SIZE = 24;
+const generateStyles = ({ theme, disabled }) => {
+  const ICON_SIZE = 20;
   const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
     { ...normalizeStyles({
       container: {
-        borderRadius: SHAPES.radiusMd,
+        borderRadius: SHAPES.radiusSm,
         alignItems: 'center',
         justifyContent: 'center',
       },
       button: {
         flexDirection: 'row',
-        paddingLeft: 14,
-        paddingRight: 18,
-        paddingVertical: 10,
-        borderRadius: SHAPES.radiusMd,
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        borderRadius: SHAPES.radiusSm,
         ...backgroundTheme,
       },
       icon: {
         height: ICON_SIZE,
         width: ICON_SIZE,
-        marginRight: 12,
+        marginRight: 8,
       },
       label: {
+        marginTop: Platform.OS === 'android' ? 1 : 0,
         color: contentColor,
-        ...TYPOGRAPHY.subheader3,
-        ...(branded && TYPOGRAPHY.brandedButton),
-      },
-      card: {
-        position: 'absolute',
-        height: '100%',
-        width: '80%',
-        borderRadius: SHAPES.radiusMd,
-        backgroundColor: COLORS.asphaltGray800,
-        ...(disabled && { opacity: 0 }),
+        ...TYPOGRAPHY.subheader4,
       },
     }), keyColor, contentColor }
   );
 };
 
-FAB.propTypes = {
+Button.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf(['cyan', 'blue', 'red']),
-  branded: PropTypes.bool,
   onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
 };
 
-export default FAB;
+export default Button;
