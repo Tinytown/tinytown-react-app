@@ -80,7 +80,7 @@ const styles = normalizeStyles({
   },
   tagline: {
     marginTop: 24,
-    marginBottom: 8,
+    marginBottom: 16,
     color: COLORS.asphaltGray900,
     textAlign: 'center',
     opacity: 0.4,

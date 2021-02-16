@@ -50,5 +50,5 @@ export default (translateOffset) => {
     scrimOpacity.value =  withTiming(OPACITY_INITIAL, opacityConfig, () => runOnJS(callback)());
   };
 
-  return [sheetAnimation, scrimAnimation, closeSheet, setSheetLayout];
+  return [sheetAnimation, scrimAnimation, closeSheet, setSheetLayout, translateY, translateConfig];
 };
