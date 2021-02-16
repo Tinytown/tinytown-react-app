@@ -52,6 +52,17 @@ export default (theme) => {
 
     return  [backgroundTheme, keyColor, contentColor];
 
+  case 'white':
+    backgroundTheme = {
+      backgroundColor: COLORS.justWhite,
+      borderColor: COLORS.justWhite,
+      borderWidth: 2,
+    };
+    keyColor = COLORS.asphaltGray800;
+    contentColor = COLORS.asphaltGray800;
+
+    return  [backgroundTheme, keyColor, contentColor];
+
   case 'disabled':
     backgroundTheme = {
       backgroundColor: COLORS.asphaltGray50,
