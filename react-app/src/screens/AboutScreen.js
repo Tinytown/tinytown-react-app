@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, Image } from 'react-native';
 import { displayName as appName, version } from 'root/app.json';
-import { BottomSheet } from 'library/components';
+import { BottomSheet, MenuItem, MenuDivider } from 'library/components';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 
 const NewShoutScreen = ({ navigation }) => {
@@ -13,8 +13,20 @@ const NewShoutScreen = ({ navigation }) => {
         <Image source={IMAGES.appIcon} style={styles.image} />
         <Text style={styles.appName} >{appName}</Text>
         <Text style={styles.version} >{version}</Text>
-        <Text style={styles.tagline} >{STRINGS.dialog.tagline}</Text>
+
       </View>
+      <View style={styles.menuContainer} >
+        <MenuDivider/>
+        <MenuItem label='foo' />
+        <MenuDivider/>
+        <MenuItem label='foo' />
+        <MenuDivider/>
+        <MenuItem label='foo' />
+        <MenuDivider/>
+        <MenuItem label='foo' />
+        <MenuDivider/>
+      </View>
+      <Text style={styles.tagline} >{STRINGS.dialog.tagline}</Text>
     </BottomSheet>
   );
 };
@@ -23,6 +35,9 @@ const styles = normalizeStyles({
   container: {
     alignItems: 'center',
     paddingTop: 24,
+  },
+  menuContainer: {
+    marginVertical: 8,
   },
   image: {
     width: 80,
@@ -43,6 +58,7 @@ const styles = normalizeStyles({
     marginTop: 24,
     marginBottom: 8,
     color: COLORS.asphaltGray900,
+    textAlign: 'center',
     opacity: 0.4,
     ...TYPOGRAPHY.overline3,
   },

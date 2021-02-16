@@ -41,8 +41,8 @@ const generateStyles = ({ disabled }) => {
         flexDirection: 'row',
         alignItems: 'center',
         height: 48,
-        width: 200,
-        paddingHorizontal: 8,
+        paddingLeft: 8,
+        paddingRight: 56,
         ...(disabled && { opacity: 0.4 }),
       },
       assetContainer: {
@@ -55,7 +55,6 @@ const generateStyles = ({ disabled }) => {
         height: 24,
       },
       label: {
-        width: 120,
         color: COLORS.asphaltGray800,
         ...TYPOGRAPHY.subheader3,
       },
