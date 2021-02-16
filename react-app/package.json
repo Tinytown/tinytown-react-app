@@ -1,13 +1,14 @@
 {
   "name": "tinytown",
-  "version": "0.0.1",
+  "version": "0.11.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "node ./src/library/utils/start.js",
+    "start": "node ./scripts/start.js",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "node ./scripts/stfu.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",
@@ -19,6 +20,7 @@
     "@react-native-mapbox-gl/maps": "^8.1.0-rc.1",
     "@react-navigation/native": "^5.7.4",
     "@react-navigation/stack": "^5.9.1",
+    "@turf/turf": "^6.3.0",
     "axios": "^0.21.1",
     "lodash": "^4.17.20",
     "prop-types": "^15.7.2",

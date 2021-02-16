@@ -5,11 +5,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import config from 'config/env.config.js';
+import mapConfig from './config';
 import { useLocation, useMap, useShouts } from 'library/hooks';
-import { renderUser, renderWelcomeSign, renderShouts } from './renderContent';
+import { renderUser, renderWelcomeSign, renderShouts, renderFog } from './renderContent';
 import { COLORS, normalizeStyles } from 'res';
 
 const { MapView, Camera } = MapboxGL;
+const { INITIAL_ZOOM } = mapConfig;
 MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const World = ({
@@ -28,7 +30,6 @@ const World = ({
     onRegionIsChangingHandler,
     mapRendered,
     setMapRendered,
-    DEFAULT_ZOOM,
   ] = useMap(cameraRef.current, updateUserVisible);
   const [shouts] = useShouts(userLocation);
   // Used on Android due to performance issues
@@ -36,9 +37,10 @@ const World = ({
 
   // Map Content
   const userMarker = renderUser(heading);
+  const fogOfWar = renderFog(userLocation, camera.zoom);
   const welcomeSign = renderWelcomeSign();
-  const showWelcomeSign = !userLocation && camera.zoom === DEFAULT_ZOOM;
-  const shoutMarkers = renderShouts(shouts, camera.zoom);
+  const showWelcomeSign = !userLocation && camera.zoom === INITIAL_ZOOM;
+  const shoutMarkers = renderShouts(shouts, userLocation, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
 
   const onRegionDidChangeHandler = ({ properties, geometry }) => {
@@ -65,6 +67,7 @@ const World = ({
         onTouchStart={onTouchStart}
       >
         {userLocation && userMarker}
+        {userLocation && fogOfWar}
         {showWelcomeSign && welcomeSign}
         {showShouts && shoutMarkers}
         <Camera

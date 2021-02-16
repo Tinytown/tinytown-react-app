@@ -3,12 +3,14 @@ import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { onboardingRaftShape } from './GeoJSON';
+import * as turf from '@turf/turf';
 import Shout from './Shout';
+import mapConfig from './config';
 import mockShouts from './mockShouts';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 
-const { SymbolLayer, UserLocation, MarkerView, ShapeSource } = MapboxGL;
+const { SymbolLayer, UserLocation, MarkerView, ShapeSource, FillLayer } = MapboxGL;
+const { SIGHT_RADIUS, ZOOM_STEP_1, ZOOM_STEP_2, RAFT_COORD, WELCOME_COORD } = mapConfig;
 
 export const renderUser = (heading) => {
   return (
@@ -29,6 +31,32 @@ export const renderUser = (heading) => {
         minZoomLevel={1}
       />
     </UserLocation>
+  );
+};
+
+export const renderFog = (userLocation, zoom) => {
+  if (!userLocation) {
+    return;
+  }
+
+  const world = turf.polygon([[[-180, -90], [-180, 90], [180, 90], [180, -90], [-180, -90]]], { name: 'outside' });
+  const userSight = turf.circle(userLocation, SIGHT_RADIUS, { units: 'kilometers' });
+  const fog = turf.difference(world, userSight);
+
+  return (
+    <ShapeSource
+      id="fogOfWar"
+      shape={fog}
+    >
+      <FillLayer
+        id="fogOfWarPolygon"
+        style={{
+          fillColor: COLORS.asphaltGray900,
+          fillOpacity: zoom > ZOOM_STEP_1 ? 0.3 : 0,
+          fillOpacityTransition: { duration: 500 },
+        }}
+      />
+    </ShapeSource>
   );
 };
 
@@ -58,11 +86,13 @@ export const renderWelcomeSign = () => {
     },
   });
 
+  raftShape = turf.point(RAFT_COORD);
+
   return (
     <View>
       <MarkerView
         id='welcomeSign'
-        coordinate={[-70.1015, 41.3248]}
+        coordinate={WELCOME_COORD}
       >
         <View style={styles.welcomeSign} >
           <Text style={styles.subtitle} >{STRINGS.onboarding.welcome}</Text>
@@ -71,7 +101,7 @@ export const renderWelcomeSign = () => {
       </MarkerView>
       <ShapeSource
         id="onboardingRaft"
-        shape={onboardingRaftShape}
+        shape={raftShape}
       >
         <SymbolLayer
           id='onboardingRaftImg'
@@ -85,15 +115,28 @@ export const renderWelcomeSign = () => {
   );
 };
 
-export const renderShouts = (remoteShouts, zoom) => {
+export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [allShouts, setAllShouts] = useState(null);
   const localShouts = useSelector((state) => state.shouts.local);
   const navigation = useNavigation();
 
   useEffect(() => {
-    setAllShouts([...localShouts, ...remoteShouts]);
-  }, [localShouts, remoteShouts]);
+    if (!userLocation) {
+      return;
+    }
+
+    // area within within user's sight
+    const userSight = turf.circle(userLocation, SIGHT_RADIUS, { units: 'kilometers' });
+
+    const filteredShouts = [...localShouts, ...remoteShouts].filter(({ coordinates }) => {
+      // check if shout is within user's sight
+      const shoutPoint = turf.point(coordinates);
+      return turf.booleanPointInPolygon(shoutPoint, userSight);
+    });
+
+    setAllShouts(filteredShouts);
+  }, [localShouts, remoteShouts, userLocation]);
 
   useEffect(() => {
     // Adjust marker anchor for Android (this doesn't work reliably for iOS)
@@ -102,7 +145,7 @@ export const renderShouts = (remoteShouts, zoom) => {
       y: 0.9,
     };
 
-    if (zoom > 11) {
+    if (zoom > ZOOM_STEP_1) {
       setRenderedShouts(allShouts?.map((shout) => {
         return (
           <MarkerView
@@ -119,7 +162,7 @@ export const renderShouts = (remoteShouts, zoom) => {
           </MarkerView>
         );
       }));
-    } else if (zoom > 9 && zoom <= 11) {
+    } else if (zoom > ZOOM_STEP_2 && zoom <= ZOOM_STEP_1) {
       // Calculate avg center coordinates for bundle
       const avgCoords = allShouts.reduce((sum, { coordinates }) => (
         [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
