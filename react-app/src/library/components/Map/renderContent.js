@@ -51,8 +51,8 @@ export const renderFog = (userLocation, zoom) => {
       <FillLayer
         id="fogOfWarPolygon"
         style={{
-          fillColor: COLORS.asphaltGray900,
-          fillOpacity: zoom > ZOOM_STEP_1 ? 0.3 : 0,
+          fillPattern: 'stripes',
+          fillOpacity: zoom > ZOOM_STEP_1 ? 0.35 : 0,
           fillOpacityTransition: { duration: 500 },
         }}
       />
@@ -117,8 +117,10 @@ export const renderWelcomeSign = () => {
 
 export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
-  const [allShouts, setAllShouts] = useState(null);
+  const [insideShouts, setInsideShouts] = useState(null);
+  const [outsideShouts, setOutsideShouts] = useState(null);
   const localShouts = useSelector((state) => state.shouts.local);
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -128,14 +130,20 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
     // area within within user's sight
     const userSight = turf.circle(userLocation, SIGHT_RADIUS, { units: 'kilometers' });
+    const filteredOutShouts = [];
 
-    const filteredShouts = [...localShouts, ...remoteShouts].filter(({ coordinates }) => {
+    const filteredInShouts = [...localShouts, ...remoteShouts].filter((shout) => {
       // check if shout is within user's sight
-      const shoutPoint = turf.point(coordinates);
-      return turf.booleanPointInPolygon(shoutPoint, userSight);
+      const shoutPoint = turf.point(shout.coordinates);
+      if (turf.booleanPointInPolygon(shoutPoint, userSight)) {
+        return true;
+      } else {
+        filteredOutShouts.push(shout);
+      }
     });
 
-    setAllShouts(filteredShouts);
+    setInsideShouts(filteredInShouts);
+    setOutsideShouts(filteredOutShouts);
   }, [localShouts, remoteShouts, userLocation]);
 
   useEffect(() => {
@@ -146,27 +154,53 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
     };
 
     if (zoom > ZOOM_STEP_1) {
-      setRenderedShouts(allShouts?.map((shout) => {
-        return (
-          <MarkerView
-            key={shout.localId ? shout.localId : shout.id}
-            id={shout.localId ? shout.localId.toString() : shout.id}
-            coordinate={shout.coordinates}
-            anchor={Platform.OS === 'android' ? anchor : null}
-          >
-            <Shout
-              label={shout.text}
-              local={!!shout.localId}
-              onPress={() => navigation.navigate('Open Shout', { shout })}
-            />
-          </MarkerView>
-        );
-      }));
+      let renderedInShouts = [];
+      let renderedOutShouts = [];
+
+      if (insideShouts) {
+        renderedInShouts = insideShouts.map((shout) => {
+          return (
+            <MarkerView
+              key={shout.localId ? shout.localId : shout.id}
+              id={shout.localId ? shout.localId.toString() : shout.id}
+              coordinate={shout.coordinates}
+              anchor={Platform.OS === 'android' ? anchor : null}
+            >
+              <Shout
+                label={shout.text}
+                local={!!shout.localId}
+                onPress={() => navigation.navigate('Open Shout', { shout })}
+              />
+            </MarkerView>
+          );
+        });
+      }
+
+      if (outsideShouts) {
+        renderedOutShouts = outsideShouts.map((shout) => {
+          return (
+            <MarkerView
+              key={shout.localId ? shout.localId : shout.id}
+              id={shout.localId ? shout.localId.toString() : shout.id}
+              coordinate={shout.coordinates}
+              anchor={Platform.OS === 'android' ? anchor : null}
+            >
+              <Shout
+                label='?'
+                showPin={false}
+                disabled
+              />
+            </MarkerView>
+          );
+        });
+      }
+
+      setRenderedShouts([...renderedInShouts, ...renderedOutShouts]);
     } else if (zoom > ZOOM_STEP_2 && zoom <= ZOOM_STEP_1) {
       // Calculate avg center coordinates for bundle
-      const avgCoords = allShouts.reduce((sum, { coordinates }) => (
+      const avgCoords = insideShouts.reduce((sum, { coordinates }) => (
         [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
-        .map((coord) => coord / allShouts.length);
+        .map((coord) => coord / insideShouts.length);
 
       setRenderedShouts(
         <MarkerView
@@ -174,13 +208,13 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
           coordinate={avgCoords}
           anchor={Platform.OS === 'android' ? anchor : null}
         >
-          <Shout label={allShouts.length.toString()} showPin={false} />
+          <Shout label={insideShouts.length.toString()} showPin={false} />
         </MarkerView>
       );
     } else {
       setRenderedShouts(null);
     }
-  }, [allShouts, zoom]);
+  }, [insideShouts, zoom]);
 
   return renderedShouts;
 };

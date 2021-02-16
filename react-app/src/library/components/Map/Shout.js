@@ -9,6 +9,7 @@ const Shout = React.memo(({
   onPress,
   showPin = true,
   local = false,
+  disabled = false,
 }) => {
   const styles = generateStyles({ local });
 
@@ -18,6 +19,7 @@ const Shout = React.memo(({
         containerStyle={styles.container}
         onPress={onPress}
         keyColor={COLORS.justWhite}
+        disabled={disabled}
       >
         {local && <ActivityIndicator size='small' color={COLORS.grassGreen400} />}
         <Text style={styles.label} numberOfLines={1} >{label}</Text>
@@ -84,6 +86,7 @@ Shout.propTypes = {
   onPress: PropTypes.func,
   showPin: PropTypes.bool,
   local: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default Shout;
