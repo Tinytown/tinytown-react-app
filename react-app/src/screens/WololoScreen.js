@@ -11,7 +11,7 @@ const ShoutLauncher = ({ navigation }) => {
       <NavBar label='' onClose={() => setOpenSheet(false)} />
       <Text
         style={styles.text}
-        onPress={() => Linking.openURL('https://twitter.com/search?q=wolologang')}
+        onPress={() => Linking.openURL(STRINGS.links.wololo)}
         suppressHighlighting
       >
         #wolologang

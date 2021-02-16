@@ -5,12 +5,14 @@ import { Pressable } from 'library/components/hoc';
 import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
 
 const MenuItem = ({
-  icon,
+  primaryIcon,
+  secondaryIcon,
   label = 'Menu item',
   onPress,
   disabled = false,
+  tall = false,
 }) => {
-  const styles = generateStyles({ disabled });
+  const styles = generateStyles({ disabled, tall });
 
   return (
     <Pressable
@@ -19,9 +21,9 @@ const MenuItem = ({
       onPress={onPress}
       keyColor={COLORS.asphaltGray800}
     >
-      <View style={styles.assetContainer}>
+      <View style={styles.assetContainerLeft}>
         <View style={styles.iconContainer}>
-          <Icon icon={icon} color={COLORS.asphaltGray800}/>
+          <Icon icon={primaryIcon} color={COLORS.asphaltGray800}/>
         </View>
       </View>
       <Text
@@ -30,44 +32,55 @@ const MenuItem = ({
       >
         {label}
       </Text>
+      {secondaryIcon &&
+      <View style={styles.assetContainerRight}>
+        <View style={styles.iconContainer}>
+          <Icon icon={secondaryIcon} color={COLORS.asphaltGray100}/>
+        </View>
+      </View>
+      }
     </Pressable>
   );
 };
 
-const generateStyles = ({ disabled }) => {
-  return (
-    normalizeStyles({
-      container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 48,
-        width: 200,
-        paddingHorizontal: 8,
-        ...(disabled && { opacity: 0.4 }),
-      },
-      assetContainer: {
-        alignItems: 'center',
-        width: 48,
-        marginRight: 8,
-      },
-      iconContainer: {
-        width: 24,
-        height: 24,
-      },
-      label: {
-        width: 120,
-        color: COLORS.asphaltGray800,
-        ...TYPOGRAPHY.subheader3,
-      },
-    })
-  );
-};
+const generateStyles = ({ disabled, tall }) => (
+  normalizeStyles({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      height: tall ? 64 : 48,
+      paddingLeft: 8,
+      paddingRight: 56,
+      ...(disabled && { opacity: 0.4 }),
+    },
+    assetContainerLeft: {
+      alignItems: 'center',
+      width: 48,
+      marginRight: 8,
+    },
+    assetContainerRight: {
+      position: 'absolute',
+      alignItems: 'center',
+      right: 8,
+      width: 48,
+    },
+    iconContainer: {
+      width: 24,
+      height: 24,
+    },
+    label: {
+      color: COLORS.asphaltGray800,
+      ...TYPOGRAPHY.subheader3,
+    },
+  })
+);
 
 MenuItem.propTypes = {
-  icon: PropTypes.string.isRequired,
+  primaryIcon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
+  tall: PropTypes.bool,
 };
 
 export default MenuItem;

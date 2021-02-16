@@ -9,6 +9,10 @@ export default {
   menuItem: {
     about: 'About',
     signOut: 'Sign Out',
+    feature: 'Request a feature',
+    help: 'Help and Feedback',
+    discord: 'Join our Discord',
+    twitter: 'Follow us on Twitter',
   },
   button: {
     goToLocation: 'Go to my location',
@@ -44,6 +48,13 @@ export default {
   },
   secrets: {
     wololo: 'Niko, I\'ve a feeling we\'re not in the Tinytown website anymore.',
+  },
+  links: {
+    wololo: 'https://twitter.com/search?q=wolologang',
+    feature: 'https://ttown.app/feature-requests',
+    help: 'https://ttown.app/feedback',
+    discord: 'https://ttown.app/discord',
+    twitter: 'https://twitter.com/GetTinytown',
   },
 };
 
