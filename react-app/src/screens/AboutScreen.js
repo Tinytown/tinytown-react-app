@@ -16,15 +16,35 @@ const NewShoutScreen = ({ navigation }) => {
 
       </View>
       <View style={styles.menuContainer} >
-        <MenuDivider/>
-        <MenuItem label='foo' />
-        <MenuDivider/>
-        <MenuItem label='foo' />
-        <MenuDivider/>
-        <MenuItem label='foo' />
-        <MenuDivider/>
-        <MenuItem label='foo' />
-        <MenuDivider/>
+        <MenuDivider margin={0} />
+        <MenuItem
+          label={STRINGS.menuItem.feature}
+          primaryIcon='lightbulb'
+          secondaryIcon='openExternal'
+          tall
+        />
+        <MenuDivider margin={0} />
+        <MenuItem
+          label={STRINGS.menuItem.help}
+          primaryIcon='help'
+          secondaryIcon='openExternal'
+          tall
+        />
+        <MenuDivider margin={0} />
+        <MenuItem
+          label={STRINGS.menuItem.discord}
+          primaryIcon='discord'
+          secondaryIcon='openExternal'
+          tall
+        />
+        <MenuDivider margin={0} />
+        <MenuItem
+          label={STRINGS.menuItem.twitter}
+          primaryIcon='twitter'
+          secondaryIcon='openExternal'
+          tall
+        />
+        <MenuDivider margin={0} />
       </View>
       <Text style={styles.tagline} >{STRINGS.dialog.tagline}</Text>
     </BottomSheet>
@@ -37,7 +57,7 @@ const styles = normalizeStyles({
     paddingTop: 24,
   },
   menuContainer: {
-    marginVertical: 8,
+    marginVertical: 16,
   },
   image: {
     width: 80,

@@ -10,8 +10,9 @@ const MenuItem = ({
   label = 'Menu item',
   onPress,
   disabled = false,
+  tall = false,
 }) => {
-  const styles = generateStyles({ disabled });
+  const styles = generateStyles({ disabled, tall });
 
   return (
     <Pressable
@@ -42,45 +43,44 @@ const MenuItem = ({
   );
 };
 
-const generateStyles = ({ disabled }) => {
-  return (
-    normalizeStyles({
-      container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 48,
-        paddingLeft: 8,
-        paddingRight: 56,
-        ...(disabled && { opacity: 0.4 }),
-      },
-      assetContainerLeft: {
-        alignItems: 'center',
-        width: 48,
-        marginRight: 8,
-      },
-      assetContainerRight: {
-        position: 'absolute',
-        alignItems: 'center',
-        right: 8,
-        width: 48,
-      },
-      iconContainer: {
-        width: 24,
-        height: 24,
-      },
-      label: {
-        color: COLORS.asphaltGray800,
-        ...TYPOGRAPHY.subheader3,
-      },
-    })
-  );
-};
+const generateStyles = ({ disabled, tall }) => (
+  normalizeStyles({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      height: tall ? 64 : 48,
+      paddingLeft: 8,
+      paddingRight: 56,
+      ...(disabled && { opacity: 0.4 }),
+    },
+    assetContainerLeft: {
+      alignItems: 'center',
+      width: 48,
+      marginRight: 8,
+    },
+    assetContainerRight: {
+      position: 'absolute',
+      alignItems: 'center',
+      right: 8,
+      width: 48,
+    },
+    iconContainer: {
+      width: 24,
+      height: 24,
+    },
+    label: {
+      color: COLORS.asphaltGray800,
+      ...TYPOGRAPHY.subheader3,
+    },
+  })
+);
 
 MenuItem.propTypes = {
   primaryIcon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
+  tall: PropTypes.bool,
 };
 
 export default MenuItem;
