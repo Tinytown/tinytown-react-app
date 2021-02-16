@@ -5,7 +5,8 @@ import { Pressable } from 'library/components/hoc';
 import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
 
 const MenuItem = ({
-  icon,
+  primaryIcon,
+  secondaryIcon,
   label = 'Menu item',
   onPress,
   disabled = false,
@@ -19,9 +20,9 @@ const MenuItem = ({
       onPress={onPress}
       keyColor={COLORS.asphaltGray800}
     >
-      <View style={styles.assetContainer}>
+      <View style={styles.assetContainerLeft}>
         <View style={styles.iconContainer}>
-          <Icon icon={icon} color={COLORS.asphaltGray800}/>
+          <Icon icon={primaryIcon} color={COLORS.asphaltGray800}/>
         </View>
       </View>
       <Text
@@ -30,6 +31,13 @@ const MenuItem = ({
       >
         {label}
       </Text>
+      {secondaryIcon &&
+      <View style={styles.assetContainerRight}>
+        <View style={styles.iconContainer}>
+          <Icon icon={secondaryIcon} color={COLORS.asphaltGray100}/>
+        </View>
+      </View>
+      }
     </Pressable>
   );
 };
@@ -45,10 +53,16 @@ const generateStyles = ({ disabled }) => {
         paddingRight: 56,
         ...(disabled && { opacity: 0.4 }),
       },
-      assetContainer: {
+      assetContainerLeft: {
         alignItems: 'center',
         width: 48,
         marginRight: 8,
+      },
+      assetContainerRight: {
+        position: 'absolute',
+        alignItems: 'center',
+        right: 8,
+        width: 48,
       },
       iconContainer: {
         width: 24,
@@ -63,7 +77,7 @@ const generateStyles = ({ disabled }) => {
 };
 
 MenuItem.propTypes = {
-  icon: PropTypes.string.isRequired,
+  primaryIcon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
