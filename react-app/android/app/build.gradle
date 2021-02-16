@@ -133,8 +133,8 @@ android {
         applicationId "com.tinytown"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "0.11.04"
+        versionCode 7
+        versionName "0.11.05"
         multiDexEnabled true
     }
     splits {
