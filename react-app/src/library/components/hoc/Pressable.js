@@ -16,7 +16,7 @@ const Pressable = ({
   onPressOut = () => {},
   onLayout = () => {},
   ripple = true,
-  disabled,
+  disabled = false,
   children,
 }) => {
   const [animation, animateOnPress]  = useAnimation(animationType);
