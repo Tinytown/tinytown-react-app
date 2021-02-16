@@ -1,5 +1,10 @@
 import appConfig from 'root/app.json';
 
+const basics = {
+  cancel: 'Cancel',
+  tryAgain: 'Try again',
+};
+
 export default {
   menuItem: {
     about: 'About',
@@ -18,6 +23,13 @@ export default {
     location: {
       title: 'Turn on Location',
       body: `The ${appConfig.displayName} app is not very useful without access to your location.`,
+      buttonPrimary: 'Go to Settings',
+      buttonSecondary: basics.cancel,
+    },
+    mockLocation: {
+      title: 'Not So Fast, Bucko',
+      body: 'It looks like you\'re using a GPS Spoofing application and that\'s a big no-no around these parts.',
+      button: basics.tryAgain,
     },
     tagline: 'Made with ❤️ for the local village',
   },

@@ -7,8 +7,6 @@ import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
 import { STRINGS } from 'res';
 
-const { title, body } = STRINGS.dialog.location;
-
 const config = {
   enableHighAccuracy: true,
   timeout: 15000,
@@ -25,11 +23,21 @@ const openSetting = () => {
   });
 };
 
-const showDialog = () => {
+const showPermissionsDialog = () => {
+  const { title, body, buttonPrimary, buttonSecondary } = STRINGS.dialog.location;
   Alert.alert(title, body,
     [
-      { text: 'Cancel', onPress: () => {} },
-      { text: 'Go to Settings', onPress: openSetting },
+      { text: buttonSecondary, onPress: () => {} },
+      { text: buttonPrimary, onPress: openSetting },
+    ],
+  );
+};
+
+const showMockLocationDialog = () => {
+  const { title, body, button } = STRINGS.dialog.mockLocation;
+  Alert.alert(title, body,
+    [
+      { text: button, onPress: () => {} },
     ],
   );
 };
@@ -55,13 +63,24 @@ export const getLocationPermission = async () => {
   return false;
 };
 
+const onLocationHandler = (location, callback) => {
+  const { coords, mocked } = location;
+
+  if (mocked) {
+    showMockLocationDialog();
+    return;
+  }
+  callback(coords);
+};
+
 export const getLocation = async (callback) => {
   const hasPermission = await getLocationPermission();
+
   if (!hasPermission) {
-    showDialog();
+    showPermissionsDialog();
   } else {
     Geolocation.getCurrentPosition(
-      ({ coords }) => callback(coords),
+      (location) => onLocationHandler(location, callback),
       (error) => console.log(error.code, error.message),
       {
         enableHighAccuracy: config.enableHighAccuracy,
@@ -74,11 +93,12 @@ export const getLocation = async (callback) => {
 
 export const watchLocation = async (callback) => {
   const hasPermission = await getLocationPermission();
+
   if (!hasPermission) {
-    showDialog();
+    showPermissionsDialog();
   } else {
     const watchId = Geolocation.watchPosition(
-      ({ coords }) => callback(coords),
+      (location) => onLocationHandler(location, callback),
       (error) => {
         console.log(error.code, error.message);
       },
