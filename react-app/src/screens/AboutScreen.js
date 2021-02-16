@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { Text, View, Image } from 'react-native';
 import { displayName as appName, version } from 'root/app.json';
-import { Dialog } from 'library/components';
+import { BottomSheet } from 'library/components';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 
 const NewShoutScreen = ({ navigation }) => {
-  const [openDialog, setOpenDialog] = useState(true);
+  const [openSheet, setOpenSheet] = useState(true);
 
   return (
-    <Dialog openDialog={openDialog} setOpenDialog={setOpenDialog} onClose={() => navigation.goBack()} >
+    <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()} >
       <View style={styles.container} >
         <Image source={IMAGES.appIcon} style={styles.image} />
         <Text style={styles.appName} >{appName}</Text>
         <Text style={styles.version} >{version}</Text>
         <Text style={styles.tagline} >{STRINGS.dialog.tagline}</Text>
       </View>
-    </Dialog>
+    </BottomSheet>
   );
 };
 
