@@ -19,11 +19,10 @@ const IconButton = ({
         keyColor={styles.keyColor}
         disabled={disabled}
         onPress={onPress}
+        containerStyle={styles.button}
       >
-        <View style={styles.button}>
-          <View style={styles.icon}>
-            <Icon icon={icon} color={styles.contentColor} />
-          </View>
+        <View style={styles.icon}>
+          <Icon icon={icon} color={styles.contentColor} />
         </View>
       </Pressable>
     </View>
@@ -54,7 +53,7 @@ const generateStyles = ({ theme, disabled }) => {
 
 IconButton.propTypes = {
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'transparent']),
+  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'transparent', 'white']),
   onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,

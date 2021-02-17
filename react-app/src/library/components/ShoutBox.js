@@ -1,12 +1,16 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
+import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import IconButton from './IconButton';
 import Chip from './Chip';
 import { useNewShout } from 'library/hooks';
 import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
 
-const ShoutBox = ({ onSubmit }) => {
+const ShoutBox = ({
+  onSubmit = () => {},
+  onFocus = () => {},
+}) => {
   const [value, setValue, limitIndicator, createNewShout] = useNewShout();
   const { string, animation, show, disabled } = limitIndicator;
   const styles = generateStyles({ show });
@@ -30,6 +34,7 @@ const ShoutBox = ({ onSubmit }) => {
         value={value}
         onChangeText={setValue}
         onSubmitEditing={onSubmitHandler}
+        onFocus={onFocus}
       />
       <View style={styles.btnContainer} >
         <Animated.View style={[styles.chipContainer, animation]} >
@@ -81,6 +86,11 @@ const generateStyles = ({ show }) => {
       opacity: show ? 1 : 0,
     },
   });
+};
+
+ShoutBox.propTypes = {
+  onSubmit: PropTypes.func,
+  onFocus: PropTypes.func,
 };
 
 export default ShoutBox;
