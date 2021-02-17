@@ -9,14 +9,20 @@ import mapConfig from './config';
 import mockShouts from './mockShouts';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 
-const { SymbolLayer, UserLocation, MarkerView, ShapeSource, FillLayer } = MapboxGL;
+const { SymbolLayer, MarkerView, ShapeSource, FillLayer } = MapboxGL;
 const { SIGHT_RADIUS, ZOOM_STEP_1, ZOOM_STEP_2, RAFT_COORD, WELCOME_COORD } = mapConfig;
 
-export const renderUser = (heading) => {
+export const renderUser = (userLocation, heading) => {
+  if (!userLocation) {
+    return;
+  }
+
+  user = turf.point(userLocation);
+
   return (
-    <UserLocation
-      animated={true}
-      visible={true}
+    <ShapeSource
+      id='userLocation'
+      shape={user}
     >
       <SymbolLayer
         id={'userMarkerImg'}
@@ -30,7 +36,7 @@ export const renderUser = (heading) => {
         }}
         minZoomLevel={1}
       />
-    </UserLocation>
+    </ShapeSource>
   );
 };
 
@@ -45,7 +51,7 @@ export const renderFog = (userLocation, zoom) => {
 
   return (
     <ShapeSource
-      id="fogOfWar"
+      id='fogOfWar'
       shape={fog}
     >
       <FillLayer
