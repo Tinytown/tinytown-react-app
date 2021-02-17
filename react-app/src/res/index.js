@@ -1,5 +1,6 @@
 // Resources
 export { default as COLORS } from './colors';
+export { default as LISTS } from './lists';
 export { default as TYPOGRAPHY } from './typography';
 export { default as SHAPES } from './shapes';
 export { default as STRINGS } from './strings';

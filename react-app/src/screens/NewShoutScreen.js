@@ -2,8 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Keyboard } from 'react-native';
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import sheetConfig from 'library/components/BottomSheet/config';
-import { IconButton, NavBar, BottomSheet, BottomSheetContainer, ShoutBox, Chip } from 'library/components';
-import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
+import {
+  IconButton,
+  NavBar,
+  BottomSheet,
+  BottomSheetContainer,
+  ShoutBox,
+  Chip,
+  FeatureCard,
+  FeatureItem,
+} from 'library/components';
+import { COLORS, TYPOGRAPHY, STRINGS, LISTS, normalizeStyles } from 'res';
 
 const NewShoutScreen = ({ navigation }) => {
   const { ANIMATION_OFFSET } = sheetConfig;
@@ -63,15 +72,29 @@ const NewShoutScreen = ({ navigation }) => {
     navigation.goBack();
   };
 
+  // Render settings list
+  renderedList = LISTS.megaphone.map(({ key, activeColor, theme, children }) => (
+    <FeatureCard
+      key={key}
+      wrapperStyle={styles.feature}
+      theme={theme}
+      activeColor={activeColor} >
+      {children.map(({ key, title, body, icon }) => (
+        <FeatureItem key={key} title={title} body={body} icon={icon} />
+      ))}
+    </FeatureCard>
+  ));
+
   return (
     <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()}>
       <BottomSheetContainer style={styles.settingsContainer} animation={backSheetAnimation} onLayout={onLayoutHandler}>
         <Text style={styles.header}>{STRINGS.shouts.header}</Text>
+        {renderedList}
       </BottomSheetContainer>
       <BottomSheetContainer animation={frontSheetAnimation}>
         {showSettings ?
           <IconButton
-            wrapperStyle={styles.saveBtn}
+            wrapperStyle={styles.closeBtn}
             icon='close'
             theme='white'
             onPress={() => setShowSettings(false)}
@@ -107,8 +130,11 @@ const styles = normalizeStyles({
   chip: {
     marginRight: 16,
   },
-  saveBtn: {
+  closeBtn: {
     alignSelf: 'center',
+  },
+  feature: {
+    marginBottom: 16,
   },
 });
 
