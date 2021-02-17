@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { goToUser } from 'rdx/locationState';
 import { getLocation } from 'library/apis/geolocation';
@@ -7,12 +8,19 @@ import FAB from '../components/FAB';
 import TwitterAuth from '../components/TwitterAuth';
 import { STRINGS, normalizeStyles } from 'res';
 
-const OnboardingButtons = ({ authLoading, setAuthLoading, storageLoaded, userVisible, goToUser }) => {
+const OnboardingButtons = ({
+  authLoading,
+  setAuthLoading,
+  storageLoaded,
+  userVisible,
+  goToUser,
+  onTouchStart = () => {},
+}) => {
   const showButtons = storageLoaded && !authLoading && userVisible !== null;
 
   return (
     showButtons &&
-      <Flippable trigger={userVisible} containerStyle={styles.flipContainer} >
+      <Flippable trigger={userVisible} containerStyle={styles.flipContainer} onTouchStart={onTouchStart} >
         <TwitterAuth onLoading={setAuthLoading} />
         <FAB
           label={STRINGS.onboarding.goToLocation}
@@ -37,5 +45,9 @@ const mapStateToProps = (state) => ({
   userVisible: state.location.userVisible,
   storageLoaded: state.app.storageLoaded,
 });
+
+OnboardingButtons.propTypes = {
+  onTouchStart: PropTypes.func,
+};
 
 export default connect(mapStateToProps, { goToUser })(OnboardingButtons);
