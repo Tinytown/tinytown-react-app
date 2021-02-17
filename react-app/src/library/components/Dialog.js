@@ -48,7 +48,8 @@ const generateStyles = () => {
         ...SHAPES.elevGray2,
       },
     })
-  ); };
+  );
+};
 
 Dialog.propTypes = {
   openDialog: PropTypes.bool,

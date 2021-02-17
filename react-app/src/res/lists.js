@@ -7,7 +7,7 @@ export default {
       {
         key: 'twitter',
         activeColor: 'blue',
-        theme: 'dark',
+        theme: 'hairline dark',
         children: [
           {
             key: 'twitter',
@@ -25,7 +25,7 @@ export default {
       {
         key: 'lann',
         activeColor: 'red',
-        theme: 'dark',
+        theme: 'hairline dark',
         children: [
           {
             key: 'lann',

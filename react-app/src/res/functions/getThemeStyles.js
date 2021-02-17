@@ -95,6 +95,17 @@ export default (theme) => {
 
     return  [backgroundTheme, keyColor, contentColor];
 
+  case 'hairline dark':
+    backgroundTheme = {
+      backgroundColor: COLORS.asphaltGray900,
+      ...SHAPES.elevHairline,
+      borderColor: COLORS.asphaltGray700,
+    };
+    keyColor = COLORS.justWhite;
+    contentColor = COLORS.asphaltGray300;
+
+    return  [backgroundTheme, keyColor, contentColor];
+
   default:
     backgroundTheme = {
       backgroundColor: COLORS.justWhite,
