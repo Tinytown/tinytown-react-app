@@ -27,12 +27,7 @@ export default (translateOffset) => {
     }
   }, [sheetLayout]);
 
-  const scrimAnimation = useAnimatedStyle(() => (
-    {
-      opacity: scrimOpacity.value,
-    }
-  ));
-
+  const scrimAnimation = useAnimatedStyle(() => ({ opacity: scrimOpacity.value }));
   const sheetAnimation = useAnimatedStyle(() => (
     {
       opacity: sheetOpacity.value,

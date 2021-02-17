@@ -23,7 +23,7 @@ const ShoutBox = ({ onSubmit }) => {
         autoFocus
         enablesReturnKeyAutomatically
         autoCorrect={false}
-        placeholder={STRINGS.placeholder.shoutBox}
+        placeholder={STRINGS.shouts.shoutBox}
         placeholderTextColor={COLORS.asphaltGray200}
         textAlignVertical='top'
         keyboardType='twitter'

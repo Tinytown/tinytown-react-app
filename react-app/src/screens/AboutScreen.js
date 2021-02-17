@@ -19,7 +19,7 @@ const NewShoutScreen = ({ navigation }) => {
         <View style={styles.menuContainer} >
           <MenuDivider margin={0} />
           <MenuItem
-            label={STRINGS.menuItem.feature}
+            label={STRINGS.social.feature}
             primaryIcon='lightbulb'
             secondaryIcon='openExternal'
             tall
@@ -27,7 +27,7 @@ const NewShoutScreen = ({ navigation }) => {
           />
           <MenuDivider margin={0} />
           <MenuItem
-            label={STRINGS.menuItem.help}
+            label={STRINGS.social.help}
             primaryIcon='help'
             secondaryIcon='openExternal'
             tall
@@ -35,7 +35,7 @@ const NewShoutScreen = ({ navigation }) => {
           />
           <MenuDivider margin={0} />
           <MenuItem
-            label={STRINGS.menuItem.discord}
+            label={STRINGS.social.discord}
             primaryIcon='discord'
             secondaryIcon='openExternal'
             tall
@@ -43,7 +43,7 @@ const NewShoutScreen = ({ navigation }) => {
           />
           <MenuDivider margin={0} />
           <MenuItem
-            label={STRINGS.menuItem.twitter}
+            label={STRINGS.social.twitter}
             primaryIcon='twitter'
             secondaryIcon='openExternal'
             tall
@@ -51,7 +51,7 @@ const NewShoutScreen = ({ navigation }) => {
           />
           <MenuDivider margin={0} />
         </View>
-        <Text style={styles.tagline} >{STRINGS.dialog.tagline}</Text>
+        <Text style={styles.tagline} >{STRINGS.meta.tagline}</Text>
       </BottomSheetContainer>
     </BottomSheet>
   );
