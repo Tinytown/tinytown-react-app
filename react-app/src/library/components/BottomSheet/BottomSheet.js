@@ -3,10 +3,10 @@ import { KeyboardAvoidingView } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated, { withSpring, useAnimatedGestureHandler, runOnJS } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Scrim from './Scrim';
+import sheetConfig from './config';
+import Scrim from '../Scrim';
 import { useAnimation } from 'library/hooks';
-import { SHAPES, COLORS, normalizeStyles, normalizeValue } from 'res';
+import { SHAPES, normalizeStyles, normalizeValue } from 'res';
 
 const BottomSheet = ({
   openSheet = true,
@@ -14,8 +14,8 @@ const BottomSheet = ({
   onClose = () => console.log('Pass an onClose callback to this component'),
   children,
 }) => {
-  const ANIMATION_OFFSET = normalizeValue(80);
-  const DISMISS_THRESHOLD = normalizeValue(80);
+  const { ANIMATION_OFFSET, DISMISS_THRESHOLD } = sheetConfig;
+
   const [
     sheetAnimation,
     scrimAnimation,
@@ -24,7 +24,7 @@ const BottomSheet = ({
     translateY,
     translateConfig,
   ] = useAnimation('sheet', ANIMATION_OFFSET);
-  const styles = generateStyles({ ANIMATION_OFFSET });
+  const styles = generateStyles();
 
   const onLayoutHandler = (event) => {
     event.persist();
@@ -71,21 +71,13 @@ const BottomSheet = ({
   );
 };
 
-const generateStyles = ({ ANIMATION_OFFSET }) => {
-  const insets = useSafeAreaInsets();
-
+const generateStyles = () => {
   return (
     normalizeStyles({
       card: {
         position: 'absolute',
         width: '100%',
         bottom: 0,
-        paddingTop: 8,
-        paddingBottom: insets.bottom + ANIMATION_OFFSET,
-        paddingHorizontal: 16,
-        borderTopLeftRadius: SHAPES.radiusMd,
-        borderTopRightRadius: SHAPES.radiusMd,
-        backgroundColor: COLORS.justWhite,
         ...SHAPES.elevGray2,
       },
     })
