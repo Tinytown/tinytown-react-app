@@ -45,5 +45,8 @@ export default {
   // BASIC
   pureBlack: '#000000',
   justWhite: '#FFFFFF',
+
+  // BRANDS
+  twitter: '#1DA1F2',
 };
 

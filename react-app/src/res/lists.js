@@ -1,39 +1,35 @@
 import STRINGS from './strings';
 import COLORS from './colors';
 
+const {
+  shouts: { twitter, lannMode },
+} = STRINGS;
+
 export default {
   megaphone:
     [
       {
         key: 'twitter',
-        activeColor: 'blue',
+        title: twitter.title,
+        body: twitter.body,
+        icon: 'twitter',
+        activeColor: COLORS.twitter,
         theme: 'hairline dark',
         children: [
           {
-            key: 'twitter',
-            title: 'card1',
-            body: 'card1',
-            icon: 'twitter',
-          },
-          {
             key: 'location',
-            title: 'child',
+            title: twitter.location,
             icon: 'crosshairs',
           },
         ],
       },
       {
         key: 'lann',
-        activeColor: 'red',
+        title: lannMode.title,
+        body: lannMode.body,
+        icon: 'lab',
+        activeColor: COLORS.bubblegumRed400,
         theme: 'hairline dark',
-        children: [
-          {
-            key: 'lann',
-            title: 'card2',
-            body: 'card2',
-            icon: 'lab',
-          },
-        ],
       },
     ],
 };

@@ -73,13 +73,17 @@ const NewShoutScreen = ({ navigation }) => {
   };
 
   // Render settings list
-  renderedList = LISTS.megaphone.map(({ key, activeColor, theme, children }) => (
+  renderedList = LISTS.megaphone.map(({ key, title, body, icon, theme, activeColor, children }) => (
     <FeatureCard
       key={key}
-      wrapperStyle={styles.feature}
+      title={title}
+      body={body}
+      icon={icon}
       theme={theme}
-      activeColor={activeColor} >
-      {children.map(({ key, title, body, icon }) => (
+      activeColor={activeColor}
+      wrapperStyle={styles.feature}
+    >
+      {children?.map(({ key, title, body, icon }) => (
         <FeatureItem key={key} title={title} body={body} icon={icon} />
       ))}
     </FeatureCard>
