@@ -84,6 +84,16 @@ export default (theme) => {
 
     return  [backgroundTheme, keyColor, contentColor];
 
+  case 'elevated':
+    backgroundTheme = {
+      backgroundColor: COLORS.justWhite,
+      ...SHAPES.elevGray5,
+    };
+    keyColor = COLORS.justWhite;
+    contentColor = COLORS.asphaltGray900;
+
+    return  [backgroundTheme, keyColor, contentColor];
+
   case 'hairline red':
     backgroundTheme = {
       backgroundColor: COLORS.justWhite,
