@@ -51,8 +51,11 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         paddingVertical: 4,
         borderRadius: SHAPES.radiusAll,
         ...backgroundTheme,
-        ...(toggle && { backgroundColor: activeColor }),
-        ...(toggle && { shadowColor: activeColor }),
+        ...(toggle && {
+          backgroundColor: activeColor,
+          shadowColor: activeColor,
+          borderColor: activeColor,
+        }),
       },
       icon: {
         height: ICON_SIZE,

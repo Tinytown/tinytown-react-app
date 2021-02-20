@@ -87,6 +87,7 @@ export default (theme) => {
   case 'elevated':
     backgroundTheme = {
       backgroundColor: COLORS.justWhite,
+      borderWidth: 2,
       ...SHAPES.elevGray5,
     };
     keyColor = COLORS.justWhite;

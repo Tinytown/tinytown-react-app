@@ -51,7 +51,7 @@ const NewShoutScreen = ({ navigation }) => {
           />
           <MenuDivider margin={0} />
         </View>
-        <Text style={styles.tagline} >{STRINGS.meta.tagline}</Text>
+        <Text style={styles.tagline} >{STRINGS.core.tagline}</Text>
       </BottomSheetContainer>
     </BottomSheet>
   );

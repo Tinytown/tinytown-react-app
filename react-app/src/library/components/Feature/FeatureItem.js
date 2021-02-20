@@ -3,25 +3,29 @@ import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
+import { TYPOGRAPHY, STRINGS, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const FeatureItem = ({
   title,
   icon,
   theme,
   activeColor,
-  keyColor,
-  contentColor,
-  borderColor,
+  disabled = false,
   toggle = false,
   onPress = () => console.log('Pass an onPress callback to this component'),
 }) => {
-  const styles = generateStyles({ keyColor, borderColor });
+  const styles = generateStyles({ theme, disabled });
+  const { on, off } = STRINGS.core;
 
   return (
     <>
       <View style={styles.divider}/>
-      <Pressable containerStyle={styles.content} keyColor={activeColor} onPress={onPress} >
+      <Pressable
+        containerStyle={styles.content}
+        keyColor={activeColor}
+        onPress={onPress}
+        disabled={disabled}
+      >
         <View style={styles.icon}>
           <Icon icon={icon} color={activeColor}/>
         </View>
@@ -29,7 +33,7 @@ const FeatureItem = ({
         <Chip
           wrapperStyle={styles.chip}
           theme={toggle ? 'elevated' : 'hairline dark'}
-          label='on'
+          label={toggle ? on : off}
           toggle={toggle}
           activeColor={activeColor}
         />
@@ -38,20 +42,22 @@ const FeatureItem = ({
   );
 };
 
-const generateStyles = ({ keyColor, borderColor }) => {
+const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE = 24;
+  const [backgroundTheme, keyColor]  = getThemeStyles(theme);
 
   return (
     normalizeStyles({
       divider: {
         height: 2,
-        backgroundColor: borderColor,
+        backgroundColor: backgroundTheme.borderColor,
       },
       content: {
         flexDirection: 'row',
         paddingVertical: 16,
         paddingHorizontal: 14,
         alignItems: 'center',
+        ...(disabled && { opacity: 0.4 }),
       },
       icon: {
         height: ICON_SIZE,

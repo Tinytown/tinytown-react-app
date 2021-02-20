@@ -63,7 +63,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
         </Pressable>
       </View>
       <Menu showMenu={showMenu} setShowMenu={setShowMenu} triggerLayout={triggerLayout}>
-        <MenuItem label={STRINGS.meta.about} primaryIcon='info' onPress={() => {
+        <MenuItem label={STRINGS.core.about} primaryIcon='info' onPress={() => {
           setShowMenu(false);
           navigation.navigate('About');
         }} />

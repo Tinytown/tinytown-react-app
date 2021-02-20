@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { COLORS, SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { COLORS, SHAPES, TYPOGRAPHY, STRINGS, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const FeatureCard = ({
   title = 'Feature Title',
@@ -18,11 +18,11 @@ const FeatureCard = ({
   onPress = () => console.log('Pass an onPress callback to this component'),
 }) => {
   const styles = generateStyles({ theme, activeColor, disabled, toggle });
-  const { keyColor, contentColor, borderColor } = styles;
+  const { on, off } = STRINGS.core;
 
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { theme, activeColor, keyColor, contentColor, borderColor });
+      return React.cloneElement(child, { theme, activeColor, disabled: !toggle });
     }
     return child;
   });
@@ -41,7 +41,7 @@ const FeatureCard = ({
           <Chip
             wrapperStyle={styles.chip}
             theme={toggle ? 'elevated' : 'hairline dark'}
-            label='on'
+            label={toggle ? on : off}
             toggle={toggle}
             activeColor={activeColor}
           />
@@ -89,7 +89,7 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         top: 14,
         right: 14,
       },
-    }), keyColor, contentColor, borderColor: backgroundTheme.borderColor }
+    }) }
   );
 };
 

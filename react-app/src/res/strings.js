@@ -1,9 +1,11 @@
 import appConfig from 'root/app.json';
 
 export default {
-  meta: {
+  core: {
     about: 'About',
     tagline: 'Made with ❤️ for the local village',
+    on: 'on',
+    off: 'off',
   },
 
   social: {
