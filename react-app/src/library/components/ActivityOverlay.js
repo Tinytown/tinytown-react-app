@@ -12,7 +12,7 @@ const ActivityOverlay = ({ showOverlay = false }) => {
     showOverlay &&
       <View style={[styles.container, { top: -insets.top, bottom: -insets.bottom }]} >
         <Scrim>
-          <ActivityIndicator size="large" color={COLORS.skyBlue400} />
+          <ActivityIndicator size='large' color={COLORS.skyBlue400} />
         </Scrim>
       </View>
   );

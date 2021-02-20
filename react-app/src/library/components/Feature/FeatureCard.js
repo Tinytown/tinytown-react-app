@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ActivityIndicator, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
@@ -14,6 +14,7 @@ const FeatureCard = ({
   wrapperStyle,
   disabled = false,
   toggle = false,
+  loading = false,
   onPress = () => console.log('Pass an onPress callback to this component'),
   children,
 }) => {
@@ -38,13 +39,19 @@ const FeatureCard = ({
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.body}>{body}</Text>
           </View>
-          <Chip
-            wrapperStyle={styles.chip}
-            theme={toggle ? 'elevated' : 'hairline dark'}
-            label={toggle ? on : off}
-            toggle={toggle}
-            activeColor={activeColor}
-          />
+          <View style={styles.rightSide}>
+            {loading ?
+              <ActivityIndicator size='small' color={activeColor} />
+              :
+              <Chip
+                wrapperStyle={styles.chip}
+                theme={toggle ? 'elevated' : 'hairline dark'}
+                label={toggle ? on : off}
+                toggle={toggle}
+                activeColor={activeColor}
+              />
+            }
+          </View>
         </Pressable>
         {childrenWithProps}
       </View>
@@ -84,7 +91,7 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         maxWidth: 240,
         ...TYPOGRAPHY.body3,
       },
-      chip: {
+      rightSide: {
         position: 'absolute',
         top: 14,
         right: 14,
@@ -101,6 +108,7 @@ FeatureCard.propTypes = {
   activeColor: PropTypes.string,
   disabled: PropTypes.bool,
   toggle: PropTypes.bool,
+  loading: PropTypes.bool,
   onPress: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.element,
