@@ -6,10 +6,10 @@ import sheetConfig from './config';
 import { COLORS, SHAPES, normalizeStyles } from 'res';
 
 const BottomSheetContainer = ({
-  children,
   style,
   animation,
   onLayout = () => {},
+  children,
 }) => {
   const { ANIMATION_OFFSET } = sheetConfig;
   const styles = generateStyles({ ANIMATION_OFFSET });
@@ -38,10 +38,6 @@ const generateStyles = ({ ANIMATION_OFFSET }) => {
   ); };
 
 BottomSheetContainer.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.array,
-  ]),
   style: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array,
@@ -51,6 +47,10 @@ BottomSheetContainer.propTypes = {
     PropTypes.array,
   ]),
   onLayout: PropTypes.func,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+  ]),
 };
 
 export default BottomSheetContainer;

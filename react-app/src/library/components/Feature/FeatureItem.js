@@ -77,7 +77,13 @@ const generateStyles = ({ theme, disabled }) => {
 };
 
 FeatureItem.propTypes = {
-
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+  theme: PropTypes.oneOf(['hairline dark', 'elevated']),
+  activeColor: PropTypes.string,
+  disabled: PropTypes.bool,
+  toggle: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default FeatureItem;

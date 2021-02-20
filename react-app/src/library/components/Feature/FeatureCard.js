@@ -13,9 +13,9 @@ const FeatureCard = ({
   activeColor = COLORS.justWhite,
   wrapperStyle,
   disabled = false,
-  children,
   toggle = false,
   onPress = () => console.log('Pass an onPress callback to this component'),
+  children,
 }) => {
   const styles = generateStyles({ theme, activeColor, disabled, toggle });
   const { on, off } = STRINGS.core;
@@ -94,8 +94,14 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
 };
 
 FeatureCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
   theme: PropTypes.oneOf(['hairline', 'hairline dark']),
   activeColor: PropTypes.string,
+  disabled: PropTypes.bool,
+  toggle: PropTypes.bool,
+  onPress: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.array,

@@ -117,10 +117,10 @@ const mapStateToProps = (state) => ({
 });
 
 HomeBar.propTypes = {
+  photoURL: PropTypes.string,
+  userVisible: PropTypes.bool,
   signOut: PropTypes.func,
   goToUser: PropTypes.func,
-  userVisible: PropTypes.bool,
-  photoURL: PropTypes.string,
 };
 
 export default connect(mapStateToProps, { signOut, goToUser })(HomeBar);

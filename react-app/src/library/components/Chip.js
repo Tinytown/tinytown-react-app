@@ -9,12 +9,12 @@ const Chip = ({
   label = 'Chip Label',
   theme = 'hairline',
   activeColor = COLORS.justWhite,
-  onPress = () => {},
   wrapperStyle,
   animationType = 'press',
-  disabled = false,
   ripple = true,
+  disabled = false,
   toggle = false,
+  onPress = () => {},
 }) => {
   const styles = generateStyles({ theme, activeColor, disabled, toggle });
 
@@ -75,11 +75,12 @@ Chip.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'hairline', 'hairline red', 'hairline dark', 'elevated']),
-  onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
   animationType: PropTypes.string,
   disabled: PropTypes.bool,
   ripple: PropTypes.bool,
+  toggle: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default Chip;

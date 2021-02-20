@@ -10,10 +10,10 @@ const FAB = ({
   icon,
   label = 'Button Label',
   theme = null,
-  branded = false,
-  onPress,
   wrapperStyle,
+  branded = false,
   disabled = false,
+  onPress,
 }) => {
   const [animation, animateOnPress] = useAnimation('jiggle');
   const styles = generateStyles({ theme, branded, disabled });
@@ -86,10 +86,10 @@ FAB.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf(['cyan', 'blue', 'red']),
-  branded: PropTypes.bool,
-  onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
+  branded: PropTypes.bool,
   disabled: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default FAB;

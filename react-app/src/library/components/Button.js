@@ -8,9 +8,9 @@ const Button = ({
   icon,
   label = 'Button Label',
   theme = null,
-  onPress,
   wrapperStyle,
   disabled = false,
+  onPress,
 }) => {
   const styles = generateStyles({ icon, theme, disabled });
 
@@ -72,9 +72,9 @@ Button.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf(['white', 'hairline']),
-  onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default Button;

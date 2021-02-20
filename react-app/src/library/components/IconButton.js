@@ -7,9 +7,9 @@ import { SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 const IconButton = ({
   icon,
   theme = null,
-  onPress,
   wrapperStyle,
   disabled = false,
+  onPress,
 }) => {
   const styles = generateStyles({ theme, disabled });
 
@@ -54,9 +54,9 @@ const generateStyles = ({ theme, disabled }) => {
 IconButton.propTypes = {
   icon: PropTypes.string,
   theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'transparent', 'white']),
-  onPress: PropTypes.func,
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default IconButton;

@@ -86,6 +86,9 @@ const generateStyles = ({ show }) => {
 };
 
 ShoutBox.propTypes = {
+  value: PropTypes.string,
+  setValue: PropTypes.func,
+  limitIndicator: PropTypes.object,
   onSubmit: PropTypes.func,
   onFocus: PropTypes.func,
 };

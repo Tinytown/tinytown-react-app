@@ -42,6 +42,7 @@ const generateStyles = ({ flip, elevation }) => (
 SpeechBubble.propTypes = {
   content: PropTypes.string.isRequired,
   elevation: PropTypes.object,
+  wrapperStyle: PropTypes.object,
   flip: PropTypes.bool,
 };
 

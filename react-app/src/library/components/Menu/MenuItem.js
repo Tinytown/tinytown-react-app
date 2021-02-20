@@ -5,12 +5,12 @@ import { Pressable } from 'library/components/hoc';
 import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
 
 const MenuItem = ({
+  label = 'Menu item',
   primaryIcon,
   secondaryIcon,
-  label = 'Menu item',
-  onPress,
-  disabled = false,
   tall = false,
+  disabled = false,
+  onPress,
 }) => {
   const styles = generateStyles({ disabled, tall });
 
@@ -76,11 +76,12 @@ const generateStyles = ({ disabled, tall }) => (
 );
 
 MenuItem.propTypes = {
-  primaryIcon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  onPress: PropTypes.func,
-  disabled: PropTypes.bool,
+  primaryIcon: PropTypes.string.isRequired,
+  secondaryIcon: PropTypes.string,
   tall: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default MenuItem;

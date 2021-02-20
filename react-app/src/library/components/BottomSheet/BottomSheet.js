@@ -12,8 +12,8 @@ const BottomSheet = ({
   openSheet = true,
   setOpenSheet = () => console.log('Pass a setOpenSheet callback to this component'),
   confirmClose = true,
-  onClose = () => console.log('Pass an onClose callback to this component'),
   onCloseConfirm = () => console.log('Pass an onCloseConfirm callback to this component'),
+  onClose = () => console.log('Pass an onClose callback to this component'),
   children,
 }) => {
   const { ANIMATION_OFFSET, DISMISS_THRESHOLD } = sheetConfig;
@@ -96,6 +96,8 @@ const generateStyles = () => {
 BottomSheet.propTypes = {
   openSheet: PropTypes.bool,
   setOpenSheet: PropTypes.func,
+  confirmClose: PropTypes.bool,
+  onCloseConfirm: PropTypes.func,
   onClose: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.element,
