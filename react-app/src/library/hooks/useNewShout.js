@@ -44,10 +44,10 @@ export default () => {
     disabled,
   };
 
-  const createNewShout = (mode) => {
+  const createNewShout = ({ lann, sendTo }) => {
     let coordinates = [userLocation[0], userLocation[1]];
 
-    if (mode === 'lann') {
+    if (lann) {
       const MAX = 1.0002;
       const MIN = 0.9998;
 
@@ -61,6 +61,7 @@ export default () => {
       text: shoutString,
       sourcePlatform: Platform.OS,
       coordinates,
+      sendTo,
     };
 
     dispatch(createShout(shout));

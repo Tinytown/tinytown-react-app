@@ -80,7 +80,14 @@ const NewShoutScreen = ({ navigation }) => {
   };
 
   const onSubmitHandler = () => {
-    createNewShout({ shoutContent }); // TODO: add megaphone settings
+    const settings = {
+      sendTo: {
+        twitter: twitterToggle,
+        twitterLocation: twitterLocToggle,
+      },
+      lann: lannToggle,
+    };
+    createNewShout(settings);
     navigation.goBack();
   };
 
