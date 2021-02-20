@@ -11,7 +11,9 @@ import { SHAPES, normalizeStyles, normalizeValue } from 'res';
 const BottomSheet = ({
   openSheet = true,
   setOpenSheet = () => console.log('Pass a setOpenSheet callback to this component'),
+  confirmClose = true,
   onClose = () => console.log('Pass an onClose callback to this component'),
+  onCloseConfirm = () => console.log('Pass an onCloseConfirm callback to this component'),
   children,
 }) => {
   const { ANIMATION_OFFSET, DISMISS_THRESHOLD } = sheetConfig;
@@ -32,9 +34,17 @@ const BottomSheet = ({
     setSheetLayout({ height });
   };
 
+  // Close sheet / ask for confirmation
   useEffect(() => {
-    !openSheet && closeSheet(onClose);
-  }, [openSheet]);
+    if (!openSheet) {
+      if (confirmClose) {
+        closeSheet(onClose);
+      } else {
+        translateY.value = withSpring(ANIMATION_OFFSET, translateConfig);
+        onCloseConfirm();
+      }
+    }
+  }, [openSheet, confirmClose]);
 
   const gestureHandler = useAnimatedGestureHandler({
     onStart: (event, context) => {

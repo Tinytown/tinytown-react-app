@@ -24,6 +24,9 @@ export default {
       title: 'Not So Fast, Bucko',
       body: 'It looks like you\'re using a GPS Spoofing application and that\'s a big no-no around these parts.',
     },
+    shout: {
+      title: 'Discard Shout?',
+    },
   },
 
   onboarding: {
@@ -47,6 +50,7 @@ export default {
     shout: 'Shout',
     cancel: 'Cancel',
     tryAgain: 'Try again',
+    discard: 'Discard',
   },
 
   navigation: {

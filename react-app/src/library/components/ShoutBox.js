@@ -4,20 +4,17 @@ import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import IconButton from './IconButton';
 import Chip from './Chip';
-import { useNewShout } from 'library/hooks';
 import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
 
 const ShoutBox = ({
+  value,
+  setValue,
+  limitIndicator,
   onSubmit = () => {},
   onFocus = () => {},
 }) => {
-  const [value, setValue, limitIndicator, createNewShout] = useNewShout();
   const { string, animation, show, disabled } = limitIndicator;
   const styles = generateStyles({ show });
-
-  const onSubmitHandler = () => {
-    onSubmit(createNewShout);
-  };
 
   return (
     <View style={styles.container} >
@@ -33,7 +30,7 @@ const ShoutBox = ({
         keyboardType='twitter'
         value={value}
         onChangeText={setValue}
-        onSubmitEditing={onSubmitHandler}
+        onSubmitEditing={onSubmit}
         onFocus={onFocus}
       />
       <View style={styles.btnContainer} >
@@ -48,7 +45,7 @@ const ShoutBox = ({
         <IconButton
           icon='megaphone'
           theme='red'
-          onPress={onSubmitHandler}
+          onPress={onSubmit}
           disabled={disabled}
         />
       </View>

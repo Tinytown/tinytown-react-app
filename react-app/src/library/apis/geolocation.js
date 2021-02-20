@@ -1,8 +1,4 @@
-import {
-  Alert,
-  Linking,
-  Platform,
-} from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
 import { STRINGS } from 'res';

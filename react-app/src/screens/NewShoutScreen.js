@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Keyboard } from 'react-native';
+import { Alert, Text, Keyboard } from 'react-native';
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import sheetConfig from 'library/components/BottomSheet/config';
 import {
@@ -12,11 +12,13 @@ import {
   FeatureCard,
   FeatureItem,
 } from 'library/components';
+import { useNewShout } from 'library/hooks';
 import { COLORS, TYPOGRAPHY, STRINGS, LISTS, normalizeStyles } from 'res';
 
 const NewShoutScreen = ({ navigation }) => {
   const { ANIMATION_OFFSET } = sheetConfig;
   const [openSheet, setOpenSheet] = useState(true);
+  const [confirmClose, setConfirmClose] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [sheetLayout, setSheetLayout] = useState(null);
   const [keyboardOpen, setKeyboardOpen] = useState(true);
@@ -25,6 +27,7 @@ const NewShoutScreen = ({ navigation }) => {
   const [lannToggle, setLannToggle] = useState(false);
   const frontSheetTranslateY = useSharedValue(0);
   const backSheetTranslateY = useSharedValue(0);
+  const [shoutContent, setShoutContent, limitIndicator, createNewShout] = useNewShout();
 
   const translateConfig = {
     mass: 1,
@@ -65,14 +68,34 @@ const NewShoutScreen = ({ navigation }) => {
     !openSheet && setShowSettings(false);
   }, [openSheet]);
 
+  // Set confirmClose if there's content in ShoutBox
+  useEffect(() => {
+    shoutContent.length ? setConfirmClose(false) : setConfirmClose(true);
+  }, [shoutContent]);
+
+  // Event Handlers
   const onLayoutHandler = (event) => {
     event.persist();
     setSheetLayout(event.nativeEvent.layout);
   };
 
-  const onSubmitHandler = (createNewShout) => {
-    createNewShout();
+  const onSubmitHandler = () => {
+    createNewShout({ shoutContent }); // TODO: add megaphone settings
     navigation.goBack();
+  };
+
+  const onCloseConfirmHandler = () => {
+    const {
+      dialog: { shout: { title } },
+      actions: { cancel, discard },
+    } = STRINGS;
+
+    Alert.alert(title, '',
+      [
+        { text: cancel, onPress: () => setOpenSheet(true) },
+        { text: discard, onPress: () => setConfirmClose(true) },
+      ],
+    );
   };
 
   // Render settings list
@@ -115,7 +138,13 @@ const NewShoutScreen = ({ navigation }) => {
   ));
 
   return (
-    <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()}>
+    <BottomSheet
+      openSheet={openSheet}
+      setOpenSheet={setOpenSheet}
+      onClose={() => navigation.goBack()}
+      onCloseConfirm={onCloseConfirmHandler}
+      confirmClose={confirmClose}
+    >
       <BottomSheetContainer style={styles.settingsContainer} animation={backSheetAnimation} onLayout={onLayoutHandler}>
         <Text style={styles.header}>{STRINGS.shouts.header}</Text>
         {renderedList}
@@ -138,7 +167,13 @@ const NewShoutScreen = ({ navigation }) => {
             />
           </NavBar>
         }
-        <ShoutBox onSubmit={onSubmitHandler} onFocus={() => setShowSettings(false)} />
+        <ShoutBox
+          value={shoutContent}
+          setValue={setShoutContent}
+          limitIndicator={limitIndicator}
+          onSubmit={onSubmitHandler}
+          onFocus={() => setShowSettings(false)}
+        />
       </BottomSheetContainer>
     </BottomSheet>
   );
