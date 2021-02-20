@@ -14,7 +14,8 @@ const FeatureCard = ({
   wrapperStyle,
   disabled = false,
   children,
-  toggle = true,
+  toggle = false,
+  onPress = () => console.log('Pass an onPress callback to this component'),
 }) => {
   const styles = generateStyles({ theme, activeColor, disabled, toggle });
   const { keyColor, contentColor, borderColor } = styles;
@@ -28,8 +29,8 @@ const FeatureCard = ({
 
   return (
     <View style={wrapperStyle}>
-      <Pressable containerStyle={styles.card} keyColor={activeColor}>
-        <View style={styles.content}>
+      <View style={styles.card} >
+        <Pressable containerStyle={styles.content} keyColor={activeColor} onPress={onPress}>
           <View style={styles.icon}>
             <Icon icon={icon} color={activeColor}/>
           </View>
@@ -37,16 +38,16 @@ const FeatureCard = ({
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.body}>{body}</Text>
           </View>
-        </View>
-        <Chip
-          wrapperStyle={styles.chip}
-          theme={toggle ? 'elevated' : 'hairline dark'}
-          label='on'
-          toggle={toggle}
-          activeColor={activeColor}
-        />
+          <Chip
+            wrapperStyle={styles.chip}
+            theme={toggle ? 'elevated' : 'hairline dark'}
+            label='on'
+            toggle={toggle}
+            activeColor={activeColor}
+          />
+        </Pressable>
         {childrenWithProps}
-      </Pressable>
+      </View>
     </View>
   );
 };
@@ -58,14 +59,12 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
   return (
     { ...normalizeStyles({
       card: {
-        paddingVertical: 14,
-        paddingLeft: 14,
-        paddingRight: 14,
         borderRadius: SHAPES.radiusMd,
         ...backgroundTheme,
         ...(toggle && { borderColor: activeColor }),
       },
       content: {
+        padding: 14,
         flexDirection: 'row',
       },
       icon: {

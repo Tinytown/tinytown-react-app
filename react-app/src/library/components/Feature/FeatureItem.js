@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import Divider from '../Menu/MenuDivider';
+import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
 import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
 
@@ -14,13 +14,14 @@ const FeatureItem = ({
   contentColor,
   borderColor,
   toggle = false,
+  onPress = () => console.log('Pass an onPress callback to this component'),
 }) => {
   const styles = generateStyles({ keyColor, borderColor });
 
   return (
     <>
       <View style={styles.divider}/>
-      <View style={styles.container} >
+      <Pressable containerStyle={styles.content} keyColor={activeColor} onPress={onPress} >
         <View style={styles.icon}>
           <Icon icon={icon} color={activeColor}/>
         </View>
@@ -32,7 +33,7 @@ const FeatureItem = ({
           toggle={toggle}
           activeColor={activeColor}
         />
-      </View>
+      </Pressable>
     </>
   );
 };
@@ -44,17 +45,13 @@ const generateStyles = ({ keyColor, borderColor }) => {
     normalizeStyles({
       divider: {
         height: 2,
-        marginLeft: -14,
-        marginRight: -14,
-        marginTop: 16,
-        marginBottom: 16,
         backgroundColor: borderColor,
       },
-      container: {
+      content: {
         flexDirection: 'row',
-        marginBottom: 2,
+        paddingVertical: 16,
+        paddingHorizontal: 14,
         alignItems: 'center',
-        justifyContent: 'flex-start',
       },
       icon: {
         height: ICON_SIZE,
@@ -67,7 +64,7 @@ const generateStyles = ({ keyColor, borderColor }) => {
       },
       chip: {
         position: 'absolute',
-        right: 0,
+        right: 14,
       },
     })
   );

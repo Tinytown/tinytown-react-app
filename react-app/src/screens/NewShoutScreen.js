@@ -20,6 +20,9 @@ const NewShoutScreen = ({ navigation }) => {
   const [showSettings, setShowSettings] = useState(false);
   const [sheetLayout, setSheetLayout] = useState(null);
   const [keyboardOpen, setKeyboardOpen] = useState(true);
+  const [twitterToggle, setTwitterToggle] = useState(false);
+  const [twitterLocToggle, setTwitterLocToggle] = useState(false);
+  const [lannToggle, setLannToggle] = useState(false);
   const frontSheetTranslateY = useSharedValue(0);
   const backSheetTranslateY = useSharedValue(0);
 
@@ -73,6 +76,19 @@ const NewShoutScreen = ({ navigation }) => {
   };
 
   // Render settings list
+  const assignState = (key, prop) => {
+    switch (key) {
+    case 'twitter':
+      return prop === 'toggle' ? twitterToggle : () => setTwitterToggle(!twitterToggle);
+    case 'location':
+      return prop === 'toggle' ? twitterLocToggle : () => setTwitterLocToggle(!twitterLocToggle);
+    case 'lann':
+      return prop === 'toggle' ? lannToggle : () => setLannToggle(!lannToggle);
+    default:
+      return;
+    }
+  };
+
   renderedList = LISTS.megaphone.map(({ key, title, body, icon, theme, activeColor, children }) => (
     <FeatureCard
       key={key}
@@ -82,9 +98,18 @@ const NewShoutScreen = ({ navigation }) => {
       theme={theme}
       activeColor={activeColor}
       wrapperStyle={styles.feature}
+      toggle={assignState(key, 'toggle')}
+      onPress={assignState(key, 'onPress')}
     >
       {children?.map(({ key, title, body, icon }) => (
-        <FeatureItem key={key} title={title} body={body} icon={icon} />
+        <FeatureItem
+          key={key}
+          title={title}
+          body={body}
+          icon={icon}
+          toggle={assignState(key, 'toggle')}
+          onPress={assignState(key, 'onPress')}
+        />
       ))}
     </FeatureCard>
   ));
