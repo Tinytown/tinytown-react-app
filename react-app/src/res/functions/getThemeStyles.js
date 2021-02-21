@@ -84,6 +84,17 @@ export default (theme) => {
 
     return  [backgroundTheme, keyColor, contentColor];
 
+  case 'elevated':
+    backgroundTheme = {
+      backgroundColor: COLORS.justWhite,
+      borderWidth: 2,
+      ...SHAPES.elevGray5,
+    };
+    keyColor = COLORS.justWhite;
+    contentColor = COLORS.asphaltGray900;
+
+    return  [backgroundTheme, keyColor, contentColor];
+
   case 'hairline red':
     backgroundTheme = {
       backgroundColor: COLORS.justWhite,
@@ -91,7 +102,29 @@ export default (theme) => {
       borderColor: COLORS.bubblegumRed100,
     };
     keyColor = COLORS.bubblegumRed400;
-    contentColor = COLORS.bubblegumRed600;
+    contentColor = COLORS.asphaltGray800;
+
+    return  [backgroundTheme, keyColor, contentColor];
+
+  case 'hairline blue':
+    backgroundTheme = {
+      backgroundColor: COLORS.justWhite,
+      ...SHAPES.elevHairline,
+      borderColor: COLORS.skyBlue100,
+    };
+    keyColor = COLORS.skyBlue400;
+    contentColor = COLORS.asphaltGray800;
+
+    return  [backgroundTheme, keyColor, contentColor];
+
+  case 'hairline dark':
+    backgroundTheme = {
+      backgroundColor: COLORS.asphaltGray900,
+      ...SHAPES.elevHairline,
+      borderColor: COLORS.asphaltGray700,
+    };
+    keyColor = COLORS.justWhite;
+    contentColor = COLORS.asphaltGray300;
 
     return  [backgroundTheme, keyColor, contentColor];
 

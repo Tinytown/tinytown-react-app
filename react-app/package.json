@@ -1,14 +1,13 @@
 {
   "name": "tinytown",
-  "version": "0.11.05",
+  "version": "0.12.00",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "node ./scripts/start.js",
     "test": "jest",
-    "lint": "eslint .",
-    "postinstall": "node ./scripts/stfu.js"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",

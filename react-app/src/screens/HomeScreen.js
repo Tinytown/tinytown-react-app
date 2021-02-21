@@ -11,7 +11,7 @@ const HomeScreen = ({ storageLoaded, navigation }) => {
       <View style={styles.container} pointerEvents='box-none'>
         <HomeBar />
         <FAB
-          label={STRINGS.button.shout}
+          label={STRINGS.actions.shout}
           theme='red'
           icon='megaphone'
           branded

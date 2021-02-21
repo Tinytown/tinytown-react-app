@@ -1,19 +1,18 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
+import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import IconButton from './IconButton';
 import Chip from './Chip';
-import { useNewShout } from 'library/hooks';
 import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
 
-const ShoutBox = ({ onSubmit }) => {
-  const [value, setValue, limitIndicator, createNewShout] = useNewShout();
-  const { string, animation, show, disabled } = limitIndicator;
-  const styles = generateStyles({ show });
-
-  const onSubmitHandler = () => {
-    onSubmit(createNewShout);
-  };
+const ShoutBox = ({
+  shoutBoxProps,
+  onSubmit = () => {},
+  onFocus = () => {},
+}) => {
+  const { shoutString, setShoutString, chipString, chipAnimation, showChip, disabled } = shoutBoxProps;
+  const styles = generateStyles({ showChip });
 
   return (
     <View style={styles.container} >
@@ -23,18 +22,19 @@ const ShoutBox = ({ onSubmit }) => {
         autoFocus
         enablesReturnKeyAutomatically
         autoCorrect={false}
-        placeholder={STRINGS.placeholder.shoutBox}
+        placeholder={STRINGS.shouts.shoutBox}
         placeholderTextColor={COLORS.asphaltGray200}
         textAlignVertical='top'
         keyboardType='twitter'
-        value={value}
-        onChangeText={setValue}
-        onSubmitEditing={onSubmitHandler}
+        value={shoutString}
+        onChangeText={setShoutString}
+        onSubmitEditing={onSubmit}
+        onFocus={onFocus}
       />
       <View style={styles.btnContainer} >
-        <Animated.View style={[styles.chipContainer, animation]} >
+        <Animated.View style={[styles.chipContainer, chipAnimation]} >
           <Chip
-            label={string}
+            label={chipString}
             theme={disabled ? 'red' : null}
             animationType={null}
             ripple={false}
@@ -43,7 +43,7 @@ const ShoutBox = ({ onSubmit }) => {
         <IconButton
           icon='megaphone'
           theme='red'
-          onPress={onSubmitHandler}
+          onPress={onSubmit}
           disabled={disabled}
         />
       </View>
@@ -51,7 +51,7 @@ const ShoutBox = ({ onSubmit }) => {
   );
 };
 
-const generateStyles = ({ show }) => {
+const generateStyles = ({ showChip }) => {
   return normalizeStyles({
     container: {
       marginTop: 16,
@@ -78,9 +78,15 @@ const generateStyles = ({ show }) => {
     },
     chipContainer: {
       marginRight: 12,
-      opacity: show ? 1 : 0,
+      opacity: showChip ? 1 : 0,
     },
   });
+};
+
+ShoutBox.propTypes = {
+  controlledInput: PropTypes.object,
+  onSubmit: PropTypes.func,
+  onFocus: PropTypes.func,
 };
 
 export default ShoutBox;

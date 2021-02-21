@@ -13,6 +13,7 @@ export default {
 
   // BLUE
   skyBlue400: '#3891FF',
+  skyBlue300: '#70B0FF',
   skyBlue100: '#CCE3FF',
   skyBlue50: '#F0F7FF',
 
@@ -45,5 +46,8 @@ export default {
   // BASIC
   pureBlack: '#000000',
   justWhite: '#FFFFFF',
+
+  // BRANDS
+  twitter: '#1DA1F2',
 };
 

@@ -36,7 +36,7 @@ const World = ({
   const [hideMarkers, setHideMarkers] = useState(true);
 
   // Map Content
-  const userMarker = renderUser(heading);
+  const userMarker = renderUser(userLocation, heading);
   const fogOfWar = renderFog(userLocation, camera.zoom);
   const welcomeSign = renderWelcomeSign();
   const showWelcomeSign = !userLocation && camera.zoom === INITIAL_ZOOM;

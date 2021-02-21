@@ -10,7 +10,7 @@ const MenuDivider = ({
   const styles = generateStyles({ color, margin });
 
   return (
-    <View style={[styles.divider, { borderBottomColor: color }]} />
+    <View style={styles.divider} />
   );
 };
 

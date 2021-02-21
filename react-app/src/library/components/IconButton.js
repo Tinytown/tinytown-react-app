@@ -7,9 +7,9 @@ import { SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 const IconButton = ({
   icon,
   theme = null,
-  onPress,
   wrapperStyle,
   disabled = false,
+  onPress,
 }) => {
   const styles = generateStyles({ theme, disabled });
 
@@ -19,11 +19,10 @@ const IconButton = ({
         keyColor={styles.keyColor}
         disabled={disabled}
         onPress={onPress}
+        containerStyle={styles.button}
       >
-        <View style={styles.button}>
-          <View style={styles.icon}>
-            <Icon icon={icon} color={styles.contentColor} />
-          </View>
+        <View style={styles.icon}>
+          <Icon icon={icon} color={styles.contentColor} />
         </View>
       </Pressable>
     </View>
@@ -54,10 +53,10 @@ const generateStyles = ({ theme, disabled }) => {
 
 IconButton.propTypes = {
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'transparent']),
-  onPress: PropTypes.func,
+  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'transparent', 'white']),
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default IconButton;

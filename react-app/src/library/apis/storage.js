@@ -14,6 +14,7 @@ export const storeData = async (key, value) => {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
+    return;
   } catch (err) {
     console.log(err);
   }
@@ -35,6 +36,7 @@ export const storeMultiple = (arr) => {
     try {
       const jsonValue = JSON.stringify(set[1]);
       await AsyncStorage.setItem(set[0], jsonValue);
+      return;
     } catch (err) {
       console.log(err);
     }

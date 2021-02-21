@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Linking } from 'react-native';
-import { NavBar, BottomSheet, SpeechBubble } from 'library/components';
+import { BottomSheet, BottomSheetContainer, SpeechBubble } from 'library/components';
 import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
 
 const ShoutLauncher = ({ navigation }) => {
@@ -8,27 +8,28 @@ const ShoutLauncher = ({ navigation }) => {
 
   return (
     <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()} >
-      <NavBar label='' onClose={() => setOpenSheet(false)} />
-      <Text
-        style={styles.text}
-        onPress={() => Linking.openURL(STRINGS.links.wololo)}
-        suppressHighlighting
-      >
+      <BottomSheetContainer>
+        <Text
+          style={styles.text}
+          onPress={() => Linking.openURL(STRINGS.links.wololo)}
+          suppressHighlighting
+        >
         #wolologang
-      </Text>
-      <View style={styles.container} >
-        <Image source={IMAGES.wololoPriests} style={styles.image} />
-        <View style={styles.bubbleContainer} >
-          <SpeechBubble
-            wrapperStyle={styles.leftBubble}
-            elevation={SHAPES.elevGray1}
-            content='Wololo! Wololo!' />
-          <SpeechBubble
-            wrapperStyle={styles.rightBubble}
-            elevation={SHAPES.elevGray1}
-            content={STRINGS.secrets.wololo} />
+        </Text>
+        <View style={styles.container} >
+          <Image source={IMAGES.wololoPriests} style={styles.image} />
+          <View style={styles.bubbleContainer} >
+            <SpeechBubble
+              wrapperStyle={styles.leftBubble}
+              elevation={SHAPES.elevGray1}
+              content='Wololo! Wololo!' />
+            <SpeechBubble
+              wrapperStyle={styles.rightBubble}
+              elevation={SHAPES.elevGray1}
+              content={STRINGS.secrets.wololo} />
+          </View>
         </View>
-      </View>
+      </BottomSheetContainer>
     </BottomSheet>
   );
 };

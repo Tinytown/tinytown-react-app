@@ -63,12 +63,12 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
         </Pressable>
       </View>
       <Menu showMenu={showMenu} setShowMenu={setShowMenu} triggerLayout={triggerLayout}>
-        <MenuItem label={STRINGS.menuItem.about} primaryIcon='info' onPress={() => {
+        <MenuItem label={STRINGS.core.about} primaryIcon='info' onPress={() => {
           setShowMenu(false);
           navigation.navigate('About');
         }} />
         <MenuDivider />
-        <MenuItem label={STRINGS.menuItem.signOut} primaryIcon='signOut' onPress={signOutHandler}/>
+        <MenuItem label={STRINGS.auth.signOut} primaryIcon='signOut' onPress={signOutHandler}/>
       </Menu>
     </>
   );
@@ -117,10 +117,10 @@ const mapStateToProps = (state) => ({
 });
 
 HomeBar.propTypes = {
+  photoURL: PropTypes.string,
+  userVisible: PropTypes.bool,
   signOut: PropTypes.func,
   goToUser: PropTypes.func,
-  userVisible: PropTypes.bool,
-  photoURL: PropTypes.string,
 };
 
 export default connect(mapStateToProps, { signOut, goToUser })(HomeBar);

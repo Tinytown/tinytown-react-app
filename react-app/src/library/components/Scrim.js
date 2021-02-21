@@ -4,8 +4,8 @@ import { Pressable } from './hoc';
 import { normalizeStyles } from 'res';
 
 const Scrim = ({
-  onPress = () => console.log('Pass an onPress callback to this component'),
   animationStyle,
+  onPress = () => console.log('Pass an onPress callback to this component'),
   children,
 }) => (
   <Pressable
@@ -27,8 +27,8 @@ const styles = normalizeStyles({
 });
 
 Scrim.propTypes = {
-  onPress: PropTypes.func,
   animationStyle: PropTypes.object,
+  onPress: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.array,

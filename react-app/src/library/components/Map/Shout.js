@@ -6,10 +6,10 @@ import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
 
 const Shout = React.memo(({
   label = 'Shout Label',
-  onPress,
   showPin = true,
   local = false,
   disabled = false,
+  onPress,
 }) => {
   const styles = generateStyles({ local });
 
@@ -83,10 +83,10 @@ const generateStyles = ({ local }) => {
 
 Shout.propTypes = {
   label: PropTypes.string.isRequired,
-  onPress: PropTypes.func,
   showPin: PropTypes.bool,
   local: PropTypes.bool,
   disabled: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default Shout;

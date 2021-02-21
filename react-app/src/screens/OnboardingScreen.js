@@ -44,7 +44,11 @@ const OnboardingScreen = ({ navigation, userLocation }) => {
   return (
     <World onTouchStart={() => setToasty(false)}>
       <ActivityOverlay showOverlay={authLoading} />
-      <OnboardingButtons setAuthLoading={setAuthLoading} authLoading={authLoading} />
+      <OnboardingButtons
+        setAuthLoading={setAuthLoading}
+        authLoading={authLoading}
+        onTouchStart={() => setToasty(false)}
+      />
       <Animated.View
         style={{ ...styles.toastyContainer, transform: [{ translateX: slideAnimation }] }}
         onTouchEnd={() => navigation.navigate('Wololo')}

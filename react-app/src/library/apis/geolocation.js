@@ -1,8 +1,4 @@
-import {
-  Alert,
-  Linking,
-  Platform,
-} from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
 import { STRINGS } from 'res';
@@ -24,22 +20,27 @@ const openSetting = () => {
 };
 
 const showPermissionsDialog = () => {
-  const { title, body, buttonPrimary, buttonSecondary } = STRINGS.dialog.location;
+  const {
+    dialog: { location: { title, body } },
+    navigation: { settings },
+    actions: { cancel },
+  } = STRINGS;
+
   Alert.alert(title, body,
     [
-      { text: buttonSecondary, onPress: () => {} },
-      { text: buttonPrimary, onPress: openSetting },
+      { text: cancel, onPress: () => {} },
+      { text: settings, onPress: openSetting },
     ],
   );
 };
 
 const showMockLocationDialog = () => {
-  const { title, body, button } = STRINGS.dialog.mockLocation;
-  Alert.alert(title, body,
-    [
-      { text: button, onPress: () => {} },
-    ],
-  );
+  const {
+    dialog: { mockLocation: { title, body } },
+    actions: { tryAgain },
+  } = STRINGS;
+
+  Alert.alert(title, body, [{ text: tryAgain, onPress: () => {} }]);
 };
 
 export const getLocationPermission = async () => {

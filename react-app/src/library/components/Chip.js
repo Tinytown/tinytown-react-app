@@ -2,19 +2,21 @@ import React from 'react';
 import { View, Text, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { Pressable } from 'library/components/hoc';
-import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const Chip = ({
   icon,
   label = 'Chip Label',
   theme = 'hairline',
-  onPress,
+  activeColor = COLORS.justWhite,
   wrapperStyle,
   animationType = 'press',
-  disabled = false,
   ripple = true,
+  disabled = false,
+  toggle = false,
+  onPress = () => {},
 }) => {
-  const styles = generateStyles({ disabled, theme });
+  const styles = generateStyles({ theme, activeColor, disabled, toggle });
 
   return (
     <View style={wrapperStyle} >
@@ -28,17 +30,16 @@ const Chip = ({
       >
         {icon &&
         <View style={styles.icon}>
-          <Icon icon={icon} color={styles.contentColor} />
+          <Icon icon={icon} color={styles.keyColor} />
         </View>
         }
         <Text style={styles.label}>{label}</Text>
-
       </Pressable>
     </View>
   );
 };
 
-const generateStyles = ({ theme, disabled }) => {
+const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
   const ICON_SIZE  = 16;
   const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
 
@@ -50,6 +51,11 @@ const generateStyles = ({ theme, disabled }) => {
         paddingVertical: 4,
         borderRadius: SHAPES.radiusAll,
         ...backgroundTheme,
+        ...(toggle && {
+          backgroundColor: activeColor,
+          shadowColor: activeColor,
+          borderColor: activeColor,
+        }),
       },
       icon: {
         height: ICON_SIZE,
@@ -68,12 +74,22 @@ const generateStyles = ({ theme, disabled }) => {
 Chip.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'hairline', 'hairline red']),
-  onPress: PropTypes.func,
+  theme: PropTypes.oneOf([
+    'cyan',
+    'blue',
+    'red',
+    'hairline',
+    'hairline red',
+    'hairline blue',
+    'hairline dark',
+    'elevated',
+  ]),
   wrapperStyle: PropTypes.object,
   animationType: PropTypes.string,
   disabled: PropTypes.bool,
   ripple: PropTypes.bool,
+  toggle: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default Chip;

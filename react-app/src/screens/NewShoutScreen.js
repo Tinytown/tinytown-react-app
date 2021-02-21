@@ -1,46 +1,94 @@
-import React, { useState, useEffect } from 'react';
-import Toast from 'react-native-simple-toast';
-import { NavBar, BottomSheet, ShoutBox, Chip } from 'library/components';
-import { STRINGS, normalizeStyles } from 'res';
+import React, { useState } from 'react';
+import { Text } from 'react-native';
+import {
+  IconButton,
+  NavBar,
+  BottomSheet,
+  BottomSheetContainer,
+  ShoutBox,
+  Chip,
+} from 'library/components';
+import { useNewShout } from 'library/hooks';
+import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
 
-const NewShoutScreen = ({ navigation }) => {
-  const [openSheet, setOpenSheet] = useState(true);
+const NewShoutScreen = () => {
+  const [sheetLayout, setSheetLayout] = useState(null);
+  const [
+    shoutBoxProps,
+    content,
+    state,
+    animations,
+    eventHandlers,
+  ] = useNewShout(sheetLayout);
+  const { settingsChip, renderedList } = content;
+  const { confirmClose, onCloseConfirmHandler, onCloseHandler, onSubmitHandler } = eventHandlers;
+  const { openSheet, setOpenSheet, showSettings, setShowSettings } = state;
+  const { sheetContainerAnimation, frontSheetAnimation } = animations;
 
-  // Scramble coordinates for testing purposes (remove for prod build)
-  const [lannMode, setLannMode] = useState(false);
-
-  const chipProps = {
-    label: lannMode ? STRINGS.chip.lannOn : STRINGS.chip.lannOff,
-    theme: lannMode ? 'hairline red' : 'hairline',
-  };
-
-  useEffect(() => {
-    lannMode && Toast.show(STRINGS.toast.lannMode);
-  }, [lannMode]);
-
-  const onSubmitHandler = (createNewShout) => {
-    createNewShout(lannMode ? 'lann' : null);
-    navigation.goBack();
+  const onLayoutHandler = (event) => {
+    event.persist();
+    setSheetLayout(event.nativeEvent.layout);
   };
 
   return (
-    <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()} >
-      <NavBar label='' onClose={() => setOpenSheet(false)}>
-        <Chip
-          {...chipProps}
-          icon='lab'
-          wrapperStyle={styles.lann}
-          onPress={() => setLannMode(!lannMode)}
+    <BottomSheet
+      openSheet={openSheet}
+      setOpenSheet={setOpenSheet}
+      onClose={onCloseHandler}
+      onCloseConfirm={onCloseConfirmHandler}
+      confirmClose={confirmClose}
+      animation={sheetContainerAnimation}
+    >
+      <BottomSheetContainer style={styles.settingsContainer} onLayout={onLayoutHandler}>
+        <Text style={styles.header}>{STRINGS.shouts.header}</Text>
+        {renderedList}
+      </BottomSheetContainer>
+      <BottomSheetContainer animation={frontSheetAnimation}>
+        {showSettings ?
+          <IconButton
+            wrapperStyle={styles.closeBtn}
+            icon='close'
+            theme='white'
+            onPress={() => setShowSettings(false)}
+          />
+          :
+          <NavBar label='' onClose={() => setOpenSheet(false)}>
+            <Chip
+              label={settingsChip.label}
+              icon={settingsChip.icon}
+              theme={settingsChip.theme}
+              wrapperStyle={styles.chip}
+              onPress={() => setShowSettings(true)}
+            />
+          </NavBar>
+        }
+        <ShoutBox
+          shoutBoxProps={shoutBoxProps}
+          onSubmit={onSubmitHandler}
+          onFocus={() => setShowSettings(false)}
         />
-      </NavBar>
-      <ShoutBox onSubmit={onSubmitHandler} />
+      </BottomSheetContainer>
     </BottomSheet>
   );
 };
 
 const styles = normalizeStyles({
-  lann: {
+  settingsContainer: {
+    position: 'absolute',
+    width: '100%',
+    backgroundColor: COLORS.asphaltGray900,
+  },
+  header: {
+    marginVertical: 24,
+    textAlign: 'center',
+    color: COLORS.justWhite,
+    ...TYPOGRAPHY.subheader2,
+  },
+  chip: {
     marginRight: 16,
+  },
+  closeBtn: {
+    alignSelf: 'center',
   },
 });
 
