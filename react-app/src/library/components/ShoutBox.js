@@ -7,14 +7,12 @@ import Chip from './Chip';
 import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
 
 const ShoutBox = ({
-  value,
-  setValue,
-  limitIndicator,
+  shoutBoxProps,
   onSubmit = () => {},
   onFocus = () => {},
 }) => {
-  const { string, animation, show, disabled } = limitIndicator;
-  const styles = generateStyles({ show });
+  const { shoutString, setShoutString, chipString, chipAnimation, showChip, disabled } = shoutBoxProps;
+  const styles = generateStyles({ showChip });
 
   return (
     <View style={styles.container} >
@@ -28,15 +26,15 @@ const ShoutBox = ({
         placeholderTextColor={COLORS.asphaltGray200}
         textAlignVertical='top'
         keyboardType='twitter'
-        value={value}
-        onChangeText={setValue}
+        value={shoutString}
+        onChangeText={setShoutString}
         onSubmitEditing={onSubmit}
         onFocus={onFocus}
       />
       <View style={styles.btnContainer} >
-        <Animated.View style={[styles.chipContainer, animation]} >
+        <Animated.View style={[styles.chipContainer, chipAnimation]} >
           <Chip
-            label={string}
+            label={chipString}
             theme={disabled ? 'red' : null}
             animationType={null}
             ripple={false}
@@ -53,7 +51,7 @@ const ShoutBox = ({
   );
 };
 
-const generateStyles = ({ show }) => {
+const generateStyles = ({ showChip }) => {
   return normalizeStyles({
     container: {
       marginTop: 16,
@@ -80,15 +78,13 @@ const generateStyles = ({ show }) => {
     },
     chipContainer: {
       marginRight: 12,
-      opacity: show ? 1 : 0,
+      opacity: showChip ? 1 : 0,
     },
   });
 };
 
 ShoutBox.propTypes = {
-  value: PropTypes.string,
-  setValue: PropTypes.func,
-  limitIndicator: PropTypes.object,
+  controlledInput: PropTypes.object,
   onSubmit: PropTypes.func,
   onFocus: PropTypes.func,
 };

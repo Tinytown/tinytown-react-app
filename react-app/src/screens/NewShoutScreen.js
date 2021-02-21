@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, Linking, Text, Keyboard } from 'react-native';
-import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import functions from '@react-native-firebase/functions';
-import sheetConfig from 'library/components/BottomSheet/config';
-import { storeData, getData } from 'library/apis/storage';
+import React, { useState } from 'react';
+import { Text } from 'react-native';
 import {
   IconButton,
   NavBar,
@@ -11,218 +7,28 @@ import {
   BottomSheetContainer,
   ShoutBox,
   Chip,
-  FeatureCard,
-  FeatureItem,
 } from 'library/components';
 import { useNewShout } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, STRINGS, LISTS, normalizeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
 
-const NewShoutScreen = ({ navigation }) => {
-  const { ANIMATION_OFFSET } = sheetConfig;
-  const [openSheet, setOpenSheet] = useState(true);
-  const [confirmClose, setConfirmClose] = useState(true);
-  const [showSettings, setShowSettings] = useState(false);
+const NewShoutScreen = () => {
   const [sheetLayout, setSheetLayout] = useState(null);
-  const [keyboardOpen, setKeyboardOpen] = useState(true);
-  const [settingsChip, setSettingsChip] = useState({
-    icon: 'settings',
-    label: STRINGS.shouts.settingsChip.default,
-    theme: 'hairline',
-  });
-  const [twitter, setTwitter] = useState(false);
-  const [twitterGeo, setTwitterGeo] = useState({ enabled: false, loading: false });
-  const [lann, setLann] = useState(false);
-  const frontSheetTranslateY = useSharedValue(0);
-  const backSheetTranslateY = useSharedValue(0);
-  const [shoutContent, setShoutContent, limitIndicator, createNewShout] = useNewShout();
+  const [
+    shoutBoxProps,
+    content,
+    state,
+    animations,
+    eventHandlers,
+  ] = useNewShout(sheetLayout);
+  const { settingsChip, renderedList } = content;
+  const { confirmClose, onCloseConfirmHandler, onCloseHandler, onSubmitHandler } = eventHandlers;
+  const { openSheet, setOpenSheet, showSettings, setShowSettings } = state;
+  const { backSheetAnimation, frontSheetAnimation } = animations;
 
-  const translateConfig = {
-    mass: 1,
-    damping: 32,
-    stiffness: 500,
-  };
-
-  const frontSheetAnimation = useAnimatedStyle(() => ({ transform: [{ translateY: frontSheetTranslateY.value }] }));
-  const backSheetAnimation = useAnimatedStyle(() => ({ transform: [{ translateY: backSheetTranslateY.value }] }));
-
-  useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', () => setKeyboardOpen(true));
-    Keyboard.addListener('keyboardDidHide', () => setKeyboardOpen(false));
-
-    // Retrieve megaphone settings
-    (async function () {
-      const localSettings = await getData('megaphone');
-      if (localSettings) {
-        setTwitter(localSettings.twitter);
-        setLann(localSettings.lann);
-      }
-
-      if (localSettings?.twitterGeo.enabled) {
-        const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
-        if (geoEnabled) {
-          setTwitterGeo(localSettings.twitterGeo);
-        } else {
-          setTwitterGeo({ enabled: false, loading: false });
-        }
-      }
-    })();
-
-    return () => {
-      Keyboard.removeAllListeners('keyboardDidShow');
-      Keyboard.removeAllListeners('keyboardDidHide');
-    };
-  }, []);
-
-  // Show and hide Megaphone Settings
-  useEffect(() => {
-    if (showSettings) {
-      Keyboard.dismiss();
-      if (!keyboardOpen) {
-        frontSheetTranslateY.value = withSpring((sheetLayout.height - ANIMATION_OFFSET) / 2, translateConfig);
-        backSheetTranslateY.value = withSpring((-sheetLayout.height + ANIMATION_OFFSET) / 2, translateConfig);
-      }
-    } else {
-      frontSheetTranslateY.value = withSpring(0, translateConfig);
-      backSheetTranslateY.value = withSpring(0, translateConfig);
-    }
-  }, [showSettings, keyboardOpen]);
-
-  // Close settings when user leaves view
-  useEffect(() => {
-    !openSheet && setShowSettings(false);
-  }, [openSheet]);
-
-  // Set confirmClose if there's content in ShoutBox
-  useEffect(() => {
-    shoutContent.length ? setConfirmClose(false) : setConfirmClose(true);
-  }, [shoutContent]);
-
-  // Check Twitter account location settings
-  const checkTwitterGeo = async () => {
-    if (!twitterGeo.enabled) {
-      setTwitterGeo({ enabled: false, loading: true });
-      try {
-        const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
-        if (geoEnabled) {
-          setTwitterGeo({ enabled: true, loading: false });
-        } else {
-          // Open dialog to help user enable geo in Twitter
-          const {
-            dialog: { twitterGeo: { title, body } },
-            actions: { cancel },
-            navigation: { twitterSettings },
-          } = STRINGS;
-          Alert.alert(title, body,
-            [
-              { text: cancel, onPress: () => {} },
-              { text: twitterSettings, onPress: () => Linking.openURL(STRINGS.links.twitterGeo) },
-            ],
-          );
-          setTwitterGeo({ enabled: false, loading: false });
-        }
-      } catch (error) {
-        console.log(error);
-        setTwitterGeo({ enabled: false, loading: false });
-      }
-    } else {
-      setTwitterGeo({ enabled: false, loading: false });
-    }
-  };
-
-  // Change settings chip content
-  const getChipContent = () => {
-    if (twitterGeo.enabled) {
-      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitterGeo, theme: 'hairline blue' };
-    } else if (twitter) {
-      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitter, theme: 'hairline blue' };
-    } else if (lann) {
-      return { icon: 'lab', label: STRINGS.shouts.settingsChip.lann, theme: 'hairline red' };
-    } else {
-      return { icon: 'settings', label: STRINGS.shouts.settingsChip.default, theme: 'hairline' };
-    }
-  };
-
-  useEffect(() => {
-    setSettingsChip(() => getChipContent());
-  }, [twitter, twitterGeo, lann]);
-
-  // Event Handlers
   const onLayoutHandler = (event) => {
     event.persist();
     setSheetLayout(event.nativeEvent.layout);
   };
-
-  const onSubmitHandler = () => {
-    const settings = {
-      sendTo: {
-        twitter,
-        twitterGeo: twitterGeo.enabled,
-      },
-      lann,
-    };
-    createNewShout(settings);
-    navigation.goBack();
-  };
-
-  const onCloseHandler = async () => {
-    await storeData('megaphone', { twitter, twitterGeo, lann });
-    navigation.goBack();
-  };
-
-  const onCloseConfirmHandler = () => {
-    const {
-      dialog: { shout: { title } },
-      actions: { cancel, discard },
-    } = STRINGS;
-
-    Alert.alert(title, '',
-      [
-        { text: cancel, onPress: () => setOpenSheet(true) },
-        { text: discard, onPress: () => setConfirmClose(true) },
-      ],
-    );
-  };
-
-  // Assign state using list item keys
-  const assignState = (key, prop) => {
-    switch (key) {
-    case 'twitter':
-      return prop === 'toggle' ? twitter : () => setTwitter(!twitter);
-    case 'geo':
-      return prop === 'toggle' ? twitterGeo.enabled : () => checkTwitterGeo();
-    case 'lann':
-      return prop === 'toggle' ? lann : () => setLann(!lann);
-    default:
-      return;
-    }
-  };
-
-  // Render settings list
-  renderedList = LISTS.megaphone.map(({ key, title, body, icon, theme, activeColor, children }) => (
-    <FeatureCard
-      key={key}
-      title={title}
-      body={body}
-      icon={icon}
-      theme={theme}
-      activeColor={activeColor}
-      wrapperStyle={styles.feature}
-      toggle={assignState(key, 'toggle')}
-      onPress={assignState(key, 'onPress')}
-    >
-      {children?.map(({ key, title, body, icon }) => (
-        <FeatureItem
-          key={key}
-          title={title}
-          body={body}
-          icon={icon}
-          toggle={assignState(key, 'toggle')}
-          loading={key === 'geo' && twitterGeo.loading}
-          onPress={assignState(key, 'onPress')}
-        />
-      ))}
-    </FeatureCard>
-  ));
 
   return (
     <BottomSheet
@@ -256,9 +62,7 @@ const NewShoutScreen = ({ navigation }) => {
           </NavBar>
         }
         <ShoutBox
-          value={shoutContent}
-          setValue={setShoutContent}
-          limitIndicator={limitIndicator}
+          shoutBoxProps={shoutBoxProps}
           onSubmit={onSubmitHandler}
           onFocus={() => setShowSettings(false)}
         />
@@ -284,9 +88,6 @@ const styles = normalizeStyles({
   },
   closeBtn: {
     alignSelf: 'center',
-  },
-  feature: {
-    marginBottom: 16,
   },
 });
 
