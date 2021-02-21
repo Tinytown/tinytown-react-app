@@ -3,6 +3,7 @@ import { Alert, Linking, Text, Keyboard } from 'react-native';
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import functions from '@react-native-firebase/functions';
 import sheetConfig from 'library/components/BottomSheet/config';
+import { storeData, getData } from 'library/apis/storage';
 import {
   IconButton,
   NavBar,
@@ -43,14 +44,23 @@ const NewShoutScreen = ({ navigation }) => {
     Keyboard.addListener('keyboardDidShow', () => setKeyboardOpen(true));
     Keyboard.addListener('keyboardDidHide', () => setKeyboardOpen(false));
 
-    if (twitterGeo.enabled) {
-      (async function () {
+    // Retrieve megaphone settings
+    (async function () {
+      const localSettings = await getData('megaphone');
+      if (localSettings) {
+        setTwitter(localSettings.twitter);
+        setLann(localSettings.lann);
+      }
+
+      if (localSettings?.twitterGeo.enabled) {
         const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
-        if (!geoEnabled) {
+        if (geoEnabled) {
+          setTwitterGeo(localSettings.twitterGeo);
+        } else {
           setTwitterGeo({ enabled: false, loading: false });
         }
-      })();
-    }
+      }
+    })();
 
     return () => {
       Keyboard.removeAllListeners('keyboardDidShow');
@@ -132,6 +142,11 @@ const NewShoutScreen = ({ navigation }) => {
     navigation.goBack();
   };
 
+  const onCloseHandler = async () => {
+    await storeData('megaphone', { twitter, twitterGeo, lann });
+    navigation.goBack();
+  };
+
   const onCloseConfirmHandler = () => {
     const {
       dialog: { shout: { title } },
@@ -191,7 +206,7 @@ const NewShoutScreen = ({ navigation }) => {
     <BottomSheet
       openSheet={openSheet}
       setOpenSheet={setOpenSheet}
-      onClose={() => navigation.goBack()}
+      onClose={onCloseHandler}
       onCloseConfirm={onCloseConfirmHandler}
       confirmClose={confirmClose}
     >
