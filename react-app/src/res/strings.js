@@ -27,6 +27,10 @@ export default {
     shout: {
       title: 'Discard Shout?',
     },
+    twitterGeo: {
+      title: 'Enable location in Twitter',
+      body: 'Before using this feature in Tinytown, it needs to be enabled on your Twitter account.',
+    },
   },
 
   onboarding: {
@@ -44,6 +48,7 @@ export default {
     help: 'https://ttown.app/feedback',
     discord: 'https://ttown.app/discord',
     twitter: 'https://twitter.com/GetTinytown',
+    twitterGeo: 'https://twitter.com/settings/location',
   },
 
   actions: {
@@ -55,6 +60,7 @@ export default {
 
   navigation: {
     settings: 'Go to Settings',
+    twitterSettings: 'Go to Twitter',
   },
 
   auth: {

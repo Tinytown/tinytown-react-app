@@ -17,7 +17,7 @@ export default {
         theme: 'hairline dark',
         children: [
           {
-            key: 'location',
+            key: 'geo',
             title: twitter.location,
             icon: 'crosshairs',
           },

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Text, Keyboard } from 'react-native';
+import { Alert, Linking, Text, Keyboard } from 'react-native';
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import functions from '@react-native-firebase/functions';
 import sheetConfig from 'library/components/BottomSheet/config';
 import {
   IconButton,
@@ -22,9 +23,9 @@ const NewShoutScreen = ({ navigation }) => {
   const [showSettings, setShowSettings] = useState(false);
   const [sheetLayout, setSheetLayout] = useState(null);
   const [keyboardOpen, setKeyboardOpen] = useState(true);
-  const [twitterToggle, setTwitterToggle] = useState(false);
-  const [twitterLocToggle, setTwitterLocToggle] = useState(false);
-  const [lannToggle, setLannToggle] = useState(false);
+  const [twitter, setTwitter] = useState(false);
+  const [twitterGeo, setTwitterGeo] = useState({ enabled: false, loading: false });
+  const [lann, setLann] = useState(false);
   const frontSheetTranslateY = useSharedValue(0);
   const backSheetTranslateY = useSharedValue(0);
   const [shoutContent, setShoutContent, limitIndicator, createNewShout] = useNewShout();
@@ -38,10 +39,18 @@ const NewShoutScreen = ({ navigation }) => {
   const frontSheetAnimation = useAnimatedStyle(() => ({ transform: [{ translateY: frontSheetTranslateY.value }] }));
   const backSheetAnimation = useAnimatedStyle(() => ({ transform: [{ translateY: backSheetTranslateY.value }] }));
 
-  // Keyboard event listeners
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => setKeyboardOpen(true));
     Keyboard.addListener('keyboardDidHide', () => setKeyboardOpen(false));
+
+    if (twitterGeo.enabled) {
+      (async function () {
+        const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
+        if (!geoEnabled) {
+          setTwitterGeo({ enabled: false, loading: false });
+        }
+      })();
+    }
 
     return () => {
       Keyboard.removeAllListeners('keyboardDidShow');
@@ -73,6 +82,38 @@ const NewShoutScreen = ({ navigation }) => {
     shoutContent.length ? setConfirmClose(false) : setConfirmClose(true);
   }, [shoutContent]);
 
+  // Check Twitter account location settings
+  const checkTwitterGeo = async () => {
+    if (!twitterGeo.enabled) {
+      setTwitterGeo({ enabled: false, loading: true });
+      try {
+        const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
+        if (geoEnabled) {
+          setTwitterGeo({ enabled: true, loading: false });
+        } else {
+          // Open dialog to help user enable geo in Twitter
+          const {
+            dialog: { twitterGeo: { title, body } },
+            actions: { cancel },
+            navigation: { twitterSettings },
+          } = STRINGS;
+          Alert.alert(title, body,
+            [
+              { text: cancel, onPress: () => {} },
+              { text: twitterSettings, onPress: () => Linking.openURL(STRINGS.links.twitterGeo) },
+            ],
+          );
+          setTwitterGeo({ enabled: false, loading: false });
+        }
+      } catch (error) {
+        console.log(error);
+        setTwitterGeo({ enabled: false, loading: false });
+      }
+    } else {
+      setTwitterGeo({ enabled: false, loading: false });
+    }
+  };
+
   // Event Handlers
   const onLayoutHandler = (event) => {
     event.persist();
@@ -82,10 +123,10 @@ const NewShoutScreen = ({ navigation }) => {
   const onSubmitHandler = () => {
     const settings = {
       sendTo: {
-        twitter: twitterToggle,
-        twitterLocation: twitterLocToggle,
+        twitter,
+        twitterGeo: twitterGeo.enabled,
       },
-      lann: lannToggle,
+      lann,
     };
     createNewShout(settings);
     navigation.goBack();
@@ -105,20 +146,21 @@ const NewShoutScreen = ({ navigation }) => {
     );
   };
 
-  // Render settings list
+  // Assign state using list item keys
   const assignState = (key, prop) => {
     switch (key) {
     case 'twitter':
-      return prop === 'toggle' ? twitterToggle : () => setTwitterToggle(!twitterToggle);
-    case 'location':
-      return prop === 'toggle' ? twitterLocToggle : () => setTwitterLocToggle(!twitterLocToggle);
+      return prop === 'toggle' ? twitter : () => setTwitter(!twitter);
+    case 'geo':
+      return prop === 'toggle' ? twitterGeo.enabled : () => checkTwitterGeo();
     case 'lann':
-      return prop === 'toggle' ? lannToggle : () => setLannToggle(!lannToggle);
+      return prop === 'toggle' ? lann : () => setLann(!lann);
     default:
       return;
     }
   };
 
+  // Render settings list
   renderedList = LISTS.megaphone.map(({ key, title, body, icon, theme, activeColor, children }) => (
     <FeatureCard
       key={key}
@@ -138,6 +180,7 @@ const NewShoutScreen = ({ navigation }) => {
           body={body}
           icon={icon}
           toggle={assignState(key, 'toggle')}
+          loading={key === 'geo' && twitterGeo.loading}
           onPress={assignState(key, 'onPress')}
         />
       ))}

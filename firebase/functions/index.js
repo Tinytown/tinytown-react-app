@@ -4,6 +4,7 @@ const serviceAccount = require('./config/serviceAccount.json');
 const config = require('./config/env.config');
 const storeOauthTokens = require('./auth/storeOauthTokens');
 const createShout = require('./shouts/createShout');
+const checkTwitterGeo = require('./shouts/checkTwitterGeo');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -12,3 +13,4 @@ admin.initializeApp({
 
 exports.storeOauthTokens = functions.https.onCall(storeOauthTokens);
 exports.createShout = functions.https.onCall(createShout);
+exports.checkTwitterGeo = functions.https.onCall(checkTwitterGeo);
