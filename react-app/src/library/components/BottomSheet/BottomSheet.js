@@ -9,6 +9,7 @@ import { useAnimation } from 'library/hooks';
 import { SHAPES, normalizeStyles, normalizeValue } from 'res';
 
 const BottomSheet = ({
+  animation,
   openSheet = true,
   setOpenSheet = () => console.log('Pass a setOpenSheet callback to this component'),
   confirmClose = true,
@@ -71,7 +72,7 @@ const BottomSheet = ({
       <Scrim onPress={() => setOpenSheet(false)} animationStyle={scrimAnimation} />
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View
-          style={[styles.card, sheetAnimation]}
+          style={[styles.card, sheetAnimation, animation]}
           onLayout={onLayoutHandler}
         >
           {children}

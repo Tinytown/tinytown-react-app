@@ -23,7 +23,7 @@ const NewShoutScreen = () => {
   const { settingsChip, renderedList } = content;
   const { confirmClose, onCloseConfirmHandler, onCloseHandler, onSubmitHandler } = eventHandlers;
   const { openSheet, setOpenSheet, showSettings, setShowSettings } = state;
-  const { backSheetAnimation, frontSheetAnimation } = animations;
+  const { sheetContainerAnimation, frontSheetAnimation } = animations;
 
   const onLayoutHandler = (event) => {
     event.persist();
@@ -37,8 +37,9 @@ const NewShoutScreen = () => {
       onClose={onCloseHandler}
       onCloseConfirm={onCloseConfirmHandler}
       confirmClose={confirmClose}
+      animation={sheetContainerAnimation}
     >
-      <BottomSheetContainer style={styles.settingsContainer} animation={backSheetAnimation} onLayout={onLayoutHandler}>
+      <BottomSheetContainer style={styles.settingsContainer} onLayout={onLayoutHandler}>
         <Text style={styles.header}>{STRINGS.shouts.header}</Text>
         {renderedList}
       </BottomSheetContainer>

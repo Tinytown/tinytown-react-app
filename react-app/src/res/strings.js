@@ -28,7 +28,7 @@ export default {
       title: 'Discard Shout?',
     },
     twitterGeo: {
-      title: 'Enable location in Twitter',
+      title: 'Enable location on Twitter',
       body: 'Before using this feature in Tinytown, it needs to be enabled on your Twitter account.',
     },
   },
