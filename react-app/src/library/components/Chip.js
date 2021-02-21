@@ -30,7 +30,7 @@ const Chip = ({
       >
         {icon &&
         <View style={styles.icon}>
-          <Icon icon={icon} color={styles.contentColor} />
+          <Icon icon={icon} color={styles.keyColor} />
         </View>
         }
         <Text style={styles.label}>{label}</Text>
@@ -74,7 +74,16 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
 Chip.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'hairline', 'hairline red', 'hairline dark', 'elevated']),
+  theme: PropTypes.oneOf([
+    'cyan',
+    'blue',
+    'red',
+    'hairline',
+    'hairline red',
+    'hairline blue',
+    'hairline dark',
+    'elevated',
+  ]),
   wrapperStyle: PropTypes.object,
   animationType: PropTypes.string,
   disabled: PropTypes.bool,

@@ -24,6 +24,11 @@ const NewShoutScreen = ({ navigation }) => {
   const [showSettings, setShowSettings] = useState(false);
   const [sheetLayout, setSheetLayout] = useState(null);
   const [keyboardOpen, setKeyboardOpen] = useState(true);
+  const [settingsChip, setSettingsChip] = useState({
+    icon: 'settings',
+    label: STRINGS.shouts.settingsChip.default,
+    theme: 'hairline',
+  });
   const [twitter, setTwitter] = useState(false);
   const [twitterGeo, setTwitterGeo] = useState({ enabled: false, loading: false });
   const [lann, setLann] = useState(false);
@@ -123,6 +128,23 @@ const NewShoutScreen = ({ navigation }) => {
       setTwitterGeo({ enabled: false, loading: false });
     }
   };
+
+  // Change settings chip content
+  const getChipContent = () => {
+    if (twitterGeo.enabled) {
+      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitterGeo, theme: 'hairline blue' };
+    } else if (twitter) {
+      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitter, theme: 'hairline blue' };
+    } else if (lann) {
+      return { icon: 'lab', label: STRINGS.shouts.settingsChip.lann, theme: 'hairline red' };
+    } else {
+      return { icon: 'settings', label: STRINGS.shouts.settingsChip.default, theme: 'hairline' };
+    }
+  };
+
+  useEffect(() => {
+    setSettingsChip(() => getChipContent());
+  }, [twitter, twitterGeo, lann]);
 
   // Event Handlers
   const onLayoutHandler = (event) => {
@@ -225,8 +247,9 @@ const NewShoutScreen = ({ navigation }) => {
           :
           <NavBar label='' onClose={() => setOpenSheet(false)}>
             <Chip
-              label={STRINGS.shouts.settingsChip.default}
-              icon='settings'
+              label={settingsChip.label}
+              icon={settingsChip.icon}
+              theme={settingsChip.theme}
               wrapperStyle={styles.chip}
               onPress={() => setShowSettings(true)}
             />

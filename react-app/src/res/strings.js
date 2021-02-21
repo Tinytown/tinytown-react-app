@@ -74,7 +74,7 @@ export default {
     settingsChip: {
       default: 'Megaphone Settings',
       twitter: 'Sharing on Twitter',
-      location: 'Sharing location on Twitter',
+      twitterGeo: 'Sharing location on Twitter',
       lann: 'Lann Mode is enabled',
     },
     lannMode: {
