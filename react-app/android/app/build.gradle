@@ -133,7 +133,7 @@ android {
         applicationId "com.tinytown"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
+        versionCode 9
         versionName "0.12.00"
         multiDexEnabled true
     }
