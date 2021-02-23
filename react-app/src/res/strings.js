@@ -84,7 +84,7 @@ export default {
     twitter: {
       title: 'Send to Twitter',
       body: 'Your Shouts will appear on your Twitter Timeline.',
-      location: 'Enable location sharing',
+      location: 'Show your location on Twitter',
     },
 
   },

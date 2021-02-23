@@ -80,6 +80,7 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
       },
       text: {
         marginLeft: 12,
+        marginRight: 80,
       },
       title: {
         color: keyColor,
@@ -88,7 +89,6 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
       body: {
         marginTop: 2,
         color: contentColor,
-        maxWidth: 240,
         ...TYPOGRAPHY.body3,
       },
       rightSide: {
