@@ -1,18 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { View, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import remoteConfig from '@react-native-firebase/remote-config';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
-import config from 'config/env.config.js';
 import mapConfig from './config';
 import { useLocation, useMap, useShouts } from 'library/hooks';
 import { renderUser, renderWelcomeSign, renderShouts, renderFog } from './renderContent';
 import { COLORS, normalizeStyles } from 'res';
-
-const { MapView, Camera } = MapboxGL;
-const { INITIAL_ZOOM } = mapConfig;
-MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
 
 const World = ({
   userLocation,
@@ -22,6 +18,12 @@ const World = ({
   children,
   onTouchStart,
 }) => {
+  const { MapView, Camera } = MapboxGL;
+  const { INITIAL_ZOOM } = mapConfig;
+  const config = JSON.parse(remoteConfig().getValue('config')
+    .asString());
+  MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
+
   // Custom Hooks
   const cameraRef = useRef(null);
   const [heading] = useLocation(updateUserLocation);

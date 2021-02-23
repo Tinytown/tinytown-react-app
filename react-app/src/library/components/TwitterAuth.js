@@ -3,12 +3,14 @@ import { NativeModules } from 'react-native';
 import PropTypes from 'prop-types';
 import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
-import config from 'config/env.config';
+import remoteConfig from '@react-native-firebase/remote-config';
 import FAB from './FAB';
 import { STRINGS } from 'res';
 
 const TwitterAuth = ({ onLoading }) => {
   const { RNTwitterSignIn } = NativeModules;
+  const config = JSON.parse(remoteConfig().getValue('config')
+    .asString());
 
   useEffect(() => {
     RNTwitterSignIn.init(config.TWITTER_API_KEY, config.TWITTER_API_SECRET)
