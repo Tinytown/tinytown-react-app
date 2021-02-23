@@ -6,10 +6,17 @@ import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 're
 
 const NewShoutScreen = ({ navigation }) => {
   const [openSheet, setOpenSheet] = useState(true);
+  const [translateY, setTranslateY] = useState({});
   const styles = generateStyles();
 
   return (
-    <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()} >
+    <BottomSheet
+      translateY={translateY}
+      setTranslateY={setTranslateY}
+      openSheet={openSheet}
+      setOpenSheet={setOpenSheet}
+      onClose={() => navigation.goBack()}
+    >
       <BottomSheetContainer >
         <View style={styles.appDetails} >
           <Image source={IMAGES.appIcon} style={styles.image} />

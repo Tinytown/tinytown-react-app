@@ -30,7 +30,7 @@ export default (sheetLayout) => {
   const [keyboardOpen, setKeyboardOpen] = useState(true);
   const [chipAnimation, animateChip] = useAnimation('bounce');
   const frontSheetTranslateY = useSharedValue(0);
-  const sheetContainerTranslateY = useSharedValue(0);
+  const [translateY, setTranslateY] = useState(useSharedValue(0));
   const debouncedBounce = useRef(_.debounce(animateChip, 400, { leading: true, trailing: false })); // 10/10 func name
   const translateConfig = {
     mass: 1,
@@ -39,9 +39,6 @@ export default (sheetLayout) => {
   };
 
   const frontSheetAnimation = useAnimatedStyle(() => ({ transform: [{ translateY: frontSheetTranslateY.value }] }));
-  const sheetContainerAnimation = useAnimatedStyle(() => ({
-    transform: [{ translateY: sheetContainerTranslateY.value }],
-  }));
 
   // --- CONTENT --- //
 
@@ -116,11 +113,11 @@ export default (sheetLayout) => {
       Keyboard.dismiss();
       if (!keyboardOpen) {
         frontSheetTranslateY.value = withSpring((sheetLayout.height - ANIMATION_OFFSET), translateConfig);
-        sheetContainerTranslateY.value = withSpring(-24, translateConfig);
+        translateY.value = withSpring(-24, translateConfig);
       }
     } else {
       frontSheetTranslateY.value = withSpring(0, translateConfig);
-      sheetContainerTranslateY.value = withSpring(ANIMATION_OFFSET, translateConfig);
+      translateY.value = withSpring(ANIMATION_OFFSET, translateConfig);
     }
   }, [showSettings, keyboardOpen]);
 
@@ -285,7 +282,7 @@ export default (sheetLayout) => {
     },
     { settingsChip, renderedList },
     { openSheet, setOpenSheet, showSettings, setShowSettings },
-    { sheetContainerAnimation, frontSheetAnimation },
+    { frontSheetAnimation, translateY, setTranslateY },
     { confirmClose, onCloseConfirmHandler, onCloseHandler, onSubmitHandler },
   ];
 };

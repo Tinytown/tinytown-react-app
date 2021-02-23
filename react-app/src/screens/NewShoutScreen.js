@@ -19,11 +19,11 @@ const NewShoutScreen = () => {
     state,
     animations,
     eventHandlers,
-  ] = useNewShout(sheetLayout);
+  ] = useNewShout(sheetLayout, translateY);
   const { settingsChip, renderedList } = content;
   const { confirmClose, onCloseConfirmHandler, onCloseHandler, onSubmitHandler } = eventHandlers;
   const { openSheet, setOpenSheet, showSettings, setShowSettings } = state;
-  const { sheetContainerAnimation, frontSheetAnimation } = animations;
+  const { frontSheetAnimation, translateY, setTranslateY } = animations;
 
   const onLayoutHandler = (event) => {
     event.persist();
@@ -32,12 +32,13 @@ const NewShoutScreen = () => {
 
   return (
     <BottomSheet
+      translateY={translateY}
+      setTranslateY={setTranslateY}
       openSheet={openSheet}
       setOpenSheet={setOpenSheet}
       onClose={onCloseHandler}
       onCloseConfirm={onCloseConfirmHandler}
       confirmClose={confirmClose}
-      animation={sheetContainerAnimation}
     >
       <BottomSheetContainer style={styles.settingsContainer} onLayout={onLayoutHandler}>
         <Text style={styles.header}>{STRINGS.shouts.header}</Text>

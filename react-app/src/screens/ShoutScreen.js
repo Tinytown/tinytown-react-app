@@ -5,9 +5,16 @@ import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
 const NewShoutScreen = ({ navigation, route: { params: { shout } } }) => {
   const [openSheet, setOpenSheet] = useState(true);
+  const [translateY, setTranslateY] = useState({});
 
   return (
-    <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()} >
+    <BottomSheet
+      translateY={translateY}
+      setTranslateY={setTranslateY}
+      openSheet={openSheet}
+      setOpenSheet={setOpenSheet}
+      onClose={() => navigation.goBack()}
+    >
       <BottomSheetContainer>
         <NavBar label='' onClose={() => setOpenSheet(false)}/>
         <Text style={styles.text} >{shout.text}</Text>
