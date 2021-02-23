@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { goToUser } from 'rdx/locationState';
 import { getLocation } from 'library/apis/geolocation';
+import { Config } from 'context';
 import { Flippable } from 'library/components/hoc';
 import FAB from '../components/FAB';
 import TwitterAuth from '../components/TwitterAuth';
-import { STRINGS, normalizeStyles } from 'res';
+import { normalizeStyles } from 'res';
 
 const OnboardingButtons = ({
   authLoading,
@@ -16,6 +17,7 @@ const OnboardingButtons = ({
   goToUser,
   onTouchStart = () => {},
 }) => {
+  const { STRINGS } = useContext(Config.Context);
   const showButtons = storageLoaded && !authLoading && userVisible !== null;
 
   return (

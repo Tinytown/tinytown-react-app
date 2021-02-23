@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text } from 'react-native';
+import { Config } from 'context';
 import {
   IconButton,
   NavBar,
@@ -9,9 +10,10 @@ import {
   Chip,
 } from 'library/components';
 import { useNewShout } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
 const NewShoutScreen = () => {
+  const { STRINGS } = useContext(Config.Context);
   const [sheetLayout, setSheetLayout] = useState(null);
   const [
     shoutBoxProps,

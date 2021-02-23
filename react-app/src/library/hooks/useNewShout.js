@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Alert, Linking, Keyboard, Platform } from 'react-native';
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
@@ -8,16 +8,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createShout } from 'rdx/shoutState';
 import { storeData, getData } from 'library/apis/storage';
 import sheetConfig from 'library/components/BottomSheet/config';
+import { Config } from 'context';
 import { FeatureCard, FeatureItem } from 'library/components';
 import  useAnimation  from './useAnimation';
-import { STRINGS, LISTS, normalizeStyles } from 'res';
+import { normalizeStyles, getListContent } from 'res';
 
 export default (sheetLayout) => {
   const CHAR_LIMIT = 80;
   const CHAR_WARNING = 10;
   const dispatch = useDispatch();
   const userLocation = useSelector((state) => state.location.user);
-
+  const { STRINGS } = useContext(Config.Context);
   const styles = normalizeStyles({
     feature: {
       marginBottom: 16,
@@ -40,7 +41,7 @@ export default (sheetLayout) => {
 
   const frontSheetAnimation = useAnimatedStyle(() => ({ transform: [{ translateY: frontSheetTranslateY.value }] }));
 
-  // --- CONTENT --- //
+  // --- SHOUT CONTENT --- //
 
   const [shoutString, setShoutString] = useState('');
   const [showChip, setShowChip] = useState(false);
@@ -106,6 +107,7 @@ export default (sheetLayout) => {
     label: STRINGS.shouts.settingsChip.default,
     theme: 'hairline',
   });
+  const megaphoneList = getListContent('megaphone');
 
   // Show and hide Megaphone Settings
   useEffect(() => {
@@ -190,7 +192,7 @@ export default (sheetLayout) => {
   }, [twitter, twitterGeo, lann]);
 
   // Render settings list
-  renderedList = LISTS.megaphone.map(({ key, title, body, icon, theme, activeColor, children }) => (
+  renderedList = megaphoneList.map(({ key, title, body, icon, theme, activeColor, children }) => (
     <FeatureCard
       key={key}
       title={title}

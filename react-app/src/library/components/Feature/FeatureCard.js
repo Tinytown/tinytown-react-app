@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import { Config } from 'context';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { COLORS, SHAPES, TYPOGRAPHY, STRINGS, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { COLORS, SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const FeatureCard = ({
   title = 'Feature Title',
@@ -18,6 +19,7 @@ const FeatureCard = ({
   onPress = () => console.log('Pass an onPress callback to this component'),
   children,
 }) => {
+  const { STRINGS } = useContext(Config.Context);
   const styles = generateStyles({ theme, activeColor, disabled, toggle });
   const { on, off } = STRINGS.core;
 

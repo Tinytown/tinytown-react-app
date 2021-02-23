@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text, View, Image, Linking } from 'react-native';
 import { displayName as appName, version } from 'root/app.json';
+import { Config } from 'context';
 import { BottomSheet, BottomSheetContainer, MenuItem, MenuDivider } from 'library/components';
-import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
 
 const NewShoutScreen = ({ navigation }) => {
+  const { STRINGS } = useContext(Config.Context);
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
   const styles = generateStyles();

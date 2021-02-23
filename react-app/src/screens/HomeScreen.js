@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
+import { Config } from 'context';
 import { World, FAB, HomeBar } from 'library/components';
-import { STRINGS, normalizeStyles } from 'res';
+import { normalizeStyles } from 'res';
 
 const HomeScreen = ({ storageLoaded, navigation }) => {
+  const { STRINGS } = useContext(Config.Context);
   return (
     <World>
       {storageLoaded &&

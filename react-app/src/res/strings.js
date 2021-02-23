@@ -86,7 +86,6 @@ export default {
       body: 'Your Shouts will appear on your Twitter Timeline.',
       location: 'Show your location on Twitter',
     },
-
   },
 };
 

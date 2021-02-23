@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import * as turf from '@turf/turf';
-import Shout from './Shout';
 import mapConfig from './config';
-import mockShouts from './mockShouts';
-import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
+import { Config } from 'context';
+import Shout from './Shout';
+import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
 
 const { SymbolLayer, MarkerView, ShapeSource, FillLayer } = MapboxGL;
 const { SIGHT_RADIUS, ZOOM_STEP_1, ZOOM_STEP_2, RAFT_COORD, WELCOME_COORD } = mapConfig;
@@ -67,6 +67,7 @@ export const renderFog = (userLocation, zoom) => {
 };
 
 export const renderWelcomeSign = () => {
+  const { STRINGS } = useContext(Config.Context);
   const styles = normalizeStyles({
     welcomeSign: {
       position: 'absolute',
