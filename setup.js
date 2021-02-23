@@ -4,7 +4,7 @@ const axios = require('axios');
 const prompts = require('prompts');
 const { spawn } = require('child_process');
 
-const relativePath = './react-app/src/config/env.config.js';
+const relativePath = './firebase/functions/config/env.config.js';
 const path = Path.resolve(relativePath);
 
 const getConfig = async (url) => {
