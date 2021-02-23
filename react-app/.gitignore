@@ -62,9 +62,6 @@ buck-out/
 # CocoaPods
 /ios/Pods/
 
-# Secrets
-env.config.js
-
 # Firebase Configuration Files
 ios/GoogleService-Info.plist
 ios/tinytown/GoogleService-Info.plist

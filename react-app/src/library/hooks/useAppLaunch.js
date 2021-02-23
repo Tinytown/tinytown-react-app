@@ -1,36 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { AppState } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
-import remoteConfig from '@react-native-firebase/remote-config';
 import firestore from '@react-native-firebase/firestore';
+import remoteConfig from '@react-native-firebase/remote-config';
 import { useDispatch } from 'react-redux';
 import { updateAppState, getStateFromLS } from 'rdx/appState';
 import { signIn, updateAuth } from 'rdx/authState';
+import { Config } from 'context';
 
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const [configIsReady, setConfigIsReady] = useState(false);
+  const configIsReady = useContext(Config.Context);
   const dispatch = useDispatch();
 
   // Initial setup / start listeners
   useEffect(() => {
-    // Fetch remote config
-    remoteConfig().fetchAndActivate()
-      .then((fetchedRemotely) => {
-        if (fetchedRemotely) {
-          setConfigIsReady(true);
-          console.log('Configs were retrieved from backend and activated.');
-        } else {
-          console.log(
-            'No configs were fetched from backend, and the local configs were already activated',
-          );
-        }
-      });
-
     // Use local emulator on dev
     if (__DEV__) {
+      remoteConfig().setConfigSettings({
+        minimumFetchIntervalMillis: 0,
+      });
       functions().useFunctionsEmulator('http://localhost:5001');
       firestore().settings({ host: 'localhost:8080', ssl: false });
     }

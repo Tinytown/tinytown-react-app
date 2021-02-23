@@ -14,6 +14,7 @@
         "alias": {
           "root": "./",
           "config": "./src/config",
+          "context": "./src/context",
           "library": "./src/library",
           "rdx": "./src/redux",
           "res": "./src/res",

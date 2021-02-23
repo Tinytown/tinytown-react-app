@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { View, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import remoteConfig from '@react-native-firebase/remote-config';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import mapConfig from './config';
+import { Config } from 'context';
 import { useLocation, useMap, useShouts } from 'library/hooks';
 import { renderUser, renderWelcomeSign, renderShouts, renderFog } from './renderContent';
 import { COLORS, normalizeStyles } from 'res';
@@ -20,9 +20,9 @@ const World = ({
 }) => {
   const { MapView, Camera } = MapboxGL;
   const { INITIAL_ZOOM } = mapConfig;
-  const config = JSON.parse(remoteConfig().getValue('config')
-    .asString());
-  MapboxGL.setAccessToken(config.MAPBOX_ACCESS_TOKEN);
+  const { ENV } = useContext(Config.Context);
+
+  MapboxGL.setAccessToken(ENV.MAPBOX_ACCESS_TOKEN);
 
   // Custom Hooks
   const cameraRef = useRef(null);
@@ -58,7 +58,7 @@ const World = ({
       <MapView
         animated={true}
         style={styles.map}
-        styleURL={config.MAPBOX_STYLE_URL}
+        styleURL={ENV.MAPBOX_STYLE_URL}
         logoEnabled={false}
         compassEnabled={false}
         attributionEnabled={false}
