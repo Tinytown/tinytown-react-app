@@ -5,9 +5,16 @@ import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 're
 
 const ShoutLauncher = ({ navigation }) => {
   const [openSheet, setOpenSheet] = useState(true);
+  const [translateY, setTranslateY] = useState({});
 
   return (
-    <BottomSheet openSheet={openSheet} setOpenSheet={setOpenSheet} onClose={() => navigation.goBack()} >
+    <BottomSheet
+      translateY={translateY}
+      setTranslateY={setTranslateY}
+      openSheet={openSheet}
+      setOpenSheet={setOpenSheet}
+      onClose={() => navigation.goBack()}
+    >
       <BottomSheetContainer>
         <Text
           style={styles.text}
