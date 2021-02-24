@@ -1,6 +1,6 @@
 {
   "name": "tinytown",
-  "version": "0.12.01",
+  "version": "0.12.02",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

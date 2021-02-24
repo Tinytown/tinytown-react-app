@@ -1,6 +1,6 @@
 {
   "name": "tinytown-react-app",
-  "version": "0.12.01",
+  "version": "0.12.02",
   "description": "The main codebase for the Tinytown React Native app.",
   "scripts": {
     "setup": "node setup.js"
