@@ -87,5 +87,8 @@ export default {
       location: 'Show your location on Twitter',
     },
   },
+  connectivity: {
+    offline: 'Can\'t connect to the Internet',
+  },
 };
 

@@ -5,10 +5,13 @@ import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
 import remoteConfig from '@react-native-firebase/remote-config';
+import NetInfo from '@react-native-community/netinfo';
+import Toast from 'react-native-simple-toast';
 import { useDispatch } from 'react-redux';
 import { updateAppState, getStateFromLS } from 'rdx/appState';
 import { signIn, updateAuth } from 'rdx/authState';
 import { Config } from 'context';
+import { STRINGS } from 'res';
 
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -25,6 +28,13 @@ export default (isSignedIn) => {
       functions().useFunctionsEmulator('http://localhost:5001');
       firestore().settings({ host: 'localhost:8080', ssl: false });
     }
+
+    // Check internet connection
+    NetInfo.fetch().then(({ isInternetReachable }) => {
+      if (!isInternetReachable) {
+        Toast.show(STRINGS.connectivity.offline, Toast.LONG);
+      }
+    });
 
     // Restore Redux from local storage
     dispatch(getStateFromLS());
