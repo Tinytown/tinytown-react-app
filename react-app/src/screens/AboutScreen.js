@@ -3,13 +3,30 @@ import { Text, View, Image, Linking } from 'react-native';
 import { displayName as appName, version } from 'root/app.json';
 import { Config } from 'context';
 import { BottomSheet, BottomSheetContainer, MenuItem, MenuDivider } from 'library/components';
-import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles, getListContent } from 'res';
 
 const NewShoutScreen = ({ navigation }) => {
   const { STRINGS } = useContext(Config.Context);
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
   const styles = generateStyles();
+  const aboutList = getListContent('about');
+
+  renderedList = aboutList.map(({ key, label, primaryIcon, secondaryIcon, url }, index) => (
+    <View key={key} >
+      <MenuDivider margin={0} />
+      <MenuItem
+        label={label}
+        primaryIcon={primaryIcon}
+        secondaryIcon={secondaryIcon}
+        tall
+        onPress={() => Linking.openURL(url)}
+      />
+      {index === aboutList.length - 1 && <MenuDivider margin={0} />}
+    </View>
+  ));
+
+  console.log(aboutList.length);
 
   return (
     <BottomSheet
@@ -26,39 +43,7 @@ const NewShoutScreen = ({ navigation }) => {
           <Text style={styles.version} >{version}</Text>
         </View>
         <View style={styles.menuContainer} >
-          <MenuDivider margin={0} />
-          <MenuItem
-            label={STRINGS.social.feature}
-            primaryIcon='lightbulb'
-            secondaryIcon='openExternal'
-            tall
-            onPress={() => Linking.openURL(STRINGS.links.feature)}
-          />
-          <MenuDivider margin={0} />
-          <MenuItem
-            label={STRINGS.social.help}
-            primaryIcon='help'
-            secondaryIcon='openExternal'
-            tall
-            onPress={() => Linking.openURL(STRINGS.links.help)}
-          />
-          <MenuDivider margin={0} />
-          <MenuItem
-            label={STRINGS.social.discord}
-            primaryIcon='discord'
-            secondaryIcon='openExternal'
-            tall
-            onPress={() => Linking.openURL(STRINGS.links.discord)}
-          />
-          <MenuDivider margin={0} />
-          <MenuItem
-            label={STRINGS.social.twitter}
-            primaryIcon='twitter'
-            secondaryIcon='openExternal'
-            tall
-            onPress={() => Linking.openURL(STRINGS.links.twitter)}
-          />
-          <MenuDivider margin={0} />
+          {renderedList}
         </View>
         <Text style={styles.tagline} >{STRINGS.core.tagline}</Text>
       </BottomSheetContainer>

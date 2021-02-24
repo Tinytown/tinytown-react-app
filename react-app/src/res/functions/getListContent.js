@@ -4,41 +4,72 @@ import COLORS from '../colors';
 
 export default (key) => {
   const { STRINGS } = useContext(Config.Context);
-  const {
-    shouts: { twitter, lannMode },
-  } = STRINGS;
+  const { shouts, social, links } = STRINGS;
 
   const megaphone = [
     {
       key: 'twitter',
-      title: twitter.title,
-      body: twitter.body,
+      title: shouts.twitter.title,
+      body: shouts.twitter.body,
       icon: 'twitter',
       activeColor: COLORS.twitter,
       theme: 'hairline dark',
       children: [
         {
           key: 'geo',
-          title: twitter.location,
+          title: shouts.twitter.location,
           icon: 'crosshairs',
         },
       ],
     },
     {
       key: 'lann',
-      title: lannMode.title,
-      body: lannMode.body,
+      title: shouts.lannMode.title,
+      body: shouts.lannMode.body,
       icon: 'lab',
       activeColor: COLORS.bubblegumRed400,
       theme: 'hairline dark',
     },
   ];
 
+  const about = [
+    {
+      key: 'feature',
+      label: social.feature,
+      primaryIcon: 'lightbulb',
+      secondaryIcon: 'openExternal',
+      url: links.feature,
+    },
+    {
+      key: 'help',
+      label: social.help,
+      primaryIcon: 'help',
+      secondaryIcon: 'openExternal',
+      url: links.help,
+    },
+    {
+      key: 'discord',
+      label: social.discord,
+      primaryIcon: 'discord',
+      secondaryIcon: 'openExternal',
+      url: links.discord,
+    },
+    {
+      key: 'twitter',
+      label: social.twitter,
+      primaryIcon: 'twitter',
+      secondaryIcon: 'openExternal',
+      url: links.twitter,
+    },
+  ];
+
   switch (key) {
   case 'megaphone':
     return megaphone;
+  case 'about':
+    return about;
   default:
-    break;
+    return;
   }
 };
 
