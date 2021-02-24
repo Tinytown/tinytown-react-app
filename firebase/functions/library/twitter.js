@@ -1,6 +1,6 @@
 /* eslint-disable camelcase*/
 const admin = require('firebase-admin');
-const config = require('../config/env.config');
+const config = require('../config');
 const Twitter = require('twitter');
 
 module.exports = async (uid) => {

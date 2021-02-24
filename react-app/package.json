@@ -1,21 +1,25 @@
 {
   "name": "tinytown",
-  "version": "0.12.01",
+  "version": "0.12.02",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "node ./scripts/start.js",
+    "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "ver": "npx react-native-version --never-amend"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/masked-view": "^0.1.10",
-    "@react-native-firebase/app": "^10.4.0",
-    "@react-native-firebase/auth": "^10.4.1",
-    "@react-native-firebase/firestore": "^10.5.1",
-    "@react-native-firebase/functions": "^10.4.0",
+    "@react-native-community/netinfo": "^6.0.0",
+    "@react-native-firebase/analytics": "^10.8.1",
+    "@react-native-firebase/app": "^10.8.1",
+    "@react-native-firebase/auth": "^10.8.1",
+    "@react-native-firebase/firestore": "^10.8.1",
+    "@react-native-firebase/functions": "^10.8.1",
+    "@react-native-firebase/remote-config": "^10.8.1",
     "@react-native-mapbox-gl/maps": "^8.1.0-rc.1",
     "@react-navigation/native": "^5.7.4",
     "@react-navigation/stack": "^5.9.1",

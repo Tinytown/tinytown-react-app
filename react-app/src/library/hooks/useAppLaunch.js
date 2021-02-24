@@ -1,29 +1,49 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { AppState } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
+import remoteConfig from '@react-native-firebase/remote-config';
+import NetInfo from '@react-native-community/netinfo';
+import Toast from 'react-native-simple-toast';
 import { useDispatch } from 'react-redux';
 import { updateAppState, getStateFromLS } from 'rdx/appState';
 import { signIn, updateAuth } from 'rdx/authState';
-import config from 'config/env.config';
+import { Config } from 'context';
+import { STRINGS } from 'res';
 
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
+  const configIsReady = useContext(Config.Context);
   const dispatch = useDispatch();
 
   // Initial setup / start listeners
   useEffect(() => {
-    if (config.NODE_ENV === 'dev') {
+    // Use local emulator on dev
+    if (__DEV__) {
+      remoteConfig().setConfigSettings({
+        minimumFetchIntervalMillis: 0,
+      });
       functions().useFunctionsEmulator('http://localhost:5001');
       firestore().settings({ host: 'localhost:8080', ssl: false });
     }
 
+    // Check internet connection
+    NetInfo.fetch().then(({ isConnected }) => {
+      if (!isConnected) {
+        Toast.show(STRINGS.connectivity.offline, Toast.LONG);
+      }
+    });
+
+    // Restore Redux from local storage
     dispatch(getStateFromLS());
+
+    // Listen for auth changes
     const unsubscribe = auth().onAuthStateChanged((user) =>
       (user ? dispatch(signIn(user)) : dispatch(updateAuth(false))));
 
+    // Listen for app state changes
     AppState.addEventListener('change', appStateHandler);
 
     return () => {
@@ -38,11 +58,11 @@ export default (isSignedIn) => {
 
   // Hide splash screen
   useEffect(() => {
-    if (isSignedIn !== null) {
+    if (isSignedIn !== null && configIsReady) {
       SplashScreen.hide();
       setAppIsReady(true);
     }
-  }, [isSignedIn]);
+  }, [isSignedIn, configIsReady]);
 
   return [appIsReady];
 };

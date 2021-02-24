@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, Image, Linking } from 'react-native';
+import { Config } from 'context';
 import { BottomSheet, BottomSheetContainer, SpeechBubble } from 'library/components';
-import { COLORS, TYPOGRAPHY, SHAPES, STRINGS, IMAGES, normalizeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
 
 const ShoutLauncher = ({ navigation }) => {
+  const { STRINGS } = useContext(Config.Context);
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
 

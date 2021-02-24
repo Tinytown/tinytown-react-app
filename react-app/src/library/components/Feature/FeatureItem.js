@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import { Config } from 'context';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { TYPOGRAPHY, STRINGS, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const FeatureItem = ({
   title,
@@ -15,6 +16,7 @@ const FeatureItem = ({
   loading = false,
   onPress = () => console.log('Pass an onPress callback to this component'),
 }) => {
+  const { STRINGS } = useContext(Config.Context);
   const styles = generateStyles({ theme, disabled });
   const { on, off } = STRINGS.core;
 

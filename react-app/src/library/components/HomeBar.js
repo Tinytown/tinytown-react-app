@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
@@ -10,13 +10,15 @@ import auth from '@react-native-firebase/auth';
 import { goToUser } from 'rdx/locationState';
 import { signOut } from 'rdx/authState';
 import { getLocation } from 'library/apis/geolocation';
+import { Config } from 'context';
 import { Pressable } from 'library/components/hoc';
 import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
 import { useAnimation } from 'library/hooks';
-import { COLORS, SHAPES, STRINGS, normalizeStyles } from 'res';
+import { COLORS, SHAPES, normalizeStyles } from 'res';
 
 const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
+  const { STRINGS } = useContext(Config.Context);
   const [showMenu, setShowMenu] = useState(false);
   const [triggerLayout, setTriggerLayout] = useState(null);
   const [avatarColors, setAvatarColors] = useState(null);

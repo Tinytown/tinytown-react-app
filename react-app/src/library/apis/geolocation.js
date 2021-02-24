@@ -1,7 +1,8 @@
+import { useContext } from 'react';
 import { Alert, Linking, Platform } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
-import { STRINGS } from 'res';
+import { Config } from 'context';
 
 const config = {
   enableHighAccuracy: true,
@@ -20,6 +21,7 @@ const openSetting = () => {
 };
 
 const showPermissionsDialog = () => {
+  const { STRINGS } = useContext(Config.Context);
   const {
     dialog: { location: { title, body } },
     navigation: { settings },
@@ -35,6 +37,7 @@ const showPermissionsDialog = () => {
 };
 
 const showMockLocationDialog = () => {
+  const { STRINGS } = useContext(Config.Context);
   const {
     dialog: { mockLocation: { title, body } },
     actions: { tryAgain },

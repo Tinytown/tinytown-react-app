@@ -1,9 +1,8 @@
-const functions = require('firebase-functions');
+const config = Object.freeze({
+  DATABASE_URL: process.env.DATABASE_URL,
+  TWITTER_API_KEY: process.env.TWITTER_API_KEY,
+  TWITTER_API_SECRET: process.env.TWITTER_API_SECRET,
+  DEV_TOKEN: 'dp.st.dev.yKYSnfkW0sUgGbjnMFyUaOcUNW3KUyLvzjCndC5q',
+});
 
-// Use firebase config when deployed to firebase
-if (process.env.NODE_ENV === 'production') {
-  module.exports = functions.config().env;
-} else {
-  module.exports = require('../../../react-app/src/config/env.config');
-}
-
+module.exports = config;

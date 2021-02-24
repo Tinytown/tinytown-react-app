@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
+import { Config } from 'context';
 import IconButton from './IconButton';
 import Chip from './Chip';
-import { COLORS, TYPOGRAPHY, STRINGS, normalizeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
 const ShoutBox = ({
   shoutBoxProps,
   onSubmit = () => {},
   onFocus = () => {},
 }) => {
+  const { STRINGS } = useContext(Config.Context);
   const { shoutString, setShoutString, chipString, chipAnimation, showChip, disabled } = shoutBoxProps;
   const styles = generateStyles({ showChip });
 

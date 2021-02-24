@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { NativeModules } from 'react-native';
 import PropTypes from 'prop-types';
 import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
-import config from 'config/env.config';
+import { Config } from 'context';
 import FAB from './FAB';
-import { STRINGS } from 'res';
 
 const TwitterAuth = ({ onLoading }) => {
   const { RNTwitterSignIn } = NativeModules;
+  const { ENV, STRINGS } = useContext(Config.Context);
 
   useEffect(() => {
-    RNTwitterSignIn.init(config.TWITTER_API_KEY, config.TWITTER_API_SECRET)
+    RNTwitterSignIn.init(ENV.TWITTER_API_KEY, ENV.TWITTER_API_SECRET)
       .then(() => console.log('Twitter SDK initialized'))
       .catch((err) => console.log(err));
   }, []);
