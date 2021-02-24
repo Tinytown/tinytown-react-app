@@ -10,7 +10,15 @@ import Shout from './Shout';
 import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
 
 const { SymbolLayer, MarkerView, ShapeSource, FillLayer } = MapboxGL;
-const { SIGHT_RADIUS, ZOOM_STEP_1, ZOOM_STEP_2, RAFT_COORD, WELCOME_COORD } = mapConfig;
+const {
+  SIGHT_RADIUS,
+  ZOOM_STEP_1,
+  ZOOM_STEP_2,
+  RAFT_COORD,
+  WELCOME_COORD,
+  EXPIRATION_TIME,
+  DAY_IN_MS,
+} = mapConfig;
 
 export const renderUser = (userLocation, heading) => {
   if (!userLocation) {
@@ -126,6 +134,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [insideShouts, setInsideShouts] = useState(null);
   const [outsideShouts, setOutsideShouts] = useState(null);
+  const [shoutExpired, setShoutExpired] = useState(false);
   const localShouts = useSelector((state) => state.shouts.local);
 
   const navigation = useNavigation();
@@ -142,16 +151,32 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
     const filteredInShouts = [...localShouts, ...remoteShouts].filter((shout) => {
       // check if shout is within user's sight
       const shoutPoint = turf.point(shout.coordinates);
-      if (turf.booleanPointInPolygon(shoutPoint, userSight)) {
+      const isWithinBounds = turf.booleanPointInPolygon(shoutPoint, userSight);
+
+      // check if shout hasn't expired
+      const isNotExpired = shout.createdAt > Date.now() - EXPIRATION_TIME;
+
+      if (isWithinBounds && isNotExpired) {
         return true;
-      } else {
+      } else if (!isWithinBounds) {
         filteredOutShouts.push(shout);
       }
     });
 
+    // find the oldest shout and set timer
+    const timestamps = filteredInShouts.map(({ createdAt }) => createdAt);
+    const timeToExpiration = Math.min(...timestamps) - Date.now() + EXPIRATION_TIME;
+
+    if (timeToExpiration <= DAY_IN_MS) {
+      setShoutExpired(false);
+      setTimeout(() => {
+        setShoutExpired(true);
+      }, timeToExpiration);
+    }
+
     setInsideShouts(filteredInShouts);
     setOutsideShouts(filteredOutShouts);
-  }, [localShouts, remoteShouts, userLocation]);
+  }, [localShouts, remoteShouts, userLocation, shoutExpired]);
 
   useEffect(() => {
     // Adjust marker anchor for Android (this doesn't work reliably for iOS)
@@ -168,14 +193,14 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
         renderedInShouts = insideShouts.map((shout) => {
           return (
             <MarkerView
-              key={shout.localId ? shout.localId : shout.id}
-              id={shout.localId ? shout.localId.toString() : shout.id}
+              key={shout.id && shout.localId}
+              id={shout.id && shout.localId.toString()}
               coordinate={shout.coordinates}
               anchor={Platform.OS === 'android' ? anchor : null}
             >
               <Shout
                 label={shout.text}
-                local={!!shout.localId}
+                local={shout.local}
                 onPress={() => navigation.navigate('Open Shout', { shout })}
               />
             </MarkerView>
