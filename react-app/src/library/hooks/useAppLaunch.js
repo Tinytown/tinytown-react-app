@@ -30,8 +30,8 @@ export default (isSignedIn) => {
     }
 
     // Check internet connection
-    NetInfo.fetch().then(({ isInternetReachable }) => {
-      if (!isInternetReachable) {
+    NetInfo.fetch().then(({ isConnected }) => {
+      if (!isConnected) {
         Toast.show(STRINGS.connectivity.offline, Toast.LONG);
       }
     });
