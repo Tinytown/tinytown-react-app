@@ -14,9 +14,9 @@ module.exports = async () => {
     const snapshot = await shoutsRef.where('createdAt', '<', Date.now() - EXPIRATION_LENGTH).get();
 
     // remove from shouts collection
-    snapshot.forEach((doc) => {
-      expiredShouts.push(doc.data());
-      shoutsRef.doc(doc.id).delete();
+    snapshot.forEach(({ id, data }) => {
+      expiredShouts.push(data());
+      shoutsRef.doc(id).delete();
     });
 
     // remove from map and users collections

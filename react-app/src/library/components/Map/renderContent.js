@@ -191,16 +191,17 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
       if (insideShouts) {
         renderedInShouts = insideShouts.map((shout) => {
+          const { id, localId, coordinates, text, local } = shout;
           return (
             <MarkerView
-              key={shout.id && shout.localId}
-              id={shout.id && shout.localId.toString()}
-              coordinate={shout.coordinates}
+              key={id && localId}
+              id={id && localId.toString()}
+              coordinate={coordinates}
               anchor={Platform.OS === 'android' ? anchor : null}
             >
               <Shout
-                label={shout.text}
-                local={shout.local}
+                label={text}
+                local={local}
                 onPress={() => navigation.navigate('Open Shout', { shout })}
               />
             </MarkerView>
@@ -209,12 +210,12 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
       }
 
       if (outsideShouts) {
-        renderedOutShouts = outsideShouts.map((shout) => {
+        renderedOutShouts = outsideShouts.map(({ id, localId, coordinates }) => {
           return (
             <MarkerView
-              key={shout.localId ? shout.localId : shout.id}
-              id={shout.localId ? shout.localId.toString() : shout.id}
-              coordinate={shout.coordinates}
+              key={id && localId}
+              id={id && localId.toString()}
+              coordinate={coordinates}
               anchor={Platform.OS === 'android' ? anchor : null}
             >
               <Shout
