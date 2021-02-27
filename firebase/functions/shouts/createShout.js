@@ -3,7 +3,8 @@ const { encode, decode } = require('pluscodes');
 const sendToTwitter = require('./sendToTwitter');
 
 module.exports = async (data, context) => {
-  CODE_PRECISION = 6;
+  const CODE_PRECISION = 6;
+  const createdAt = Date.now();
   const { text, sourcePlatform, coordinates, localId, sendTo } = data;
   const { auth: { uid } } = context;
   const db = admin.firestore();
@@ -16,7 +17,7 @@ module.exports = async (data, context) => {
   const userRef =  db.collection('users').doc(uid);
 
   const shout = {
-    createdAt: Date.now(),
+    createdAt,
     text,
     sourcePlatform,
     sendTo,
@@ -36,7 +37,8 @@ module.exports = async (data, context) => {
     await mapRef.collection('shouts').doc(shoutRef.id)
       .set(shout);
     mapRef.set({ area });
-    userRef.collection('shouts').add(shout);
+    userRef.collection('shouts').doc(shoutRef.id)
+      .set(shout);
     return;
   } catch (error) {
     console.log(error);
