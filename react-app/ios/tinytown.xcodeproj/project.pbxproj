@@ -73,6 +73,7 @@
 		86265D7D45DC36238A27DAB6 /* Pods-tinytown.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown.debug.xcconfig"; path = "Target Support Files/Pods-tinytown/Pods-tinytown.debug.xcconfig"; sourceTree = "<group>"; };
 		98E1C6861E1D4E0692645157 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../src/res/fonts/Nunito/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		9CB2F28928165B6F718A307A /* Pods-tinytown-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-tinytown-tvOSTests/Pods-tinytown-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		A65171EE25EB0C06008C5F87 /* tinytown.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = tinytown.entitlements; path = tinytown/tinytown.entitlements; sourceTree = "<group>"; };
 		B01073228E87950CF51C296C /* libPods-tinytown-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tinytown-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "tinytown/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA62BC8147477E920BCDAC31 /* Pods-tinytown-tinytownTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tinytownTests.release.xcconfig"; path = "Target Support Files/Pods-tinytown-tinytownTests/Pods-tinytown-tinytownTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -138,6 +139,7 @@
 		13B07FAE1A68108700A75B9A /* tinytown */ = {
 			isa = PBXGroup;
 			children = (
+				A65171EE25EB0C06008C5F87 /* tinytown.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -775,6 +777,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = tinytown/tinytown.entitlements;
 				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = X6VXZXZKQX;
 				ENABLE_BITCODE = NO;
@@ -804,6 +807,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = tinytown/tinytown.entitlements;
 				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = X6VXZXZKQX;
 				INFOPLIST_FILE = tinytown/Info.plist;

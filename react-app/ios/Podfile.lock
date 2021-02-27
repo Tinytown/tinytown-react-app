@@ -247,6 +247,9 @@ PODS:
   - Firebase/Functions (7.6.0):
     - Firebase/CoreOnly
     - FirebaseFunctions (~> 7.6.0)
+  - Firebase/Messaging (7.6.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 7.6.0)
   - Firebase/RemoteConfig (7.6.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 7.6.0)
@@ -295,6 +298,18 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
+  - FirebaseInstanceID (7.7.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/UserDefaults (~> 7.0)
+  - FirebaseMessaging (7.6.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstanceID (~> 7.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/Reachability (~> 7.0)
+    - GoogleUtilities/UserDefaults (~> 7.0)
   - FirebaseRemoteConfig (7.6.0):
     - FirebaseABTesting (~> 7.0)
     - FirebaseCore (~> 7.0)
@@ -712,6 +727,10 @@ PODS:
     - Firebase/Functions (~> 7.6.0)
     - React-Core
     - RNFBApp
+  - RNFBMessaging (10.8.1):
+    - Firebase/Messaging (~> 7.6.0)
+    - React-Core
+    - RNFBApp
   - RNFBRemoteConfig (10.8.1):
     - Firebase/RemoteConfig (~> 7.6.0)
     - React-Core
@@ -834,6 +853,7 @@ DEPENDENCIES:
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNFBFunctions (from `../node_modules/@react-native-firebase/functions`)"
+  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageColors (from `../node_modules/react-native-image-colors`)
@@ -861,6 +881,8 @@ SPEC REPOS:
     - FirebaseFirestore
     - FirebaseFunctions
     - FirebaseInstallations
+    - FirebaseInstanceID
+    - FirebaseMessaging
     - FirebaseRemoteConfig
     - Flipper
     - Flipper-DoubleConversion
@@ -975,6 +997,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNFBFunctions:
     :path: "../node_modules/@react-native-firebase/functions"
+  RNFBMessaging:
+    :path: "../node_modules/@react-native-firebase/messaging"
   RNFBRemoteConfig:
     :path: "../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
@@ -1013,6 +1037,8 @@ SPEC CHECKSUMS:
   FirebaseFirestore: b860346d5095c741528efac94995bab39275d0bf
   FirebaseFunctions: 03e30a9506b04786917e0de6d8c85cdc260fb2c8
   FirebaseInstallations: 6e4e77396559bc2ae0504823837ed737b1c7e47f
+  FirebaseInstanceID: cf940324a20ac14a27ad1e931d15ac9d335526db
+  FirebaseMessaging: 4b9b2850fcfcaac2820097ee3703ba6cfff3df84
   FirebaseRemoteConfig: f805089c5c383c17d68bcc0799d8a3622f9ae28f
   Flipper: be611d4b742d8c87fbae2ca5f44603a02539e365
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
@@ -1074,6 +1100,7 @@ SPEC CHECKSUMS:
   RNFBAuth: 16f2b91bf53f398d83a15cff0dd52225967c1d78
   RNFBFirestore: 337b96bf5b1b2d32bb9fc4735afd47b16532dde8
   RNFBFunctions: 739e2a8e56f64d57de3f3cb50c2788867ba9e24b
+  RNFBMessaging: 1823217d31e942531cc3f51fb5367dcbc69c1e10
   RNFBRemoteConfig: 1adf37593b23dfec015a48016cd26982257889ba
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNImageColors: f55f90cc27ef799c80e6b9a5798c9405919d328e
