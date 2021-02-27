@@ -71,14 +71,14 @@ export default (sheetLayout) => {
     };
 
     dispatch(createShout(shout));
-    navigation.goBack();
+    onCloseHandler();
   };
 
   // Limit indicator
   useEffect(() => {
     const charsLeft = CHAR_LIMIT - shoutString.length;
-    // Set confirmClose if there's content in ShoutBox
-    shoutString.length ? setConfirmClose(false) : setConfirmClose(true);
+    // Set closeConfirmed if there's content in ShoutBox
+    shoutString.length ? setCloseConfirmed(false) : setCloseConfirmed(true);
 
     // Change state depending on chars left
     if (charsLeft >= 0 && charsLeft <= CHAR_WARNING) {
@@ -220,7 +220,7 @@ export default (sheetLayout) => {
 
   // --- NAVIGATION --- //
 
-  const [confirmClose, setConfirmClose] = useState(true);
+  const [closeConfirmed, setCloseConfirmed] = useState(true);
   const [openSheet, setOpenSheet] = useState(true);
   const navigation = useNavigation();
 
@@ -234,7 +234,7 @@ export default (sheetLayout) => {
     Alert.alert(title, '',
       [
         { text: cancel, onPress: () => setOpenSheet(true) },
-        { text: discard, onPress: () => setConfirmClose(true) },
+        { text: discard, onPress: () => setCloseConfirmed(true) },
       ],
     );
   };
@@ -285,6 +285,6 @@ export default (sheetLayout) => {
     { settingsChip, renderedList },
     { openSheet, setOpenSheet, showSettings, setShowSettings },
     { frontSheetAnimation, translateY, setTranslateY },
-    { confirmClose, onCloseConfirmHandler, onCloseHandler, onSubmitHandler },
+    { closeConfirmed, onCloseConfirmHandler, onCloseHandler, onSubmitHandler },
   ];
 };
