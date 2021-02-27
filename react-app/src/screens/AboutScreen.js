@@ -26,8 +26,6 @@ const NewShoutScreen = ({ navigation }) => {
     </View>
   ));
 
-  console.log(aboutList.length);
-
   return (
     <BottomSheet
       translateY={translateY}

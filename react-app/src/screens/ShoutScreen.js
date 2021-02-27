@@ -7,8 +7,6 @@ const NewShoutScreen = ({ navigation, route: { params: { shout } } }) => {
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
 
-  console.log(shout);
-
   return (
     <BottomSheet
       translateY={translateY}
