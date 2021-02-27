@@ -16,7 +16,7 @@ const {
   ZOOM_STEP_2,
   RAFT_COORD,
   WELCOME_COORD,
-  EXPIRATION_TIME,
+  EXPIRATION_LENGTH,
   DAY_IN_MS,
 } = mapConfig;
 
@@ -154,7 +154,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
       const isWithinBounds = turf.booleanPointInPolygon(shoutPoint, userSight);
 
       // check if shout hasn't expired
-      const isNotExpired = shout.createdAt > Date.now() - EXPIRATION_TIME;
+      const isNotExpired = shout.createdAt > Date.now() - EXPIRATION_LENGTH;
 
       if (isWithinBounds && isNotExpired) {
         return true;
@@ -165,7 +165,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
     // find the oldest shout and set timer
     const timestamps = filteredInShouts.map(({ createdAt }) => createdAt);
-    const timeToExpiration = Math.min(...timestamps) - Date.now() + EXPIRATION_TIME;
+    const timeToExpiration = Math.min(...timestamps) - Date.now() + EXPIRATION_LENGTH;
 
     if (timeToExpiration <= DAY_IN_MS) {
       setShoutExpired(false);
