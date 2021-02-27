@@ -63,7 +63,7 @@ export default (userLocation) => {
 
     // remove shouts from unused codes
     if (shouts.length) {
-      const filteredShouts = shouts.filter((shout) => oldCodes.every((code) => code !== shout.plus_code));
+      const filteredShouts = shouts.filter((shout) => oldCodes.every((code) => code !== shout.plusCode));
       setShouts(filteredShouts);
     }
 

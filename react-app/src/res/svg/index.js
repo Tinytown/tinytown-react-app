@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 
+import ClockIcon from './ic_clock_24dp';
 import CloseIcon from './ic_close_24dp';
 import CrosshairsIcon from './ic_crosshairs_24dp';
 import DiscordIcon from './ic_discord_24dp';
@@ -20,6 +21,7 @@ import SignOutIcon from './ic_sign_out_24dp';
 import TwitterIcon from './ic_twitter_24dp';
 
 const IconRepo = {
+  clock: ClockIcon,
   close: CloseIcon,
   crosshairs: CrosshairsIcon,
   discord: DiscordIcon,

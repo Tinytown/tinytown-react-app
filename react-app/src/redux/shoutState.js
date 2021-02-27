@@ -26,7 +26,7 @@ export const createShout = (shout) => async (dispatch, getState) => {
 
 export const removeShout = (remoteShout) => async (dispatch, getState) => {
   const { shouts: { local } } = getState();
-  const filteredShouts = local.filter((shout) => shout.localId !== remoteShout.local_id);
+  const filteredShouts = local.filter((shout) => shout.localId !== remoteShout.localId);
 
   dispatch({ type: UPDATE_SHOUTS, payload: filteredShouts });
 };

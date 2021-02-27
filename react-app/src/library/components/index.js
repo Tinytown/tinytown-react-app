@@ -4,6 +4,7 @@ export { World } from './Map';
 export { Menu, MenuDivider, MenuItem } from './Menu';
 export { default as ActivityOverlay } from './ActivityOverlay';
 export { default as Button } from './Button';
+export { default as Countdown } from './Countdown';
 export { default as Chip } from './Chip';
 export { default as Dialog } from './Dialog';
 export { default as FAB } from './FAB';

@@ -13,7 +13,7 @@ const BottomSheet = ({
   setOpenSheet = () => console.log('Pass a setOpenSheet callback to this component'),
   translateY,
   setTranslateY = () => {},
-  confirmClose = true,
+  closeConfirmed = true,
   onCloseConfirm = () => console.log('Pass an onCloseConfirm callback to this component'),
   onClose = () => console.log('Pass an onClose callback to this component'),
   children,
@@ -44,14 +44,14 @@ const BottomSheet = ({
   // Close sheet / ask for confirmation
   useEffect(() => {
     if (!openSheet) {
-      if (confirmClose) {
+      if (closeConfirmed) {
         closeSheet(onClose);
       } else {
         translateY.value = withSpring(ANIMATION_OFFSET, translateConfig);
         onCloseConfirm();
       }
     }
-  }, [openSheet, confirmClose]);
+  }, [openSheet, closeConfirmed]);
 
   const gestureHandler = useAnimatedGestureHandler({
     onStart: (event, context) => {
@@ -105,7 +105,7 @@ BottomSheet.propTypes = {
   setTranslateY: PropTypes.func.isRequired,
   openSheet: PropTypes.bool,
   setOpenSheet: PropTypes.func,
-  confirmClose: PropTypes.bool,
+  closeConfirmed: PropTypes.bool,
   onCloseConfirm: PropTypes.func,
   onClose: PropTypes.func,
   children: PropTypes.oneOfType([

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase*/
 const twitterOAuth = require('../library/twitter');
 
-module.exports = async ({ text, sent_to: { twitterGeo }, coordinates, uid }) => {
+module.exports = async ({ text, sentTo: { twitterGeo }, coordinates, uid }) => {
   try {
     const twitter = await twitterOAuth(uid);
     await twitter.post('statuses/update', {
