@@ -31,6 +31,10 @@ export default {
       title: 'Enable location on Twitter',
       body: 'Before using this feature in Tinytown, it needs to be enabled on your Twitter account.',
     },
+    notifications: {
+      title: 'Turn on Notifications',
+      body: 'If you\'d like to enable notifications, you can do so in Settings.',
+    },
   },
 
   onboarding: {

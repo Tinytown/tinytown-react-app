@@ -13,6 +13,8 @@ import { signIn, updateAuth } from 'rdx/authState';
 import { Config } from 'context';
 import { STRINGS } from 'res';
 
+import { getNotificationsPermission } from '../apis/notifications';
+
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
   const configIsReady = useContext(Config.Context);
@@ -35,6 +37,8 @@ export default (isSignedIn) => {
         Toast.show(STRINGS.connectivity.offline, Toast.LONG);
       }
     });
+
+    getNotificationsPermission();
 
     // Restore Redux from local storage
     dispatch(getStateFromLS());
