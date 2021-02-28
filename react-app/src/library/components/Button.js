@@ -19,7 +19,7 @@ const Button = ({
       <Pressable
         animationType='press'
         containerStyle={styles.container}
-        keyColor={styles.keyColor}
+        rippleColor={styles.keyColor}
         disabled={disabled}
         onPress={onPress}
       >

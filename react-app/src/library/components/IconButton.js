@@ -16,7 +16,7 @@ const IconButton = ({
   return (
     <View style={wrapperStyle} >
       <Pressable
-        keyColor={styles.keyColor}
+        rippleColor={styles.keyColor}
         disabled={disabled}
         onPress={onPress}
         containerStyle={styles.button}

@@ -16,7 +16,7 @@ export default (animationType, ...args) => {
   case 'dialog':
     return dialogAnimation();
   case 'jiggle':
-    return jiggleAnimation();
+    return jiggleAnimation(...args);
   case 'menu':
     return menuAnimation();
   case 'flip':

@@ -7,7 +7,7 @@ import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import mapConfig from './config';
 import { Config } from 'context';
 import { useLocation, useMap, useShouts } from 'library/hooks';
-import { renderUser, renderWelcomeSign, renderShouts, renderFog } from './renderContent';
+import { renderUser, renderWelcomeSign, renderShouts, renderFog, renderNotificationMarker } from './renderContent';
 import { COLORS, normalizeStyles } from 'res';
 
 const World = ({
@@ -41,6 +41,7 @@ const World = ({
   const userMarker = renderUser(userLocation, heading);
   const fogOfWar = renderFog(userLocation, camera.zoom);
   const welcomeSign = renderWelcomeSign();
+  const notificationMarker = renderNotificationMarker(userLocation);
   const showWelcomeSign = !userLocation && camera.zoom === INITIAL_ZOOM;
   const shoutMarkers = renderShouts(shouts, userLocation, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
@@ -71,6 +72,7 @@ const World = ({
         {userLocation && userMarker}
         {userLocation && fogOfWar}
         {showWelcomeSign && welcomeSign}
+        {userLocation && notificationMarker}
         {showShouts && shoutMarkers}
         <Camera
           ref={cameraRef}

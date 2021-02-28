@@ -20,6 +20,12 @@ const {
   DAY_IN_MS,
 } = mapConfig;
 
+// Adjust marker anchor for Android (this doesn't work reliably for iOS)
+const anchor = {
+  x: 0.13,
+  y: 0.9,
+};
+
 export const renderUser = (userLocation, heading) => {
   if (!userLocation) {
     return;
@@ -130,6 +136,24 @@ export const renderWelcomeSign = () => {
   );
 };
 
+export const renderNotificationMarker = (userLocation) => {
+  const navigation = useNavigation();
+  const markerCoords = [userLocation[0] - 0.005, userLocation[1] + 0.005];
+  return (
+    <MarkerView
+      id='notificationMarker'
+      coordinate={markerCoords}
+      anchor={Platform.OS === 'android' ? anchor : null}
+    >
+      <Shout
+        label='LOUD NOISES!'
+        theme='red'
+        loud={true}
+        // onPress={() => navigation.navigate('Notifications')}
+      />
+    </MarkerView>
+  ); };
+
 export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [insideShouts, setInsideShouts] = useState(null);
@@ -179,12 +203,6 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
   }, [localShouts, remoteShouts, userLocation, shoutExpired]);
 
   useEffect(() => {
-    // Adjust marker anchor for Android (this doesn't work reliably for iOS)
-    const anchor = {
-      x: 0.13,
-      y: 0.9,
-    };
-
     if (zoom > ZOOM_STEP_1) {
       let renderedInShouts = [];
       let renderedOutShouts = [];

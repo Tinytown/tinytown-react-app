@@ -24,8 +24,9 @@ const Menu = ({
     }
   }, [triggerLayout]);
 
-  const onLayoutHandler = (menuLayout) => {
-    const { width, height } = menuLayout.nativeEvent.layout;
+  const onLayoutHandler = (event) => {
+    event.persist();
+    const { width, height } = event.nativeEvent.layout;
     setMenuLayout({ width, height });
   };
 

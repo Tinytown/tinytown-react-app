@@ -12,7 +12,7 @@ export default (theme) => {
       borderWidth: 2,
       ...SHAPES.elevCyan5,
     };
-    keyColor = COLORS.poolCyan400;
+    keyColor = COLORS.justWhite;
     contentColor = COLORS.asphaltGray800;
 
     return  [backgroundTheme, keyColor, contentColor];
@@ -24,7 +24,7 @@ export default (theme) => {
       borderWidth: 2,
       ...SHAPES.elevBlue5,
     };
-    keyColor = COLORS.skyBlue400;
+    keyColor = COLORS.justWhite;
     contentColor = COLORS.justWhite;
 
     return  [backgroundTheme, keyColor, contentColor];
@@ -36,7 +36,7 @@ export default (theme) => {
       borderWidth: 2,
       ...SHAPES.elevRed5,
     };
-    keyColor = COLORS.bubblegumRed400;
+    keyColor = COLORS.justWhite;
     contentColor = COLORS.justWhite;
 
     return  [backgroundTheme, keyColor, contentColor];
@@ -60,6 +60,18 @@ export default (theme) => {
     };
     keyColor = COLORS.asphaltGray800;
     contentColor = COLORS.asphaltGray800;
+
+    return  [backgroundTheme, keyColor, contentColor];
+
+  case 'dark elevated':
+    backgroundTheme = {
+      backgroundColor: COLORS.asphaltGray800,
+      borderColor: COLORS.asphaltGray800,
+      borderWidth: 2,
+      ...SHAPES.elevGray2,
+    };
+    keyColor = COLORS.justWhite;
+    contentColor = COLORS.justWhite;
 
     return  [backgroundTheme, keyColor, contentColor];
 

@@ -14,6 +14,8 @@ import { Config } from 'context';
 import { STRINGS } from 'res';
 
 import { getNotificationsPermission } from '../apis/notifications';
+import { Alert } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -44,14 +46,25 @@ export default (isSignedIn) => {
     dispatch(getStateFromLS());
 
     // Listen for auth changes
-    const unsubscribe = auth().onAuthStateChanged((user) =>
+    const unsubscribeAuth = auth().onAuthStateChanged((user) =>
       (user ? dispatch(signIn(user)) : dispatch(updateAuth(false))));
+
+    // Listen for notifications
+    const unsubscribeNotif = messaging().onMessage(async (remoteMessage) => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    // Register background handler
+    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+      console.log('Message handled in the background!', remoteMessage);
+    });
 
     // Listen for app state changes
     AppState.addEventListener('change', appStateHandler);
 
     return () => {
-      unsubscribe();
+      unsubscribeAuth();
+      unsubscribeNotif();
       AppState.removeEventListener('change', appStateHandler);
     };
   }, []);

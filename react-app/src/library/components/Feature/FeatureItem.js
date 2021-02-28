@@ -25,7 +25,7 @@ const FeatureItem = ({
       <View style={styles.divider}/>
       <Pressable
         containerStyle={styles.content}
-        keyColor={activeColor}
+        rippleColor={activeColor}
         onPress={onPress}
         disabled={disabled}
       >

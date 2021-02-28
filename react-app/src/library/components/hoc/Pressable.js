@@ -10,7 +10,7 @@ const Pressable = ({
   containerStyle,
   shadowStyle,
   animationStyle,
-  keyColor = COLORS.asphaltGray800,
+  rippleColor = COLORS.asphaltGray800,
   ripple = true,
   disabled = false,
   onPress = () => console.log('Pass an onPress callback to this component'),
@@ -47,7 +47,7 @@ const Pressable = ({
         disabled={disabled}
         style={containerStyle}
         rippleContainerBorderRadius={containerStyle?.borderRadius ?? 0}
-        rippleColor={keyColor}
+        rippleColor={rippleColor}
         rippleOpacity={ripple ? 0.3 : 0}
       >
         {children}
@@ -61,7 +61,7 @@ Pressable.propTypes = {
   containerStyle: PropTypes.object,
   shadowStyle: PropTypes.object,
   animationStyle: PropTypes.object,
-  keyColor: PropTypes.string,
+  rippleColor: PropTypes.string,
   ripple: PropTypes.bool,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,

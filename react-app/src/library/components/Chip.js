@@ -23,7 +23,7 @@ const Chip = ({
       <Pressable
         animationType={animationType}
         containerStyle={styles.container}
-        keyColor={styles.keyColor}
+        rippleColor={styles.keyColor}
         disabled={disabled}
         ripple={ripple}
         onPress={onPress}

@@ -19,7 +19,7 @@ const MenuItem = ({
       containerStyle={styles.container}
       disabled={disabled}
       onPress={onPress}
-      keyColor={COLORS.asphaltGray800}
+      rippleColor={COLORS.asphaltGray800}
     >
       <View style={styles.assetContainerLeft}>
         <View style={styles.iconContainer}>

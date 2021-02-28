@@ -33,7 +33,7 @@ const FeatureCard = ({
   return (
     <View style={wrapperStyle}>
       <View style={styles.card} >
-        <Pressable containerStyle={styles.content} keyColor={activeColor} onPress={onPress}>
+        <Pressable containerStyle={styles.content} rippleColor={activeColor} onPress={onPress}>
           <View style={styles.icon}>
             <Icon icon={icon} color={activeColor}/>
           </View>
