@@ -1,4 +1,4 @@
-import { APP_STATE, APP_STORAGE, UPDATE_LOCATION } from './actionTypes';
+import { APP_STATE, APP_STORAGE, UPDATE_LOCATION, UPDATE_SETTING } from './actionTypes';
 import { getData } from 'library/apis/storage';
 
 export const appReducer = (state = null, action) => {
@@ -7,6 +7,8 @@ export const appReducer = (state = null, action) => {
     return { ...state, active: action.payload };
   case APP_STORAGE:
     return { ...state, storageLoaded: action.payload };
+  case UPDATE_SETTING:
+    return { ...state,  settings: { ...action.payload } };
   default:
     return state;
   }
@@ -30,4 +32,10 @@ export const updateAppState = (event) => {
   } else if (event === 'background' || event === 'inactive') {
     return { type: APP_STATE, payload: false };
   }
+};
+
+export const updateAppSetting = (key, value) => async (dispatch, getState) => {
+  const { app: { settings } } = getState();
+  settings.[key] = value;
+  dispatch({ type: UPDATE_SETTING, payload: settings });
 };

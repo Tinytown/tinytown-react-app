@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { connect } from 'react-redux';
+import { updateAppSetting } from 'rdx/appState';
 import { Config } from 'context';
 import { NavBar, FeatureCard } from 'library/components';
 import { COLORS, STRINGS, normalizeStyles } from 'res';
 
-const SettingsScreen = ({ navigation, route: { params } }) => {
+const SettingsScreen = ({
+  navigation, route: { params },
+  pushNotif,
+  backGeo,
+  updateAppSetting,
+}) => {
   // const { STRINGS } = useContext(Config.Context);
-
-  const [pushNotif, setPushNotif] = useState(false);
-  const [backGeo, setBackGeo] = useState(false);
-
   const { features: { notifications, backgroundGeo } } = STRINGS;
 
   useEffect(() => {
     if (params?.onboarding) {
-      setPushNotif(true);
+      updateAppSetting('notifications', true);
       // TODO show permissisions dialog
     }
   }, []);
@@ -29,7 +32,7 @@ const SettingsScreen = ({ navigation, route: { params } }) => {
         icon='notifications'
         wrapperStyle={styles.card}
         toggle={pushNotif}
-        onPress={() => setPushNotif(!pushNotif)}
+        onPress={() => updateAppSetting('notifications', !pushNotif)}
       />
       <FeatureCard
         activeColor={COLORS.poolCyan600}
@@ -38,7 +41,7 @@ const SettingsScreen = ({ navigation, route: { params } }) => {
         icon='crosshairs'
         wrapperStyle={styles.card}
         toggle={backGeo}
-        onPress={() => setBackGeo(!backGeo)}
+        onPress={() => updateAppSetting('backgroundGeo', !backGeo)}
       />
     </SafeAreaView>
   );
@@ -55,4 +58,9 @@ const styles = normalizeStyles({
   },
 });
 
-export default SettingsScreen;
+const mapStateToProps = (state) => ({
+  pushNotif: state.app.settings.notifications,
+  backGeo: state.app.settings.backgroundGeo,
+});
+
+export default connect(mapStateToProps, { updateAppSetting })(SettingsScreen);

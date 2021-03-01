@@ -1,46 +1,3 @@
-/*
-JSON SOURCE
-
-{
-  "auth": {
-    "isSignedIn": null,
-    "user": {
-      "photoURL": "url",
-      "displayName": "name",
-      "uid": "id"
-    }
-  },
-  "location": {
-    "user": null,
-    "userVisible": null
-    "hasPermission": false,
-    "goToUser": false,
-  },
-  "app": {
-    "active": true,
-    "storageLoaded": false
-  },
-  "shouts": {
-    local: [],
-    loading: true,
-  }
-}
-
-REMOVED FIELDS
-Schema Title
-Extra descriptions
-
-ADDED DETAILS
-schemaDesc: "JSON Schema for Redux state validator."
-authDesc: "Schema for user's authentication state."
-locationDesc: "Schema for user's location state."
-appDesc: "Schema for general app state."
-photoURL: ["https://pbs.twimg.com/profile_images/1278735735588139009/4-DSoEkh_normal.jpg"]
-displayName: ["Tinytown_Dev"]
-uid: ["2LgMdnS879UYXTEvjDjufu4e37b2"]
-userLocation: [-93.26392, 44.98459]
-*/
-
 export default {
   $id: 'http://example.com/example.json',
   $schema: 'http://json-schema.org/draft-07/schema',
@@ -65,6 +22,11 @@ export default {
       app: {
         active: true,
         storageLoaded: false,
+        settings: {
+          notifications: false,
+          backgroundGeo: false,
+          showNotificationsMarker: true,
+        },
       },
       shouts: {
         local: [],
@@ -203,9 +165,14 @@ export default {
         {
           active: true,
           storageLoaded: false,
+          settings: {
+            notifications: false,
+            backgroundGeo: false,
+            showNotificationsMarker: true,
+          },
         },
       ],
-      required: ['active', 'storageLoaded'],
+      required: ['active', 'storageLoaded', 'settings'],
       title: 'The app schema',
       type: 'object',
       properties: {
@@ -222,6 +189,44 @@ export default {
           title: 'The storageLoaded schema',
           default: false,
           examples: [false],
+        },
+        settings: {
+          $id: '#/properties/app/properties/settings',
+          default: {},
+          examples: [
+            {
+              notifications: false,
+              backgroundGeo: false,
+              showNotificationsMarker: true,
+            },
+          ],
+          required: ['notifications', 'backgroundGeo', 'showNotificationsMarker'],
+          title: 'The settings schema',
+          type: 'object',
+          properties: {
+            notifications: {
+              $id: '#/properties/app/properties/settings/properties/notifications',
+              default: false,
+              examples: [true, false],
+              title: 'The notifications schema',
+              type: 'boolean',
+            },
+            backgroundGeo: {
+              $id: '#/properties/app/properties/settings/properties/backgroundGeo',
+              default: false,
+              examples: [true, false],
+              title: 'The backgroundGeo schema',
+              type: 'boolean',
+            },
+            showNotificationsMarker: {
+              $id: '#/properties/app/properties/settings/properties/showNotificationsMarker',
+              default: true,
+              examples: [true, false],
+              title: 'The showNotificationsMarker schema',
+              type: 'boolean',
+            },
+          },
+          additionalProperties: true,
         },
       },
       additionalProperties: true,

@@ -11,6 +11,7 @@ export const USER_VISIBLE = 'user_visible';
 // App
 export const APP_STATE = 'app_state';
 export const APP_STORAGE = 'app_storage';
+export const UPDATE_SETTING = 'update_setting';
 
 // Shout
 export const UPDATE_SHOUTS = 'update_shouts';
