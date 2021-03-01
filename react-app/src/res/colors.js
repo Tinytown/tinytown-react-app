@@ -18,6 +18,7 @@ export default {
   skyBlue50: '#F0F7FF',
 
   // CYAN
+  poolCyan600: '#00CC96',
   poolCyan400: '#3DF5C4',
   poolCyan100: '#CFFCF0',
   poolCyan50: '#F0FFFB',

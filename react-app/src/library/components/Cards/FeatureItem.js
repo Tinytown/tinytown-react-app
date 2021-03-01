@@ -7,10 +7,10 @@ import Chip from '../Chip';
 import { TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const FeatureItem = ({
-  title,
+  title = 'Feature title',
   icon,
-  theme,
-  activeColor,
+  theme = 'hairline',
+  activeColor = COLORS.justWhite,
   disabled = false,
   toggle = false,
   loading = false,

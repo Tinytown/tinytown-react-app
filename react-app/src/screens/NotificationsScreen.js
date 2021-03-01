@@ -9,7 +9,11 @@ const NotificationsScreen = ({ navigation }) => {
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
 
-  const { onboarding: { shoutIntro, notifications }, actions: { turnOn } } = STRINGS;
+  const {
+    onboarding: { shoutIntro },
+    features: { notifications },
+    actions: { turnOn },
+  } = STRINGS;
 
   const onPressHandler = () => {
     setOpenSheet(false);

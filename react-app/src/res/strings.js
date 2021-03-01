@@ -32,7 +32,7 @@ export default {
       body: 'Before using this feature in Tinytown, it needs to be enabled on your Twitter account.',
     },
     notifications: {
-      title: 'Turn on Notifications',
+      title: 'Push notifications',
       body: 'If you\'d like to enable notifications, you can do so in Settings.',
     },
     unableSettings: 'Unable to open settings',
@@ -45,9 +45,16 @@ export default {
       title: 'LOUD NOISES!',
       body: 'This is a shout, they help you stay in the loop on what\'s happening nearby.',
     },
+  },
+
+  features: {
     notifications: {
-      title: 'Turn on notifications',
-      body: 'We\'ll let you know when someone shouts near your location.',
+      title: 'Push notifications',
+      body: 'Be the first to know when someone shouts near your location.',
+    },
+    backgroundGeo: {
+      title: 'Use background location',
+      body: 'Use your most recent location to receive notifications even if the Tinytown app is closed.',
     },
   },
 

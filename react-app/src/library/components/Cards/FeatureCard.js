@@ -47,7 +47,7 @@ const FeatureCard = ({
               :
               <Chip
                 wrapperStyle={styles.chip}
-                theme={toggle ? 'elevated' : 'hairline dark'}
+                theme={toggle ? 'elevated' : theme}
                 label={toggle ? on : off}
                 toggle={toggle}
                 activeColor={activeColor}
