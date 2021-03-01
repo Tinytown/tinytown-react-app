@@ -1,10 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import { updateOnboarding } from 'rdx/appState';
 import { Config } from 'context';
-import { Button, NavBar, BottomSheet, BottomSheetContainer, PromoCard } from 'library/components';
+import { Countdown, Button, NavBar, BottomSheet, BottomSheetContainer, PromoCard } from 'library/components';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const NotificationsScreen = ({ navigation }) => {
+const ShoutOnboardingScreen = ({ navigation, shoutTimestamp, updateOnboarding }) => {
   const { STRINGS } = useContext(Config.Context);
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
@@ -14,6 +16,12 @@ const NotificationsScreen = ({ navigation }) => {
     features: { notifications },
     actions: { turnOn },
   } = STRINGS;
+
+  useEffect(() => {
+    if (!shoutTimestamp) {
+      updateOnboarding('shoutTimestamp', Date.now());
+    }
+  }, []);
 
   const onPressHandler = () => {
     setOpenSheet(false);
@@ -33,23 +41,23 @@ const NotificationsScreen = ({ navigation }) => {
         <View style={styles.container}>
           <Text style={styles.title}>{shoutIntro.title}</Text>
           <Text style={styles.body}>{shoutIntro.body}</Text>
+          <View style={styles.chipsContainer} >
+            <Countdown timestamp={shoutTimestamp ?? Date.now()} />
+          </View>
           <PromoCard
             wrapperStyle={styles.card}
             icon='notifications'
             title={notifications.title}
             body={notifications.body}
-            theme='hairline blue'
+            theme='hairline cyan'
           >
-            <View style={styles.buttonContainer}>
-              <Button
-                label={turnOn}
-                theme='blue'
-                wrapperStyle={styles.button}
-                onPress={onPressHandler}
-              />
-            </View>
+            <Button
+              label={turnOn}
+              theme='cyan'
+              onPress={onPressHandler}
+              wrapperStyle={styles.turnOnbtn}
+            />
           </PromoCard>
-
         </View>
       </BottomSheetContainer>
     </BottomSheet>
@@ -62,7 +70,7 @@ const styles = normalizeStyles({
   },
   container: {
     marginTop: 24,
-    marginBottom: 160,
+    marginBottom: 120,
   },
   title: {
     color: COLORS.asphaltGray800,
@@ -73,14 +81,19 @@ const styles = normalizeStyles({
     color: COLORS.asphaltGray600,
     ...TYPOGRAPHY.subheader3,
   },
-  buttonContainer: {
+  chipsContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    margin: 16,
+    marginTop: 24,
   },
-  button: {
-    marginLeft: 8,
+  turnOnbtn: {
+    alignSelf: 'flex-end',
+    marginBottom: 16,
+    marginRight: 16,
   },
 });
 
-export default NotificationsScreen;
+const mapStateToProps = (state) => ({
+  shoutTimestamp: state.app.onboarding.shoutTimestamp,
+});
+
+export default connect(mapStateToProps, { updateOnboarding })(ShoutOnboardingScreen);

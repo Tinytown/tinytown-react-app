@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateOnboarding } from 'rdx/appState';
 import * as turf from '@turf/turf';
 import mapConfig from './config';
 import { Config } from 'context';
@@ -136,12 +137,22 @@ export const renderWelcomeSign = () => {
   );
 };
 
-export const renderNotificationMarker = (userLocation) => {
+export const renderShoutOnboardingMarker = (userLocation) => {
+  const { STRINGS: { onboarding: { shoutIntro: { title } } } } = useContext(Config.Context);
+  const onboardingShouts = useSelector((state) => state.app.onboarding.shouts);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   if (!userLocation) {
     return;
   }
+
+  const onPressHandler = () => {
+    navigation.navigate('ShoutOnboarding');
+    if (onboardingShouts === 'active') {
+      dispatch(updateOnboarding('shouts', 'visible'));
+    }
+  };
 
   const markerCoords = [userLocation[0] - 0.005, userLocation[1] + 0.005];
   return (
@@ -151,10 +162,10 @@ export const renderNotificationMarker = (userLocation) => {
       anchor={Platform.OS === 'android' ? anchor : null}
     >
       <Shout
-        label='LOUD NOISES!'
+        label={title}
         theme='red'
-        shake={true}
-        onPress={() => navigation.navigate('Notifications')}
+        shake={onboardingShouts === 'active'}
+        onPress={onPressHandler}
       />
     </MarkerView>
   );

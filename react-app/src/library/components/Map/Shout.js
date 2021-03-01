@@ -17,7 +17,7 @@ const Shout = React.memo(({
 }) => {
   const [animation, animate] = useAnimation('shake');
   const [pressed, setPressed] = useState(false);
-  const styles = generateStyles({ local, theme, shake, disabled });
+  const styles = generateStyles({ local, theme, disabled });
 
   // Shake animation
   useEffect(() => {
@@ -56,12 +56,12 @@ const Shout = React.memo(({
   );
 });
 
-const generateStyles = ({ local, theme, shake, disabled }) => {
+const generateStyles = ({ local, theme, disabled }) => {
   const WIDTH = 200;
   const PADDING = 8;
   const PIN_OFFSET = 14;
   const PIN_SIZE = 10;
-  const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const  [backgroundTheme, keyColor, contentColor, auxColor]  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
     { ...normalizeStyles({
@@ -102,7 +102,7 @@ const generateStyles = ({ local, theme, shake, disabled }) => {
         borderRadius: SHAPES.radiusAll,
         borderColor: backgroundTheme.borderColor,
         borderWidth: 2,
-        backgroundColor: shake ? backgroundTheme.backgroundColor : contentColor,
+        backgroundColor: auxColor,
       },
     }), keyColor, contentColor }
   );

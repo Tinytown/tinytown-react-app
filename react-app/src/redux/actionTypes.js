@@ -12,6 +12,7 @@ export const USER_VISIBLE = 'user_visible';
 export const APP_STATE = 'app_state';
 export const APP_STORAGE = 'app_storage';
 export const UPDATE_SETTING = 'update_setting';
+export const UPDATE_ONBOARDING = 'update_onboarding';
 
 // Shout
 export const UPDATE_SHOUTS = 'update_shouts';

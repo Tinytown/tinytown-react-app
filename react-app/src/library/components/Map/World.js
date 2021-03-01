@@ -7,13 +7,14 @@ import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import mapConfig from './config';
 import { Config } from 'context';
 import { useLocation, useMap, useShouts } from 'library/hooks';
-import { renderUser, renderWelcomeSign, renderShouts, renderFog, renderNotificationMarker } from './renderContent';
+import { renderUser, renderWelcomeSign, renderShouts, renderFog, renderShoutOnboardingMarker } from './renderContent';
 import { COLORS, normalizeStyles } from 'res';
 
 const World = ({
   userLocation,
   isSignedIn,
   loadingShouts,
+  onboardingShouts,
   updateUserLocation,
   updateUserVisible,
   children,
@@ -43,8 +44,8 @@ const World = ({
   const fogOfWar = renderFog(userLocation, camera.zoom);
   const welcomeSign = renderWelcomeSign();
   const showWelcomeSign = !userLocation && camera.zoom === INITIAL_ZOOM;
-  const notificationMarker = renderNotificationMarker(userLocation);
-  const showNotificationMarker = userLocation && isSignedIn;
+  const shoutOnboardingMarker = renderShoutOnboardingMarker(userLocation);
+  const showShoutOnboardingMarker = userLocation && isSignedIn && onboardingShouts !== 'expired';
   const shoutMarkers = renderShouts(shouts, userLocation, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
 
@@ -74,7 +75,7 @@ const World = ({
         {userLocation && userMarker}
         {userLocation && fogOfWar}
         {showWelcomeSign && welcomeSign}
-        {showNotificationMarker && notificationMarker}
+        {showShoutOnboardingMarker && shoutOnboardingMarker}
         {showShouts && shoutMarkers}
         <Camera
           ref={cameraRef}
@@ -114,6 +115,7 @@ const mapStateToProps = (state) => ({
   userLocation: state.location.user,
   isSignedIn: state.auth.isSignedIn,
   loadingShouts: state.shouts.loading,
+  onboardingShouts: state.app.onboarding.shouts,
 });
 
 export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(World);

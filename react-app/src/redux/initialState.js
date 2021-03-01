@@ -21,6 +21,10 @@ const INITIAL_STATE = Object.freeze({
       backgroundGeo: false,
       showNotificationsMarker: true,
     },
+    onboarding: {
+      shouts: 'active',
+      shoutTimestamp: null,
+    },
   },
   shouts: {
     local: [],

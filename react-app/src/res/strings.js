@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import appConfig from 'root/app.json';
 
 export default {
@@ -43,7 +44,7 @@ export default {
     goToLocation: 'Go to my location',
     shoutIntro: {
       title: 'LOUD NOISES!',
-      body: 'This is a shout, they help you stay in the loop on what\'s happening nearby.',
+      body: 'This is a shout, they help you stay in the loop on what\'s happening nearby and they dissapear after a week.',
     },
   },
 
@@ -76,6 +77,7 @@ export default {
     cancel: 'Cancel',
     tryAgain: 'Try again',
     discard: 'Discard',
+    dismiss: 'Dismiss',
     turnOn: 'Turn on',
   },
 

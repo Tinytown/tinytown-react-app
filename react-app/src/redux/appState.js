@@ -1,4 +1,4 @@
-import { APP_STATE, APP_STORAGE, UPDATE_LOCATION, UPDATE_SETTING } from './actionTypes';
+import { APP_STATE, APP_STORAGE, UPDATE_LOCATION, UPDATE_SETTING, UPDATE_ONBOARDING } from './actionTypes';
 import { getData } from 'library/apis/storage';
 
 export const appReducer = (state = null, action) => {
@@ -9,6 +9,8 @@ export const appReducer = (state = null, action) => {
     return { ...state, storageLoaded: action.payload };
   case UPDATE_SETTING:
     return { ...state,  settings: { ...action.payload } };
+  case UPDATE_ONBOARDING:
+    return { ...state,  onboarding: { ...action.payload } };
   default:
     return state;
   }
@@ -38,4 +40,10 @@ export const updateAppSetting = (key, value) => async (dispatch, getState) => {
   const { app: { settings } } = getState();
   settings.[key] = value;
   dispatch({ type: UPDATE_SETTING, payload: settings });
+};
+
+export const updateOnboarding = (key, value) => async (dispatch, getState) => {
+  const { app: { onboarding } } = getState();
+  onboarding.[key] = value;
+  dispatch({ type: UPDATE_ONBOARDING, payload: onboarding });
 };

@@ -4,7 +4,7 @@ import HomeScreen from 'screens/HomeScreen';
 import NewShoutScreen from 'screens/NewShoutScreen';
 import ShoutScreen from 'screens/ShoutScreen';
 import AboutScreen from 'screens/AboutScreen';
-import NotificationsScreen from 'screens/NotificationsScreen';
+import ShoutOnboardingScreen from 'screens/ShoutOnboardingScreen';
 
 const Stack = createStackNavigator();
 
@@ -24,7 +24,7 @@ const RootStack = () => {
       <Stack.Screen name='Home' component={HomeScreen} />
       <Stack.Screen name='NewShout' component={NewShoutScreen} />
       <Stack.Screen name='OpenShout' component={ShoutScreen} />
-      <Stack.Screen name='Notifications' component={NotificationsScreen} />
+      <Stack.Screen name='ShoutOnboarding' component={ShoutOnboardingScreen} />
       <Stack.Screen name='About' component={AboutScreen} />
     </Stack.Navigator>
   );
