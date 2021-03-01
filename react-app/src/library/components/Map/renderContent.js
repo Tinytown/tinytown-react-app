@@ -138,6 +138,11 @@ export const renderWelcomeSign = () => {
 
 export const renderNotificationMarker = (userLocation) => {
   const navigation = useNavigation();
+
+  if (!userLocation) {
+    return;
+  }
+
   const markerCoords = [userLocation[0] - 0.005, userLocation[1] + 0.005];
   return (
     <MarkerView
@@ -148,11 +153,12 @@ export const renderNotificationMarker = (userLocation) => {
       <Shout
         label='LOUD NOISES!'
         theme='red'
-        loud={true}
-        // onPress={() => navigation.navigate('Notifications')}
+        shake={true}
+        onPress={() => navigation.navigate('Notifications')}
       />
     </MarkerView>
-  ); };
+  );
+};
 
 export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
+import { mapConfig } from 'library/components/Map';
 import { Countdown, NavBar, BottomSheet, BottomSheetContainer } from 'library/components';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const ShoutScreen = ({ navigation, route: { params: { shout } } }) => {
+const NotificationsScreen = ({ navigation }) => {
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
+  const { DAY_IN_MS, EXPIRATION_LENGTH } = mapConfig;
 
   return (
     <BottomSheet
@@ -18,9 +20,9 @@ const ShoutScreen = ({ navigation, route: { params: { shout } } }) => {
       <BottomSheetContainer>
         <NavBar label='' onClose={() => setOpenSheet(false)}/>
         <View style={styles.container}>
-          <Text style={styles.text}>{shout.text}</Text>
+          <Text style={styles.text}>Text</Text>
           <View style={styles.chipsContainer} >
-            <Countdown timestamp={shout.createdAt} />
+            <Countdown timestamp={Date.now() - EXPIRATION_LENGTH + DAY_IN_MS } />
           </View>
         </View>
       </BottomSheetContainer>
@@ -43,4 +45,4 @@ const styles = normalizeStyles({
   },
 });
 
-export default ShoutScreen;
+export default NotificationsScreen;

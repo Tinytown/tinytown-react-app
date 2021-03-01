@@ -12,6 +12,7 @@ import { COLORS, normalizeStyles } from 'res';
 
 const World = ({
   userLocation,
+  isSignedIn,
   loadingShouts,
   updateUserLocation,
   updateUserVisible,
@@ -41,8 +42,9 @@ const World = ({
   const userMarker = renderUser(userLocation, heading);
   const fogOfWar = renderFog(userLocation, camera.zoom);
   const welcomeSign = renderWelcomeSign();
-  const notificationMarker = renderNotificationMarker(userLocation);
   const showWelcomeSign = !userLocation && camera.zoom === INITIAL_ZOOM;
+  const notificationMarker = renderNotificationMarker(userLocation);
+  const showNotificationMarker = userLocation && isSignedIn;
   const shoutMarkers = renderShouts(shouts, userLocation, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
 
@@ -72,7 +74,7 @@ const World = ({
         {userLocation && userMarker}
         {userLocation && fogOfWar}
         {showWelcomeSign && welcomeSign}
-        {userLocation && notificationMarker}
+        {showNotificationMarker && notificationMarker}
         {showShouts && shoutMarkers}
         <Camera
           ref={cameraRef}
@@ -110,6 +112,7 @@ const styles = normalizeStyles({
 
 const mapStateToProps = (state) => ({
   userLocation: state.location.user,
+  isSignedIn: state.auth.isSignedIn,
   loadingShouts: state.shouts.loading,
 });
 
