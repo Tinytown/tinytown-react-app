@@ -1,7 +1,8 @@
-import { Alert, Linking, Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
-import { STRINGS } from 'res';
+import { openSetting } from './linking';
+import { getStrings } from 'res';
 
 const config = {
   enableHighAccuracy: true,
@@ -13,18 +14,12 @@ const config = {
   useSignificantChanges: Platform.OS === 'ios' ? true : null,
 };
 
-const openSetting = () => {
-  Linking.openSettings().catch(() => {
-    Alert.alert('Unable to open settings');
-  });
-};
-
 const showPermissionsDialog = () => {
   const {
     dialog: { location: { title, body } },
     navigation: { settings },
     actions: { cancel },
-  } = STRINGS;
+  } = getStrings();
 
   Alert.alert(title, body,
     [
@@ -38,7 +33,7 @@ const showMockLocationDialog = () => {
   const {
     dialog: { mockLocation: { title, body } },
     actions: { tryAgain },
-  } = STRINGS;
+  } = getStrings();
 
   Alert.alert(title, body, [{ text: tryAgain, onPress: () => {} }]);
 };

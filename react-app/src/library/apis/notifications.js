@@ -1,6 +1,7 @@
-import { Alert, Linking } from 'react-native';
+import { Alert } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import { STRINGS } from 'res';
+import { openSetting } from './linking';
+import { getStrings } from 'res';
 
 const config = {
   alert: true,
@@ -10,18 +11,12 @@ const config = {
   sound: true,
 };
 
-const openSetting = () => {
-  Linking.openSettings().catch(() => {
-    Alert.alert('Unable to open settings');
-  });
-};
-
 const showPermissionsDialog = () => {
   const {
     dialog: { notifications: { title, body } },
     navigation: { settings },
     actions: { cancel },
-  } = STRINGS;
+  } = getStrings();
 
   Alert.alert(title, body,
     [
@@ -32,12 +27,16 @@ const showPermissionsDialog = () => {
 };
 
 export const getNotificationsPermission = async () => {
-  const hasPermission = await messaging().requestPermission(config);
+  try {
+    const hasPermission = await messaging().requestPermission(config);
 
-  if (hasPermission === 1) {
-    return true;
-  } else {
-    showPermissionsDialog();
-    return false;
+    if (hasPermission === 1) {
+      return true;
+    } else {
+      showPermissionsDialog();
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
   }
 };

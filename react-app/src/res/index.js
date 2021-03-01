@@ -8,5 +8,6 @@ export { default as Icon } from './svg';
 
 // Functions
 export { default as getListContent } from './functions/getListContent';
+export { default as getStrings } from './functions/getStrings';
 export { normalizeStyles, normalizeValue } from './functions/normalizeStyles';
 export { default as getThemeStyles } from './functions/getThemeStyles';

@@ -35,6 +35,7 @@ export default {
       title: 'Turn on Notifications',
       body: 'If you\'d like to enable notifications, you can do so in Settings.',
     },
+    unableSettings: 'Unable to open settings',
   },
 
   onboarding: {
