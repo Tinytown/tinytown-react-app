@@ -136,12 +136,12 @@ export default (sheetLayout) => {
           const {
             dialog: { twitterGeo: { title, body } },
             actions: { cancel },
-            navigation: { twitterSettings },
+            navigation: { goToTwitter },
           } = STRINGS;
           Alert.alert(title, body,
             [
               { text: cancel, onPress: () => {} },
-              { text: twitterSettings, onPress: () => Linking.openURL(STRINGS.links.twitterGeo) },
+              { text: goToTwitter, onPress: () => Linking.openURL(STRINGS.links.twitterGeo) },
             ],
           );
           setTwitterGeo({ enabled: false, loading: false });

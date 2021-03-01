@@ -14,14 +14,14 @@ const config = {
 const showPermissionsDialog = () => {
   const {
     dialog: { notifications: { title, body } },
-    navigation: { settings },
+    navigation: { goToSettings },
     actions: { cancel },
   } = getStrings();
 
   Alert.alert(title, body,
     [
       { text: cancel, onPress: () => {} },
-      { text: settings, onPress: openSetting },
+      { text: goToSettings, onPress: openSetting },
     ],
   );
 };

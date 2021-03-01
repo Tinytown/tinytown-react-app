@@ -73,8 +73,9 @@ export default {
   },
 
   navigation: {
-    settings: 'Go to Settings',
-    twitterSettings: 'Go to Twitter',
+    goToSettings: 'Go to Settings',
+    goToTwitter: 'Go to Twitter',
+    settings: 'Settings',
   },
 
   auth: {

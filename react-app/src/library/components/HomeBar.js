@@ -65,10 +65,16 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
         </Pressable>
       </View>
       <Menu showMenu={showMenu} setShowMenu={setShowMenu} triggerLayout={triggerLayout}>
+        <MenuItem label={STRINGS.navigation.settings} primaryIcon='settings' onPress={() => {
+          setShowMenu(false);
+          navigation.navigate('Settings');
+        }}
+        />
         <MenuItem label={STRINGS.core.about} primaryIcon='info' onPress={() => {
           setShowMenu(false);
           navigation.navigate('About');
-        }} />
+        }}
+        />
         <MenuDivider />
         <MenuItem label={STRINGS.auth.signOut} primaryIcon='signOut' onPress={signOutHandler}/>
       </Menu>

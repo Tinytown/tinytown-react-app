@@ -13,7 +13,7 @@ const NotificationsScreen = ({ navigation }) => {
 
   const onPressHandler = () => {
     setOpenSheet(false);
-    navigation.navigate('Settings');
+    navigation.navigate('Settings', { onboarding: true });
   };
 
   return (
