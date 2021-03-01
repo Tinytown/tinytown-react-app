@@ -53,7 +53,7 @@ const ShoutOnboardingScreen = ({ navigation, shoutTimestamp, updateOnboarding })
           >
             <Button
               label={turnOn}
-              theme='cyan'
+              theme='cyan raised'
               onPress={onPressHandler}
               wrapperStyle={styles.turnOnbtn}
             />

@@ -16,13 +16,13 @@ const IconButton = ({
   return (
     <View style={wrapperStyle} >
       <Pressable
-        rippleColor={styles.keyColor}
+        rippleColor={styles.rippleColor}
         disabled={disabled}
         onPress={onPress}
         containerStyle={styles.button}
       >
         <View style={styles.icon}>
-          <Icon icon={icon} color={styles.contentColor} />
+          <Icon icon={icon} color={styles.iconColor} />
         </View>
       </Pressable>
     </View>
@@ -31,7 +31,7 @@ const IconButton = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const SIZE = 56;
-  const [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const { backgroundTheme, iconColor, rippleColor }  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
     { ...normalizeStyles({
@@ -47,13 +47,13 @@ const generateStyles = ({ theme, disabled }) => {
         height: 24,
         width: 24,
       },
-    }), keyColor, contentColor }
+    }), iconColor, rippleColor }
   );
 };
 
 IconButton.propTypes = {
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red', 'transparent', 'white']),
+  theme: PropTypes.oneOf(['red raised', 'transparent', 'white']),
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,

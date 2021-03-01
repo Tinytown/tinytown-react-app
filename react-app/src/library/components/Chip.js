@@ -2,13 +2,12 @@ import React from 'react';
 import { View, Text, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { Pressable } from 'library/components/hoc';
-import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 
 const Chip = ({
   icon,
   label = 'Chip Label',
   theme = 'hairline',
-  activeColor = COLORS.justWhite,
   wrapperStyle,
   animationType = 'press',
   ripple = true,
@@ -16,21 +15,21 @@ const Chip = ({
   toggle = false,
   onPress = () => {},
 }) => {
-  const styles = generateStyles({ theme, activeColor, disabled, toggle });
+  const styles = generateStyles({ theme, disabled, toggle });
 
   return (
     <View style={wrapperStyle} >
       <Pressable
         animationType={animationType}
         containerStyle={styles.container}
-        rippleColor={styles.keyColor}
+        rippleColor={styles.rippleColor}
         disabled={disabled}
         ripple={ripple}
         onPress={onPress}
       >
         {icon &&
         <View style={styles.icon}>
-          <Icon icon={icon} color={styles.keyColor} />
+          <Icon icon={icon} color={styles.iconColor} />
         </View>
         }
         <Text style={styles.label}>{label}</Text>
@@ -39,9 +38,9 @@ const Chip = ({
   );
 };
 
-const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
+const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE  = 16;
-  const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
     { ...normalizeStyles({
@@ -51,11 +50,6 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         paddingVertical: 4,
         borderRadius: SHAPES.radiusAll,
         ...backgroundTheme,
-        ...(toggle && {
-          backgroundColor: activeColor,
-          shadowColor: activeColor,
-          borderColor: activeColor,
-        }),
       },
       icon: {
         height: ICON_SIZE,
@@ -64,10 +58,10 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
       },
       label: {
         marginTop: Platform.OS === 'android' ? 1 : 0,
-        color: contentColor,
+        color: labelColor,
         ...TYPOGRAPHY.overline3,
       },
-    }), keyColor, contentColor }
+    }), iconColor, rippleColor }
   );
 };
 
@@ -75,14 +69,7 @@ Chip.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf([
-    'cyan',
-    'blue',
-    'red',
-    'hairline',
-    'hairline red',
-    'hairline blue',
-    'hairline dark',
-    'elevated',
+    'red raised',
   ]),
   wrapperStyle: PropTypes.object,
   animationType: PropTypes.string,

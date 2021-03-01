@@ -19,14 +19,14 @@ const Button = ({
       <Pressable
         animationType='press'
         containerStyle={styles.container}
-        rippleColor={styles.keyColor}
+        rippleColor={styles.rippleColor}
         disabled={disabled}
         onPress={onPress}
       >
         <View style={styles.button}>
           {icon &&
             <View style={styles.icon}>
-              <Icon icon={icon} color={styles.contentColor} />
+              <Icon icon={icon} color={styles.iconColor} />
             </View>
           }
           <Text style={styles.label}>{label}</Text>
@@ -38,8 +38,9 @@ const Button = ({
 
 const generateStyles = ({ icon, theme, disabled }) => {
   const ICON_SIZE = 20;
-  const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const  [backgroundTheme, iconColor, labelColor, rippleColor]  = getThemeStyles(disabled ? 'disabled' : theme);
 
+  console.log(backgroundTheme);
   return (
     { ...normalizeStyles({
       container: {
@@ -61,17 +62,17 @@ const generateStyles = ({ icon, theme, disabled }) => {
       },
       label: {
         marginTop: Platform.OS === 'android' ? 1 : 0,
-        color: contentColor,
+        color: labelColor,
         ...TYPOGRAPHY.subheader4,
       },
-    }), keyColor, contentColor }
+    }), iconColor, rippleColor }
   );
 };
 
 Button.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['white', 'hairline', 'blue']),
+  theme: PropTypes.oneOf(['cyan raised']),
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,

@@ -10,7 +10,6 @@ const FeatureItem = ({
   title = 'Feature title',
   icon,
   theme = 'hairline',
-  activeColor = COLORS.justWhite,
   disabled = false,
   toggle = false,
   loading = false,
@@ -25,24 +24,23 @@ const FeatureItem = ({
       <View style={styles.divider}/>
       <Pressable
         containerStyle={styles.content}
-        rippleColor={activeColor}
+        rippleColor={styles.keyColor}
         onPress={onPress}
         disabled={disabled}
       >
         <View style={styles.icon}>
-          <Icon icon={icon} color={activeColor}/>
+          <Icon icon={icon} color={styles.keyColor}/>
         </View>
         <Text style={styles.title}>{title}</Text>
         <View style={styles.rightSide}>
           {loading ?
-            <ActivityIndicator size='small' color={activeColor} />
+            <ActivityIndicator size='small' color={styles.keyColor} />
             :
             <Chip
               wrapperStyle={styles.chip}
               theme={toggle ? 'elevated' : 'hairline dark'}
               label={toggle ? on : off}
               toggle={toggle}
-              activeColor={activeColor}
             />
           }
         </View>
@@ -89,7 +87,6 @@ FeatureItem.propTypes = {
   title: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
   theme: PropTypes.oneOf(['hairline dark', 'elevated']),
-  activeColor: PropTypes.string,
   disabled: PropTypes.bool,
   toggle: PropTypes.bool,
   loading: PropTypes.bool,

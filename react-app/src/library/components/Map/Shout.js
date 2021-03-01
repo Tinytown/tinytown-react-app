@@ -44,7 +44,7 @@ const Shout = React.memo(({
         <Pressable
           containerStyle={styles.container}
           onPress={onPressHandler}
-          rippleColor={styles.keyColor}
+          rippleColor={styles.rippleColor}
           disabled={disabled}
         >
           {local && <ActivityIndicator size='small' color={COLORS.grassGreen400} />}
@@ -61,7 +61,7 @@ const generateStyles = ({ local, theme, disabled }) => {
   const PADDING = 8;
   const PIN_OFFSET = 14;
   const PIN_SIZE = 10;
-  const  [backgroundTheme, keyColor, contentColor, auxColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const  { backgroundTheme, labelColor, rippleColor, auxColor }  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
     { ...normalizeStyles({
@@ -90,7 +90,7 @@ const generateStyles = ({ local, theme, disabled }) => {
       label: {
         flexShrink: 1,
         marginLeft: local ? PADDING : 0,
-        color: contentColor,
+        color: labelColor,
         ...TYPOGRAPHY.overline2,
       },
       pin: {
@@ -100,18 +100,18 @@ const generateStyles = ({ local, theme, disabled }) => {
         bottom: -6,
         left: PIN_OFFSET,
         borderRadius: SHAPES.radiusAll,
-        borderColor: backgroundTheme.borderColor,
+        borderColor: backgroundTheme?.borderColor,
         borderWidth: 2,
         backgroundColor: auxColor,
       },
-    }), keyColor, contentColor }
+    }), rippleColor }
   );
 };
 
 Shout.propTypes = {
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf([
-    'red',
+    'red raised',
     'dark elevated',
   ]),
   showPin: PropTypes.bool,

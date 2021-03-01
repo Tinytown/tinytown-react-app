@@ -14,7 +14,7 @@ const HomeScreen = ({ storageLoaded, navigation }) => {
         <HomeBar />
         <FAB
           label={STRINGS.actions.shout}
-          theme='red'
+          theme='red raised'
           icon='megaphone'
           branded
           onPress={() => navigation.navigate('NewShout')}

@@ -11,7 +11,7 @@ const FeatureCard = ({
   body = 'Feature description',
   icon,
   theme = 'hairline',
-  activeColor = COLORS.justWhite,
+  activeTheme = 'hairline dark',
   wrapperStyle,
   disabled = false,
   toggle = false,
@@ -20,12 +20,12 @@ const FeatureCard = ({
   children,
 }) => {
   const { STRINGS } = useContext(Config.Context);
-  const styles = generateStyles({ theme, activeColor, disabled, toggle });
+  const styles = generateStyles({ theme, activeTheme, disabled, toggle });
   const { on, off } = STRINGS.core;
 
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { theme, activeColor, disabled: !toggle });
+      return React.cloneElement(child, { theme: toggle ? activeTheme : theme, disabled: !toggle });
     }
     return child;
   });
@@ -33,9 +33,9 @@ const FeatureCard = ({
   return (
     <View style={wrapperStyle}>
       <View style={styles.card} >
-        <Pressable containerStyle={styles.content} rippleColor={activeColor} onPress={onPress}>
+        <Pressable containerStyle={styles.content} rippleColor={styles.keyColor} onPress={onPress}>
           <View style={styles.icon}>
-            <Icon icon={icon} color={activeColor}/>
+            <Icon icon={icon} color={styles.keyColor}/>
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.title}>{title}</Text>
@@ -43,14 +43,13 @@ const FeatureCard = ({
           </View>
           <View style={styles.rightSide}>
             {loading ?
-              <ActivityIndicator size='small' color={activeColor} />
+              <ActivityIndicator size='small' color={styles.keyColor} />
               :
               <Chip
                 wrapperStyle={styles.chip}
-                theme={toggle ? 'elevated' : theme}
+                theme={toggle ? activeTheme : theme}
                 label={toggle ? on : off}
                 toggle={toggle}
-                activeColor={activeColor}
               />
             }
           </View>
@@ -98,7 +97,7 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         top: 14,
         right: 14,
       },
-    }) }
+    }), keyColor, contentColor }
   );
 };
 

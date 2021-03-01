@@ -1,45 +1,86 @@
 import COLORS from '../colors';
 import SHAPES from '../shapes';
+import { normalizeValue } from './normalizeStyles';
 
 export default (theme) => {
-  let backgroundTheme = {};
+  const [color, elevation] = theme.split(' ');
+  let backgroundTheme;
+  let iconColor;
+  let labelColor;
+  let rippleColor;
 
-  switch (theme) {
+  console.log(color, elevation);
+
+  switch (color) {
   case 'cyan':
-    backgroundTheme = {
-      backgroundColor: COLORS.poolCyan400,
-      borderColor: COLORS.justWhite,
-      borderWidth: 2,
-      ...SHAPES.elevCyan5,
-    };
-    keyColor = COLORS.justWhite;
-    contentColor = COLORS.asphaltGray800;
+    iconColor = COLORS.asphaltGray800;
+    labelColor = COLORS.asphaltGray800;
+    rippleColor = COLORS.justWhite;
 
-    return  [backgroundTheme, keyColor, contentColor];
+    switch (elevation) {
+    case 'raised':
+      backgroundTheme = {
+        backgroundColor: COLORS.poolCyan400,
+        borderColor: COLORS.justWhite,
+        borderWidth: normalizeValue(2),
+        ...SHAPES.elevCyan5,
+      };
+      break;
+    case 'filled':
+      backgroundTheme = {
+        backgroundColor: COLORS.poolCyan400,
+      };
+      break;
+    }
+
+    return  { backgroundTheme, iconColor, labelColor, rippleColor };
 
   case 'blue':
-    backgroundTheme = {
-      backgroundColor: COLORS.skyBlue400,
-      borderColor: COLORS.justWhite,
-      borderWidth: 2,
-      ...SHAPES.elevBlue5,
-    };
-    keyColor = COLORS.justWhite;
-    contentColor = COLORS.justWhite;
+    iconColor = COLORS.justWhite;
+    labelColor = COLORS.justWhite;
+    rippleColor = COLORS.justWhite;
 
-    return  [backgroundTheme, keyColor, contentColor];
+    switch (elevation) {
+    case 'raised':
+      backgroundTheme = {
+        backgroundColor: COLORS.skyBlue400,
+        borderColor: COLORS.justWhite,
+        borderWidth: normalizeValue(2),
+        ...SHAPES.elevBlue5,
+      };
+      break;
+    case 'filled':
+      backgroundTheme = {
+        backgroundColor: COLORS.skyBlue400,
+      };
+      break;
+    }
+
+    return  { backgroundTheme, iconColor, labelColor, rippleColor };
 
   case 'red':
-    backgroundTheme = {
-      backgroundColor: COLORS.bubblegumRed400,
-      borderColor: COLORS.justWhite,
-      borderWidth: 2,
-      ...SHAPES.elevRed5,
-    };
-    keyColor = COLORS.justWhite;
-    contentColor = COLORS.justWhite;
+    iconColor = COLORS.justWhite;
+    labelColor = COLORS.justWhite;
+    rippleColor = COLORS.justWhite;
+    auxColor = COLORS.bubblegumRed400;
 
-    return  [backgroundTheme, keyColor, contentColor];
+    switch (elevation) {
+    case 'raised':
+      backgroundTheme = {
+        backgroundColor: COLORS.bubblegumRed400,
+        borderColor: COLORS.justWhite,
+        borderWidth: normalizeValue(2),
+        ...SHAPES.elevRed5,
+      };
+      break;
+    case 'filled':
+      backgroundTheme = {
+        backgroundColor: COLORS.bubblegumRed400,
+      };
+      break;
+    }
+
+    return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor };
 
   case 'transparent':
     backgroundTheme = {
@@ -72,8 +113,9 @@ export default (theme) => {
     };
     keyColor = COLORS.justWhite;
     contentColor = COLORS.justWhite;
+    auxColor = COLORS.justWhite;
 
-    return  [backgroundTheme, keyColor, contentColor];
+    return  [backgroundTheme, keyColor, contentColor, auxColor];
 
   case 'disabled':
     backgroundTheme = {
@@ -125,6 +167,17 @@ export default (theme) => {
       borderColor: COLORS.skyBlue100,
     };
     keyColor = COLORS.skyBlue400;
+    contentColor = COLORS.asphaltGray800;
+
+    return  [backgroundTheme, keyColor, contentColor];
+
+  case 'hairline cyan':
+    backgroundTheme = {
+      backgroundColor: COLORS.justWhite,
+      ...SHAPES.elevHairline,
+      borderColor: COLORS.poolCyan100,
+    };
+    keyColor = COLORS.poolCyan600;
     contentColor = COLORS.asphaltGray800;
 
     return  [backgroundTheme, keyColor, contentColor];

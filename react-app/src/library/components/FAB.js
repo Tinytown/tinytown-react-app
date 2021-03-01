@@ -23,7 +23,7 @@ const FAB = ({
       <Pressable
         animationType='press'
         containerStyle={styles.container}
-        rippleColor={styles.keyColor}
+        rippleColor={styles.rippleColor}
         disabled={disabled}
         onPress={onPress}
         onPressIn={() => animateOnPress('in')}
@@ -32,7 +32,7 @@ const FAB = ({
         <Animated.View style={[styles.card, animation]} />
         <View style={styles.button}>
           <View style={styles.icon}>
-            <Icon icon={icon} color={styles.contentColor} />
+            <Icon icon={icon} color={styles.iconColor} />
           </View>
           <Text style={styles.label}>{label}</Text>
         </View>
@@ -43,7 +43,7 @@ const FAB = ({
 
 const generateStyles = ({ theme, branded, disabled }) => {
   const ICON_SIZE = 24;
-  const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
     { ...normalizeStyles({
@@ -66,7 +66,7 @@ const generateStyles = ({ theme, branded, disabled }) => {
         marginRight: 12,
       },
       label: {
-        color: contentColor,
+        color: labelColor,
         ...TYPOGRAPHY.subheader3,
         ...(branded && TYPOGRAPHY.brandedButton),
       },
@@ -78,14 +78,14 @@ const generateStyles = ({ theme, branded, disabled }) => {
         backgroundColor: COLORS.asphaltGray800,
         ...(disabled && { opacity: 0 }),
       },
-    }), keyColor, contentColor }
+    }), iconColor, rippleColor }
   );
 };
 
 FAB.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red']),
+  theme: PropTypes.oneOf(['red raised']),
   wrapperStyle: PropTypes.object,
   branded: PropTypes.bool,
   disabled: PropTypes.bool,

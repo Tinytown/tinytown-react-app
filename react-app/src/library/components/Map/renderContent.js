@@ -163,7 +163,7 @@ export const renderShoutOnboardingMarker = (userLocation) => {
     >
       <Shout
         label={title}
-        theme='red'
+        theme='red raised'
         shake={onboardingShouts === 'active'}
         onPress={onPressHandler}
       />

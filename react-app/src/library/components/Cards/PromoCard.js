@@ -62,7 +62,7 @@ const generateStyles = ({ theme, disabled }) => {
         marginRight: 80,
       },
       title: {
-        color: keyColor,
+        color: contentColor,
         ...TYPOGRAPHY.subheader3,
       },
       body: {
@@ -78,7 +78,7 @@ PromoCard.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['hairline', 'hairline dark', 'hairline blue']),
+  theme: PropTypes.oneOf(['hairline', 'hairline dark', 'hairline blue', 'hairline cyan']),
   disabled: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.element,
