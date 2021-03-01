@@ -41,6 +41,14 @@ export default {
   onboarding: {
     welcome: 'Welcome to',
     goToLocation: 'Go to my location',
+    shoutIntro: {
+      title: 'LOUD NOISES!',
+      body: 'This is a shout, they help you stay in the loop on what\'s happening nearby.',
+    },
+    notifications: {
+      title: 'Turn on notifications',
+      body: 'We\'ll let you know when someone shouts near your location.',
+    },
   },
 
   secrets: {
@@ -61,6 +69,7 @@ export default {
     cancel: 'Cancel',
     tryAgain: 'Try again',
     discard: 'Discard',
+    turnOn: 'Turn on',
   },
 
   navigation: {

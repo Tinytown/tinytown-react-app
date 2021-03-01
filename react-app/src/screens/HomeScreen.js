@@ -17,7 +17,7 @@ const HomeScreen = ({ storageLoaded, navigation }) => {
           theme='red'
           icon='megaphone'
           branded
-          onPress={() => navigation.navigate('New Shout')}
+          onPress={() => navigation.navigate('NewShout')}
           wrapperStyle={styles.fab}
         />
       </View>

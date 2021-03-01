@@ -37,7 +37,7 @@ const FeatureCard = ({
           <View style={styles.icon}>
             <Icon icon={icon} color={activeColor}/>
           </View>
-          <View style={styles.text}>
+          <View style={styles.textContainer}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.body}>{body}</Text>
           </View>
@@ -80,7 +80,7 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         height: ICON_SIZE,
         width: ICON_SIZE,
       },
-      text: {
+      textContainer: {
         marginLeft: 12,
         marginRight: 80,
       },

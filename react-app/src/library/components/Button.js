@@ -25,9 +25,9 @@ const Button = ({
       >
         <View style={styles.button}>
           {icon &&
-          <View style={styles.icon}>
-            <Icon icon={icon} color={styles.contentColor} />
-          </View>
+            <View style={styles.icon}>
+              <Icon icon={icon} color={styles.contentColor} />
+            </View>
           }
           <Text style={styles.label}>{label}</Text>
         </View>
@@ -69,9 +69,9 @@ const generateStyles = ({ icon, theme, disabled }) => {
 };
 
 Button.propTypes = {
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['white', 'hairline']),
+  theme: PropTypes.oneOf(['white', 'hairline', 'blue']),
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,

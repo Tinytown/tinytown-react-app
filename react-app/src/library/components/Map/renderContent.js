@@ -226,7 +226,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
               <Shout
                 label={text}
                 local={local}
-                onPress={() => navigation.navigate('Open Shout', { shout })}
+                onPress={() => navigation.navigate('OpenShout', { shout })}
               />
             </MarkerView>
           );
