@@ -33,6 +33,14 @@ export default {
       shouts: {
         local: [],
         loading: true,
+        settings: {
+          twitter: false,
+          twitterGeo: {
+            enabled: false,
+            loading: false,
+          },
+          lann: false,
+        },
       },
     },
   ],
@@ -201,7 +209,7 @@ export default {
             },
           ],
           required: ['notifications', 'backgroundGeo'],
-          title: 'The settings schema',
+          title: 'The app/settings schema',
           type: 'object',
           properties: {
             notifications: {
@@ -264,7 +272,7 @@ export default {
           loading: true,
         },
       ],
-      required: ['local', 'loading'],
+      required: ['local', 'loading', 'settings'],
       title: 'The shouts schema',
       type: 'object',
       properties: {
@@ -281,6 +289,70 @@ export default {
           title: 'The loading schema',
           default: true,
           examples: [true],
+        },
+        settings: {
+          $id: '#/properties/shouts/properties/settings',
+          default: {},
+          examples: [
+            {
+              twitter: false,
+              twitterGeo: {
+                enabled: false,
+                loading: false,
+              },
+              lann: false,
+            },
+          ],
+          required: ['twitter', 'twitterGeo', 'lann'],
+          title: 'The shouts/settings schema',
+          type: 'object',
+          properties: {
+            twitter: {
+              $id: '#/properties/shouts/properties/settings/properties/twitter',
+              default: false,
+              examples: [true, false],
+              title: 'The shouts/twitter schema',
+              type: 'boolean',
+            },
+            twitterGeo: {
+              $id: '#/properties/shouts/properties/settings/properties/twitterGeo',
+              default: {},
+              examples: [
+                {
+                  enabled: false,
+                  loading: false,
+                },
+              ],
+              required: ['enabled', 'loading'],
+              title: 'The shouts/twitterGeo schema',
+              type: 'object',
+              properties: {
+                enabled: {
+                  $id: '#/properties/shouts/properties/settings/properties/twitterGeo/properties/enabled',
+                  default: false,
+                  examples: [true, false],
+                  title: 'The twitterGeo/enabled schema',
+                  type: 'boolean',
+                },
+                loading: {
+                  $id: '#/properties/shouts/properties/settings/properties/twitterGeo/properties/loading',
+                  default: false,
+                  examples: [true, false],
+                  title: 'The twitterGeo/loading schema',
+                  type: 'boolean',
+                },
+              },
+              additionalProperties: true,
+            },
+            lann: {
+              $id: '#/properties/shouts/properties/settings/properties/lann',
+              default: false,
+              examples: [true, false],
+              title: 'The shouts/lann schema',
+              type: 'boolean',
+            },
+          },
+          additionalProperties: true,
         },
       },
       additionalProperties: true,

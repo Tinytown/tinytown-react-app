@@ -28,6 +28,14 @@ const INITIAL_STATE = Object.freeze({
   shouts: {
     local: [],
     loading: true,
+    settings: {
+      twitter: false,
+      twitterGeo: {
+        enabled: false,
+        loading: false,
+      },
+      lann: false,
+    },
   },
 });
 

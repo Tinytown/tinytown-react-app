@@ -5,8 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
 import functions from '@react-native-firebase/functions';
 import { useDispatch, useSelector } from 'react-redux';
-import { createShout } from 'rdx/shoutState';
-import { storeData, getData } from 'library/apis/storage';
+import { createShout, updateShoutsSetting } from 'rdx/shoutState';
 import sheetConfig from 'library/components/BottomSheet/config';
 import { Config } from 'context';
 import { FeatureCard, FeatureItem } from 'library/components';
@@ -99,9 +98,7 @@ export default (sheetLayout) => {
   // --- SETTINGS --- //
 
   const [showSettings, setShowSettings] = useState(false);
-  const [twitter, setTwitter] = useState(false);
-  const [twitterGeo, setTwitterGeo] = useState({ enabled: false, loading: false });
-  const [lann, setLann] = useState(false);
+  const { twitter, twitterGeo, lann } = useSelector((state) => state.shouts.settings);
   const [settingsChip, setSettingsChip] = useState({
     icon: 'settings',
     label: STRINGS.shouts.settingsChip.default,
@@ -126,11 +123,11 @@ export default (sheetLayout) => {
   // Check Twitter account location settings
   const checkTwitterGeo = async () => {
     if (!twitterGeo.enabled) {
-      setTwitterGeo({ enabled: false, loading: true });
+      dispatch(updateShoutsSetting('twitterGeo', { enabled: false, loading: true }));
       try {
         const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
         if (geoEnabled) {
-          setTwitterGeo({ enabled: true, loading: false });
+          dispatch(updateShoutsSetting('twitterGeo', { enabled: true, loading: false }));
         } else {
           // Open dialog to help user enable geo in Twitter
           const {
@@ -144,14 +141,14 @@ export default (sheetLayout) => {
               { text: goToTwitter, onPress: () => Linking.openURL(STRINGS.links.twitterGeo) },
             ],
           );
-          setTwitterGeo({ enabled: false, loading: false });
+          dispatch(updateShoutsSetting('twitterGeo', { enabled: false, loading: false }));
         }
       } catch (error) {
         console.log(error);
-        setTwitterGeo({ enabled: false, loading: false });
+        dispatch(updateShoutsSetting('twitterGeo', { enabled: false, loading: false }));
       }
     } else {
-      setTwitterGeo({ enabled: false, loading: false });
+      dispatch(updateShoutsSetting('twitterGeo', { enabled: false, loading: false }));
     }
   };
 
@@ -159,11 +156,11 @@ export default (sheetLayout) => {
   const assignState = (key, prop) => {
     switch (key) {
     case 'twitter':
-      return prop === 'toggle' ? twitter : () => setTwitter(!twitter);
+      return prop === 'toggle' ? twitter : () => dispatch(updateShoutsSetting('twitter', !twitter));
     case 'geo':
       return prop === 'toggle' ? twitterGeo.enabled : () => checkTwitterGeo();
     case 'lann':
-      return prop === 'toggle' ? lann : () => setLann(!lann);
+      return prop === 'toggle' ? lann : () => dispatch(updateShoutsSetting('lann', !lann));
     default:
       return;
     }
@@ -240,7 +237,6 @@ export default (sheetLayout) => {
   };
 
   const onCloseHandler = async () => {
-    await storeData('megaphone', { twitter, twitterGeo, lann });
     navigation.goBack();
   };
 
@@ -248,24 +244,6 @@ export default (sheetLayout) => {
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => setKeyboardOpen(true));
     Keyboard.addListener('keyboardDidHide', () => setKeyboardOpen(false));
-
-    // Retrieve megaphone settings
-    (async function () {
-      const localSettings = await getData('megaphone');
-      if (localSettings) {
-        setTwitter(localSettings.twitter);
-        setLann(localSettings.lann);
-      }
-
-      if (localSettings?.twitterGeo.enabled) {
-        const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
-        if (geoEnabled) {
-          setTwitterGeo(localSettings.twitterGeo);
-        } else {
-          setTwitterGeo({ enabled: false, loading: false });
-        }
-      }
-    })();
 
     return () => {
       Keyboard.removeAllListeners('keyboardDidShow');
