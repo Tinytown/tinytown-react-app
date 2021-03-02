@@ -41,7 +41,7 @@ const ShoutOnboardingScreen = ({ navigation, shoutTimestamp, updateOnboarding })
         <View style={styles.container}>
           <Text style={styles.title}>{shoutIntro.title}</Text>
           <Text style={styles.body}>{shoutIntro.body}</Text>
-          <View style={styles.chipsContainer} >
+          <View style={styles.chipsContainer}>
             <Countdown timestamp={shoutTimestamp ?? Date.now()} />
           </View>
           <PromoCard
@@ -49,11 +49,11 @@ const ShoutOnboardingScreen = ({ navigation, shoutTimestamp, updateOnboarding })
             icon='notifications'
             title={notifications.title}
             body={notifications.body}
-            theme='hairline cyan'
+            theme='lt-cyan-hairline'
           >
             <Button
               label={turnOn}
-              theme='cyan raised'
+              theme='lt-cyan-raised'
               onPress={onPressHandler}
               wrapperStyle={styles.turnOnbtn}
             />

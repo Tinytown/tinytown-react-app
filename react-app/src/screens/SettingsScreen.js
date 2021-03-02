@@ -26,7 +26,6 @@ const SettingsScreen = ({
     <SafeAreaView style={styles.container} >
       <NavBar label='Settings' onClose={() => navigation.navigate('Home')}/>
       <FeatureCard
-        activeColor={COLORS.poolCyan600}
         title={notifications.title}
         body={notifications.body}
         icon='notifications'
@@ -35,7 +34,6 @@ const SettingsScreen = ({
         onPress={() => updateAppSetting('notifications', !pushNotif)}
       />
       <FeatureCard
-        activeColor={COLORS.poolCyan600}
         title={backgroundGeo.title}
         body={backgroundGeo.body}
         icon='crosshairs'

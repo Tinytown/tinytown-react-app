@@ -10,4 +10,4 @@ export { default as Icon } from './svg';
 export { default as getListContent } from './functions/getListContent';
 export { default as getStrings } from './functions/getStrings';
 export { normalizeStyles, normalizeValue } from './functions/normalizeStyles';
-export { default as getThemeStyles } from './functions/getThemeStyles';
+export { getThemeStyles, resolveTheme } from './functions/getThemeStyles';

@@ -9,7 +9,8 @@ import { TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
 const FeatureItem = ({
   title = 'Feature title',
   icon,
-  theme = 'hairline',
+  theme = 'lt-white-hairline',
+  activeTheme = 'lt-red-hairline',
   disabled = false,
   toggle = false,
   loading = false,
@@ -38,7 +39,7 @@ const FeatureItem = ({
             :
             <Chip
               wrapperStyle={styles.chip}
-              theme={toggle ? 'elevated' : 'hairline dark'}
+              theme={toggle ? activeTheme : theme}
               label={toggle ? on : off}
               toggle={toggle}
             />
@@ -51,7 +52,7 @@ const FeatureItem = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE = 24;
-  const [backgroundTheme, keyColor]  = getThemeStyles(theme);
+  const { backgroundTheme, labelColor }  = getThemeStyles(theme);
 
   return (
     normalizeStyles({
@@ -72,7 +73,7 @@ const generateStyles = ({ theme, disabled }) => {
       },
       title: {
         marginLeft: 12,
-        color: keyColor,
+        color: labelColor,
         ...TYPOGRAPHY.subheader4,
       },
       rightSide: {
@@ -86,7 +87,14 @@ const generateStyles = ({ theme, disabled }) => {
 FeatureItem.propTypes = {
   title: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['hairline dark', 'elevated']),
+  theme: PropTypes.oneOf([
+    'lt-white-hairline',
+    'dt-gray-hairline',
+  ]),
+  activeTheme: PropTypes.oneOf([
+    'dt-blue-hairline',
+    'dt-red-hairline',
+  ]),
   disabled: PropTypes.bool,
   toggle: PropTypes.bool,
   loading: PropTypes.bool,

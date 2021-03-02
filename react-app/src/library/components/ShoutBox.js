@@ -37,14 +37,14 @@ const ShoutBox = ({
         <Animated.View style={[styles.chipContainer, chipAnimation]} >
           <Chip
             label={chipString}
-            theme={disabled ? 'red raised' : null}
+            theme={disabled ? 'lt-red-floating' : 'lt-white-hairline'}
             animationType={null}
             ripple={false}
           />
         </Animated.View>
         <IconButton
           icon='megaphone'
-          theme='red raised'
+          theme='lt-red-floating'
           onPress={onSubmit}
           disabled={disabled}
         />

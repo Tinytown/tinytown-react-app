@@ -55,7 +55,13 @@ const Countdown = ({
   }, []);
 
   return (
-    <Chip wrapperStyle={wrapperStyle} label={timeStr ? timeStr : 'Loading...'} icon='clock' />
+    <Chip
+      wrapperStyle={wrapperStyle}
+      label={timeStr ? timeStr : 'Loading...'}
+      icon='clock'
+      animationType={null}
+      ripple={false}
+    />
   );
 };
 

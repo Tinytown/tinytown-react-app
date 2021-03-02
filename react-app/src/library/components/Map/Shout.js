@@ -8,7 +8,7 @@ import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles, getThemeStyles } from 'res
 
 const Shout = React.memo(({
   label = 'Shout Label',
-  theme = 'dark elevated',
+  theme = 'dt-gray-raised',
   shake = false,
   showPin = true,
   local = false,
@@ -61,7 +61,13 @@ const generateStyles = ({ local, theme, disabled }) => {
   const PADDING = 8;
   const PIN_OFFSET = 14;
   const PIN_SIZE = 10;
-  const  { backgroundTheme, labelColor, rippleColor, auxColor }  = getThemeStyles(disabled ? 'disabled' : theme);
+  const  {
+    backgroundTheme,
+    labelColor,
+    rippleColor,
+    auxColor1,
+    auxColor2,
+  }  = getThemeStyles(disabled ? 'disabled' : theme);
 
   return (
     { ...normalizeStyles({
@@ -100,9 +106,9 @@ const generateStyles = ({ local, theme, disabled }) => {
         bottom: -6,
         left: PIN_OFFSET,
         borderRadius: SHAPES.radiusAll,
-        borderColor: backgroundTheme?.borderColor,
+        borderColor: auxColor2,
         borderWidth: 2,
-        backgroundColor: auxColor,
+        backgroundColor: auxColor1,
       },
     }), rippleColor }
   );
@@ -111,8 +117,8 @@ const generateStyles = ({ local, theme, disabled }) => {
 Shout.propTypes = {
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf([
-    'red raised',
-    'dark elevated',
+    'lt-red-floating',
+    'dt-gray-raised',
   ]),
   showPin: PropTypes.bool,
   local: PropTypes.bool,

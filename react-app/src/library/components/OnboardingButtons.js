@@ -26,7 +26,7 @@ const OnboardingButtons = ({
         <TwitterAuth onLoading={setAuthLoading} />
         <FAB
           label={STRINGS.onboarding.goToLocation}
-          theme='red raised'
+          theme='lt-red-floating'
           icon='crosshairs'
           onPress={() => getLocation(goToUser)}
         />

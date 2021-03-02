@@ -7,7 +7,7 @@ const PromoCard = ({
   title = 'Feature Title',
   body = 'Feature description',
   icon,
-  theme = 'hairline',
+  theme = 'lt-white-hairline',
   wrapperStyle,
   disabled = false,
   children,
@@ -26,7 +26,7 @@ const PromoCard = ({
       <View style={styles.card}>
         <View style={styles.content}>
           <View style={styles.icon}>
-            <Icon icon={icon} color={styles.keyColor}/>
+            <Icon icon={icon} color={styles.iconColor}/>
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.title}>{title}</Text>
@@ -41,7 +41,7 @@ const PromoCard = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE = 24;
-  const [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const { backgroundTheme, iconColor, labelColor }  = getThemeStyles(disabled ? 'lt-disabled' : theme);
 
   return (
     { ...normalizeStyles({
@@ -62,15 +62,15 @@ const generateStyles = ({ theme, disabled }) => {
         marginRight: 80,
       },
       title: {
-        color: contentColor,
+        color: labelColor,
         ...TYPOGRAPHY.subheader3,
       },
       body: {
         marginTop: 2,
-        color: contentColor,
+        color: labelColor,
         ...TYPOGRAPHY.body3,
       },
-    }), keyColor }
+    }), iconColor }
   );
 };
 
@@ -78,7 +78,7 @@ PromoCard.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['hairline', 'hairline dark', 'hairline blue', 'hairline cyan']),
+  theme: PropTypes.oneOf(['lt-white-hairline', 'lt-cyan-hairline']),
   disabled: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.element,

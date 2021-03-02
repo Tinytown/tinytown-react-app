@@ -7,7 +7,7 @@ import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
 const Chip = ({
   icon,
   label = 'Chip Label',
-  theme = 'hairline',
+  theme = 'lt-white-hairline',
   wrapperStyle,
   animationType = 'press',
   ripple = true,
@@ -40,7 +40,7 @@ const Chip = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE  = 16;
-  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(disabled ? 'disabled' : theme);
+  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(disabled ? 'lt-disabled' : theme);
 
   return (
     { ...normalizeStyles({
@@ -69,7 +69,12 @@ Chip.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf([
-    'red raised',
+    'lt-red-raised',
+    'lt-red-floating',
+    'lt-red-hairline',
+    'lt-blue-hairline',
+    'lt-white-hairline',
+    'dt-gray-hairline',
   ]),
   wrapperStyle: PropTypes.object,
   animationType: PropTypes.string,

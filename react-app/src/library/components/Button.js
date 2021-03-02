@@ -38,9 +38,8 @@ const Button = ({
 
 const generateStyles = ({ icon, theme, disabled }) => {
   const ICON_SIZE = 20;
-  const  [backgroundTheme, iconColor, labelColor, rippleColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(disabled ? 'disabled' : theme);
 
-  console.log(backgroundTheme);
   return (
     { ...normalizeStyles({
       container: {
@@ -72,7 +71,7 @@ const generateStyles = ({ icon, theme, disabled }) => {
 Button.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['cyan raised']),
+  theme: PropTypes.oneOf(['lt-cyan-raised']),
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,

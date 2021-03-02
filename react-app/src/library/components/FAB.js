@@ -85,7 +85,7 @@ const generateStyles = ({ theme, branded, disabled }) => {
 FAB.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['red raised']),
+  theme: PropTypes.oneOf(['lt-red-floating']),
   wrapperStyle: PropTypes.object,
   branded: PropTypes.bool,
   disabled: PropTypes.bool,

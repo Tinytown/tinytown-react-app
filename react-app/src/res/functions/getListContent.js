@@ -12,8 +12,8 @@ export default (key) => {
       title: shouts.twitter.title,
       body: shouts.twitter.body,
       icon: 'twitter',
-      activeColor: COLORS.twitter,
-      theme: 'hairline dark',
+      theme: 'dt-gray-hairline',
+      activeTheme: 'dt-blue-hairline',
       children: [
         {
           key: 'geo',
@@ -27,8 +27,8 @@ export default (key) => {
       title: shouts.lannMode.title,
       body: shouts.lannMode.body,
       icon: 'lab',
-      activeColor: COLORS.bubblegumRed400,
-      theme: 'hairline dark',
+      theme: 'dt-gray-hairline',
+      activeTheme: 'dt-red-hairline',
     },
   ];
 

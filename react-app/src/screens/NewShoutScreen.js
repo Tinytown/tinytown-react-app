@@ -51,7 +51,7 @@ const NewShoutScreen = () => {
           <IconButton
             wrapperStyle={styles.closeBtn}
             icon='close'
-            theme='white'
+            theme='lt-white-filled'
             onPress={() => setShowSettings(false)}
           />
           :

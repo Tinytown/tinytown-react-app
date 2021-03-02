@@ -31,7 +31,7 @@ const IconButton = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const SIZE = 56;
-  const { backgroundTheme, iconColor, rippleColor }  = getThemeStyles(disabled ? 'disabled' : theme);
+  const { backgroundTheme, iconColor, rippleColor }  = getThemeStyles(disabled ? 'lt-disabled' : theme);
 
   return (
     { ...normalizeStyles({
@@ -53,7 +53,7 @@ const generateStyles = ({ theme, disabled }) => {
 
 IconButton.propTypes = {
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(['red raised', 'transparent', 'white']),
+  theme: PropTypes.oneOf(['lt-red-floating', 'lt-white-filled']),
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,

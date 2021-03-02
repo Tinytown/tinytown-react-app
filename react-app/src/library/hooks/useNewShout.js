@@ -105,7 +105,7 @@ export default (sheetLayout) => {
   const [settingsChip, setSettingsChip] = useState({
     icon: 'settings',
     label: STRINGS.shouts.settingsChip.default,
-    theme: 'hairline',
+    theme: 'lt-white-hairline',
   });
   const megaphoneList = getListContent('megaphone');
 
@@ -177,13 +177,13 @@ export default (sheetLayout) => {
   // Change settings chip content
   const getChipContent = () => {
     if (twitterGeo.enabled) {
-      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitterGeo, theme: 'hairline blue' };
+      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitterGeo, theme: 'lt-blue-hairline' };
     } else if (twitter) {
-      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitter, theme: 'hairline blue' };
+      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitter, theme: 'lt-blue-hairline' };
     } else if (lann) {
-      return { icon: 'lab', label: STRINGS.shouts.settingsChip.lann, theme: 'hairline red' };
+      return { icon: 'lab', label: STRINGS.shouts.settingsChip.lann, theme: 'lt-red-hairline' };
     } else {
-      return { icon: 'settings', label: STRINGS.shouts.settingsChip.default, theme: 'hairline' };
+      return { icon: 'settings', label: STRINGS.shouts.settingsChip.default, theme: 'lt-white-hairline' };
     }
   };
 
@@ -192,14 +192,14 @@ export default (sheetLayout) => {
   }, [twitter, twitterGeo, lann]);
 
   // Render settings list
-  renderedList = megaphoneList.map(({ key, title, body, icon, theme, activeColor, children }) => (
+  renderedList = megaphoneList.map(({ key, title, body, icon, theme, activeTheme, children }) => (
     <FeatureCard
       key={key}
       title={title}
       body={body}
       icon={icon}
       theme={theme}
-      activeColor={activeColor}
+      activeTheme={activeTheme}
       wrapperStyle={styles.feature}
       toggle={assignState(key, 'toggle')}
       onPress={assignState(key, 'onPress')}

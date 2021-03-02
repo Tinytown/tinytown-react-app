@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { Config } from 'context';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { COLORS, SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const FeatureCard = ({
   title = 'Feature Title',
   body = 'Feature description',
   icon,
-  theme = 'hairline',
-  activeTheme = 'hairline dark',
+  theme = 'lt-white-hairline',
+  activeTheme = 'lt-red-hairline',
   wrapperStyle,
   disabled = false,
   toggle = false,
@@ -33,9 +33,9 @@ const FeatureCard = ({
   return (
     <View style={wrapperStyle}>
       <View style={styles.card} >
-        <Pressable containerStyle={styles.content} rippleColor={styles.keyColor} onPress={onPress}>
+        <Pressable containerStyle={styles.content} rippleColor={styles.rippleColor} onPress={onPress}>
           <View style={styles.icon}>
-            <Icon icon={icon} color={styles.keyColor}/>
+            <Icon icon={icon} color={styles.iconColor}/>
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.title}>{title}</Text>
@@ -43,7 +43,7 @@ const FeatureCard = ({
           </View>
           <View style={styles.rightSide}>
             {loading ?
-              <ActivityIndicator size='small' color={styles.keyColor} />
+              <ActivityIndicator size='small' color={styles.iconColor} />
               :
               <Chip
                 wrapperStyle={styles.chip}
@@ -60,16 +60,16 @@ const FeatureCard = ({
   );
 };
 
-const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
+const generateStyles = ({ theme, activeTheme, disabled, toggle }) => {
   const ICON_SIZE = 24;
-  const [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const resolvedTheme = resolveTheme({ theme, activeTheme, disabled, active: toggle });
+  const { backgroundTheme, iconColor, labelColor, rippleColor } = getThemeStyles(resolvedTheme);
 
   return (
     { ...normalizeStyles({
       card: {
         borderRadius: SHAPES.radiusMd,
         ...backgroundTheme,
-        ...(toggle && { borderColor: activeColor }),
       },
       content: {
         padding: 14,
@@ -84,12 +84,12 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         marginRight: 80,
       },
       title: {
-        color: keyColor,
+        color: labelColor,
         ...TYPOGRAPHY.subheader3,
       },
       body: {
         marginTop: 2,
-        color: contentColor,
+        color: labelColor,
         ...TYPOGRAPHY.body3,
       },
       rightSide: {
@@ -97,7 +97,7 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         top: 14,
         right: 14,
       },
-    }), keyColor, contentColor }
+    }), iconColor, rippleColor }
   );
 };
 
@@ -105,8 +105,14 @@ FeatureCard.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['hairline', 'hairline dark']),
-  activeColor: PropTypes.string,
+  theme: PropTypes.oneOf([
+    'lt-white-hairline',
+    'dt-gray-hairline',
+  ]),
+  activeTheme: PropTypes.oneOf([
+    'dt-blue-hairline',
+    'dt-red-hairline',
+  ]),
   disabled: PropTypes.bool,
   toggle: PropTypes.bool,
   loading: PropTypes.bool,
