@@ -20,9 +20,9 @@ const FeatureCard = ({
   children,
 }) => {
   const { STRINGS } = useContext(Config.Context);
+  const { on, off } = STRINGS.core;
   const styles = generateStyles({ theme, activeTheme, disabled, toggle });
   const translatedActiveTheme = translateElevation(activeTheme, 'raised');
-  const { on, off } = STRINGS.core;
 
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {

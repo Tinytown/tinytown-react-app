@@ -3,7 +3,12 @@ import { Config } from 'context';
 
 export default (key) => {
   const { STRINGS } = useContext(Config.Context);
-  const { shouts, social, links } = STRINGS;
+  const {
+    shouts,
+    social,
+    links,
+    features,
+  } = STRINGS;
 
   const megaphone = [
     {
@@ -63,7 +68,20 @@ export default (key) => {
   ];
 
   const settings = [
-
+    {
+      key: 'notifications',
+      title: features.notifications.title,
+      body: features.notifications.body,
+      icon: 'notifications',
+      activeTheme: 'lt-cyan-hairline',
+    },
+    {
+      key: 'backgroundGeo',
+      title: features.backgroundGeo.title,
+      body: features.backgroundGeo.body,
+      icon: 'crosshairs',
+      activeTheme: 'lt-cyan-hairline',
+    },
   ];
 
   switch (key) {
