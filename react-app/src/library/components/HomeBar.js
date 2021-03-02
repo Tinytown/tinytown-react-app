@@ -6,7 +6,6 @@ import Animated from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import ImageColors from 'react-native-image-colors';
 import { connect } from 'react-redux';
-import auth from '@react-native-firebase/auth';
 import { goToUser } from 'rdx/locationState';
 import { signOut } from 'rdx/authState';
 import { getLocation } from 'library/apis/geolocation';
@@ -15,7 +14,7 @@ import { Pressable } from 'library/components/hoc';
 import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
 import { useAnimation } from 'library/hooks';
-import { COLORS, SHAPES, normalizeStyles } from 'res';
+import { COLORS, SHAPES, IMAGES, normalizeStyles } from 'res';
 
 const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   const { STRINGS } = useContext(Config.Context);
@@ -29,15 +28,12 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   const styles = generateStyles({ avatarColors });
 
   useEffect(() => {
-    ImageColors.getColors(photoURL, { fallback: COLORS.asphaltGray800 })
-      .then((colors) => setAvatarColors(colors))
-      .catch((err) => console.log(err));
-  }, []);
-
-  const signOutHandler = () => {
-    auth().signOut()
-      .then(() => signOut());
-  };
+    if (photoURL) {
+      ImageColors.getColors(photoURL, { fallback: COLORS.asphaltGray800 })
+        .then((colors) => setAvatarColors(colors))
+        .catch((err) => console.log(err));
+    }
+  }, [photoURL]);
 
   return (
     <>
@@ -60,7 +56,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
           }}
         >
           <Image
-            source={{ uri: photoURL }}
+            source={(photoURL ? { uri: photoURL } : IMAGES.placeholder)}
             style={styles.image}
           />
         </Pressable>
@@ -77,7 +73,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
         }}
         />
         <MenuDivider />
-        <MenuItem label={STRINGS.auth.signOut} primaryIcon='signOut' onPress={signOutHandler}/>
+        <MenuItem label={STRINGS.auth.signOut} primaryIcon='signOut' onPress={signOut}/>
       </Menu>
     </>
   );

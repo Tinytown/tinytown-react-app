@@ -23,7 +23,7 @@ const OnboardingButtons = ({
   return (
     showButtons &&
       <Flippable trigger={userVisible} containerStyle={styles.flipContainer} onTouchStart={onTouchStart} >
-        <TwitterAuth onLoading={setAuthLoading} />
+        <TwitterAuth setAuthLoading={setAuthLoading} />
         <FAB
           label={STRINGS.onboarding.goToLocation}
           theme='lt-red-floating'

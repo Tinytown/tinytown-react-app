@@ -7,10 +7,11 @@ import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
 import NetInfo from '@react-native-community/netinfo';
+import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAppState, getStateFromLS, storeStateToLS, updateAppSetting } from 'rdx/appState';
-import { signIn, updateAuth } from 'rdx/authState';
+import { updateAuth } from 'rdx/authState';
 import { getNotificationsPermission } from 'library/apis/notifications';
 import { Config } from 'context';
 import { STRINGS } from 'res';
@@ -41,8 +42,7 @@ export default (isSignedIn) => {
     });
 
     // Listen for auth changes
-    const unsubscribeAuth = auth().onAuthStateChanged((user) =>
-      (user ? dispatch(signIn(user)) : dispatch(updateAuth(false))));
+    const unsubscribeAuth = auth().onAuthStateChanged((user) => dispatch(updateAuth(user)));
 
     // Listen for app state changes
     AppState.addEventListener('change', appStateHandler);
@@ -74,10 +74,21 @@ export default (isSignedIn) => {
     }
   }, [appActive]);
 
+  const updateRegistrationToken = async (token) => {
+    const { uid } = auth().currentUser;
+    const deviceId = DeviceInfo.getUniqueId();
+    await firestore().collection('users')
+      .doc(uid)
+      .collection('devices')
+      .doc(deviceId)
+      .update({ registrationToken: token })
+      .catch((error) => console.log(error));
+  };
+
   // Push notifications
   useEffect(() => {
     let unsubscribeNotif = () => {};
-    if (pushNotif) {
+    if (pushNotif && isSignedIn) {
       // Check notifications permissions during launch
       const hasPermission  = getNotificationsPermission();
       if (hasPermission) {
@@ -91,14 +102,15 @@ export default (isSignedIn) => {
           console.log('Message handled in the background!', remoteMessage);
         });
 
-        // TODO update token
-
-        // TODO update backend
+        // Update token in firestore
+        messaging().getToken()
+          .then((token) => updateRegistrationToken(token));
       } else {
         dispatch(updateAppSetting('notifications', false));
       }
     } else if (pushNotif === false) {
-      // TODO disable notifications
+      // Remove token from firestore
+      updateRegistrationToken(null);
     }
     return () => {
       unsubscribeNotif();

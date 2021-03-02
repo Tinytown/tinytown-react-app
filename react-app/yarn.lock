@@ -7253,6 +7253,11 @@ react-native-compass-heading@^1.0.2:
   resolved "https://registry.yarnpkg.com/react-native-compass-heading/-/react-native-compass-heading-1.0.2.tgz#f8f334037eaefb4e202af117979f5be1c8db68a1"
   integrity sha512-ZCKdzzL5LDXBzwQmEauyS+gWdMgNGWppC2PlOWcEv1dbmT4Ev3PzkZB+bt9WlRnDYwZdu44NqO//W7Yyyp2JoA==
 
+react-native-device-info@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-8.0.2.tgz#edefb8538412bf33e12a7ba1b80fbd804f69580b"
+  integrity sha512-5X5sMO2N9WpnqA4BXHlby0ml0WKlHconLhgf8fCiXDELf7DIjOMX8z6iYZ7WDgmn0E/6Psubq9yb5D2Qdc30Wg==
+
 react-native-flipper@^0.71.0:
   version "0.71.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.71.0.tgz#5fefaf702b2e12e6e0ec4721fe276a6904789517"

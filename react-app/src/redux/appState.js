@@ -6,6 +6,7 @@ import {
   UPDATE_SETTING,
   UPDATE_ONBOARDING,
   SHOUTS_SETTING,
+  SIGN_IN,
   SIGN_OUT,
 } from './actionTypes';
 import INITIAL_STATE from './initialState';
@@ -32,10 +33,12 @@ export const getStateFromLS = () => async (dispatch) => {
   const {
     userLocation,
     appSettings,
+    user,
     shoutSettings,
   } = await getMultiple([
     'userLocation',
     'appSettings',
+    'user',
     'shoutSettings',
   ]);
 
@@ -51,6 +54,11 @@ export const getStateFromLS = () => async (dispatch) => {
   // App Settings
   if (appSettings) {
     dispatch({ type: UPDATE_SETTING, payload: appSettings });
+  }
+
+  // User info
+  if (user) {
+    dispatch({ type: SIGN_IN, payload: user });
   }
 
   // Shout Settings
@@ -69,7 +77,10 @@ export const getStateFromLS = () => async (dispatch) => {
 };
 
 export const storeStateToLS = () => (dispatch, getState) => {
-  const { app: { settings: appSettings }, shouts: { settings: shoutSettings } } = getState();
+  const {
+    app: { settings: appSettings },
+    shouts: { settings: shoutSettings },
+  } = getState();
   storeMultiple([
     ['appSettings', appSettings],
     ['shoutSettings', shoutSettings],
