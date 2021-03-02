@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import { SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const PromoCard = ({
   title = 'Feature Title',
@@ -41,7 +41,8 @@ const PromoCard = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE = 24;
-  const { backgroundTheme, iconColor, labelColor }  = getThemeStyles(disabled ? 'lt-disabled' : theme);
+  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const { backgroundTheme, iconColor, labelColor }  = getThemeStyles(resolvedTheme);
 
   return (
     { ...normalizeStyles({

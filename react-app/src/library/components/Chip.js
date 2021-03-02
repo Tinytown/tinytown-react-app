@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { Pressable } from 'library/components/hoc';
-import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const Chip = ({
   icon,
@@ -40,7 +40,8 @@ const Chip = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE  = 16;
-  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(disabled ? 'lt-disabled' : theme);
+  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(resolvedTheme);
 
   return (
     { ...normalizeStyles({

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Pressable } from 'library/components/hoc';
-import { SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { SHAPES, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const IconButton = ({
   icon,
@@ -31,7 +31,8 @@ const IconButton = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const SIZE = 56;
-  const { backgroundTheme, iconColor, rippleColor }  = getThemeStyles(disabled ? 'lt-disabled' : theme);
+  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const { backgroundTheme, iconColor, rippleColor }  = getThemeStyles(resolvedTheme);
 
   return (
     { ...normalizeStyles({

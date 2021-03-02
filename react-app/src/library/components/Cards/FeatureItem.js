@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Config } from 'context';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const FeatureItem = ({
   title = 'Feature title',
@@ -52,7 +52,8 @@ const FeatureItem = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE = 24;
-  const { backgroundTheme, labelColor }  = getThemeStyles(theme);
+  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const { backgroundTheme, labelColor }  = getThemeStyles(resolvedTheme);
 
   return (
     normalizeStyles({

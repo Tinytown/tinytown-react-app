@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import { Pressable } from 'library/components/hoc';
 import { useAnimation } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles, getThemeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const Shout = React.memo(({
   label = 'Shout Label',
@@ -61,13 +61,14 @@ const generateStyles = ({ local, theme, disabled }) => {
   const PADDING = 8;
   const PIN_OFFSET = 14;
   const PIN_SIZE = 10;
+  const resolvedTheme = resolveTheme({ theme,  disabled });
   const  {
     backgroundTheme,
     labelColor,
     rippleColor,
     auxColor1,
     auxColor2,
-  }  = getThemeStyles(disabled ? 'disabled' : theme);
+  }  = getThemeStyles(resolvedTheme);
 
   return (
     { ...normalizeStyles({

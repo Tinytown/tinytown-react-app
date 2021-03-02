@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import { Pressable } from 'library/components/hoc';
 import { useAnimation } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const FAB = ({
   icon,
@@ -43,7 +43,8 @@ const FAB = ({
 
 const generateStyles = ({ theme, branded, disabled }) => {
   const ICON_SIZE = 24;
-  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(disabled ? 'disabled' : theme);
+  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(resolvedTheme);
 
   return (
     { ...normalizeStyles({
