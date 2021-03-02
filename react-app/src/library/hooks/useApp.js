@@ -77,6 +77,7 @@ export default (isSignedIn) => {
   const updateRegistrationToken = async (token) => {
     const { uid } = auth().currentUser;
     const deviceId = DeviceInfo.getUniqueId();
+
     await firestore().collection('users')
       .doc(uid)
       .collection('devices')
