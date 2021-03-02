@@ -8,7 +8,7 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAppState, getStateFromLS } from 'rdx/appState';
+import { updateAppState, getStateFromLS, storeStateToLS } from 'rdx/appState';
 import { signIn, updateAuth } from 'rdx/authState';
 import { getNotificationsPermission } from 'library/apis/notifications';
 import { Config } from 'context';
@@ -21,6 +21,7 @@ export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
   const configIsReady = useContext(Config.Context);
   const { notifications: pushNotif, backgroundGeo: backGeo } = useSelector((state) => state.app.settings);
+  const appActive = useSelector((state) => state.app.active);
   const dispatch = useDispatch();
 
   // Initial setup / start listeners
@@ -40,9 +41,6 @@ export default (isSignedIn) => {
         Toast.show(STRINGS.connectivity.offline, Toast.LONG);
       }
     });
-
-    // Restore Redux from local storage
-    dispatch(getStateFromLS());
 
     // Listen for auth changes
     const unsubscribeAuth = auth().onAuthStateChanged((user) =>
@@ -84,6 +82,15 @@ export default (isSignedIn) => {
       setAppIsReady(true);
     }
   }, [isSignedIn, configIsReady]);
+
+  // Load / store from local storage
+  useEffect(() => {
+    if (appActive) {
+      dispatch(getStateFromLS());
+    } else {
+      dispatch(storeStateToLS());
+    }
+  }, [appActive]);
 
   return [appIsReady];
 };

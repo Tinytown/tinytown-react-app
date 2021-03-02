@@ -1,5 +1,13 @@
-import { APP_STATE, APP_STORAGE, UPDATE_LOCATION, UPDATE_SETTING, UPDATE_ONBOARDING } from './actionTypes';
-import { getData } from 'library/apis/storage';
+import functions from '@react-native-firebase/functions';
+import {
+  APP_STATE,
+  APP_STORAGE,
+  UPDATE_LOCATION,
+  UPDATE_SETTING,
+  UPDATE_ONBOARDING,
+  SHOUTS_SETTING,
+} from './actionTypes';
+import { getMultiple, storeMultiple } from 'library/apis/storage';
 
 export const appReducer = (state = null, action) => {
   switch (action.type) {
@@ -17,15 +25,51 @@ export const appReducer = (state = null, action) => {
 };
 
 export const getStateFromLS = () => async (dispatch) => {
-  const coords = await getData('userLocation');
-  if (coords) {
+  const {
+    userLocation,
+    appSettings,
+    shoutSettings,
+  } = await getMultiple([
+    'userLocation',
+    'appSettings',
+    'shoutSettings',
+  ]);
+
+  // Location
+  if (userLocation) {
     const payload = {
-      user: coords,
+      user: userLocation,
       hasPermission: true,
     };
     dispatch({ type: UPDATE_LOCATION, payload });
   }
+
+  // App Settings
+  if (appSettings) {
+    dispatch({ type: UPDATE_SETTING, payload: appSettings });
+  }
+
+  // Shout Settings
+  if (shoutSettings?.twitterGeo.enabled) {
+    const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
+    if (!geoEnabled) {
+      shoutSettings.twitterGeo = { enabled: false, loading: false };
+    }
+  }
+
+  if (shoutSettings) {
+    dispatch({ type: SHOUTS_SETTING, payload: shoutSettings });
+  }
+
   dispatch({ type: APP_STORAGE, payload: true });
+};
+
+export const storeStateToLS = () => (dispatch, getState) => {
+  const { app: { settings: appSettings }, shouts: { settings: shoutSettings } } = getState();
+  storeMultiple([
+    ['appSettings', appSettings],
+    ['shoutSettings', shoutSettings],
+  ]);
 };
 
 export const updateAppState = (event) => {
