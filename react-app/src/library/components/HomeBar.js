@@ -44,6 +44,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
       <Animated.View style={[styles.locationBtn, showAnimation]} >
         <IconButton
           icon='crosshairs'
+          theme='lt-white-raised'
           onPress={() => getLocation(goToUser)}
           disabled={!showButton}
         />
