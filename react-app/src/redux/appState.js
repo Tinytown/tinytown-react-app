@@ -6,7 +6,9 @@ import {
   UPDATE_SETTING,
   UPDATE_ONBOARDING,
   SHOUTS_SETTING,
+  SIGN_OUT,
 } from './actionTypes';
+import INITIAL_STATE from './initialState';
 import { getMultiple, storeMultiple } from 'library/apis/storage';
 
 export const appReducer = (state = null, action) => {
@@ -19,6 +21,8 @@ export const appReducer = (state = null, action) => {
     return { ...state,  settings: { ...action.payload } };
   case UPDATE_ONBOARDING:
     return { ...state,  onboarding: { ...action.payload } };
+  case SIGN_OUT:
+    return { ...state, settings: { ...INITIAL_STATE.app.settings }, onboarding: { ...INITIAL_STATE.app.onboarding } };
   default:
     return state;
   }
@@ -82,12 +86,12 @@ export const updateAppState = (event) => {
 
 export const updateAppSetting = (key, value) => async (dispatch, getState) => {
   const { app: { settings } } = getState();
-  settings.[key] = value;
+  settings[key] = value;
   dispatch({ type: UPDATE_SETTING, payload: settings });
 };
 
 export const updateOnboarding = (key, value) => async (dispatch, getState) => {
   const { app: { onboarding } } = getState();
-  onboarding.[key] = value;
+  onboarding[key] = value;
   dispatch({ type: UPDATE_ONBOARDING, payload: onboarding });
 };
