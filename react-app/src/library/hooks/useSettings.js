@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Alert, Linking, Keyboard, Platform } from 'react-native';
+import React, { useEffect } from 'react';
 import functions from '@react-native-firebase/functions';
+import firestore from '@react-native-firebase/firestore';
+import messaging from '@react-native-firebase/messaging';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAppSetting } from 'rdx/appState';
-import { getNotificationsPermission, disableNotifications } from 'library/apis/notifications';
-import { Config } from 'context';
 import { FeatureCard } from 'library/components';
 import { normalizeStyles, getListContent } from 'res';
+
+import { Alert } from 'react-native';
 
 export default (routeParams) => {
   const { notifications: pushNotif, backgroundGeo: backGeo } = useSelector((state) => state.app.settings);
@@ -20,23 +21,15 @@ export default (routeParams) => {
 
   useEffect(() => {
     if (routeParams?.onboarding) {
-      getNotificationsPermission();
+      dispatch(updateAppSetting('notifications', true));
     }
   }, []);
-
-  const notificationsHandler = () => {
-    if (!pushNotif) {
-      getNotificationsPermission();
-    } else {
-      disableNotifications();
-    }
-  };
 
   // Assign state using list item keys
   const assignState = (key, prop) => {
     switch (key) {
     case 'notifications':
-      return prop === 'toggle' ? pushNotif : notificationsHandler;
+      return prop === 'toggle' ? pushNotif : () => dispatch(updateAppSetting(key, !pushNotif));
     case 'backgroundGeo':
       return prop === 'toggle' ? backGeo : () => dispatch(updateAppSetting(key, !backGeo));
     default:
@@ -58,6 +51,27 @@ export default (routeParams) => {
       onPress={assignState(key, 'onPress')}
     />
   ));
+
+  // Notifications
+  useEffect(() => {
+    let unsubscribeNotif = () => {};
+    if (pushNotif) {
+      // Listen for notifications
+      unsubscribeNotif = messaging().onMessage(async (remoteMessage) => {
+        Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      });
+
+      // Register background handler
+      messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+        console.log('Message handled in the background!', remoteMessage);
+      });
+    } else {
+      // TODO disable notifications
+    }
+    return () => {
+      unsubscribeNotif();
+    };
+  }, [pushNotif]);
 
   return { renderedList };
 };
