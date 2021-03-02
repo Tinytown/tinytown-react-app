@@ -6,7 +6,7 @@ import { SHAPES, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res
 
 const IconButton = ({
   icon,
-  theme = null,
+  theme,
   wrapperStyle,
   disabled = false,
   onPress,

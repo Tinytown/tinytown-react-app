@@ -63,7 +63,16 @@ const FeatureCard = ({
 const generateStyles = ({ theme, activeTheme, disabled, toggle }) => {
   const ICON_SIZE = 24;
   const resolvedTheme = resolveTheme({ theme, activeTheme, disabled, active: toggle });
-  const { backgroundTheme, iconColor, labelColor, rippleColor } = getThemeStyles(resolvedTheme);
+  const {
+    backgroundTheme,
+    labelColor,
+    auxColor1,
+  } = getThemeStyles(resolvedTheme);
+
+  const {
+    iconColor,
+    rippleColor,
+  } = getThemeStyles(activeTheme);
 
   return (
     { ...normalizeStyles({
@@ -89,7 +98,7 @@ const generateStyles = ({ theme, activeTheme, disabled, toggle }) => {
       },
       body: {
         marginTop: 2,
-        color: labelColor,
+        color: auxColor1,
         ...TYPOGRAPHY.body3,
       },
       rightSide: {
@@ -110,7 +119,7 @@ FeatureCard.propTypes = {
     'dt-gray-hairline',
   ]),
   activeTheme: PropTypes.oneOf([
-    'dt-blue-hairline',
+    'dt-twitter-hairline',
     'dt-red-hairline',
   ]),
   disabled: PropTypes.bool,

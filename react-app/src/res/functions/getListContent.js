@@ -13,7 +13,7 @@ export default (key) => {
       body: shouts.twitter.body,
       icon: 'twitter',
       theme: 'dt-gray-hairline',
-      activeTheme: 'dt-blue-hairline',
+      activeTheme: 'dt-twitter-hairline',
       children: [
         {
           key: 'geo',

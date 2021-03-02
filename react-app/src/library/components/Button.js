@@ -7,7 +7,7 @@ import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles, resolveTheme
 const Button = ({
   icon,
   label = 'Button Label',
-  theme = null,
+  theme,
   wrapperStyle,
   disabled = false,
   onPress,

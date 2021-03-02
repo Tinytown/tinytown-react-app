@@ -131,6 +131,11 @@ export default {
     borderColor: COLORS.skyBlue400,
   },
 
+  elevDarkTwitter0: {
+    borderWidth: normalizeValue(2),
+    borderColor: COLORS.twitter,
+  },
+
   elevLightBlue0: {
     borderWidth: normalizeValue(2),
     borderColor: COLORS.skyBlue100,

@@ -9,7 +9,7 @@ import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles, reso
 const FAB = ({
   icon,
   label = 'Button Label',
-  theme = null,
+  theme,
   wrapperStyle,
   branded = false,
   disabled = false,

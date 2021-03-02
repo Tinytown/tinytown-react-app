@@ -53,7 +53,10 @@ const FeatureItem = ({
 const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE = 24;
   const resolvedTheme = resolveTheme({ theme,  disabled });
+  console.log(resolvedTheme);
   const { backgroundTheme, labelColor }  = getThemeStyles(resolvedTheme);
+
+  console.log(backgroundTheme);
 
   return (
     normalizeStyles({
@@ -93,7 +96,7 @@ FeatureItem.propTypes = {
     'dt-gray-hairline',
   ]),
   activeTheme: PropTypes.oneOf([
-    'dt-blue-hairline',
+    'dt-twitter-hairline',
     'dt-red-hairline',
   ]),
   disabled: PropTypes.bool,
