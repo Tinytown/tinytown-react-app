@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Config } from 'context';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
+import { SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles, resolveTheme, translateElevation } from 'res';
 
 const FeatureCard = ({
   title = 'Feature Title',
@@ -21,11 +21,12 @@ const FeatureCard = ({
 }) => {
   const { STRINGS } = useContext(Config.Context);
   const styles = generateStyles({ theme, activeTheme, disabled, toggle });
+  const translatedActiveTheme = translateElevation(activeTheme, 'raised');
   const { on, off } = STRINGS.core;
 
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { theme: toggle ? activeTheme : theme, disabled: !toggle });
+      return React.cloneElement(child, { theme, activeTheme, disabled: !toggle });
     }
     return child;
   });
@@ -47,7 +48,7 @@ const FeatureCard = ({
               :
               <Chip
                 wrapperStyle={styles.chip}
-                theme={toggle ? activeTheme : theme}
+                theme={toggle ? translatedActiveTheme : theme}
                 label={toggle ? on : off}
                 toggle={toggle}
               />
@@ -62,17 +63,9 @@ const FeatureCard = ({
 
 const generateStyles = ({ theme, activeTheme, disabled, toggle }) => {
   const ICON_SIZE = 24;
-  const resolvedTheme = resolveTheme({ theme, activeTheme, disabled, active: toggle });
-  const {
-    backgroundTheme,
-    labelColor,
-    auxColor1,
-  } = getThemeStyles(resolvedTheme);
-
-  const {
-    iconColor,
-    rippleColor,
-  } = getThemeStyles(activeTheme);
+  const resolvedTheme = resolveTheme(theme, disabled, activeTheme, toggle);
+  const { backgroundTheme, labelColor, auxColor1 } = getThemeStyles(resolvedTheme);
+  const { iconColor, rippleColor } = getThemeStyles(activeTheme);
 
   return (
     { ...normalizeStyles({
@@ -121,6 +114,7 @@ FeatureCard.propTypes = {
   activeTheme: PropTypes.oneOf([
     'dt-twitter-hairline',
     'dt-red-hairline',
+    'lt-cyan-hairline',
   ]),
   disabled: PropTypes.bool,
   toggle: PropTypes.bool,

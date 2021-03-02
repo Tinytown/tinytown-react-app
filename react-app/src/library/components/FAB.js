@@ -43,7 +43,7 @@ const FAB = ({
 
 const generateStyles = ({ theme, branded, disabled }) => {
   const ICON_SIZE = 24;
-  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const resolvedTheme = resolveTheme(theme,  disabled);
   const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(resolvedTheme);
 
   return (

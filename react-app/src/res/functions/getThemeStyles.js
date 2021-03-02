@@ -9,9 +9,11 @@ const getLightTheme = (color, elevation) => {
   let iconColor;
   let labelColor;
   let rippleColor;
+  let auxColor1;
+  let auxColor2;
 
   switch (color) {
-  // CYAN THEMES
+  // CYAN THEMES - LIGHT
   case 'cyan':
     iconColor = COLORS.asphaltGray800;
     labelColor = COLORS.asphaltGray800;
@@ -47,11 +49,12 @@ const getLightTheme = (color, elevation) => {
       iconColor = COLORS.poolCyan600;
       labelColor = COLORS.asphaltGray800;
       rippleColor = COLORS.poolCyan600;
+      auxColor1 = COLORS.asphaltGray600;
       break;
     }
-    return  { backgroundTheme, iconColor, labelColor, rippleColor };
+    return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1 };
 
-  // BLUE THEMES
+  // BLUE THEMES - LIGHT
   case 'blue':
     iconColor = COLORS.justWhite;
     labelColor = COLORS.justWhite;
@@ -87,17 +90,16 @@ const getLightTheme = (color, elevation) => {
       iconColor = COLORS.skyBlue400;
       labelColor = COLORS.asphaltGray800;
       rippleColor = COLORS.skyBlue400;
+      auxColor1 = COLORS.asphaltGray600;
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor };
 
-  // RED THEMES
+  // RED THEMES - LIGHT
   case 'red':
     iconColor = COLORS.justWhite;
     labelColor = COLORS.justWhite;
     rippleColor = COLORS.justWhite;
-    auxColor1 = COLORS.bubblegumRed400;
-    auxColor2 = COLORS.justWhite;
 
     switch (elevation) {
     case 'floating':
@@ -107,6 +109,8 @@ const getLightTheme = (color, elevation) => {
         borderWidth: normalizeValue(2),
         ...SHAPES.elevRed5,
       };
+      auxColor1 = COLORS.bubblegumRed400;
+      auxColor2 = COLORS.justWhite;
       break;
     case 'raised':
       backgroundTheme = {
@@ -124,21 +128,21 @@ const getLightTheme = (color, elevation) => {
     case 'hairline':
       backgroundTheme = {
         backgroundColor: COLORS.justWhite,
-        ...SHAPES.elevRed0,
+        ...SHAPES.elevLightRed0,
       };
       iconColor = COLORS.bubblegumRed400;
       labelColor = COLORS.asphaltGray800;
       rippleColor = COLORS.bubblegumRed400;
+      auxColor1 = COLORS.asphaltGray600;
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1, auxColor2 };
 
-  // WHITE THEMES
+  // WHITE THEMES - LIGHT
   case 'white':
     iconColor = COLORS.asphaltGray800;
     labelColor = COLORS.asphaltGray800;
     rippleColor = COLORS.asphaltGray800;
-    auxColor1 = COLORS.asphaltGray500;
 
     switch (elevation) {
     case 'floating':
@@ -167,6 +171,7 @@ const getLightTheme = (color, elevation) => {
         backgroundColor: COLORS.justWhite,
         ...SHAPES.elevLightGray0,
       };
+      auxColor1 = COLORS.asphaltGray600;
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1 };
@@ -192,12 +197,11 @@ const getDarkTheme = (color, elevation) => {
   let rippleColor;
 
   switch (color) {
-  // TWITTER THEMES
+  // TWITTER THEMES - DARK
   case 'twitter':
     iconColor = COLORS.asphaltGray900;
     labelColor = COLORS.asphaltGray900;
     rippleColor = COLORS.asphaltGray900;
-    auxColor1 = COLORS.asphaltGray300;
 
     switch (elevation) {
     case 'floating':
@@ -205,7 +209,7 @@ const getDarkTheme = (color, elevation) => {
         backgroundColor: COLORS.twitter,
         borderColor: COLORS.asphaltGray900,
         borderWidth: normalizeValue(2),
-        ...SHAPES.elevBlue5,
+        ...SHAPES.elevTwitter5,
       };
       break;
     case 'raised':
@@ -213,7 +217,7 @@ const getDarkTheme = (color, elevation) => {
         backgroundColor: COLORS.twitter,
         borderColor: COLORS.twitter,
         borderWidth: normalizeValue(2),
-        ...SHAPES.elevBlue2,
+        ...SHAPES.elevTwitter2,
       };
       break;
     case 'filled':
@@ -224,27 +228,28 @@ const getDarkTheme = (color, elevation) => {
     case 'hairline':
       backgroundTheme = {
         backgroundColor: COLORS.asphaltGray900,
-        ...SHAPES.elevDarkTwitter0,
+        ...SHAPES.elevTwitter0,
       };
       iconColor = COLORS.twitter;
       labelColor = COLORS.justWhite;
       rippleColor = COLORS.twitter;
+      auxColor1 = COLORS.asphaltGray300;
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1 };
 
-  // RED THEMES
+  // RED THEMES - DARK
   case 'red':
-    iconColor = COLORS.justWhite;
-    labelColor = COLORS.justWhite;
-    rippleColor = COLORS.justWhite;
-    auxColor1 = COLORS.bubblegumRed400;
+    iconColor = COLORS.asphaltGray900;
+    labelColor = COLORS.asphaltGray900;
+    rippleColor = COLORS.asphaltGray900;
+    auxColor1 = COLORS.asphaltGray300;
 
     switch (elevation) {
     case 'floating':
       backgroundTheme = {
         backgroundColor: COLORS.bubblegumRed400,
-        borderColor: COLORS.justWhite,
+        borderColor: COLORS.asphaltGray900,
         borderWidth: normalizeValue(2),
         ...SHAPES.elevRed5,
       };
@@ -264,16 +269,17 @@ const getDarkTheme = (color, elevation) => {
       break;
     case 'hairline':
       backgroundTheme = {
-        backgroundColor: COLORS.justWhite,
-        ...SHAPES.elevRed0,
+        backgroundColor: COLORS.asphaltGray900,
+        ...SHAPES.elevDarkRed0,
       };
       iconColor = COLORS.bubblegumRed400;
-      labelColor = COLORS.asphaltGray800;
+      labelColor = COLORS.justWhite;
       rippleColor = COLORS.bubblegumRed400;
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1 };
-  // GRAY THEMES
+
+  // GRAY THEMES - DARK
   case 'gray':
     iconColor = COLORS.justWhite;
     labelColor = COLORS.justWhite;
@@ -340,12 +346,17 @@ export const getThemeStyles = (params = DEFAULT_THEME) => {
   return styles;
 };
 
-export const resolveTheme = ({ theme = DEFAULT_THEME, activeTheme, disabled, active }) => {
+export const resolveTheme = (theme = DEFAULT_THEME, disabled, activeTheme, active) => {
   if (disabled) {
     const [th] = theme.split('-');
     return `${th}-disabled`;
   }
 
   return active ? activeTheme : theme;
+};
+
+export const translateElevation = (theme = DEFAULT_THEME, target = 'raised') => {
+  const [th, co] = theme.split('-');
+  return `${th}-${co}-${target}`;
 };
 

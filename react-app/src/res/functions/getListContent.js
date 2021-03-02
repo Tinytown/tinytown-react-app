@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { Config } from 'context';
-import COLORS from '../colors';
 
 export default (key) => {
   const { STRINGS } = useContext(Config.Context);
@@ -63,11 +62,17 @@ export default (key) => {
     },
   ];
 
+  const settings = [
+
+  ];
+
   switch (key) {
   case 'megaphone':
     return megaphone;
   case 'about':
     return about;
+  case 'settings':
+    return settings;
   default:
     return;
   }

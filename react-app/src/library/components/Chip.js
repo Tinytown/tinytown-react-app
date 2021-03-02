@@ -40,7 +40,7 @@ const Chip = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE  = 16;
-  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const resolvedTheme = resolveTheme(theme,  disabled);
   const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(resolvedTheme);
 
   return (
@@ -71,11 +71,14 @@ Chip.propTypes = {
   label: PropTypes.string.isRequired,
   theme: PropTypes.oneOf([
     'lt-red-raised',
+    'lt-cyan-raised',
     'lt-red-floating',
     'lt-red-hairline',
     'lt-blue-hairline',
     'lt-white-hairline',
     'dt-gray-hairline',
+    'dt-twitter-raised',
+    'dt-red-raised',
   ]),
   wrapperStyle: PropTypes.object,
   animationType: PropTypes.string,

@@ -41,7 +41,7 @@ const PromoCard = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const ICON_SIZE = 24;
-  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const resolvedTheme = resolveTheme(theme,  disabled);
   const { backgroundTheme, iconColor, labelColor }  = getThemeStyles(resolvedTheme);
 
   return (

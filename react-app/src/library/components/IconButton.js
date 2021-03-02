@@ -31,7 +31,7 @@ const IconButton = ({
 
 const generateStyles = ({ theme, disabled }) => {
   const SIZE = 56;
-  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const resolvedTheme = resolveTheme(theme,  disabled);
   const { backgroundTheme, iconColor, rippleColor }  = getThemeStyles(resolvedTheme);
 
   return (

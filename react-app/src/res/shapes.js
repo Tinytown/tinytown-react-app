@@ -24,7 +24,7 @@ const elev2 = {
 };
 
 export default {
-  // ELEVATION - GRAYS
+  // GRAY ELEVATION
   elevLightGray0: {
     borderWidth: normalizeValue(2),
     borderColor: COLORS.asphaltGray50,
@@ -80,8 +80,13 @@ export default {
     ...elev5,
   },
 
-  // ELEVATION - COLORS
-  elevRed0: {
+  // RED ELEVATION
+  elevDarkRed0: {
+    borderWidth: normalizeValue(2),
+    borderColor: COLORS.bubblegumRed400,
+  },
+
+  elevLightRed0: {
     borderWidth: normalizeValue(2),
     borderColor: COLORS.bubblegumRed100,
   },
@@ -96,16 +101,19 @@ export default {
     ...elev5,
   },
 
+  // PURPLE ELEVATION
   elevPurple5: {
     shadowColor: COLORS.flowerPurple400,
     ...elev5,
   },
 
+  // LIME ELEVATION
   elevLime5: {
     shadowColor: COLORS.funLime400,
     ...elev5,
   },
 
+  // CYAN ELEVATION
   elevCyan0: {
     borderWidth: normalizeValue(2),
     borderColor: COLORS.poolCyan100,
@@ -121,19 +129,16 @@ export default {
     ...elev5,
   },
 
+  // ORANGE ELEVATION
   elevOrange5: {
     shadowColor: COLORS.trafficOrange400,
     ...elev5,
   },
 
+  // BLUE ELEVATION
   elevDarkBlue0: {
     borderWidth: normalizeValue(2),
     borderColor: COLORS.skyBlue400,
-  },
-
-  elevDarkTwitter0: {
-    borderWidth: normalizeValue(2),
-    borderColor: COLORS.twitter,
   },
 
   elevLightBlue0: {
@@ -149,6 +154,22 @@ export default {
   elevBlue5: {
     shadowColor: COLORS.skyBlue400,
     ...elev5,
+  },
+
+  // BRANDS ELEVATION
+  elevTwitter0: {
+    borderWidth: normalizeValue(2),
+    borderColor: COLORS.twitter,
+  },
+
+  elevTwitter5: {
+    shadowColor: COLORS.twitter,
+    ...elev5,
+  },
+
+  elevTwitter2: {
+    shadowColor: COLORS.twitter,
+    ...elev2,
   },
 
   // CORNER RADIUS

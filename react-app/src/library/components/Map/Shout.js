@@ -61,7 +61,7 @@ const generateStyles = ({ local, theme, disabled }) => {
   const PADDING = 8;
   const PIN_OFFSET = 14;
   const PIN_SIZE = 10;
-  const resolvedTheme = resolveTheme({ theme,  disabled });
+  const resolvedTheme = resolveTheme(theme,  disabled);
   const  {
     backgroundTheme,
     labelColor,

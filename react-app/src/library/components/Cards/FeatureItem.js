@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Config } from 'context';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
+import { TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles, resolveTheme, translateElevation } from 'res';
 
 const FeatureItem = ({
   title = 'Feature title',
@@ -17,7 +17,8 @@ const FeatureItem = ({
   onPress = () => console.log('Pass an onPress callback to this component'),
 }) => {
   const { STRINGS } = useContext(Config.Context);
-  const styles = generateStyles({ theme, disabled });
+  const styles = generateStyles({ theme, activeTheme, disabled });
+  const translatedActiveTheme = translateElevation(activeTheme, 'raised');
   const { on, off } = STRINGS.core;
 
   return (
@@ -25,21 +26,21 @@ const FeatureItem = ({
       <View style={styles.divider}/>
       <Pressable
         containerStyle={styles.content}
-        rippleColor={styles.keyColor}
+        rippleColor={styles.rippleColor}
         onPress={onPress}
         disabled={disabled}
       >
         <View style={styles.icon}>
-          <Icon icon={icon} color={styles.keyColor}/>
+          <Icon icon={icon} color={styles.iconColor}/>
         </View>
         <Text style={styles.title}>{title}</Text>
         <View style={styles.rightSide}>
           {loading ?
-            <ActivityIndicator size='small' color={styles.keyColor} />
+            <ActivityIndicator size='small' color={styles.iconColor} />
             :
             <Chip
               wrapperStyle={styles.chip}
-              theme={toggle ? activeTheme : theme}
+              theme={toggle ? translatedActiveTheme : theme}
               label={toggle ? on : off}
               toggle={toggle}
             />
@@ -50,16 +51,14 @@ const FeatureItem = ({
   );
 };
 
-const generateStyles = ({ theme, disabled }) => {
+const generateStyles = ({ theme, activeTheme, disabled }) => {
   const ICON_SIZE = 24;
-  const resolvedTheme = resolveTheme({ theme,  disabled });
-  console.log(resolvedTheme);
-  const { backgroundTheme, labelColor }  = getThemeStyles(resolvedTheme);
-
-  console.log(backgroundTheme);
+  const resolvedTheme = resolveTheme(theme,  disabled);
+  const { backgroundTheme, labelColor } = getThemeStyles(resolvedTheme);
+  const { iconColor, rippleColor } = getThemeStyles(activeTheme);
 
   return (
-    normalizeStyles({
+    { ...normalizeStyles({
       divider: {
         height: 2,
         backgroundColor: backgroundTheme.borderColor,
@@ -84,7 +83,7 @@ const generateStyles = ({ theme, disabled }) => {
         position: 'absolute',
         right: 14,
       },
-    })
+    }), iconColor, rippleColor }
   );
 };
 

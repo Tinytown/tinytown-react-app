@@ -29,6 +29,7 @@ const SettingsScreen = ({
         title={notifications.title}
         body={notifications.body}
         icon='notifications'
+        activeTheme='lt-cyan-hairline'
         wrapperStyle={styles.card}
         toggle={pushNotif}
         onPress={() => updateAppSetting('notifications', !pushNotif)}
@@ -37,6 +38,7 @@ const SettingsScreen = ({
         title={backgroundGeo.title}
         body={backgroundGeo.body}
         icon='crosshairs'
+        activeTheme='lt-cyan-hairline'
         wrapperStyle={styles.card}
         toggle={backGeo}
         onPress={() => updateAppSetting('backgroundGeo', !backGeo)}
