@@ -25,7 +25,6 @@ export default {
         settings: {
           notifications: false,
           backgroundGeo: false,
-          showNotificationsMarker: true,
         },
         onboarding: {
           shouts: 'active',
@@ -171,7 +170,6 @@ export default {
           settings: {
             notifications: false,
             backgroundGeo: false,
-            showNotificationsMarker: true,
           },
         },
       ],
@@ -200,10 +198,9 @@ export default {
             {
               notifications: false,
               backgroundGeo: false,
-              showNotificationsMarker: true,
             },
           ],
-          required: ['notifications', 'backgroundGeo', 'showNotificationsMarker'],
+          required: ['notifications', 'backgroundGeo'],
           title: 'The settings schema',
           type: 'object',
           properties: {
@@ -219,13 +216,6 @@ export default {
               default: false,
               examples: [true, false],
               title: 'The settings/backgroundGeo schema',
-              type: 'boolean',
-            },
-            showNotificationsMarker: {
-              $id: '#/properties/app/properties/settings/properties/showNotificationsMarker',
-              default: true,
-              examples: [true, false],
-              title: 'The settings/showNotificationsMarker schema',
               type: 'boolean',
             },
           },

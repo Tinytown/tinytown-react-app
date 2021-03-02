@@ -1,6 +1,7 @@
 import { SIGN_IN, SIGN_OUT, UPDATE_AUTH } from './actionTypes';
 import INITIAL_STATE from './initialState';
 import { clearStorage } from 'library/apis/storage';
+import { disableNotifications } from 'library/apis/notifications';
 
 export const authReducer = (state = null, action) => {
   switch (action.type) {
@@ -25,9 +26,10 @@ export const signIn = (user) => {
   };
 };
 
-export const signOut = () => {
-  clearStorage();
-  return { type: SIGN_OUT };
+export const signOut = () => async (dispatch) => {
+  await disableNotifications();
+  await clearStorage();
+  dispatch({ type: SIGN_OUT });
 };
 
 export const updateAuth = (payload) => (

@@ -19,7 +19,6 @@ const INITIAL_STATE = Object.freeze({
     settings: {
       notifications: false,
       backgroundGeo: false,
-      showNotificationsMarker: true,
     },
     onboarding: {
       shouts: 'active',

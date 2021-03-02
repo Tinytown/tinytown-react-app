@@ -47,10 +47,6 @@ export const clearStorage = async () => {
   let keys = [];
   try {
     keys = await AsyncStorage.getAllKeys();
-  } catch (err) {
-    console.log(err);
-  }
-  try {
     await AsyncStorage.multiRemove(keys);
   } catch (err) {
     console.log(err);
