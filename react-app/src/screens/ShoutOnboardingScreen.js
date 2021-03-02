@@ -6,7 +6,12 @@ import { Config } from 'context';
 import { Countdown, Button, NavBar, BottomSheet, BottomSheetContainer, PromoCard } from 'library/components';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const ShoutOnboardingScreen = ({ navigation, shoutTimestamp, updateOnboarding }) => {
+const ShoutOnboardingScreen = ({
+  navigation,
+  shoutTimestamp,
+  updateOnboarding,
+  pushNotif,
+}) => {
   const { STRINGS } = useContext(Config.Context);
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
@@ -44,20 +49,21 @@ const ShoutOnboardingScreen = ({ navigation, shoutTimestamp, updateOnboarding })
           <View style={styles.chipsContainer}>
             <Countdown timestamp={shoutTimestamp ?? Date.now()} />
           </View>
-          <PromoCard
-            wrapperStyle={styles.card}
-            icon='notifications'
-            title={notifications.title}
-            body={notifications.body}
-            theme='lt-cyan-hairline'
-          >
-            <Button
-              label={turnOn}
-              theme='lt-cyan-raised'
-              onPress={onPressHandler}
-              wrapperStyle={styles.turnOnbtn}
-            />
-          </PromoCard>
+          {!pushNotif &&
+            <PromoCard
+              wrapperStyle={styles.card}
+              icon='notifications'
+              title={notifications.title}
+              body={notifications.body}
+              theme='lt-cyan-hairline'
+            >
+              <Button
+                label={turnOn}
+                theme='lt-cyan-raised'
+                onPress={onPressHandler}
+                wrapperStyle={styles.turnOnbtn}
+              />
+            </PromoCard>}
         </View>
       </BottomSheetContainer>
     </BottomSheet>
@@ -94,6 +100,7 @@ const styles = normalizeStyles({
 
 const mapStateToProps = (state) => ({
   shoutTimestamp: state.app.onboarding.shoutTimestamp,
+  pushNotif: state.app.settings.notifications,
 });
 
 export default connect(mapStateToProps, { updateOnboarding })(ShoutOnboardingScreen);
