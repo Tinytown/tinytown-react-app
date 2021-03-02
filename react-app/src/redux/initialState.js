@@ -17,8 +17,8 @@ const INITIAL_STATE = Object.freeze({
     active: true,
     storageLoaded: false,
     settings: {
-      notifications: false,
-      backgroundGeo: false,
+      notifications: null,
+      backgroundGeo: null,
     },
     onboarding: {
       shouts: 'active',

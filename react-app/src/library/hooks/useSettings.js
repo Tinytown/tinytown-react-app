@@ -1,7 +1,4 @@
 import React, { useEffect } from 'react';
-import functions from '@react-native-firebase/functions';
-import firestore from '@react-native-firebase/firestore';
-import messaging from '@react-native-firebase/messaging';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAppSetting } from 'rdx/appState';
 import { FeatureCard } from 'library/components';
@@ -51,27 +48,6 @@ export default (routeParams) => {
       onPress={assignState(key, 'onPress')}
     />
   ));
-
-  // Notifications
-  useEffect(() => {
-    let unsubscribeNotif = () => {};
-    if (pushNotif) {
-      // Listen for notifications
-      unsubscribeNotif = messaging().onMessage(async (remoteMessage) => {
-        Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      });
-
-      // Register background handler
-      messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-        console.log('Message handled in the background!', remoteMessage);
-      });
-    } else {
-      // TODO disable notifications
-    }
-    return () => {
-      unsubscribeNotif();
-    };
-  }, [pushNotif]);
 
   return { renderedList };
 };

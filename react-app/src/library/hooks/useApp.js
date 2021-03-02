@@ -4,6 +4,7 @@ import SplashScreen from 'react-native-splash-screen';
 import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
+import messaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-simple-toast';
@@ -39,12 +40,6 @@ export default (isSignedIn) => {
       }
     });
 
-    // Check notifications permissions during launch
-    if (pushNotif) {
-      const hasPermission  = getNotificationsPermission();
-      !hasPermission && dispatch(updateAppSetting('notifications', false));
-    }
-
     // Listen for auth changes
     const unsubscribeAuth = auth().onAuthStateChanged((user) =>
       (user ? dispatch(signIn(user)) : dispatch(updateAuth(false))));
@@ -78,5 +73,44 @@ export default (isSignedIn) => {
       dispatch(storeStateToLS());
     }
   }, [appActive]);
+
+  // Push notifications
+  useEffect(() => {
+    let unsubscribeNotif = () => {};
+    if (pushNotif) {
+      // Check notifications permissions during launch
+      const hasPermission  = getNotificationsPermission();
+      if (hasPermission) {
+        // Listen for notifications
+        unsubscribeNotif = messaging().onMessage(async (remoteMessage) => {
+          Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+        });
+
+        // Register background handler
+        messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+          console.log('Message handled in the background!', remoteMessage);
+        });
+
+        // TODO update token
+
+        // TODO update backend
+      } else {
+        dispatch(updateAppSetting('notifications', false));
+      }
+    } else if (pushNotif === false) {
+      // TODO disable notifications
+    }
+    return () => {
+      unsubscribeNotif();
+    };
+  }, [pushNotif]);
+
+  // Background location
+  useEffect(() => {
+    return () => {
+
+    };
+  }, [backGeo]);
+
   return [appIsReady];
 };

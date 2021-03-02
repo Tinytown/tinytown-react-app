@@ -23,8 +23,8 @@ export default {
         active: true,
         storageLoaded: false,
         settings: {
-          notifications: false,
-          backgroundGeo: false,
+          notifications: null,
+          backgroundGeo: null,
         },
         onboarding: {
           shouts: 'active',
@@ -204,8 +204,8 @@ export default {
           default: {},
           examples: [
             {
-              notifications: false,
-              backgroundGeo: false,
+              notifications: null,
+              backgroundGeo: null,
             },
           ],
           required: ['notifications', 'backgroundGeo'],
@@ -214,17 +214,17 @@ export default {
           properties: {
             notifications: {
               $id: '#/properties/app/properties/settings/properties/notifications',
-              default: false,
-              examples: [true, false],
+              default: null,
+              examples: [true, false, null],
               title: 'The settings/notifications schema',
-              type: 'boolean',
+              type: ['boolean', 'null'],
             },
             backgroundGeo: {
               $id: '#/properties/app/properties/settings/properties/backgroundGeo',
-              default: false,
-              examples: [true, false],
+              default: null,
+              examples: [true, false, null],
               title: 'The settings/backgroundGeo schema',
-              type: 'boolean',
+              type: ['boolean', 'null'],
             },
           },
           additionalProperties: true,
