@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 import _ from 'lodash';
 import * as turf from '@turf/turf';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeShout, updateShoutsLoading } from 'rdx/shoutState';
+import { removeLocalShout, updateNotificationShouts, updateShoutsLoading } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
 import { mapConfig } from 'library/components/Map';
 
@@ -16,6 +15,7 @@ export default (userLocation) => {
   const [prevLocation, setPrevLocation] = useState([]);
   const subscribers = [];
   const uid = useSelector((state) => state.auth.user.uid);
+  const notificationShouts = useSelector((state) => state.shouts.notifications);
   const localShouts = useSelector((state) => state.shouts.local);
 
   const dispatch = useDispatch();
@@ -103,8 +103,15 @@ export default (userLocation) => {
               });
 
               // check if shout was just created and remove from redux
-              if (remoteShout.uid === uid && localShouts.some((shout) => shout.id === remoteShout.id)) {
-                dispatch(removeShout(remoteShout.id));
+              const local = localShouts.some((shout) => shout.id === remoteShout.id);
+              if (remoteShout.uid === uid && local) {
+                dispatch(removeLocalShout(remoteShout.localId));
+              }
+
+              // check if shout came in as notification
+              const notified = notificationShouts.some((shout) => shout.id === remoteShout.id);
+              if (notified) {
+                dispatch(updateNotificationShouts('remove', remoteShout.id));
               }
             }
             if (type === 'modified') {
@@ -143,7 +150,7 @@ export default (userLocation) => {
         unsubscribe();
       });
     };
-  }, [userLocation]);
+  }, [userLocation, notificationShouts, localShouts]);
 
   return [shouts];
 };

@@ -46,7 +46,7 @@ module.exports = async (data, context) => {
     await userRef.collection('shouts').doc(shoutRef.id)
       .set(shout);
 
-    sendNotification(coordinates, text, uid);
+    sendNotification(shout, uid);
 
     return;
   } catch (error) {

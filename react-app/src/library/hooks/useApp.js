@@ -12,6 +12,7 @@ import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAppState, getStateFromLS, storeStateToLS, updateAppSetting } from 'rdx/appState';
 import { updateAuth } from 'rdx/authState';
+import { updateNotificationShouts } from 'rdx/shoutState';
 import { getNotificationsPermission } from 'library/apis/notifications';
 import { Config } from 'context';
 import { STRINGS } from 'res';
@@ -100,8 +101,8 @@ export default (isSignedIn) => {
       const hasPermission  = getNotificationsPermission();
       if (hasPermission) {
         // listen for notifications
-        unsubscribeNotif = messaging().onMessage(async (remoteMessage) => {
-          Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+        unsubscribeNotif = messaging().onMessage(({ data: { shout }, notification: { body } }) => {
+          dispatch(updateNotificationShouts('add', { ...JSON.parse(shout), text: body }));
         });
 
         // register background handler

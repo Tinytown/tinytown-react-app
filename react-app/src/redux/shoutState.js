@@ -1,5 +1,5 @@
 import functions from '@react-native-firebase/functions';
-import { LOCAL_SHOUTS, SHOUTS_LOADING, SHOUTS_SETTING, SHOUTS_OPENED } from './actionTypes';
+import { LOCAL_SHOUTS, SHOUTS_LOADING, SHOUTS_SETTING, SHOUTS_OPENED, SHOUTS_NOTIFICATIONS } from './actionTypes';
 
 export const shoutReducer = (state = null, action) => {
   switch (action.type) {
@@ -11,6 +11,8 @@ export const shoutReducer = (state = null, action) => {
     return { ...state,  settings: { ...action.payload } };
   case SHOUTS_OPENED:
     return { ...state,  opened: action.payload  };
+  case SHOUTS_NOTIFICATIONS:
+    return { ...state,  notifications: action.payload  };
   default:
     return state;
   }
@@ -28,7 +30,7 @@ export const createShout = (shout) => async (dispatch, getState) => {
   functions().httpsCallable('createShout')(shout);
 };
 
-export const removeShout = (localId) => async (dispatch, getState) => {
+export const removeLocalShout = (localId) => async (dispatch, getState) => {
   const { shouts: { local } } = getState();
   const filteredShouts = local.filter((shout) => shout.localId !== localId);
 
@@ -54,4 +56,15 @@ export const updateOpenedShouts = (action, shoutId) => async (dispatch, getState
     opened.splice(objIndex, 1);
   }
   dispatch({ type: SHOUTS_OPENED, payload: opened });
+};
+
+export const updateNotificationShouts = (action, shoutId) => async (dispatch, getState) => {
+  const { shouts: { notifications } } = getState();
+  if (action === 'add') {
+    notifications.push(shoutId);
+  } else if (action === 'remove') {
+    objIndex = notifications.findIndex((id) => id === shoutId);
+    notifications.splice(objIndex, 1);
+  }
+  dispatch({ type: SHOUTS_NOTIFICATIONS, payload: notifications });
 };

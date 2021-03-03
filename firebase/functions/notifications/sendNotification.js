@@ -1,13 +1,17 @@
+/* eslint-disable camelcase */
 const admin = require('firebase-admin');
 const turf = require('@turf/turf');
 const getSurroundingCodes = require('../location/getSurroundingCodes');
 const { SIGHT_RADIUS } = require('../location/config');
 
-module.exports = async (coordinates, text, senderId) => {
+module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
   const message = {
     notification: {
       body: text,
       title: 'New shout nearby',
+    },
+    data: {
+      shout: JSON.stringify({ coordinates, id, createdAt }),
     },
     apns: {
       payload: {
@@ -37,10 +41,15 @@ module.exports = async (coordinates, text, senderId) => {
   try {
     const areasSnapshot = await areasRef.get();
     areasSnapshot.docs.forEach(async ({ id }) => {
-      const devices = await mapRef.doc(id).collection('devices')
+      const devicesSnapshot = await mapRef.doc(id).collection('devices')
         .get();
-      devices.docs.forEach(async ({ data }) => {
-        const { lastLocation, deviceId, uid } = data();
+
+      if (!devicesSnapshot || devicesSnapshot.size === 0) {
+        return;
+      }
+
+      devicesSnapshot.docs.forEach(async (doc) => {
+        const { lastLocation, deviceId, uid } = doc.data();
         const devicePoint = turf.point(lastLocation);
         const isWithinBounds = turf.booleanPointInPolygon(devicePoint, shoutRadius);
 

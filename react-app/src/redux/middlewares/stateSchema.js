@@ -33,6 +33,7 @@ export default {
       shouts: {
         local: [],
         opened: [],
+        notifications: [],
         loading: true,
         settings: {
           twitter: false,
@@ -271,6 +272,7 @@ export default {
         {
           local: [],
           opened: [],
+          notifications: [],
           loading: true,
           settings: {
             twitter: false,
@@ -282,7 +284,7 @@ export default {
           },
         },
       ],
-      required: ['local', 'opened', 'loading', 'settings'],
+      required: ['local', 'opened', 'notifications', 'loading', 'settings'],
       title: 'The shouts schema',
       type: 'object',
       properties: {
@@ -297,6 +299,13 @@ export default {
           $id: '#/properties/shouts/properties/opened',
           type: 'array',
           title: 'The opened schema',
+          default: [],
+          examples: [{ id: 123 }],
+        },
+        notifications: {
+          $id: '#/properties/shouts/properties/notifications',
+          type: 'array',
+          title: 'The shouts/notifications schema',
           default: [],
           examples: [{ id: 123 }],
         },

@@ -178,6 +178,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [outsideShouts, setOutsideShouts] = useState(null);
   const [shoutExpired, setShoutExpired] = useState(false);
   const localShouts = useSelector((state) => state.shouts.local);
+  const notificationShouts = useSelector((state) => state.shouts.notifications);
   const uid = useSelector((state) => state.auth.user.uid);
   const openedShouts = useSelector((state) => state.shouts.opened);
 
@@ -193,7 +194,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
     const userSight = turf.circle(userLocation, SIGHT_RADIUS, { units: 'kilometers' });
     const filteredOutShouts = [];
 
-    const filteredInShouts = [...localShouts, ...remoteShouts].filter((shout) => {
+    const filteredInShouts = [...localShouts, ...remoteShouts, ...notificationShouts].filter((shout) => {
       // check if shout is within user's sight
       const shoutPoint = turf.point(shout.coordinates);
       const isWithinBounds = turf.booleanPointInPolygon(shoutPoint, userSight);
@@ -223,7 +224,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
     setInsideShouts(filteredInShouts);
     setOutsideShouts(filteredOutShouts);
-  }, [localShouts, remoteShouts, userLocation, shoutExpired]);
+  }, [localShouts, remoteShouts, notificationShouts, userLocation, shoutExpired]);
 
   const onPressHandler = (openedShout) => {
     navigation.navigate('OpenShout', { shout: openedShout });

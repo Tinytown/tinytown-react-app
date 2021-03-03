@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { Countdown, NavBar, BottomSheet, BottomSheetContainer } from 'library/components';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const ShoutScreen = ({ navigation, route: { params: { shout } } }) => {
+const ShoutScreen = ({ navigation, route: { params: { shout: { createdAt, text } } } }) => {
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
 
@@ -18,9 +18,9 @@ const ShoutScreen = ({ navigation, route: { params: { shout } } }) => {
       <BottomSheetContainer>
         <NavBar label='' onClose={() => setOpenSheet(false)}/>
         <View style={styles.container}>
-          <Text style={styles.text}>{shout.text}</Text>
+          <Text style={styles.text}>{text}</Text>
           <View style={styles.chipsContainer} >
-            <Countdown timestamp={shout.createdAt} />
+            <Countdown timestamp={createdAt} />
           </View>
         </View>
       </BottomSheetContainer>
