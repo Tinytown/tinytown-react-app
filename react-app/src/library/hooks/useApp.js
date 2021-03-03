@@ -21,6 +21,7 @@ export default (isSignedIn) => {
   const configIsReady = useContext(Config.Context);
   const { notifications: pushNotif, backgroundGeo: backGeo } = useSelector((state) => state.app.settings);
   const appActive = useSelector((state) => state.app.active);
+  const { user: coordinates } = useSelector((state) => state.location);
   const dispatch = useDispatch();
 
   // Initial setup / start listeners
@@ -84,6 +85,11 @@ export default (isSignedIn) => {
       .doc(deviceId)
       .update({ registrationToken: token })
       .catch((error) => console.log(error));
+
+    // Store location in firestore
+    if (token) {
+      functions().httpsCallable('storeLocation')({ deviceId, coordinates });
+    }
   };
 
   // Push notifications

@@ -22,7 +22,6 @@ export const authReducer = (state = null, action) => {
 export const signIn = (token, secret) => async (dispatch) => {
   const deviceId = DeviceInfo.getUniqueId();
   const twitterCredential = auth.TwitterAuthProvider.credential(token, secret);
-
   const { user } = await auth().signInWithCredential(twitterCredential);
   const { displayName, uid } = user;
   const photoURL = user.providerData[0].photoURL.replace(/_normal/i, '');
@@ -35,7 +34,7 @@ export const signIn = (token, secret) => async (dispatch) => {
     .doc('twitter')
     .set({ token, secret });
 
-  // create new doc for device in firestore
+  // Create new doc for device in firestore
   firestore().collection('users')
     .doc(uid)
     .collection('devices')

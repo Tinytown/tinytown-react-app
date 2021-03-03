@@ -6,6 +6,7 @@ const signOut = require('./auth/signOut');
 const createShout = require('./shouts/createShout');
 const checkTwitterGeo = require('./shouts/checkTwitterGeo');
 const removeExpiredShouts = require('./shouts/removeExpiredShouts');
+const storeLocation = require('./location/storeLocation');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -16,3 +17,4 @@ exports.signOut = functions.https.onCall(signOut);
 exports.createShout = functions.https.onCall(createShout);
 exports.checkTwitterGeo = functions.https.onCall(checkTwitterGeo);
 exports.removeExpiredShouts = functions.pubsub.schedule('every week').onRun(removeExpiredShouts);
+exports.storeLocation = functions.https.onCall(storeLocation);

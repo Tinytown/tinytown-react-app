@@ -1,15 +1,15 @@
 const admin = require('firebase-admin');
 const { encode, decode } = require('pluscodes');
 const sendToTwitter = require('./sendToTwitter');
+const { PLUSCODE_PRECISION } = require('../config/mapConfig');
 
 module.exports = async (data, context) => {
-  const CODE_PRECISION = 6;
   const createdAt = Date.now();
   const { text, sourcePlatform, coordinates, localId, sendTo } = data;
   const { auth: { uid } } = context;
   const db = admin.firestore();
 
-  const plusCode = encode({ longitude: coordinates[0], latitude: coordinates[1] }, CODE_PRECISION);
+  const plusCode = encode({ longitude: coordinates[0], latitude: coordinates[1] }, PLUSCODE_PRECISION);
   const area = decode(plusCode);
 
   const shoutRef =  db.collection('shouts').doc();
@@ -33,12 +33,18 @@ module.exports = async (data, context) => {
   }
 
   try {
+    // store in shouts collection
     await shoutRef.set(shout);
+
+    // store in map collection
+    await mapRef.set({ area }, { merge: true });
     await mapRef.collection('shouts').doc(shoutRef.id)
       .set(shout);
-    mapRef.set({ area });
-    userRef.collection('shouts').doc(shoutRef.id)
+
+    // store in users collection
+    await userRef.collection('shouts').doc(shoutRef.id)
       .set(shout);
+
     return;
   } catch (error) {
     console.log(error);

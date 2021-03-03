@@ -1,3 +1,5 @@
+import functions from '@react-native-firebase/functions';
+import DeviceInfo from 'react-native-device-info';
 import { UPDATE_LOCATION, GO_TO_USER, USER_VISIBLE } from './actionTypes';
 
 export const locationReducer = (state = null, action) => {
@@ -32,16 +34,22 @@ export const goToUser = (location) => {
 };
 
 export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getState) => {
-  const { location } = getState();
-  const user = [longitude, latitude];
-  const sameLocation = location.user.every((val, index) => val == user[index]);
+  const { location, app: { settings: { notifications } } } = getState();
+  const coordinates = [longitude, latitude];
+  const sameLocation = location.user.every((val, index) => val == coordinates[index]);
 
   if (sameLocation) {
     return;
   }
 
+  if (notifications) {
+  // Store location in firestore
+    const deviceId = DeviceInfo.getUniqueId();
+    functions().httpsCallable('storeLocation')({ deviceId, coordinates });
+  }
+
   const payload = {
-    user,
+    user: coordinates,
     hasPermission: true,
   };
   dispatch({ type: UPDATE_LOCATION, payload });
