@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 const { encode, decode } = require('pluscodes');
-const { PLUSCODE_PRECISION } = require('../config/mapConfig');
+const { PLUSCODE_PRECISION } = require('./config');
 
 module.exports = async (data, context) => {
   const { deviceId, coordinates } = data;

@@ -1,7 +1,8 @@
 const admin = require('firebase-admin');
 const { encode, decode } = require('pluscodes');
 const sendToTwitter = require('./sendToTwitter');
-const { PLUSCODE_PRECISION } = require('../config/mapConfig');
+const sendNotification = require('../notifications/sendNotification');
+const { PLUSCODE_PRECISION } = require('../location/config');
 
 module.exports = async (data, context) => {
   const createdAt = Date.now();
@@ -44,6 +45,8 @@ module.exports = async (data, context) => {
     // store in users collection
     await userRef.collection('shouts').doc(shoutRef.id)
       .set(shout);
+
+    sendNotification(coordinates, text, uid);
 
     return;
   } catch (error) {

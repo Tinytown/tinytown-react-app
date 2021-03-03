@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Alert } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
