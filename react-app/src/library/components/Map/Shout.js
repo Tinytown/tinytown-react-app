@@ -12,14 +12,15 @@ const Shout = React.memo(({
   shake = false,
   showPin = true,
   local = false,
+  opened = false,
   disabled = false,
   onPress,
 }) => {
   const [animation, animate] = useAnimation('shake');
   const [pressed, setPressed] = useState(false);
-  const styles = generateStyles({ local, theme, disabled });
+  const styles = generateStyles({ local, opened, theme, disabled });
 
-  // Shake animation
+  // shake animation
   useEffect(() => {
     let intervalId;
     if (shake && !pressed) {
@@ -56,7 +57,7 @@ const Shout = React.memo(({
   );
 });
 
-const generateStyles = ({ local, theme, disabled }) => {
+const generateStyles = ({ local, opened, theme, disabled }) => {
   const WIDTH = 200;
   const PADDING = 8;
   const PIN_OFFSET = 14;
@@ -77,7 +78,7 @@ const generateStyles = ({ local, theme, disabled }) => {
         padding: PADDING,
         backgroundColor: 'transparent', // fix Android clipping bug
 
-        // Adjust marker anchor for iOS (this doesn't work reliably for Android)
+        // adjust marker anchor for iOS (this doesn't work reliably for Android)
         ...(Platform.OS === 'ios' && {
           transform: [
             { translateX: WIDTH / 2 - PADDING - PIN_OFFSET - PIN_SIZE / 2 },
@@ -87,6 +88,7 @@ const generateStyles = ({ local, theme, disabled }) => {
       },
       container: {
         flexDirection: 'row',
+        alignItems: 'center',
         alignSelf: 'flex-start',
         maxWidth: WIDTH,
         paddingVertical: 7,
@@ -109,7 +111,7 @@ const generateStyles = ({ local, theme, disabled }) => {
         borderRadius: SHAPES.radiusAll,
         borderColor: auxColor2,
         borderWidth: 2,
-        backgroundColor: auxColor1,
+        backgroundColor: opened ? auxColor1 : COLORS.bubblegumRed300,
       },
     }), rippleColor }
   );
@@ -123,6 +125,7 @@ Shout.propTypes = {
   ]),
   showPin: PropTypes.bool,
   local: PropTypes.bool,
+  opened: PropTypes.bool,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
 };

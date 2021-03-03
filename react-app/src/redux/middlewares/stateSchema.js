@@ -32,6 +32,7 @@ export default {
       },
       shouts: {
         local: [],
+        opened: [],
         loading: true,
         settings: {
           twitter: false,
@@ -265,14 +266,23 @@ export default {
     shouts: {
       $id: '#/properties/shouts',
       default: {},
-      description: 'Schema for local shouts created/edited by the user.',
+      description: 'Schema for local shouts settings and data.',
       examples: [
         {
           local: [],
+          opened: [],
           loading: true,
+          settings: {
+            twitter: false,
+            twitterGeo: {
+              enabled: false,
+              loading: false,
+            },
+            lann: false,
+          },
         },
       ],
-      required: ['local', 'loading', 'settings'],
+      required: ['local', 'opened', 'loading', 'settings'],
       title: 'The shouts schema',
       type: 'object',
       properties: {
@@ -282,6 +292,13 @@ export default {
           title: 'The local schema',
           default: false,
           examples: [{ id: 123, text: 'LOUD NOISES!' }],
+        },
+        opened: {
+          $id: '#/properties/shouts/properties/opened',
+          type: 'array',
+          title: 'The opened schema',
+          default: [],
+          examples: [{ id: 123 }],
         },
         loading: {
           $id: '#/properties/shouts/properties/loading',

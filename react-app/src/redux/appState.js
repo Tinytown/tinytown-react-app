@@ -6,6 +6,7 @@ import {
   UPDATE_SETTING,
   UPDATE_ONBOARDING,
   SHOUTS_SETTING,
+  SHOUTS_OPENED,
   SIGN_IN,
   SIGN_OUT,
 } from './actionTypes';
@@ -35,11 +36,13 @@ export const getStateFromLS = () => async (dispatch) => {
     appSettings,
     user,
     shoutSettings,
+    openedShouts,
   } = await getMultiple([
     'userLocation',
     'appSettings',
     'user',
     'shoutSettings',
+    'openedShouts',
   ]);
 
   // Location
@@ -73,17 +76,23 @@ export const getStateFromLS = () => async (dispatch) => {
     dispatch({ type: SHOUTS_SETTING, payload: shoutSettings });
   }
 
+  // Opened Shouts
+  if (openedShouts) {
+    dispatch({ type: SHOUTS_OPENED, payload: openedShouts });
+  }
+
   dispatch({ type: APP_STORAGE, payload: true });
 };
 
 export const storeStateToLS = () => (dispatch, getState) => {
   const {
     app: { settings: appSettings },
-    shouts: { settings: shoutSettings },
+    shouts: { settings: shoutSettings, opened: openedShouts },
   } = getState();
   storeMultiple([
     ['appSettings', appSettings],
     ['shoutSettings', shoutSettings],
+    ['openedShouts', openedShouts],
   ]);
 };
 

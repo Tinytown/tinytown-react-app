@@ -27,6 +27,7 @@ const INITIAL_STATE = Object.freeze({
   },
   shouts: {
     local: [],
+    opened: [],
     loading: true,
     settings: {
       twitter: false,

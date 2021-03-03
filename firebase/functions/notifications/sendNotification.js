@@ -36,11 +36,11 @@ module.exports = async (coordinates, text, senderId) => {
 
   try {
     const areasSnapshot = await areasRef.get();
-    areasSnapshot.docs.forEach(async (area) => {
-      const devices = await mapRef.doc(area.id).collection('devices')
+    areasSnapshot.docs.forEach(async ({ id }) => {
+      const devices = await mapRef.doc(id).collection('devices')
         .get();
-      devices.docs.forEach(async (doc) => {
-        const { lastLocation, deviceId, uid } = doc.data();
+      devices.docs.forEach(async ({ data }) => {
+        const { lastLocation, deviceId, uid } = data();
         const devicePoint = turf.point(lastLocation);
         const isWithinBounds = turf.booleanPointInPolygon(devicePoint, shoutRadius);
 
@@ -49,6 +49,7 @@ module.exports = async (coordinates, text, senderId) => {
           return;
         }
 
+        // get registration token
         const device = await usersRef.doc(uid).collection('devices')
           .doc(deviceId)
           .get();

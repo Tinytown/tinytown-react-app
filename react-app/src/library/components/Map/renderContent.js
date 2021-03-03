@@ -4,6 +4,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateOnboarding } from 'rdx/appState';
+import { updateOpenedShouts } from 'rdx/shoutState';
 import * as turf from '@turf/turf';
 import mapConfig from './config';
 import { Config } from 'context';
@@ -21,7 +22,7 @@ const {
   DAY_IN_MS,
 } = mapConfig;
 
-// Adjust marker anchor for Android (this doesn't work reliably for iOS)
+// adjust marker anchor for Android (this doesn't work reliably for iOS)
 const anchor = {
   x: 0.13,
   y: 0.9,
@@ -177,8 +178,11 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [outsideShouts, setOutsideShouts] = useState(null);
   const [shoutExpired, setShoutExpired] = useState(false);
   const localShouts = useSelector((state) => state.shouts.local);
+  const uid = useSelector((state) => state.auth.user.uid);
+  const openedShouts = useSelector((state) => state.shouts.opened);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!userLocation) {
@@ -219,6 +223,23 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
     setOutsideShouts(filteredOutShouts);
   }, [localShouts, remoteShouts, userLocation, shoutExpired]);
 
+  const onPressHandler = (openedShout) => {
+    navigation.navigate('OpenShout', { shout: openedShout });
+
+    // update opened property
+    if (!openedShout.opened) {
+      setInsideShouts((currentValue) => {
+        filtered = currentValue.filter(((shout) => shout.id !== openedShout.id));
+        openedShout.opened = true;
+        filtered.push(openedShout);
+        return filtered;
+      });
+    }
+
+    // add shout to redux
+    dispatch(updateOpenedShouts('add', openedShout.id));
+  };
+
   useEffect(() => {
     if (zoom > ZOOM_STEP_1) {
       let renderedInShouts = [];
@@ -237,7 +258,8 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
               <Shout
                 label={text}
                 local={local}
-                onPress={() => navigation.navigate('OpenShout', { shout })}
+                opened={shout.uid === uid || openedShouts.includes(id)}
+                onPress={() => onPressHandler(shout)}
               />
             </MarkerView>
           );
@@ -265,7 +287,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
       setRenderedShouts([...renderedInShouts, ...renderedOutShouts]);
     } else if (zoom > ZOOM_STEP_2 && zoom <= ZOOM_STEP_1) {
-      // Calculate avg center coordinates for bundle
+      // calculate avg center coordinates for bundle
       const avgCoords = insideShouts.reduce((sum, { coordinates }) => (
         [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
         .map((coord) => coord / insideShouts.length);
@@ -282,7 +304,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
     } else {
       setRenderedShouts(null);
     }
-  }, [insideShouts, zoom]);
+  }, [insideShouts, outsideShouts, zoom]);
 
   return renderedShouts;
 };
