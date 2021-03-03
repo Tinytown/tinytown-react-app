@@ -28,9 +28,9 @@ export const createShout = (shout) => async (dispatch, getState) => {
   functions().httpsCallable('createShout')(shout);
 };
 
-export const removeShout = (remoteShout) => async (dispatch, getState) => {
+export const removeShout = (localId) => async (dispatch, getState) => {
   const { shouts: { local } } = getState();
-  const filteredShouts = local.filter((shout) => shout.localId !== remoteShout.localId);
+  const filteredShouts = local.filter((shout) => shout.localId !== localId);
 
   dispatch({ type: LOCAL_SHOUTS, payload: filteredShouts });
 };
@@ -50,8 +50,8 @@ export const updateOpenedShouts = (action, shoutId) => async (dispatch, getState
   if (action === 'add') {
     opened.push(shoutId);
   } else if (action === 'remove') {
-    objIndex = opened.findIndex(({ id }) => id === shoutId);
-    console.log(objIndex);
+    objIndex = opened.findIndex((id) => id === shoutId);
+    opened.splice(objIndex, 1);
   }
   dispatch({ type: SHOUTS_OPENED, payload: opened });
 };

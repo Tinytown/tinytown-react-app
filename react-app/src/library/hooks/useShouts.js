@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import _ from 'lodash';
 import * as turf from '@turf/turf';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeShout, updateShoutsLoading } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
 import { mapConfig } from 'library/components/Map';
@@ -15,8 +15,10 @@ export default (userLocation) => {
   const [areas, setAreas] = useState([]);
   const [prevLocation, setPrevLocation] = useState([]);
   const subscribers = [];
+  const uid = useSelector((state) => state.auth.user.uid);
+  const localShouts = useSelector((state) => state.shouts.local);
+
   const dispatch = useDispatch();
-  const uid = auth().currentUser?.uid;
 
   // get nearby plus codes
   const getSurroundingCodes = () => {
@@ -85,30 +87,31 @@ export default (userLocation) => {
             return;
           }
 
-          shoutsSnapshot.docChanges().forEach((change) => {
-            if (change.type === 'added') {
+          shoutsSnapshot.docChanges().forEach(({ type, doc }) => {
+            if (type === 'added') {
+              const remoteShout = doc.data();
+
               setShouts((currentValue) => {
                 // check if shout was already added
-                const duplicate = currentValue.some((shout) => shout.id === change.doc.id);
+                const duplicate = currentValue.some((shout) => shout.id === remoteShout.id);
                 if (duplicate) {
                   return currentValue;
                 }
 
                 debouncedLoading.current();
-                return [...currentValue, change.doc.data()];
+                return [...currentValue, remoteShout];
               });
 
               // check if shout was just created and remove from redux
-              const remoteShout = change.doc.data();
-              if (remoteShout.uid === uid) {
-                dispatch(removeShout(change.doc.data()));
+              if (remoteShout.uid === uid && localShouts.some((shout) => shout.id === remoteShout.id)) {
+                dispatch(removeShout(remoteShout.id));
               }
             }
-            if (change.type === 'modified') {
-              console.log('Modified shout: ', change.doc.data());
+            if (type === 'modified') {
+              console.log('Modified shout: ', doc.data());
             }
-            if (change.type === 'removed') {
-              console.log('Removed shout: ', change.doc.data());
+            if (type === 'removed') {
+              console.log('Removed shout: ', doc.data());
             }
           });
         });

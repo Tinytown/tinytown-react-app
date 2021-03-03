@@ -203,8 +203,10 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
       if (isWithinBounds && isNotExpired) {
         return true;
-      } else if (!isWithinBounds) {
+      } else if (!isWithinBounds && isNotExpired) {
         filteredOutShouts.push(shout);
+      } else if (!isNotExpired && openedShouts.includes(shout.id)) {
+        dispatch(updateOpenedShouts('remove', shout.id));
       }
     });
 
@@ -250,8 +252,8 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
           const { id, localId, coordinates, text, local } = shout;
           return (
             <MarkerView
-              key={id && localId}
-              id={id && localId.toString()}
+              key={id ?? localId}
+              id={id ?? localId.toString()}
               coordinate={coordinates}
               anchor={Platform.OS === 'android' ? anchor : null}
             >
