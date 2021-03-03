@@ -27,14 +27,14 @@ export const signIn = (token, secret) => async (dispatch) => {
   const photoURL = user.providerData[0].photoURL.replace(/_normal/i, '');
   storeData('user', { photoURL, displayName, uid });
 
-  // Store oauth tokens
+  // store oauth tokens
   firestore().collection('users')
     .doc(uid)
     .collection('oauth')
     .doc('twitter')
     .set({ token, secret });
 
-  // Create new doc for device in firestore
+  // create new doc for device in firestore
   firestore().collection('users')
     .doc(uid)
     .collection('devices')

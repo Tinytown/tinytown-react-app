@@ -26,7 +26,7 @@ export default (isSignedIn) => {
 
   // Initial setup / start listeners
   useEffect(() => {
-    // Use local emulator on dev
+    // use local emulator on dev
     if (__DEV__) {
       remoteConfig().setConfigSettings({
         minimumFetchIntervalMillis: 0,
@@ -35,17 +35,17 @@ export default (isSignedIn) => {
       firestore().settings({ host: 'localhost:8080', ssl: false });
     }
 
-    // Check internet connection
+    // check internet connection
     NetInfo.fetch().then(({ isConnected }) => {
       if (!isConnected) {
         Toast.show(STRINGS.connectivity.offline, Toast.LONG);
       }
     });
 
-    // Listen for auth changes
+    // listen for auth changes
     const unsubscribeAuth = auth().onAuthStateChanged((user) => dispatch(updateAuth(user)));
 
-    // Listen for app state changes
+    // listen for app state changes
     AppState.addEventListener('change', appStateHandler);
 
     return () => {
@@ -58,7 +58,7 @@ export default (isSignedIn) => {
     event !== 'unknown' && dispatch(updateAppState(event));
   };
 
-  // Hide splash screen
+  // hide splash screen
   useEffect(() => {
     if (isSignedIn !== null && configIsReady) {
       SplashScreen.hide();
@@ -66,7 +66,7 @@ export default (isSignedIn) => {
     }
   }, [isSignedIn, configIsReady]);
 
-  // Load / store from local storage
+  // load / store from local storage
   useEffect(() => {
     if (appActive) {
       dispatch(getStateFromLS());
@@ -86,7 +86,7 @@ export default (isSignedIn) => {
       .update({ registrationToken: token })
       .catch((error) => console.log(error));
 
-    // Store location in firestore
+    // store location in firestore
     if (token) {
       functions().httpsCallable('storeLocation')({ deviceId, coordinates });
     }
@@ -96,27 +96,27 @@ export default (isSignedIn) => {
   useEffect(() => {
     let unsubscribeNotif = () => {};
     if (pushNotif && isSignedIn) {
-      // Check notifications permissions during launch
+      // check notifications permissions during launch
       const hasPermission  = getNotificationsPermission();
       if (hasPermission) {
-        // Listen for notifications
+        // listen for notifications
         unsubscribeNotif = messaging().onMessage(async (remoteMessage) => {
           Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
         });
 
-        // Register background handler
+        // register background handler
         messaging().setBackgroundMessageHandler(async (remoteMessage) => {
           console.log('Message handled in the background!', remoteMessage);
         });
 
-        // Update token in firestore
+        // update token in firestore
         messaging().getToken()
           .then((token) => updateRegistrationToken(token));
       } else {
         dispatch(updateAppSetting('notifications', false));
       }
     } else if (pushNotif === false) {
-      // Remove token from firestore
+      // remove token from firestore
       updateRegistrationToken(null);
     }
     return () => {

@@ -22,7 +22,7 @@ export default (routeParams) => {
     }
   }, []);
 
-  // Assign state using list item keys
+  // assign state using list item keys
   const assignState = (key, prop) => {
     switch (key) {
     case 'notifications':
@@ -34,7 +34,7 @@ export default (routeParams) => {
     }
   };
 
-  // Render list
+  // render list
   const settingsList = getListContent('settings');
   renderedList = settingsList.map(({ key, title, body, icon, activeTheme }) => (
     <FeatureCard

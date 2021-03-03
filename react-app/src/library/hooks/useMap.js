@@ -43,7 +43,7 @@ export default (cameraRef, updateUserVisible) => {
     movedByUser !== null && dispatch({ type: 'update_moved', payload: movedByUser });
   };
 
-  // Move camera to user location
+  // move camera to user location
   useEffect(() => {
     if (goToUser) {
       cameraRef?.setCamera({
@@ -59,7 +59,7 @@ export default (cameraRef, updateUserVisible) => {
     }
   }, [goToUser]);
 
-  // Check if user is off screen
+  // check if user is off screen
   const checkOnScreen = (bounds) => {
     if (userLocation) {
       const onScreen = (
@@ -71,7 +71,7 @@ export default (cameraRef, updateUserVisible) => {
     }
   };
 
-  // Handle camera change
+  // handle camera change
   const regionChangeHandler = async ({ properties, geometry }) => {
     setCamera({
       center: geometry.coordinates,
@@ -84,18 +84,18 @@ export default (cameraRef, updateUserVisible) => {
     }
   };
 
-  // Handle user location change and first launch
+  // handle user location change and first launch
   useEffect(() => {
     if (!userLocation && dataRetrieved && userVisible === null) {
-      // First launch
+      // first launch
       updateUserVisible(false);
     } else if (userLocation && camera.bounds && !goToUser) {
-      // User moves
+      // user moves
       checkOnScreen(camera.bounds);
     }
   }, [userLocation, dataRetrieved]);
 
-  // Load / store map state
+  // load / store map state
   const shouldStore = (!appActive && userLocation);
 
   useEffect(() => {

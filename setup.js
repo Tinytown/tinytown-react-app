@@ -42,7 +42,7 @@ const createConfig = async () => {
       message: 'Enter your Developer Token:',
     });
 
-    // Insert Dev Token in config.js
+    // insert Dev Token in config.js
     const tokenStr = `  DEV_TOKEN: '${token.value}',`;
     const data = Fs.readFileSync(path).toString()
       .split('\n');

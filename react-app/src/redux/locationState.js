@@ -43,7 +43,7 @@ export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getSta
   }
 
   if (notifications) {
-  // Store location in firestore
+  // store location in firestore
     const deviceId = DeviceInfo.getUniqueId();
     functions().httpsCallable('storeLocation')({ deviceId, coordinates });
   }

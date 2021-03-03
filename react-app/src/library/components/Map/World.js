@@ -36,7 +36,7 @@ const World = ({
     setMapRendered,
   ] = useMap(cameraRef.current, updateUserVisible);
   const [shouts] = useShouts(userLocation);
-  // Used on Android due to performance issues
+  // used on Android due to performance issues
   const [hideMarkers, setHideMarkers] = useState(true);
 
   // Map Content
@@ -50,7 +50,7 @@ const World = ({
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
 
   const onRegionDidChangeHandler = ({ properties, geometry }) => {
-    // Extra call for Android due to bug in onRegionIsChanging
+    // extra call for Android due to bug in onRegionIsChanging
     if (Platform.OS == 'android') {
       onRegionIsChangingHandler({ properties, geometry });
     }

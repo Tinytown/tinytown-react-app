@@ -76,10 +76,10 @@ export default (sheetLayout) => {
   // Limit indicator
   useEffect(() => {
     const charsLeft = CHAR_LIMIT - shoutString.length;
-    // Set closeConfirmed if there's content in ShoutBox
+    // set closeConfirmed if there's content in ShoutBox
     shoutString.length ? setCloseConfirmed(false) : setCloseConfirmed(true);
 
-    // Change state depending on chars left
+    // change state depending on chars left
     if (charsLeft >= 0 && charsLeft <= CHAR_WARNING) {
       setDisabled(false);
       setShowChip(true);
@@ -106,7 +106,7 @@ export default (sheetLayout) => {
   });
   const megaphoneList = getListContent('megaphone');
 
-  // Show and hide Megaphone Settings
+  // show and hide Megaphone Settings
   useEffect(() => {
     if (showSettings) {
       Keyboard.dismiss();
@@ -120,7 +120,7 @@ export default (sheetLayout) => {
     }
   }, [showSettings, keyboardOpen]);
 
-  // Check Twitter account location settings
+  // check Twitter account location settings
   const checkTwitterGeo = async () => {
     if (!twitterGeo.enabled) {
       dispatch(updateShoutsSetting('twitterGeo', { enabled: false, loading: true }));
@@ -129,7 +129,7 @@ export default (sheetLayout) => {
         if (geoEnabled) {
           dispatch(updateShoutsSetting('twitterGeo', { enabled: true, loading: false }));
         } else {
-          // Open dialog to help user enable geo in Twitter
+          // open dialog to help user enable geo in Twitter
           const {
             dialog: { twitterGeo: { title, body } },
             actions: { cancel },
@@ -152,7 +152,7 @@ export default (sheetLayout) => {
     }
   };
 
-  // Assign state using list item keys
+  // assign state using list item keys
   const assignState = (key, prop) => {
     switch (key) {
     case 'twitter':
@@ -166,12 +166,12 @@ export default (sheetLayout) => {
     }
   };
 
-  // Close settings when user leaves view
+  // close settings when user leaves view
   useEffect(() => {
     !openSheet && setShowSettings(false);
   }, [openSheet]);
 
-  // Change settings chip content
+  // change settings chip content
   const getChipContent = () => {
     if (twitterGeo.enabled) {
       return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitterGeo, theme: 'lt-blue-hairline' };
@@ -188,7 +188,7 @@ export default (sheetLayout) => {
     setSettingsChip(() => getChipContent());
   }, [twitter, twitterGeo, lann]);
 
-  // Render settings list
+  // render settings list
   renderedList = megaphoneList.map(({ key, title, body, icon, theme, activeTheme, children }) => (
     <FeatureCard
       key={key}
@@ -240,7 +240,7 @@ export default (sheetLayout) => {
     navigation.goBack();
   };
 
-  // First run setup
+  // first run setup
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => setKeyboardOpen(true));
     Keyboard.addListener('keyboardDidHide', () => setKeyboardOpen(false));

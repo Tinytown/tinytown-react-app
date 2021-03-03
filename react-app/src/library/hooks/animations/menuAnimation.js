@@ -61,7 +61,7 @@ export default () => {
       height.value = withTiming(menuLayout.height, sizeConfig);
       scaleX.value = withTiming(1, sizeConfig);
 
-      // Check if it fits horizontally
+      // check if it fits horizontally
       if (triggerLayout.x + menuLayout.width > window.width) {
         translateX.value = withTiming(- menuLayout.width + triggerLayout.width + TRANSLATE_AMOUNT, sizeConfig);
         translateX.value = withSpring(- menuLayout.width + triggerLayout.width, translateConfig);
@@ -70,7 +70,7 @@ export default () => {
         translateX.value = withSpring(TRANSLATE_INITIAL, translateConfig);
       }
 
-      // Check if it fits vertically
+      // check if it fits vertically
       if (triggerLayout.y + menuLayout.height > window.height - insets.bottom - insets.top) {
         translateY.value = -menuLayout.height + triggerLayout.height;
       };

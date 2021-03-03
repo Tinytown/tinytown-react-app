@@ -18,7 +18,7 @@ export default (userLocation) => {
   const dispatch = useDispatch();
   const uid = auth().currentUser?.uid;
 
-  // Get nearby plus codes
+  // get nearby plus codes
   const getSurroundingCodes = () => {
     const userPoint = turf.point(userLocation);
 
@@ -43,7 +43,7 @@ export default (userLocation) => {
     return codes;
   };
 
-  // Update loading state
+  // update loading state
   const debouncedLoading = useRef(_.debounce(() => {
     dispatch(updateShoutsLoading(false));
   }, 500, { leading: false, trailing: true }));
