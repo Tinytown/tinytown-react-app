@@ -24,8 +24,8 @@ const {
 
 // adjust marker anchor for Android (this doesn't work reliably for iOS)
 const anchor = {
-  x: 0.13,
-  y: 0.9,
+  x: 0.18,
+  y: 0.76,
 };
 
 export const renderUser = (userLocation, heading) => {

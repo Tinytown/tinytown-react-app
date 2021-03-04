@@ -59,7 +59,7 @@ const Shout = React.memo(({
 
 const generateStyles = ({ local, opened, theme, disabled }) => {
   const WIDTH = 200;
-  const PADDING = 8;
+  const PADDING = 16;
   const PIN_OFFSET = 14;
   const PIN_SIZE = 10;
   const resolvedTheme = resolveTheme(theme,  disabled);
@@ -77,12 +77,11 @@ const generateStyles = ({ local, opened, theme, disabled }) => {
         width: WIDTH,
         padding: PADDING,
         backgroundColor: 'transparent', // fix Android clipping bug
-
         // adjust marker anchor for iOS (this doesn't work reliably for Android)
         ...(Platform.OS === 'ios' && {
           transform: [
             { translateX: WIDTH / 2 - PADDING - PIN_OFFSET - PIN_SIZE / 2 },
-            { translateY: -16 },
+            { translateY: -24 },
           ],
         }),
       },
