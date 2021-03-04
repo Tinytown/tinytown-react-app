@@ -77,6 +77,7 @@ Chip.propTypes = {
     'lt-blue-hairline',
     'lt-white-hairline',
     'dt-gray-hairline',
+    'dt-gray-raised',
     'dt-twitter-raised',
     'dt-red-raised',
   ]),

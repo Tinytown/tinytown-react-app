@@ -6,26 +6,40 @@ import Animated from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import ImageColors from 'react-native-image-colors';
 import { connect } from 'react-redux';
-import { goToUser } from 'rdx/locationState';
+import { goToUser, goToTarget } from 'rdx/locationState';
 import { signOut } from 'rdx/authState';
 import { getLocation } from 'library/apis/geolocation';
 import { Config } from 'context';
 import { Pressable } from 'library/components/hoc';
 import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
+import Chip from './Chip';
 import { useAnimation } from 'library/hooks';
 import { COLORS, SHAPES, IMAGES, normalizeStyles } from 'res';
 
-const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
+const HomeBar = ({ signOut, goToUser, goToTarget, userVisible, photoURL, shoutNotifications }) => {
+  const TRANSLATE_AMOUNT = 120;
   const { STRINGS } = useContext(Config.Context);
   const [showMenu, setShowMenu] = useState(false);
   const [triggerLayout, setTriggerLayout] = useState(null);
   const [avatarColors, setAvatarColors] = useState(null);
+  const [newShout, setNewShout] = useState(null);
+  const [alertPressed, setAlertPressed] = useState(false);
   const navigation = useNavigation();
 
-  const showButton = userVisible !== null && !userVisible;
-  const [showAnimation] = useAnimation('show', showButton);
-  const styles = generateStyles({ avatarColors });
+  const showLocationBtn = userVisible !== null && !userVisible;
+  const showAlertBtn = userVisible !== null && !alertPressed && newShout;
+  const [alertBtnAnimation, animateAlertBtn] = useAnimation('shake');
+  const [alertChipAnimation] = useAnimation('slide', TRANSLATE_AMOUNT, showAlertBtn);
+  const styles = generateStyles({ avatarColors, TRANSLATE_AMOUNT });
+
+  useEffect(() => {
+    if (shoutNotifications && !newShout) {
+      setAlertPressed(false);
+      setNewShout(shoutNotifications[shoutNotifications.length - 1]);
+      animateAlertBtn();
+    }
+  }, [shoutNotifications]);
 
   useEffect(() => {
     if (photoURL) {
@@ -35,16 +49,42 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
     }
   }, [photoURL]);
 
+  const onAlertPressHandler = () => {
+    goToTarget(newShout.coordinates);
+    setNewShout(null);
+    setAlertPressed(true);
+  };
+
   return (
     <>
-      <Animated.View style={[styles.locationBtn, showAnimation]} >
-        <IconButton
-          icon='crosshairs'
-          theme='lt-white-raised'
-          onPress={() => getLocation(goToUser)}
-          disabled={!showButton}
-        />
-      </Animated.View>
+      <View style={styles.btnContainer}>
+        {showLocationBtn &&
+          <IconButton
+            icon='crosshairs'
+            theme='lt-white-raised'
+            onPress={() => getLocation(goToUser)}
+            wrapperStyle={styles.locationBtn}
+          />
+        }
+        {showAlertBtn &&
+          <View style={styles.alertBtContainer} >
+            <Animated.View style={[styles.alertChip, alertChipAnimation]} >
+              <Chip
+                label='New shout'
+                theme='dt-gray-raised'
+                onPress={onAlertPressHandler}
+              />
+            </Animated.View>
+            <Animated.View style={alertBtnAnimation}>
+              <IconButton
+                icon='notifications'
+                theme='dt-gray-raised'
+                onPress={onAlertPressHandler}
+              />
+            </Animated.View>
+          </View>
+        }
+      </View>
       <View style={styles.bar}>
         <Pressable
           onPress={() => setShowMenu(true)}
@@ -79,7 +119,7 @@ const HomeBar = ({ signOut, goToUser, userVisible, photoURL }) => {
   );
 };
 
-const generateStyles = ({ avatarColors }) => {
+const generateStyles = ({ avatarColors, TRANSLATE_AMOUNT }) => {
   return (
     normalizeStyles({
       bar: {
@@ -107,10 +147,22 @@ const generateStyles = ({ avatarColors }) => {
         height: '100%',
         borderRadius: SHAPES.radiusAll,
       },
-      locationBtn: {
+      btnContainer: {
         position: 'absolute',
+        alignItems: 'flex-end',
         right: 16,
         top: 76,
+      },
+      locationBtn: {
+        marginBottom: 12,
+      },
+      alertBtContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      alertChip: {
+        marginRight: 8,
+        transform: [{ translateX: TRANSLATE_AMOUNT }],
       },
     })
   );
@@ -119,6 +171,7 @@ const generateStyles = ({ avatarColors }) => {
 const mapStateToProps = (state) => ({
   photoURL: state.auth.user?.photoURL,
   userVisible: state.location.userVisible,
+  shoutNotifications: state.shouts.notifications,
 });
 
 HomeBar.propTypes = {
@@ -128,4 +181,4 @@ HomeBar.propTypes = {
   goToUser: PropTypes.func,
 };
 
-export default connect(mapStateToProps, { signOut, goToUser })(HomeBar);
+export default connect(mapStateToProps, { signOut, goToUser, goToTarget })(HomeBar);
