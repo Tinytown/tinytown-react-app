@@ -9,7 +9,9 @@ import {
   ringAnimation,
   shakeAnimation,
   sheetAnimation,
-  showAnimation } from './animations';
+  showAnimation,
+  slideAnimation,
+} from './animations';
 
 export default (animationType, ...args) => {
   switch (animationType) {
@@ -33,6 +35,8 @@ export default (animationType, ...args) => {
     return sheetAnimation(...args);
   case 'show':
     return showAnimation(...args);
+  case 'slide':
+    return slideAnimation(...args);
   default:
     return [];
   }

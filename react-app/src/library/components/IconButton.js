@@ -9,12 +9,12 @@ const IconButton = ({
   theme,
   wrapperStyle,
   disabled = false,
-  onPress,
+  onPress = () => {},
 }) => {
   const styles = generateStyles({ theme, disabled });
 
   return (
-    <View style={wrapperStyle} >
+    <View style={wrapperStyle}>
       <Pressable
         rippleColor={styles.rippleColor}
         disabled={disabled}
@@ -54,7 +54,12 @@ const generateStyles = ({ theme, disabled }) => {
 
 IconButton.propTypes = {
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(['lt-red-floating', 'lt-white-filled', 'lt-white-raised']),
+  theme: PropTypes.oneOf([
+    'lt-red-floating',
+    'lt-white-filled',
+    'lt-white-raised',
+    'dt-gray-raised',
+  ]),
   wrapperStyle: PropTypes.object,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,

@@ -19,8 +19,8 @@ const Menu = ({
 
   useEffect(() => {
     if (triggerLayout) {
-      const { width, height, x, y } = triggerLayout.nativeEvent.layout;
-      setTriggerLayout({ width, height, x, y });
+      const { layout } = triggerLayout.nativeEvent;
+      setTriggerLayout(layout);
     }
   }, [triggerLayout]);
 
@@ -32,7 +32,7 @@ const Menu = ({
 
   return (
     <Modal visible={showMenu} setVisible={setShowMenu} >
-      <Animated.View style={animation} >
+      <Animated.View style={animation}>
         <Animated.View onLayout={onLayoutHandler} style={[styles.container, containerAnimation]}>
           {children}
         </Animated.View>
