@@ -6,6 +6,7 @@ export const UPDATE_AUTH = 'update_auth';
 // Location
 export const UPDATE_LOCATION = 'update_location';
 export const GO_TO_USER = 'go_to_user';
+export const GO_TO_TARGET = 'go_to_target';
 export const USER_VISIBLE = 'user_visible';
 
 // App

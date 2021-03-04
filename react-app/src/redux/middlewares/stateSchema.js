@@ -15,9 +15,10 @@ export default {
       },
       location: {
         user: null,
+        cameraTarget: null,
+        userVisible: null,
         hasPermission: false,
         goToUser: false,
-        userVisible: true,
       },
       app: {
         active: true,
@@ -124,13 +125,15 @@ export default {
       examples: [
         {
           user: null,
-          hasPermission: false,
+          cameraTarget: null,
+          hasPermission: null,
           goToUser: false,
           userVisible: true,
         },
       ],
       required: [
         'user',
+        'cameraTarget',
         'hasPermission',
         'goToUser',
         'userVisible',
@@ -143,6 +146,13 @@ export default {
           default: null,
           examples: [-93.26392, 44.98459],
           title: 'The user schema',
+          type: ['null', 'array'],
+        },
+        cameraTarget: {
+          $id: '#/properties/location/properties/cameraTarget',
+          default: null,
+          examples: [-93.26392, 44.98459],
+          title: 'The cameraTarget schema',
           type: ['null', 'array'],
         },
         hasPermission: {

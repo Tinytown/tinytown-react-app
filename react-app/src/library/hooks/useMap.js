@@ -8,10 +8,11 @@ export default (cameraRef, updateUserVisible) => {
   const [dataRetrieved, setDataRetrieved] = useState(false);
   const userLocation = useSelector((state) => state.location.user);
   const goToUser = useSelector((state) => state.location.goToUser);
+  const cameraTarget = useSelector((state) => state.location.cameraTarget);
   const userVisible = useSelector((state) => state.location.userVisible);
   const appActive = useSelector((state) => state.app.active);
 
-  const { INITIAL_ZOOM, DEFAULT_ZOOM, DEFAULT_COORDS } = mapConfig;
+  const { INITIAL_ZOOM, DEFAULT_ZOOM, TIGHT_ZOOM, DEFAULT_COORDS } = mapConfig;
 
   // Map Camera
   const cameraReducer = (state, action) => {
@@ -58,6 +59,22 @@ export default (cameraRef, updateUserVisible) => {
         movedByUser: false });
     }
   }, [goToUser]);
+
+  // move camera to target location
+  useEffect(() => {
+    if (cameraTarget) {
+      cameraRef?.setCamera({
+        centerCoordinate: cameraTarget,
+        zoomLevel: TIGHT_ZOOM,
+        animationDuration: 1000,
+        heading: 0,
+      });
+      setCamera({
+        center: cameraTarget,
+        zoom: TIGHT_ZOOM,
+        movedByUser: false });
+    }
+  }, [cameraTarget]);
 
   // check if user is off screen
   const checkOnScreen = (bounds) => {

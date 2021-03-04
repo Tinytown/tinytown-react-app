@@ -9,6 +9,7 @@ const INITIAL_STATE = Object.freeze({
   },
   location: {
     user: null,
+    cameraTarget: null,
     userVisible: null,
     hasPermission: false,
     goToUser: false,

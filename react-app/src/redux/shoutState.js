@@ -4,15 +4,15 @@ import { LOCAL_SHOUTS, SHOUTS_LOADING, SHOUTS_SETTING, SHOUTS_OPENED, SHOUTS_NOT
 export const shoutReducer = (state = null, action) => {
   switch (action.type) {
   case LOCAL_SHOUTS:
-    return { ...state,  local: action.payload };
+    return { ...state,  local: [...action.payload] };
   case SHOUTS_LOADING:
     return { ...state,  loading: action.payload };
   case SHOUTS_SETTING:
     return { ...state,  settings: { ...action.payload } };
   case SHOUTS_OPENED:
-    return { ...state,  opened: action.payload  };
+    return { ...state,  opened: [...action.payload]  };
   case SHOUTS_NOTIFICATIONS:
-    return { ...state,  notifications: action.payload  };
+    return { ...state,  notifications: [...action.payload]  };
   default:
     return state;
   }

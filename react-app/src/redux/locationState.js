@@ -1,6 +1,6 @@
 import functions from '@react-native-firebase/functions';
 import DeviceInfo from 'react-native-device-info';
-import { UPDATE_LOCATION, GO_TO_USER, USER_VISIBLE } from './actionTypes';
+import { UPDATE_LOCATION, GO_TO_USER, GO_TO_TARGET, USER_VISIBLE } from './actionTypes';
 
 export const locationReducer = (state = null, action) => {
   switch (action.type) {
@@ -18,6 +18,8 @@ export const locationReducer = (state = null, action) => {
       hasPermission: action.payload.hasPermission,
       goToUser: true,
       userVisible: true };
+  case GO_TO_TARGET:
+    return { ...state, cameraTarget: action.payload };
   case USER_VISIBLE:
     return { ...state, userVisible: action.payload, goToUser: false };
   default:
@@ -31,6 +33,10 @@ export const goToUser = (location) => {
     hasPermission: true,
   };
   return { type: GO_TO_USER, payload };
+};
+
+export const goToTarget = (payload) => {
+  return { type: GO_TO_TARGET, payload };
 };
 
 export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getState) => {
