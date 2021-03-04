@@ -6,6 +6,7 @@ import {
   menuAnimation,
   flipAnimation,
   pressAnimation,
+  ringAnimation,
   shakeAnimation,
   sheetAnimation,
   showAnimation } from './animations';
@@ -24,6 +25,8 @@ export default (animationType, ...args) => {
     return flipAnimation(...args);
   case 'press':
     return pressAnimation();
+  case 'ring':
+    return ringAnimation(...args);
   case 'shake':
     return shakeAnimation();
   case 'sheet':

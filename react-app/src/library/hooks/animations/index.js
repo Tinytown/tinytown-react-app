@@ -4,6 +4,7 @@ export { default as jiggleAnimation } from './jiggleAnimation';
 export { default as menuAnimation } from './menuAnimation';
 export { default as flipAnimation } from './flipAnimation';
 export { default as pressAnimation } from './pressAnimation';
+export { default as ringAnimation } from './ringAnimation';
 export { default as shakeAnimation } from './shakeAnimation';
 export { default as sheetAnimation } from './sheetAnimation';
 export { default as showAnimation } from './showAnimation';

@@ -16,23 +16,9 @@ const Shout = React.memo(({
   disabled = false,
   onPress,
 }) => {
-  const [animation, animate] = useAnimation('shake');
   const [pressed, setPressed] = useState(false);
+  const [animation] = useAnimation('ring', !pressed && shake);
   const styles = generateStyles({ local, opened, theme, disabled });
-
-  // shake animation
-  useEffect(() => {
-    let intervalId;
-    if (shake && !pressed) {
-      animate();
-      intervalId = setInterval(() => {
-        animate();
-      }, 5000);
-    }
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [shake, pressed]);
 
   const onPressHandler = () => {
     onPress();
