@@ -7,7 +7,14 @@ import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
 import mapConfig from './config';
 import { Config } from 'context';
 import { useLocation, useMap, useShouts } from 'library/hooks';
-import { renderUser, renderWelcomeSign, renderShouts, renderFog, renderShoutOnboardingMarker } from './renderContent';
+import {
+  renderUser,
+  renderWelcomeSign,
+  renderShouts,
+  renderNotificationShouts,
+  renderFog,
+  renderShoutOnboardingMarker,
+} from './renderContent';
 import { COLORS, normalizeStyles } from 'res';
 
 const World = ({
@@ -47,6 +54,7 @@ const World = ({
   const shoutOnboardingMarker = renderShoutOnboardingMarker(userLocation);
   const showShoutOnboardingMarker = userLocation && isSignedIn && onboardingShouts !== 'expired';
   const shoutMarkers = renderShouts(shouts, userLocation, camera.zoom);
+  const notificationShoutMarkers = renderNotificationShouts(shouts, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
 
   const onRegionDidChangeHandler = ({ properties, geometry }) => {
@@ -77,6 +85,7 @@ const World = ({
         {showWelcomeSign && welcomeSign}
         {showShoutOnboardingMarker && shoutOnboardingMarker}
         {showShouts && shoutMarkers}
+        {showShouts && notificationShoutMarkers}
         <Camera
           ref={cameraRef}
           animationDuration={!mapRendered ? 0 : 2000}

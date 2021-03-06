@@ -172,15 +172,33 @@ export const renderShoutOnboardingMarker = (userLocation) => {
   );
 };
 
+const shoutOnPressHandler = (pressedShout, setAllShouts, navigation, dispatch) => {
+  navigation.navigate('OpenShout', { shout: pressedShout });
+
+  // update opened property
+  if (!pressedShout.opened) {
+    setAllShouts((currentValue) => {
+      return currentValue.map((shout) => {
+        if (shout.id === pressedShout.id) {
+          shout.opened = true;
+        }
+        return shout;
+      });
+    });
+  }
+
+  // add shout to redux
+  dispatch(updateOpenedShouts('add', pressedShout.id));
+};
+
 export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [insideShouts, setInsideShouts] = useState(null);
   const [outsideShouts, setOutsideShouts] = useState(null);
   const [shoutExpired, setShoutExpired] = useState(false);
   const localShouts = useSelector((state) => state.shouts.local);
-  const notificationShouts = useSelector((state) => state.shouts.notifications);
-  const uid = useSelector((state) => state.auth.user.uid);
   const openedShouts = useSelector((state) => state.shouts.opened);
+  const uid = useSelector((state) => state.auth.user.uid);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -194,13 +212,18 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
     const userSight = turf.circle(userLocation, SIGHT_RADIUS, { units: 'kilometers' });
     const filteredOutShouts = [];
 
-    const filteredInShouts = [...localShouts, ...remoteShouts, ...notificationShouts].filter((shout) => {
+    const filteredInShouts = [...localShouts, ...remoteShouts].filter((shout) => {
       // check if shout is within user's sight
       const shoutPoint = turf.point(shout.coordinates);
       const isWithinBounds = turf.booleanPointInPolygon(shoutPoint, userSight);
 
       // check if shout hasn't expired
       const isNotExpired = shout.createdAt > Date.now() - EXPIRATION_LENGTH;
+
+      // check if shout has been opened
+      if (openedShouts.includes(shout.id)) {
+        shout.opened = true;
+      }
 
       if (isWithinBounds && isNotExpired) {
         return true;
@@ -224,24 +247,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
     setInsideShouts(filteredInShouts);
     setOutsideShouts(filteredOutShouts);
-  }, [localShouts, remoteShouts, notificationShouts, userLocation, shoutExpired]);
-
-  const onPressHandler = (openedShout) => {
-    navigation.navigate('OpenShout', { shout: openedShout });
-
-    // update opened property
-    if (!openedShout.opened) {
-      setInsideShouts((currentValue) => {
-        filtered = currentValue.filter(((shout) => shout.id !== openedShout.id));
-        openedShout.opened = true;
-        filtered.push(openedShout);
-        return filtered;
-      });
-    }
-
-    // add shout to redux
-    dispatch(updateOpenedShouts('add', openedShout.id));
-  };
+  }, [localShouts, remoteShouts, userLocation, shoutExpired]);
 
   useEffect(() => {
     if (zoom > ZOOM_STEP_1) {
@@ -250,7 +256,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
       if (insideShouts) {
         renderedInShouts = insideShouts.map((shout) => {
-          const { id, localId, coordinates, text, local } = shout;
+          const { id, localId, coordinates, text, local, opened } = shout;
           return (
             <MarkerView
               key={id ?? localId}
@@ -261,8 +267,8 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
               <Shout
                 label={text}
                 local={local}
-                opened={shout.uid === uid || openedShouts.includes(id)}
-                onPress={() => onPressHandler(shout)}
+                opened={shout.uid === uid || opened || local}
+                onPress={() => shoutOnPressHandler(shout, setInsideShouts, navigation, dispatch)}
               />
             </MarkerView>
           );
@@ -311,3 +317,62 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
   return renderedShouts;
 };
+
+export const renderNotificationShouts = (remoteShouts, zoom) => {
+  const [renderedShouts, setRenderedShouts] = useState(null);
+  const [filteredShouts, setFilteredShouts] = useState(null);
+  const notificationShouts = useSelector((state) => state.shouts.notifications);
+  const openedShouts = useSelector((state) => state.shouts.opened);
+
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const filtered = notificationShouts.filter((shout) => {
+      // check if shout is already fetched
+      if (remoteShouts.some((remoteShout) => remoteShout.id === shout.id)) {
+        return false;
+      }
+
+      // check if shout has been opened
+      if (openedShouts.includes(shout.id)) {
+        shout.opened = true;
+      }
+
+      return true;
+    });
+
+    setFilteredShouts(filtered);
+  }, [notificationShouts]);
+
+  useEffect(() => {
+    if (zoom > ZOOM_STEP_1) {
+      let rendered = [];
+
+      if (renderedShouts) {
+        rendered = filteredShouts.map((shout) => {
+          const { id, coordinates, text, opened } = shout;
+          return (
+            <MarkerView
+              key={id}
+              id={id}
+              coordinate={coordinates}
+              anchor={Platform.OS === 'android' ? anchor : null}
+            >
+              <Shout
+                label={text}
+                opened={opened}
+                onPress={() => shoutOnPressHandler(shout, setFilteredShouts, navigation, dispatch)}
+              />
+            </MarkerView>
+          );
+        });
+      }
+
+      setRenderedShouts(rendered);
+    }
+  }, [filteredShouts, zoom]);
+
+  return renderedShouts;
+};
+
