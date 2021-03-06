@@ -33,7 +33,7 @@ export default (isSignedIn) => {
         minimumFetchIntervalMillis: 0,
       });
       functions().useFunctionsEmulator('http://localhost:5001');
-      firestore().settings({ host: 'localhost:8080', ssl: false });
+      firestore().settings({ host: 'localhost:8080', ssl: false, persistence: false });
     }
 
     // check internet connection

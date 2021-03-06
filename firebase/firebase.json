@@ -3,23 +3,14 @@
     "rules": "database.rules.json"
   },
   "emulators": {
-    "auth": {
-      "port": 9099
-    },
     "functions": {
       "port": 5001
-    },
-    "database": {
-      "port": 9000
     },
     "ui": {
       "enabled": true
     },
     "firestore": {
       "port": 8080
-    },
-    "pubsub": {
-      "port": 8085
     }
   }
 }

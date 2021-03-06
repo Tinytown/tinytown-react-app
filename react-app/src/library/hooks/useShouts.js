@@ -146,9 +146,9 @@ export default (userLocation) => {
 
     return () => {
       isMounted = false;
-      subscribers.forEach((unsubscribe) => {
-        unsubscribe();
-      });
+      // subscribers.forEach((unsubscribe) => {
+      //   unsubscribe();
+      // });
     };
   }, [userLocation, notificationShouts, localShouts]);
 
