@@ -7,6 +7,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { navigationRef } from 'screens/RootNavigation';
 import { connect } from 'react-redux';
 import OnboardingStack from 'screens/OnboardingStack';
 import RootStack from 'screens/RootStack';
@@ -20,7 +21,7 @@ const App = ({ isSignedIn }) => {
 
   return (
     appIsReady ?
-      (<NavigationContainer>
+      (<NavigationContainer ref={navigationRef}>
         <Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: false }} >
           {isSignedIn ? (
             <>
