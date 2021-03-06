@@ -11,7 +11,7 @@ const SettingsScreen = ({ navigation, route: { params } }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBar label={STRINGS.navigation.settings} onClose={() => navigation.navigate('Home')}/>
+      <NavBar label={STRINGS.navigation.settings} onClose={() => navigation.navigate('HomeStack', { screen: 'Home' })}/>
       {renderedList}
     </SafeAreaView>
   );
