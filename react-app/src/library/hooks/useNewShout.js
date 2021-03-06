@@ -60,6 +60,7 @@ export default (sheetLayout) => {
     }
 
     const shout = {
+      createdAt: Date.now(),
       text: shoutString,
       sourcePlatform: Platform.OS,
       coordinates,
