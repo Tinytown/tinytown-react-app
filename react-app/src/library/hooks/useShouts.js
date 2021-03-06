@@ -3,6 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import _ from 'lodash';
 import * as turf from '@turf/turf';
 import { useDispatch, useSelector } from 'react-redux';
+import store from 'rdx/store';
 import { removeLocalShout, updateNotificationShouts, updateShoutsLoading } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
 import { mapConfig } from 'library/components/Map';
@@ -15,8 +16,6 @@ export default (userLocation) => {
   const [prevLocation, setPrevLocation] = useState([]);
   const subscribers = [];
   const uid = useSelector((state) => state.auth.user.uid);
-  const notificationShouts = useSelector((state) => state.shouts.notifications);
-  const localShouts = useSelector((state) => state.shouts.local);
 
   const dispatch = useDispatch();
 
@@ -90,6 +89,7 @@ export default (userLocation) => {
           shoutsSnapshot.docChanges().forEach(({ type, doc }) => {
             if (type === 'added') {
               const remoteShout = doc.data();
+              const { shouts: { local, notifications } } = store.getState();
 
               setShouts((currentValue) => {
                 // check if shout was already added
@@ -103,13 +103,13 @@ export default (userLocation) => {
               });
 
               // check if shout was just created and remove from redux
-              const local = localShouts.some((shout) => shout.localId === remoteShout.localId);
-              if (remoteShout.uid === uid && local) {
+              const sameLocalId = local.some((shout) => shout.localId === remoteShout.localId);
+              if (remoteShout.uid === uid && sameLocalId) {
                 dispatch(removeLocalShout(remoteShout.localId));
               }
 
               // check if shout came in as notification
-              const notified = notificationShouts.some((shout) => shout.id === remoteShout.id);
+              const notified = notifications.some((shout) => shout.id === remoteShout.id);
               if (notified) {
                 dispatch(updateNotificationShouts('remove', remoteShout.id));
               }
@@ -146,6 +146,7 @@ export default (userLocation) => {
 
     return () => {
       isMounted = false;
+      console.log('unmounted');
       subscribers.forEach((unsubscribe) => {
         unsubscribe();
       });
