@@ -103,7 +103,7 @@ export default (userLocation) => {
               });
 
               // check if shout was just created and remove from redux
-              const local = localShouts.some((shout) => shout.id === remoteShout.id);
+              const local = localShouts.some((shout) => shout.localId === remoteShout.localId);
               if (remoteShout.uid === uid && local) {
                 dispatch(removeLocalShout(remoteShout.localId));
               }
@@ -146,11 +146,11 @@ export default (userLocation) => {
 
     return () => {
       isMounted = false;
-      // subscribers.forEach((unsubscribe) => {
-      //   unsubscribe();
-      // });
+      subscribers.forEach((unsubscribe) => {
+        unsubscribe();
+      });
     };
-  }, [userLocation, notificationShouts, localShouts]);
+  }, [userLocation]);
 
   return [shouts];
 };
