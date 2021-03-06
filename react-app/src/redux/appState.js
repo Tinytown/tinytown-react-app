@@ -34,12 +34,14 @@ export const getStateFromLS = () => async (dispatch) => {
   const {
     userLocation,
     appSettings,
+    appOnboarding,
     user,
     shoutSettings,
     openedShouts,
   } = await getMultiple([
     'userLocation',
     'appSettings',
+    'appOnboarding',
     'user',
     'shoutSettings',
     'openedShouts',
@@ -57,6 +59,11 @@ export const getStateFromLS = () => async (dispatch) => {
   // App Settings
   if (appSettings) {
     dispatch({ type: UPDATE_SETTING, payload: appSettings });
+  }
+
+  // App Onboarding
+  if (appOnboarding) {
+    dispatch({ type: UPDATE_ONBOARDING, payload: appOnboarding });
   }
 
   // User info
@@ -86,11 +93,12 @@ export const getStateFromLS = () => async (dispatch) => {
 
 export const storeStateToLS = () => (dispatch, getState) => {
   const {
-    app: { settings: appSettings },
+    app: { settings: appSettings, onboarding: appOnboarding },
     shouts: { settings: shoutSettings, opened: openedShouts },
   } = getState();
   storeMultiple([
     ['appSettings', appSettings],
+    ['appOnboarding', appOnboarding],
     ['shoutSettings', shoutSettings],
     ['openedShouts', openedShouts],
   ]);
