@@ -23,6 +23,18 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>tinytown</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tinytown</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>twitterkit-h2pjvfxqhArPD3Kt640e3gLp9</string>
