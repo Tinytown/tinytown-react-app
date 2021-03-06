@@ -25,19 +25,24 @@ const HomeBar = ({ signOut, goToUser, goToTarget, userVisible, photoURL, shoutNo
   const [avatarColors, setAvatarColors] = useState(null);
   const [newShout, setNewShout] = useState(null);
   const [alertPressed, setAlertPressed] = useState(false);
+  const [showChip, setShowChip] = useState(false);
   const navigation = useNavigation();
 
   const showLocationBtn = userVisible !== null && !userVisible;
   const showAlertBtn = userVisible !== null && !alertPressed && newShout;
   const [alertBtnAnimation, animateAlertBtn] = useAnimation('shake');
-  const [alertChipAnimation] = useAnimation('slide', TRANSLATE_AMOUNT, showAlertBtn);
+  const [alertChipAnimation] = useAnimation('slide', TRANSLATE_AMOUNT, showAlertBtn && showChip);
   const styles = generateStyles({ avatarColors, TRANSLATE_AMOUNT });
 
   useEffect(() => {
     if (shoutNotifications && !newShout) {
       setAlertPressed(false);
+      setShowChip(true);
       setNewShout(shoutNotifications[shoutNotifications.length - 1]);
       animateAlertBtn();
+      setTimeout(() => {
+        setShowChip(false);
+      }, 5000);
     }
   }, [shoutNotifications]);
 
