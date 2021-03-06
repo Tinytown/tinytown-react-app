@@ -1,17 +1,18 @@
 import { useEffect, useState, useContext } from 'react';
-import { AppState, Alert } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
+import { AppState } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import * as RootNavigation from 'screens/RootNavigation';
+import remoteConfig from '@react-native-firebase/remote-config';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
-import remoteConfig from '@react-native-firebase/remote-config';
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAppState, getStateFromLS, storeStateToLS, updateAppSetting } from 'rdx/appState';
 import { updateAuth } from 'rdx/authState';
+import { goToTarget } from 'rdx/locationState';
 import { updateNotificationShouts } from 'rdx/shoutState';
 import { getNotificationsPermission } from 'library/apis/notifications';
 import { Config } from 'context';
@@ -62,7 +63,6 @@ export default (isSignedIn) => {
   // hide splash screen
   useEffect(() => {
     if (isSignedIn !== null && configIsReady) {
-      SplashScreen.hide();
       setAppIsReady(true);
     }
   }, [isSignedIn, configIsReady]);
@@ -105,9 +105,11 @@ export default (isSignedIn) => {
           dispatch(updateNotificationShouts('add', { ...JSON.parse(shout), text: body }));
         });
 
-        // register background handler
-        messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-          console.log('Message handled in the background!', remoteMessage);
+        // navigate to shout screen when notification is opened (background)
+        messaging().onNotificationOpenedApp(({ data: { shout }, notification: { body } }) => {
+          parsedShout = JSON.parse(shout);
+          dispatch(goToTarget(parsedShout.coordinates));
+          RootNavigation.navigate('OpenShout', { shout: { ...parsedShout, text: body } });
         });
 
         // update token in firestore
