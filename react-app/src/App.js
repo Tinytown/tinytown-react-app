@@ -17,11 +17,11 @@ import { COLORS } from 'res';
 const Stack = createStackNavigator();
 
 const App = ({ isSignedIn }) => {
-  const [appIsReady] = useApp(isSignedIn);
+  const [appIsReady, setNavIsReady] = useApp(isSignedIn);
 
   return (
     appIsReady ?
-      (<NavigationContainer ref={navigationRef}>
+      (<NavigationContainer ref={navigationRef} onReady={() => setNavIsReady(true)} >
         <Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: false }} >
           {isSignedIn ? (
             <>

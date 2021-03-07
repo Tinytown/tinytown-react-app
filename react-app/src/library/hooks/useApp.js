@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { AppState } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import * as RootNavigation from 'screens/RootNavigation';
 import remoteConfig from '@react-native-firebase/remote-config';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
@@ -14,14 +13,20 @@ import { updateAppState, getStateFromLS, storeStateToLS, updateAppSetting } from
 import { updateAuth } from 'rdx/authState';
 import { goToTarget } from 'rdx/locationState';
 import { updateNotificationShouts } from 'rdx/shoutState';
+import * as RootNavigation from 'screens/RootNavigation';
 import { getNotificationsPermission } from 'library/apis/notifications';
 import { Config } from 'context';
 import { STRINGS } from 'res';
 
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
+  const [navIsReady, setNavIsReady] = useState(false);
+  const [backNotification, setBackNotification] = useState(null);
   const configIsReady = useContext(Config.Context);
-  const { notifications: pushNotif, backgroundGeo: backGeo } = useSelector((state) => state.app.settings);
+  const {
+    notifications: notificationsEnabled,
+    backgroundGeo: backGeoEnabled,
+  } = useSelector((state) => state.app.settings);
   const appActive = useSelector((state) => state.app.active);
   const { user: coordinates } = useSelector((state) => state.location);
   const dispatch = useDispatch();
@@ -53,6 +58,9 @@ export default (isSignedIn) => {
     return () => {
       unsubscribeAuth();
       AppState.removeEventListener('change', appStateHandler);
+      setNavIsReady(false);
+      setAppIsReady(false);
+      setBackNotification(null);
     };
   }, []);
 
@@ -96,7 +104,7 @@ export default (isSignedIn) => {
   // Push notifications
   useEffect(() => {
     let unsubscribeNotif = () => {};
-    if (pushNotif && isSignedIn) {
+    if (notificationsEnabled && isSignedIn) {
       // check notifications permissions during launch
       const hasPermission  = getNotificationsPermission();
       if (hasPermission) {
@@ -112,27 +120,45 @@ export default (isSignedIn) => {
           RootNavigation.navigate('OpenShout', { shout: { ...parsedShout, text: body } });
         });
 
+        // store message when notification is opened (cold start)
+        messaging().getInitialNotification()
+          .then(async (remoteMessage) => {
+            if (remoteMessage) {
+              setBackNotification(remoteMessage);
+            }
+          });
+
         // update token in firestore
         messaging().getToken()
           .then((token) => updateRegistrationToken(token));
       } else {
         dispatch(updateAppSetting('notifications', false));
       }
-    } else if (pushNotif === false) {
+    } else if (notificationsEnabled === false) {
       // remove token from firestore
       updateRegistrationToken(null);
     }
     return () => {
       unsubscribeNotif();
     };
-  }, [pushNotif]);
+  }, [notificationsEnabled, navIsReady]);
+
+  // navigate to shout from cold start after nav stack is ready
+  useEffect(() => {
+    if (backNotification && navIsReady) {
+      const { data: { shout }, notification: { body } } = backNotification;
+      parsedShout = JSON.parse(shout);
+      dispatch(goToTarget(parsedShout.coordinates));
+      RootNavigation.navigate('OpenShout', { shout: { ...parsedShout, text: body } });
+    }
+  }, [backNotification, navIsReady]);
 
   // Background location
   useEffect(() => {
     return () => {
 
     };
-  }, [backGeo]);
+  }, [backGeoEnabled]);
 
-  return [appIsReady];
+  return [appIsReady, setNavIsReady];
 };

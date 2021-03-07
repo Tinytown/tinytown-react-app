@@ -24,6 +24,7 @@ module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
       },
     },
     android: {
+      priority: 'high',
       notification: {
         // image: 'image-url',
       },
