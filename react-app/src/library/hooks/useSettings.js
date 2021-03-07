@@ -4,10 +4,11 @@ import { updateAppSetting } from 'rdx/appState';
 import { FeatureCard } from 'library/components';
 import { normalizeStyles, getListContent } from 'res';
 
-import { Alert } from 'react-native';
-
 export default (routeParams) => {
-  const { notifications: pushNotif, backgroundGeo: backGeo } = useSelector((state) => state.app.settings);
+  const {
+    notifications: notificationsEnabled,
+    backgroundGeo: backGeoEnabled,
+  } = useSelector((state) => state.app.settings);
   const dispatch = useDispatch();
 
   const styles = normalizeStyles({
@@ -26,9 +27,9 @@ export default (routeParams) => {
   const assignState = (key, prop) => {
     switch (key) {
     case 'notifications':
-      return prop === 'toggle' ? pushNotif : () => dispatch(updateAppSetting(key, !pushNotif));
+      return prop === 'toggle' ? notificationsEnabled : () => dispatch(updateAppSetting(key, !notificationsEnabled));
     case 'backgroundGeo':
-      return prop === 'toggle' ? backGeo : () => dispatch(updateAppSetting(key, !backGeo));
+      return prop === 'toggle' ? backGeoEnabled : () => dispatch(updateAppSetting(key, !backGeoEnabled));
     default:
       return;
     }

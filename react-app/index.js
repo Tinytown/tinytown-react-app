@@ -37,3 +37,7 @@ const HeadlessCheck = () => {
 };
 
 AppRegistry.registerComponent(appName, () => HeadlessCheck);
+
+messaging().setBackgroundMessageHandler(async () => {
+  console.log('Message handled in the background!');
+});

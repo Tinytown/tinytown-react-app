@@ -10,7 +10,7 @@ const ShoutOnboardingScreen = ({
   navigation,
   shoutTimestamp,
   updateOnboarding,
-  pushNotif,
+  notificationsEnabled,
 }) => {
   const { STRINGS } = useContext(Config.Context);
   const [openSheet, setOpenSheet] = useState(true);
@@ -49,7 +49,7 @@ const ShoutOnboardingScreen = ({
           <View style={styles.chipsContainer}>
             <Countdown timestamp={shoutTimestamp ?? Date.now()} />
           </View>
-          {!pushNotif &&
+          {!notificationsEnabled &&
             <PromoCard
               wrapperStyle={styles.card}
               icon='notifications'
@@ -100,7 +100,7 @@ const styles = normalizeStyles({
 
 const mapStateToProps = (state) => ({
   shoutTimestamp: state.app.onboarding.shoutTimestamp,
-  pushNotif: state.app.settings.notifications,
+  notificationsEnabled: state.app.settings.notifications,
 });
 
 export default connect(mapStateToProps, { updateOnboarding })(ShoutOnboardingScreen);

@@ -146,7 +146,6 @@ export default (userLocation) => {
 
     return () => {
       isMounted = false;
-      console.log('unmounted');
       subscribers.forEach((unsubscribe) => {
         unsubscribe();
       });
