@@ -172,25 +172,6 @@ export const renderShoutOnboardingMarker = (userLocation) => {
   );
 };
 
-const shoutOnPressHandler = (pressedShout, setAllShouts, navigation, dispatch) => {
-  navigation.navigate('OpenShout', { shout: pressedShout });
-
-  // update opened property
-  if (!pressedShout.opened) {
-    setAllShouts((currentValue) => {
-      return currentValue.map((shout) => {
-        if (shout.id === pressedShout.id) {
-          shout.opened = true;
-        }
-        return shout;
-      });
-    });
-  }
-
-  // add shout to redux
-  dispatch(updateOpenedShouts('add', pressedShout.id));
-};
-
 export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [insideShouts, setInsideShouts] = useState(null);
@@ -247,7 +228,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
     setInsideShouts(filteredInShouts);
     setOutsideShouts(filteredOutShouts);
-  }, [localShouts, remoteShouts, userLocation, shoutExpired]);
+  }, [localShouts, remoteShouts, userLocation, shoutExpired, openedShouts]);
 
   useEffect(() => {
     if (zoom > ZOOM_STEP_1) {
@@ -268,7 +249,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
                 label={text}
                 local={local}
                 opened={shout.uid === uid || opened || local}
-                onPress={() => shoutOnPressHandler(shout, setInsideShouts, navigation, dispatch)}
+                onPress={() => navigation.navigate('OpenShout', { shout })}
               />
             </MarkerView>
           );
@@ -343,7 +324,7 @@ export const renderNotificationShouts = (remoteShouts, zoom) => {
     });
 
     setFilteredShouts(filtered);
-  }, [notificationShouts]);
+  }, [notificationShouts, openedShouts]);
 
   useEffect(() => {
     if (zoom > ZOOM_STEP_1) {
@@ -362,7 +343,7 @@ export const renderNotificationShouts = (remoteShouts, zoom) => {
               <Shout
                 label={text}
                 opened={opened}
-                onPress={() => shoutOnPressHandler(shout, setFilteredShouts, navigation, dispatch)}
+                onPress={() => navigation.navigate('OpenShout', { shout })}
               />
             </MarkerView>
           );

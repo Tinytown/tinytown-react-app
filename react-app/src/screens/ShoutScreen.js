@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import { updateOpenedShouts } from 'rdx/shoutState';
 import { Countdown, NavBar, BottomSheet, BottomSheetContainer } from 'library/components';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
-const ShoutScreen = ({ navigation, route: { params: { shout: { createdAt, text } } } }) => {
+const ShoutScreen = ({ navigation, route: { params: { shout } }, updateOpenedShouts }) => {
+  const { createdAt, text, id } = shout;
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
+
+  useEffect(() => {
+    updateOpenedShouts('add', id);
+  }, []);
 
   return (
     <BottomSheet
@@ -43,4 +50,4 @@ const styles = normalizeStyles({
   },
 });
 
-export default ShoutScreen;
+export default connect(null, { updateOpenedShouts })(ShoutScreen);
