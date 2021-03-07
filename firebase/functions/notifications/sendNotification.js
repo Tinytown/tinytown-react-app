@@ -5,6 +5,8 @@ const getSurroundingCodes = require('../location/getSurroundingCodes');
 const { SIGHT_RADIUS } = require('../location/config');
 
 module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
+  const RED_COLOR = '#FF4763';
+
   const message = {
     notification: {
       body: text,
@@ -26,7 +28,19 @@ module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
     android: {
       priority: 'high',
       notification: {
-        // image: 'image-url',
+        icon: 'ic_stat_megaphone',
+        color: RED_COLOR,
+        channel_id: 'shouts',
+        notification_count: 1,
+        light_settings: {
+          color: {
+            red: 1,
+            green: 0.27,
+            blue: 0.38,
+          },
+          light_on_duration: '0.25s',
+          light_off_duration: '2s',
+        },
       },
     },
   };
