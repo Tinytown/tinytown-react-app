@@ -11,13 +11,14 @@ import { navigationRef } from 'screens/RootNavigation';
 import { connect } from 'react-redux';
 import OnboardingStack from 'screens/OnboardingStack';
 import RootStack from 'screens/RootStack';
-import { useApp } from 'library/hooks';
+import { useAppLaunch, useNotifications } from 'library/hooks';
 import { COLORS } from 'res';
 
 const Stack = createStackNavigator();
 
 const App = ({ isSignedIn }) => {
-  const [appIsReady, setNavIsReady] = useApp(isSignedIn);
+  const [appIsReady] = useAppLaunch(isSignedIn);
+  const [setNavIsReady] = useNotifications(isSignedIn);
 
   return (
     appIsReady ?
