@@ -6,6 +6,7 @@ import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import NetInfo from '@react-native-community/netinfo';
+import RNBootSplash from 'react-native-bootsplash';
 import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -72,6 +73,7 @@ export default (isSignedIn) => {
   useEffect(() => {
     if (isSignedIn !== null && configIsReady) {
       setAppIsReady(true);
+      RNBootSplash.hide({ fade: true });
     }
   }, [isSignedIn, configIsReady]);
 
