@@ -68,13 +68,13 @@
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Tinytown requires location information to provide the most relevant content</string>
+	<string>Tinytown uses location information to provide relevant content near users&apos; location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Tinytown requires location information to provide the most relevant content</string>
+	<string>Tinytown uses location information to provide relevant content near users&apos; location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Tinytown requires location information to provide the most relevant content</string>
+	<string>Tinytown uses location information to provide relevant content near users&apos; location.</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Motion permission helps detect when device in in-motion</string>
+	<string>Motion permission helps detect when device in in-motion.</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.transistorsoft.fetch</string>

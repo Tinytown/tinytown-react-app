@@ -26,7 +26,6 @@ export default (isSignedIn) => {
   const configIsReady = useContext(Config.Context);
   const {
     notifications: notificationsEnabled,
-    backgroundGeo: backGeoEnabled,
   } = useSelector((state) => state.app.settings);
   const appActive = useSelector((state) => state.app.active);
   const { user: coordinates } = useSelector((state) => state.location);
@@ -162,13 +161,6 @@ export default (isSignedIn) => {
       openShoutFromNotification(newNotification);
     }
   }, [newNotification, navIsReady]);
-
-  // Background location
-  useEffect(() => {
-    return () => {
-
-    };
-  }, [backGeoEnabled]);
 
   return [appIsReady, setNavIsReady];
 };

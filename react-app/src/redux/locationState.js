@@ -40,7 +40,7 @@ export const goToTarget = (payload) => {
 };
 
 export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getState) => {
-  const { location, app: { settings: { notifications } } } = getState();
+  const { location } = getState();
   const coordinates = [longitude, latitude];
   const sameLocation = location.user.every((val, index) => val == coordinates[index]);
 
@@ -48,11 +48,9 @@ export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getSta
     return;
   }
 
-  if (notifications) {
   // store location in firestore
-    const deviceId = DeviceInfo.getUniqueId();
-    functions().httpsCallable('storeLocation')({ deviceId, coordinates });
-  }
+  const deviceId = DeviceInfo.getUniqueId();
+  functions().httpsCallable('storeLocation')({ deviceId, coordinates });
 
   const payload = {
     user: coordinates,

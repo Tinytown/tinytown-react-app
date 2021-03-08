@@ -18,8 +18,12 @@ export default {
 
   dialog: {
     location: {
-      title: 'Turn on Location',
-      body: `The ${appConfig.displayName} app is not very useful without access to your location.`,
+      title: 'Location is not enabled',
+      body: 'To use location, you must enable it in settings.',
+    },
+    backgroundGeo: {
+      title: 'Background location is not enabled',
+      body: 'To use background location, you must select "Always" in location settings.',
     },
     mockLocation: {
       title: 'Not So Fast, Bucko',
@@ -44,18 +48,18 @@ export default {
     goToLocation: 'Go to my location',
     shoutIntro: {
       title: 'LOUD NOISES!',
-      body: 'This is a shout, they help you stay in the loop on what\'s happening nearby and they dissapear after a week.',
+      body: 'This is a shout, they help you stay in the loop on what\'s happening nearby and then dissapear after a week.',
     },
   },
 
   features: {
     notifications: {
       title: 'Push notifications',
-      body: 'Be the first to know when someone shouts near your location.',
+      body: 'Be the first to know when there\'s a new shout near your location.',
     },
     backgroundGeo: {
       title: 'Use background location',
-      body: 'Use your most recent location to receive notifications even if the Tinytown app is closed.',
+      body: 'Use your most recent location to receive notifications when the Tinytown app is closed.',
     },
   },
 
