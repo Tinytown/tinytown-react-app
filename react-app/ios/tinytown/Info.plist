@@ -68,11 +68,17 @@
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Tinytown requires GPS to track location to provide most relevant content</string>
+	<string>Tinytown requires location information to provide the most relevant content</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Tinytown requires GPS to track location to provide most relevant content</string>
+	<string>Tinytown requires location information to provide the most relevant content</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Tinytown requires GPS to track location to provide most relevant content</string>
+	<string>Tinytown requires location information to provide the most relevant content</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Motion permission helps detect when device in in-motion</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.transistorsoft.fetch</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-BlackItalic.ttf</string>
@@ -82,7 +88,9 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>fetch</string>
+		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
