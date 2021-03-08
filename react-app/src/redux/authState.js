@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
@@ -39,7 +40,7 @@ export const signIn = (token, secret) => async (dispatch) => {
     .doc(uid)
     .collection('devices')
     .doc(deviceId)
-    .set({ deviceId });
+    .set({ deviceId, os: Platform.OS });
 
   dispatch({
     type: SIGN_IN,

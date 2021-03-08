@@ -21,9 +21,6 @@ module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
           'mutable-content': 1,
         },
       },
-      fcm_options: {
-        // image: 'image-url',
-      },
     },
     android: {
       priority: 'high',

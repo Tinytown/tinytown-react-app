@@ -21,7 +21,7 @@ import { STRINGS } from 'res';
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
   const [navIsReady, setNavIsReady] = useState(false);
-  const [backNotification, setBackNotification] = useState(null);
+  const [newNotification, setNewNotification] = useState(null);
   const configIsReady = useContext(Config.Context);
   const {
     notifications: notificationsEnabled,
@@ -60,7 +60,7 @@ export default (isSignedIn) => {
       AppState.removeEventListener('change', appStateHandler);
       setNavIsReady(false);
       setAppIsReady(false);
-      setBackNotification(null);
+      setNewNotification(null);
     };
   }, []);
 
@@ -84,9 +84,14 @@ export default (isSignedIn) => {
     }
   }, [appActive]);
 
-  const updateRegistrationToken = async (token) => {
+  const getIds = () => {
     const { uid } = auth().currentUser;
     const deviceId = DeviceInfo.getUniqueId();
+    return { uid, deviceId };
+  };
+
+  const updateRegistrationToken = async (token) => {
+    const { uid, deviceId } = getIds();
 
     await firestore().collection('users')
       .doc(uid)
@@ -101,6 +106,14 @@ export default (isSignedIn) => {
     }
   };
 
+  const openShoutFromNotification = async (remoteMessage) => {
+    const { data: { shout }, notification: { body } } = remoteMessage;
+    parsedShout = JSON.parse(shout);
+
+    dispatch(goToTarget(parsedShout.coordinates));
+    RootNavigation.navigate('OpenShout', { shout: { ...parsedShout, text: body } });
+  };
+
   // Push notifications
   useEffect(() => {
     let unsubscribeNotif = () => {};
@@ -108,23 +121,21 @@ export default (isSignedIn) => {
       // check notifications permissions during launch
       const hasPermission  = getNotificationsPermission();
       if (hasPermission) {
-        // listen for notifications
+        // listen for notifications when app is opened
         unsubscribeNotif = messaging().onMessage(({ data: { shout }, notification: { body } }) => {
           dispatch(updateNotificationShouts('add', { ...JSON.parse(shout), text: body }));
         });
 
         // navigate to shout screen when notification is opened (background)
-        messaging().onNotificationOpenedApp(({ data: { shout }, notification: { body } }) => {
-          parsedShout = JSON.parse(shout);
-          dispatch(goToTarget(parsedShout.coordinates));
-          RootNavigation.navigate('OpenShout', { shout: { ...parsedShout, text: body } });
+        messaging().onNotificationOpenedApp((remoteMessage) => {
+          openShoutFromNotification(remoteMessage);
         });
 
         // store message when notification is opened (cold start)
         messaging().getInitialNotification()
           .then(async (remoteMessage) => {
             if (remoteMessage) {
-              setBackNotification(remoteMessage);
+              setNewNotification(remoteMessage);
             }
           });
 
@@ -145,13 +156,10 @@ export default (isSignedIn) => {
 
   // navigate to shout from cold start after nav stack is ready
   useEffect(() => {
-    if (backNotification && navIsReady) {
-      const { data: { shout }, notification: { body } } = backNotification;
-      parsedShout = JSON.parse(shout);
-      dispatch(goToTarget(parsedShout.coordinates));
-      RootNavigation.navigate('OpenShout', { shout: { ...parsedShout, text: body } });
+    if (newNotification && navIsReady) {
+      openShoutFromNotification(newNotification);
     }
-  }, [backNotification, navIsReady]);
+  }, [newNotification, navIsReady]);
 
   // Background location
   useEffect(() => {
