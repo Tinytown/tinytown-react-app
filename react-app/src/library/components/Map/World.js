@@ -3,7 +3,7 @@ import { View, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
-import { updateUserVisible, updateUserLocation  } from 'rdx/locationState';
+import { updateUserVisible  } from 'rdx/locationState';
 import mapConfig from './config';
 import { Config } from 'context';
 import { useLocation, useMap, useShouts } from 'library/hooks';
@@ -22,7 +22,6 @@ const World = ({
   isSignedIn,
   loadingShouts,
   onboardingShouts,
-  updateUserLocation,
   updateUserVisible,
   children,
   onTouchStart,
@@ -35,7 +34,7 @@ const World = ({
 
   // Custom Hooks
   const cameraRef = useRef(null);
-  const [heading] = useLocation(updateUserLocation);
+  const [heading] = useLocation();
   const [
     camera,
     onRegionIsChangingHandler,
@@ -127,4 +126,4 @@ const mapStateToProps = (state) => ({
   onboardingShouts: state.app.onboarding.shouts,
 });
 
-export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(World);
+export default connect(mapStateToProps, { updateUserVisible })(World);

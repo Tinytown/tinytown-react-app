@@ -40,17 +40,19 @@ export const goToTarget = (payload) => {
 };
 
 export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getState) => {
-  const { location } = getState();
+  const { location: { user: currentLocation }, auth: { isSignedIn } } = getState();
   const coordinates = [longitude, latitude];
-  const sameLocation = location.user.every((val, index) => val == coordinates[index]);
+  const sameLocation = currentLocation?.every((val, index) => val == coordinates[index]);
 
   if (sameLocation) {
     return;
   }
 
-  // store location in firestore
-  const deviceId = DeviceInfo.getUniqueId();
-  functions().httpsCallable('storeLocation')({ deviceId, coordinates });
+  if (isSignedIn) {
+    // store location in firestore
+    const deviceId = DeviceInfo.getUniqueId();
+    functions().httpsCallable('storeLocation')({ deviceId, coordinates });
+  }
 
   const payload = {
     user: coordinates,

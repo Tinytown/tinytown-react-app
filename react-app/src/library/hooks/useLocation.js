@@ -1,35 +1,32 @@
 import { useState, useEffect } from 'react';
 import CompassHeading from 'react-native-compass-heading';
 import { useSelector } from 'react-redux';
-import { watchLocation, stopWatchingLocation } from 'library/apis/geolocation';
+import { watchLocation, switchToBackground, stopWatchingLocation } from 'library/apis/geolocation';
 
-let watchId = null;
-
-export default (callback) => {
+export default () => {
   const [heading, setHeading] = useState(0);
   const hasPermission = useSelector((state) => state.location.hasPermission);
-  const appActive = useSelector((state) => state.app.active);
+  const { active: appActive, settings: { backgroundGeo } } = useSelector((state) => state.app);
 
-  const startWatching = async () => {
+  const startWatching = async (authReq) => {
     CompassHeading.start(10, (newHeading) => {
       setHeading(newHeading);
     });
-    watchId = await watchLocation(callback);
+    watchLocation(authReq);
   };
 
   const stopWatching = () => {
     CompassHeading.stop();
-    stopWatchingLocation(watchId);
+    stopWatchingLocation();
   };
 
-  const shouldWatch = appActive && hasPermission;
-
   useEffect(() => {
-    shouldWatch ? startWatching() : stopWatching();
-    return () => {
-      stopWatching();
-    };
-  }, [shouldWatch]);
+    if (appActive && hasPermission) {
+      backgroundGeo ? startWatching('always') : startWatching('wheninuse');
+    } else if (!appActive) {
+      backgroundGeo ? switchToBackground() : stopWatching();
+    }
+  }, [appActive, hasPermission, backgroundGeo]);
 
   return [heading];
 };
