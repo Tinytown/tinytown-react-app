@@ -1,4 +1,5 @@
 import { Alert, Platform } from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
 import { openSetting } from './linking';
@@ -9,23 +10,36 @@ const {
   DESIRED_ACCURACY_LOW,
   LOG_LEVEL_VERBOSE,
   setConfig,
-  getCurrentPosition,
+  ready,
   start,
   stop,
+  onLocation,
   removeListeners,
 } = BackgroundGeolocation;
 
-export const foregroundConfig = {
-  desiredAccuracy: DESIRED_ACCURACY_HIGH,
-  distanceFilter: 5,
-  debug: false,
-  logLevel: LOG_LEVEL_VERBOSE,
-  stopOnTerminate: true,
-  startOnBoot: true,
-  locationAuthorizationRequest: 'WhenInUse',
-  showsBackgroundLocationIndicator: false,
-  disableLocationAuthorizationAlert: true,
+const { getCurrentPosition, watchPosition, clearWatch } = Geolocation;
+
+const foregroundConfig = {
+  enableHighAccuracy: true,
+  timeout: 15000,
+  maximumAge: 10000,
+  distanceFilter: 10,
+  interval: Platform.OS === 'android' ? 10000 : null,
+  fastestInterval: Platform.OS === 'android' ? 5000 : null,
+  useSignificantChanges: Platform.OS === 'ios' ? true : null,
 };
+
+// export const foregroundConfig = {
+//   desiredAccuracy: DESIRED_ACCURACY_HIGH,
+//   distanceFilter: 5,
+//   debug: false,
+//   logLevel: LOG_LEVEL_VERBOSE,
+//   stopOnTerminate: true,
+//   startOnBoot: true,
+//   locationAuthorizationRequest: 'WhenInUse',
+//   showsBackgroundLocationIndicator: false,
+//   disableLocationAuthorizationAlert: true,
+// };
 
 export const backgroundConfig = {
   desiredAccuracy: DESIRED_ACCURACY_LOW,
@@ -95,9 +109,9 @@ export const getLocationPermission = async () => {
 };
 
 export const onLocationHandler = (location, callback) => {
-  const { coords, mock } = location;
-
-  if (mock) {
+  const { coords, mocked } = location;
+  console.log(location);
+  if (mocked) {
     showMockLocationDialog();
     return;
   }
@@ -110,37 +124,49 @@ export const getLocation = async (callback) => {
     showFgLocationDialog();
   } else {
     getCurrentPosition(
-      {
-        timeout: 30,
-        maximumAge: 10000,
-      },
       (location) => onLocationHandler(location, callback),
-      (error) => console.log(error),
+      (error) => console.log(error.code, error.message),
+      {
+        enableHighAccuracy: foregroundConfig.enableHighAccuracy,
+        timeout: foregroundConfig.timeout,
+        maximumAge: foregroundConfig.maximumAge,
+      }
     );
   }
 };
 
-export const watchLocation = async (authReq) => {
-  const hasPermission = await getLocationPermission(authReq);
+export const watchLocation = async (callback) => {
+  const hasPermission = await getLocationPermission();
 
   if (!hasPermission) {
     showFgLocationDialog();
   } else {
-    setConfig(foregroundConfig);
-    start(
-      () => console.log('Started watching location'),
-      (error) => console.log(error),
+    const watchId = watchPosition(
+      (location) => onLocationHandler(location, callback),
+      (error) => {
+        console.log(error.code, error.message);
+      },
+      { foregroundConfig },
     );
+    console.log('started foreground watching: ', watchId);
+    return watchId;
   }
 };
 
-export const switchToBackground = async () => {
-  console.log('watching in background');
-  setConfig(backgroundConfig);
+export const switchToBackground = async (watchId) => {
+  console.log('stopped foreground watching: ', watchId);
+  clearWatch(watchId);
+
+  // start location service
+  ready(backgroundConfig);
+  console.log('started background watching:');
+  onLocation(
+    (location) => console.log(location),
+    (error) => console.log(error)
+  );
 };
 
-export const stopWatchingLocation = () => {
-  console.log('Stopped watching location');
-  stop();
-  removeListeners();
+export const stopWatchingLocation = (watchId) => {
+  console.log('stopped foreground watching: ', watchId);
+  Geolocation.clearWatch(watchId);
 };

@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from 'react';
 import { AppState } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import remoteConfig from '@react-native-firebase/remote-config';
-import BackgroundGeolocation from 'react-native-background-geolocation';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
 import NetInfo from '@react-native-community/netinfo';
@@ -11,8 +10,6 @@ import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAppState, getStateFromLS, storeStateToLS } from 'rdx/appState';
 import { updateAuth } from 'rdx/authState';
-import { updateUserLocation } from 'rdx/locationState';
-import { foregroundConfig, onLocationHandler } from 'library/apis/geolocation';
 import { Config } from 'context';
 import { STRINGS } from 'res';
 
@@ -39,14 +36,6 @@ export default (isSignedIn) => {
         Toast.show(STRINGS.connectivity.offline, Toast.LONG);
       }
     });
-
-    // start location service
-    console.log('Started listening');
-    BackgroundGeolocation.ready(foregroundConfig);
-    BackgroundGeolocation.onLocation(
-      (location) => onLocationHandler(location, (coords) => dispatch(updateUserLocation(coords))),
-      (error) => console.log(error)
-    );
 
     // listen for auth changes
     const unsubscribeAuth = auth().onAuthStateChanged((user) => dispatch(updateAuth(user)));
