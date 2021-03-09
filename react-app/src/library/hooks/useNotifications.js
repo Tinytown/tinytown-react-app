@@ -6,6 +6,7 @@ import messaging from '@react-native-firebase/messaging';
 import DeviceInfo from 'react-native-device-info';
 import { useDispatch, useSelector } from 'react-redux';
 import { goToTarget } from 'rdx/locationState';
+import { updateAppSetting } from 'rdx/appState';
 import { updateNotificationShouts } from 'rdx/shoutState';
 import * as RootNavigation from 'screens/RootNavigation';
 import { getNotificationsPermission } from 'library/apis/notifications';
@@ -21,33 +22,7 @@ export default (isSignedIn) => {
   useEffect(() => {
     let unsubscribeNotif = () => {};
     if (notificationsEnabled && isSignedIn) {
-      // check notifications permissions during launch
-      const hasPermission  = getNotificationsPermission();
-      if (hasPermission) {
-        // listen for notifications when app is opened
-        unsubscribeNotif = messaging().onMessage(({ data: { shout }, notification: { body } }) => {
-          dispatch(updateNotificationShouts('add', { ...JSON.parse(shout), text: body }));
-        });
-
-        // navigate to shout screen when notification is opened (background)
-        messaging().onNotificationOpenedApp((remoteMessage) => {
-          openShoutFromNotification(remoteMessage);
-        });
-
-        // store message when notification is opened (cold start)
-        messaging().getInitialNotification()
-          .then(async (remoteMessage) => {
-            if (remoteMessage) {
-              setNewNotification(remoteMessage);
-            }
-          });
-
-        // update token in firestore
-        messaging().getToken()
-          .then((token) => updateRegistrationToken(token));
-      } else {
-        dispatch(updateAppSetting('notifications', false));
-      }
+      initNotifications();
     } else if (notificationsEnabled === false) {
       // remove token from firestore
       updateRegistrationToken(null);
@@ -62,6 +37,38 @@ export default (isSignedIn) => {
     };
   }, [notificationsEnabled, navIsReady, newNotification]);
 
+  const initNotifications = async () => {
+    const hasPermission = await getNotificationsPermission();
+
+    if (hasPermission) {
+      dispatch(updateAppSetting('notifications', true));
+
+      // listen for notifications when app is opened
+      unsubscribeNotif = messaging().onMessage(({ data: { shout }, notification: { body } }) => {
+        dispatch(updateNotificationShouts('add', { ...JSON.parse(shout), text: body }));
+      });
+
+      // navigate to shout screen when notification is opened (background)
+      messaging().onNotificationOpenedApp((remoteMessage) => {
+        openShoutFromNotification(remoteMessage);
+      });
+
+      // store message when notification is opened (cold start)
+      messaging().getInitialNotification()
+        .then(async (remoteMessage) => {
+          if (remoteMessage) {
+            setNewNotification(remoteMessage);
+          }
+        });
+
+      // update token in firestore
+      messaging().getToken()
+        .then((token) => updateRegistrationToken(token));
+    } else {
+      dispatch(updateAppSetting('notifications', false));
+    }
+  };
+
   const getIds = () => {
     const { uid } = auth().currentUser;
     const deviceId = DeviceInfo.getUniqueId();
@@ -70,7 +77,6 @@ export default (isSignedIn) => {
 
   const updateRegistrationToken = async (token) => {
     const { uid, deviceId } = getIds();
-    console.log(token);
 
     await firestore().collection('users')
       .doc(uid)

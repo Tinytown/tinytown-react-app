@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAppSetting } from 'rdx/appState';
+import { getNotificationsPermission } from 'library/apis/notifications';
+import { getLocationPermission } from 'library/apis/geolocation';
 import { FeatureCard } from 'library/components';
 import { normalizeStyles, getListContent } from 'res';
 
@@ -27,11 +29,36 @@ export default (routeParams) => {
   const assignState = (key, prop) => {
     switch (key) {
     case 'notifications':
-      return prop === 'toggle' ? notificationsEnabled : () => dispatch(updateAppSetting(key, !notificationsEnabled));
+      return prop === 'toggle' ? notificationsEnabled : toggleNotifications;
     case 'backgroundGeo':
-      return prop === 'toggle' ? backGeoEnabled : () => dispatch(updateAppSetting(key, !backGeoEnabled));
+      return prop === 'toggle' ? backGeoEnabled : toggleBackgroundGeo;
     default:
       return;
+    }
+  };
+
+  // toggle settings
+  const toggleNotifications = async () => {
+    if (notificationsEnabled) {
+      dispatch(updateAppSetting('notifications', false));
+    } else {
+      const hasPermission = await getNotificationsPermission();
+
+      if (hasPermission) {
+        dispatch(updateAppSetting('notifications', true));
+      }
+    }
+  };
+
+  const toggleBackgroundGeo = async () => {
+    if (backGeoEnabled) {
+      dispatch(updateAppSetting('backgroundGeo', false));
+    } else {
+      const hasPermission = await getLocationPermission('always');
+
+      if (hasPermission) {
+        dispatch(updateAppSetting('backgroundGeo', true));
+      }
     }
   };
 

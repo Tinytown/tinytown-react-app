@@ -29,18 +29,6 @@ const foregroundConfig = {
   useSignificantChanges: Platform.OS === 'ios' ? true : null,
 };
 
-// export const foregroundConfig = {
-//   desiredAccuracy: DESIRED_ACCURACY_HIGH,
-//   distanceFilter: 5,
-//   debug: false,
-//   logLevel: LOG_LEVEL_VERBOSE,
-//   stopOnTerminate: true,
-//   startOnBoot: true,
-//   locationAuthorizationRequest: 'WhenInUse',
-//   showsBackgroundLocationIndicator: false,
-//   disableLocationAuthorizationAlert: true,
-// };
-
 export const backgroundConfig = {
   desiredAccuracy: DESIRED_ACCURACY_LOW,
   distanceFilter: 200,
@@ -87,13 +75,18 @@ const showMockLocationDialog = () => {
   Alert.alert(title, body, [{ text: tryAgain, onPress: () => {} }]);
 };
 
-export const getLocationPermission = async () => {
+export const getLocationPermission = async (authReq = 'wheninuse') => {
   if (Platform.OS === 'android' && Platform.Version < 23) {
     return true;
   }
 
-  const permissionStr = Platform.OS === 'android' ?
+  let permissionStr = Platform.OS === 'android' ?
     PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+
+  if (authReq === 'always') {
+    permissionStr = Platform.OS === 'android' ?
+      PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION : PERMISSIONS.IOS.LOCATION_ALWAYS;
+  }
 
   let hasPermission = await check(permissionStr);
   if (hasPermission === 'granted') {
@@ -110,7 +103,7 @@ export const getLocationPermission = async () => {
 
 export const onLocationHandler = (location, callback) => {
   const { coords, mocked } = location;
-  console.log(location);
+
   if (mocked) {
     showMockLocationDialog();
     return;
@@ -120,6 +113,7 @@ export const onLocationHandler = (location, callback) => {
 
 export const getLocation = async (callback) => {
   const hasPermission = await getLocationPermission();
+
   if (!hasPermission) {
     showFgLocationDialog();
   } else {
@@ -157,13 +151,13 @@ export const switchToBackground = async (watchId) => {
   console.log('stopped foreground watching: ', watchId);
   clearWatch(watchId);
 
-  // start location service
-  ready(backgroundConfig);
-  console.log('started background watching:');
-  onLocation(
-    (location) => console.log(location),
-    (error) => console.log(error)
-  );
+  // // start location service
+  // ready(backgroundConfig);
+  // console.log('started background watching:');
+  // onLocation(
+  //   (location) => console.log(location),
+  //   (error) => console.log(error)
+  // );
 };
 
 export const stopWatchingLocation = (watchId) => {
