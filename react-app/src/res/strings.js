@@ -23,7 +23,7 @@ export default {
     },
     backgroundGeo: {
       title: 'Background location is not enabled',
-      body: 'To use background location, you must select "Allow all the time" in location settings.',
+      body: 'To use background location, you must select "Allow all the time" in location settings and "Allow" in physical activity settings.',
     },
     mockLocation: {
       title: 'Not So Fast, Bucko',

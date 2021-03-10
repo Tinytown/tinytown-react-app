@@ -45,7 +45,7 @@ export default (callback) => {
     watchId = await watchLocation(callback);
 
     // stop background tracking
-    if (backGeoEnabled) {
+    if (backGeoEnabled !== null) {
       stopBackgroundGeo();
     }
   };

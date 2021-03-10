@@ -30,13 +30,12 @@ const foregroundConfig = {
 };
 
 export const backgroundConfig = {
-  desiredAccuracy: DESIRED_ACCURACY_LOW,
-  distanceFilter: 5,
+  desiredAccuracy: DESIRED_ACCURACY_HIGH,
+  distanceFilter: 200,
   debug: true,
   logLevel: LOG_LEVEL_VERBOSE,
   startOnBoot: true,
   stopOnTerminate: false,
-  distanceFilter: 200,
   stopOnStationary: true,
   useSignificantChangesOnly: true,
   showsBackgroundLocationIndicator: false,
@@ -83,43 +82,57 @@ const showMockLocationDialog = () => {
 };
 
 export const getLocationPermission = async (authReq = 'wheninuse') => {
-  if (Platform.OS === 'android' && Platform.Version < 23) {
-    return true;
-  }
+  if (authReq === 'wheninuse') {
+    if (Platform.OS === 'android' && Platform.Version < 23) {
+      return true;
+    }
 
-  let permissionStr = Platform.OS === 'android' ?
-    PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+    const permissionStr = Platform.OS === 'android' ?
+      PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
 
-  if (authReq === 'always') {
-    permissionStr = Platform.OS === 'android' ?
-      PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION : PERMISSIONS.IOS.LOCATION_ALWAYS;
-  }
+    let hasPermission = await check(permissionStr);
+    if (hasPermission === 'granted') {
+      return true;
+    }
 
-  let hasPermission = await check(permissionStr);
-  if (hasPermission === 'granted') {
-    return true;
-  }
+    hasPermission = await request(permissionStr);
+    if (hasPermission === 'granted' || hasPermission === 'limited') {
+      return true;
+    }
 
-  hasPermission = await request(permissionStr);
-  if (hasPermission === 'granted' || hasPermission === 'limited') {
-    return true;
-  }
-
-  if (authReq === 'always') {
-    showBackGeoPermissionDialog();
-  } else {
     showLocationPermissionDialog();
+    return false;
+  } else if (authReq === 'always') {
+    const geoPermissionStr = Platform.OS === 'android' ?
+      PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION : PERMISSIONS.IOS.LOCATION_ALWAYS;
+
+    const motionPermissionStr = Platform.OS === 'android' ?
+      PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION : PERMISSIONS.IOS.MOTION;
+
+    let hasGeoPermission = await check(geoPermissionStr);
+    let hasMotionPermission = await check(motionPermissionStr);
+    if (hasGeoPermission === 'granted' && hasMotionPermission === 'granted') {
+      return true;
+    }
+
+    hasGeoPermission = await request(geoPermissionStr);
+    hasMotionPermission = await request(motionPermissionStr);
+    if (hasGeoPermission === 'granted' && hasMotionPermission === 'granted') {
+      return true;
+    }
+
+    showBackGeoPermissionDialog();
+    return false;
   }
-  return false;
 };
 
 export const onLocationHandler = (location, callback) => {
   const { coords, mocked } = location;
 
-  if (mocked) {
-    showMockLocationDialog();
-    return;
-  }
+  // if (mocked) {
+  //   showMockLocationDialog();
+  //   return;
+  // }
   callback(coords);
 };
 
