@@ -21,10 +21,6 @@ const INITIAL_STATE = Object.freeze({
       notifications: null,
       backgroundGeo: null,
     },
-    onboarding: {
-      shouts: 'active',
-      shoutTimestamp: null,
-    },
   },
   shouts: {
     local: [],
@@ -38,6 +34,11 @@ const INITIAL_STATE = Object.freeze({
         loading: false,
       },
       lann: false,
+    },
+    onboarding: {
+      state: 'active',
+      timestamp: null,
+      location: null,
     },
   },
 });

@@ -21,14 +21,11 @@ export default {
         goToUser: false,
       },
       app: {
-        state: null,
+        state: 'inactive',
         storageLoaded: false,
         settings: {
           notifications: null,
           backgroundGeo: null,
-        },
-        onboarding: {
-          shouts: 'active',
         },
       },
       shouts: {
@@ -43,6 +40,11 @@ export default {
             loading: false,
           },
           lann: false,
+        },
+        onboarding: {
+          state: 'active',
+          timestamp: null,
+          location: null,
         },
       },
     },
@@ -144,7 +146,7 @@ export default {
         user: {
           $id: '#/properties/location/properties/user',
           default: null,
-          examples: [-93.26392, 44.98459],
+          examples: [null, [-93.26392, 44.98459]],
           title: 'The user schema',
           type: ['null', 'array'],
         },
@@ -193,7 +195,7 @@ export default {
           },
         },
       ],
-      required: ['state', 'storageLoaded', 'settings', 'onboarding'],
+      required: ['state', 'storageLoaded', 'settings'],
       title: 'The app schema',
       type: 'object',
       properties: {
@@ -241,43 +243,13 @@ export default {
           },
           additionalProperties: true,
         },
-        onboarding: {
-          $id: '#/properties/app/properties/onboarding',
-          default: {},
-          examples: [
-            {
-              shouts: 'active',
-              shoutTimestamp: null,
-            },
-          ],
-          required: ['shouts', 'shoutTimestamp'],
-          title: 'The onboarding schema',
-          type: 'object',
-          properties: {
-            shouts: {
-              $id: '#/properties/app/properties/onboarding/properties/shouts',
-              default: 'active',
-              examples: ['active', 'visible', 'expired'],
-              title: 'The onboarding/shouts schema',
-              type: 'string',
-            },
-            shoutTimestamp: {
-              $id: '#/properties/app/properties/onboarding/properties/shoutTimestamp',
-              default: null,
-              examples: [null, 604800000],
-              title: 'The onboarding/shoutTimestamp schema',
-              type: ['null', 'number'],
-            },
-          },
-          additionalProperties: true,
-        },
       },
       additionalProperties: true,
     },
     shouts: {
       $id: '#/properties/shouts',
       default: {},
-      description: 'Schema for local shouts settings and data.',
+      description: 'Schema for shouts settings and data.',
       examples: [
         {
           local: [],
@@ -292,9 +264,14 @@ export default {
             },
             lann: false,
           },
+          onboarding: {
+            state: 'active',
+            timestamp: null,
+            location: null,
+          },
         },
       ],
-      required: ['local', 'opened', 'notifications', 'loading', 'settings'],
+      required: ['local', 'opened', 'notifications', 'loading', 'settings', 'onboarding'],
       title: 'The shouts schema',
       type: 'object',
       properties: {
@@ -386,6 +363,44 @@ export default {
               examples: [true, false],
               title: 'The shouts/lann schema',
               type: 'boolean',
+            },
+          },
+          additionalProperties: true,
+        },
+        onboarding: {
+          $id: '#/properties/shouts/properties/onboarding',
+          default: {},
+          examples: [
+            {
+              state: 'active',
+              timestamp: null,
+              location: null,
+            },
+          ],
+          required: ['state', 'timestamp', 'location'],
+          title: 'The shouts onboarding schema',
+          type: 'object',
+          properties: {
+            shouts: {
+              $id: '#/properties/shouts/properties/onboarding/properties/state',
+              default: 'active',
+              examples: ['active', 'visible', 'expired'],
+              title: 'The onboarding/shouts/state schema',
+              type: 'string',
+            },
+            timestamp: {
+              $id: '#/properties/shouts/properties/onboarding/properties/timestamp',
+              default: null,
+              examples: [null, 604800000],
+              title: 'The onboarding/shouts/timestamp schema',
+              type: ['null', 'number'],
+            },
+            location: {
+              $id: '#/properties/shouts/properties/onboarding/properties/location',
+              default: null,
+              examples: [null, [-93.26392, 44.98459]],
+              title: 'The onboarding/shouts/location schema',
+              type: ['null', 'array'],
             },
           },
           additionalProperties: true,

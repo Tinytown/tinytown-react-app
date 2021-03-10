@@ -8,9 +8,7 @@ import {
   SHOUTS_SETTING,
   SHOUTS_OPENED,
   SIGN_IN,
-  SIGN_OUT,
 } from './actionTypes';
-import INITIAL_STATE from './initialState';
 import { getMultiple, storeMultiple } from 'library/apis/storage';
 
 export const appReducer = (state = null, action) => {
@@ -21,10 +19,6 @@ export const appReducer = (state = null, action) => {
     return { ...state, storageLoaded: action.payload };
   case UPDATE_SETTING:
     return { ...state,  settings: { ...action.payload } };
-  case UPDATE_ONBOARDING:
-    return { ...state,  onboarding: { ...action.payload } };
-  case SIGN_OUT:
-    return { ...state, settings: { ...INITIAL_STATE.app.settings }, onboarding: { ...INITIAL_STATE.app.onboarding } };
   default:
     return state;
   }
@@ -33,17 +27,15 @@ export const appReducer = (state = null, action) => {
 export const getStateFromLS = () => async (dispatch) => {
   const {
     userLocation,
-    appSettings,
-    appOnboarding,
     user,
     shoutSettings,
+    shoutOnboarding,
     openedShouts,
   } = await getMultiple([
     'userLocation',
-    'appSettings',
-    'appOnboarding',
     'user',
     'shoutSettings',
+    'shoutOnboarding',
     'openedShouts',
   ]);
 
@@ -54,16 +46,6 @@ export const getStateFromLS = () => async (dispatch) => {
       hasPermission: true,
     };
     dispatch({ type: UPDATE_LOCATION, payload });
-  }
-
-  // App Settings
-  if (appSettings) {
-    dispatch({ type: UPDATE_SETTING, payload: appSettings });
-  }
-
-  // App Onboarding
-  if (appOnboarding) {
-    dispatch({ type: UPDATE_ONBOARDING, payload: appOnboarding });
   }
 
   // User info
@@ -83,6 +65,11 @@ export const getStateFromLS = () => async (dispatch) => {
     dispatch({ type: SHOUTS_SETTING, payload: shoutSettings });
   }
 
+  // Shout Onboarding
+  if (shoutOnboarding) {
+    dispatch({ type: UPDATE_ONBOARDING, payload: shoutOnboarding });
+  }
+
   // Opened Shouts
   if (openedShouts) {
     dispatch({ type: SHOUTS_OPENED, payload: openedShouts });
@@ -93,12 +80,10 @@ export const getStateFromLS = () => async (dispatch) => {
 
 export const storeStateToLS = () => (dispatch, getState) => {
   const {
-    app: { settings: appSettings, onboarding: appOnboarding },
-    shouts: { settings: shoutSettings, opened: openedShouts },
+    shouts: { settings: shoutSettings, opened: openedShouts, onboarding: shoutOnboarding  },
   } = getState();
   storeMultiple([
-    ['appSettings', appSettings],
-    ['appOnboarding', appOnboarding],
+    ['shoutOnboarding', shoutOnboarding],
     ['shoutSettings', shoutSettings],
     ['openedShouts', openedShouts],
   ]);
@@ -112,10 +97,4 @@ export const updateAppSetting = (key, value) => async (dispatch, getState) => {
   const { app: { settings } } = getState();
   settings[key] = value;
   dispatch({ type: UPDATE_SETTING, payload: settings });
-};
-
-export const updateOnboarding = (key, value) => async (dispatch, getState) => {
-  const { app: { onboarding } } = getState();
-  onboarding[key] = value;
-  dispatch({ type: UPDATE_ONBOARDING, payload: onboarding });
 };

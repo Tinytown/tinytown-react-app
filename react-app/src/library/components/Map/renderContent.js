@@ -3,8 +3,7 @@ import { View, Text, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateOnboarding } from 'rdx/appState';
-import { updateOpenedShouts } from 'rdx/shoutState';
+import { updateOpenedShouts, updateOnboarding } from 'rdx/shoutState';
 import * as turf from '@turf/turf';
 import mapConfig from './config';
 import { Config } from 'context';
@@ -140,7 +139,7 @@ export const renderWelcomeSign = () => {
 
 export const renderShoutOnboardingMarker = (userLocation) => {
   const { STRINGS: { onboarding: { shoutIntro: { title } } } } = useContext(Config.Context);
-  const onboardingShouts = useSelector((state) => state.app.onboarding.shouts);
+  const { state, location } = useSelector((state) => state.shouts.onboarding);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -150,26 +149,29 @@ export const renderShoutOnboardingMarker = (userLocation) => {
 
   const onPressHandler = () => {
     navigation.navigate('ShoutOnboarding');
-    if (onboardingShouts === 'active') {
-      dispatch(updateOnboarding('shouts', 'visible'));
+    if (state === 'active') {
+      dispatch(updateOnboarding('state', 'visible'));
     }
   };
 
-  const markerCoords = [userLocation[0] - 0.005, userLocation[1] + 0.005];
-  return (
-    <MarkerView
-      id='notificationMarker'
-      coordinate={markerCoords}
-      anchor={Platform.OS === 'android' ? anchor : null}
-    >
-      <Shout
-        label={title}
-        theme='lt-red-floating'
-        shake={onboardingShouts === 'active'}
-        onPress={onPressHandler}
-      />
-    </MarkerView>
-  );
+  if (!location) {
+    dispatch(updateOnboarding('location', [userLocation[0] - 0.005, userLocation[1] + 0.005]));
+  } else {
+    return (
+      <MarkerView
+        id='notificationMarker'
+        coordinate={location}
+        anchor={Platform.OS === 'android' ? anchor : null}
+      >
+        <Shout
+          label={title}
+          theme='lt-red-floating'
+          shake={state === 'active'}
+          onPress={onPressHandler}
+        />
+      </MarkerView>
+    );
+  }
 };
 
 export const renderShouts = (remoteShouts, userLocation, zoom) => {

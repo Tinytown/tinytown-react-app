@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { updateOnboarding } from 'rdx/appState';
+import { updateOnboarding } from 'rdx/shoutState';
 import { Config } from 'context';
 import { Countdown, Button, NavBar, BottomSheet, BottomSheetContainer, PromoCard } from 'library/components';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
@@ -24,7 +24,7 @@ const ShoutOnboardingScreen = ({
 
   useEffect(() => {
     if (!shoutTimestamp) {
-      updateOnboarding('shoutTimestamp', Date.now());
+      updateOnboarding('timestamp', Date.now());
     }
   }, []);
 
@@ -99,7 +99,7 @@ const styles = normalizeStyles({
 });
 
 const mapStateToProps = (state) => ({
-  shoutTimestamp: state.app.onboarding.shoutTimestamp,
+  shoutTimestamp: state.shouts.onboarding.timestamp,
   notificationsEnabled: state.app.settings.notifications,
 });
 

@@ -21,7 +21,7 @@ const World = ({
   userLocation,
   isSignedIn,
   loadingShouts,
-  onboardingShouts,
+  onboardingShoutState,
   updateUserVisible,
   updateUserLocation,
   children,
@@ -52,7 +52,7 @@ const World = ({
   const welcomeSign = renderWelcomeSign();
   const showWelcomeSign = !userLocation && camera.zoom === INITIAL_ZOOM;
   const shoutOnboardingMarker = renderShoutOnboardingMarker(userLocation);
-  const showShoutOnboardingMarker = userLocation && isSignedIn && onboardingShouts !== 'expired';
+  const showShoutOnboardingMarker = userLocation && isSignedIn && onboardingShoutState !== 'expired';
   const shoutMarkers = renderShouts(shouts, userLocation, camera.zoom);
   const notificationShoutMarkers = renderNotificationShouts(shouts, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
@@ -124,7 +124,7 @@ const mapStateToProps = (state) => ({
   userLocation: state.location.user,
   isSignedIn: state.auth.isSignedIn,
   loadingShouts: state.shouts.loading,
-  onboardingShouts: state.app.onboarding.shouts,
+  onboardingShoutState: state.shouts.onboarding.state,
 });
 
 export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(World);

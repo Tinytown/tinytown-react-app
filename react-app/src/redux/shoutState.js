@@ -1,5 +1,14 @@
 import functions from '@react-native-firebase/functions';
-import { LOCAL_SHOUTS, SHOUTS_LOADING, SHOUTS_SETTING, SHOUTS_OPENED, SHOUTS_NOTIFICATIONS } from './actionTypes';
+import {
+  LOCAL_SHOUTS,
+  SHOUTS_LOADING,
+  SHOUTS_SETTING,
+  SHOUTS_OPENED,
+  SHOUTS_NOTIFICATIONS,
+  UPDATE_ONBOARDING,
+  SIGN_OUT,
+} from './actionTypes';
+import INITIAL_STATE from './initialState';
 
 export const shoutReducer = (state = null, action) => {
   switch (action.type) {
@@ -13,6 +22,10 @@ export const shoutReducer = (state = null, action) => {
     return { ...state,  opened: [...action.payload]  };
   case SHOUTS_NOTIFICATIONS:
     return { ...state,  notifications: [...action.payload]  };
+  case UPDATE_ONBOARDING:
+    return { ...state,  onboarding: { ...action.payload } };
+  case SIGN_OUT:
+    return { ...INITIAL_STATE.shouts };
   default:
     return state;
   }
@@ -67,4 +80,10 @@ export const updateNotificationShouts = (action, shoutId) => async (dispatch, ge
     notifications.splice(objIndex, 1);
   }
   dispatch({ type: SHOUTS_NOTIFICATIONS, payload: notifications });
+};
+
+export const updateOnboarding = (key, value) => async (dispatch, getState) => {
+  const { shouts: { onboarding } } = getState();
+  onboarding[key] = value;
+  dispatch({ type: UPDATE_ONBOARDING, payload: onboarding });
 };
