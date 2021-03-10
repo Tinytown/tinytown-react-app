@@ -93,11 +93,6 @@ export default (callback) => {
           () => console.log('started background service'),
           (error) => console.log(error)
         );
-
-        onLocation(
-          (location) => console.log(location),
-          (error) => console.log(error)
-        );
       }
     } catch (error) {
       console.log(error);
@@ -115,7 +110,7 @@ export default (callback) => {
           (error) => console.log(error)
         );
 
-        // await removeListeners();
+        await removeListeners();
       }
     } catch (error) {
       console.log(error);
