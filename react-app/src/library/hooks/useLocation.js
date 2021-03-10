@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Platform } from 'react-native';
 import CompassHeading from 'react-native-compass-heading';
 import BackgroundGeolocation from 'react-native-background-geolocation';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateAppSetting } from 'rdx/appState';
+import { useSelector } from 'react-redux';
+import { Settings } from 'context';
 import {
   watchLocation,
   stopWatchingLocation,
@@ -19,9 +19,8 @@ let watchId = null;
 export default (callback) => {
   const [heading, setHeading] = useState(0);
   const { hasPermission: hasLocPermission } = useSelector((state) => state.location);
-  const { state: appState, settings: { backgroundGeo: backGeoEnabled } } = useSelector((state) => state.app);
-
-  const dispatch = useDispatch();
+  const { settings: { backgroundGeo: backGeoEnabled }, updateSetting } = useContext(Settings.Context);
+  const { state: appState } = useSelector((state) => state.app);
 
   // foreground location service
   useEffect(() => {
@@ -71,12 +70,12 @@ export default (callback) => {
       BackgroundGeolocation.ready(backgroundConfig,
         () => console.log('background service is ready'),
         (error) => {
-          dispatch(updateAppSetting('backgroundGeo', false));
+          updateSetting('backgroundGeo', false);
           console.log(error);
         }
       );
     } else {
-      dispatch(updateAppSetting('backgroundGeo', false));
+      updateSetting('backgroundGeo', false);
     }
   };
 

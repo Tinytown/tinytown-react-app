@@ -23,10 +23,6 @@ export default {
       app: {
         state: 'inactive',
         storageLoaded: false,
-        settings: {
-          notifications: null,
-          backgroundGeo: null,
-        },
       },
       shouts: {
         local: [],
@@ -189,13 +185,9 @@ export default {
         {
           state: true,
           storageLoaded: false,
-          settings: {
-            notifications: false,
-            backgroundGeo: false,
-          },
         },
       ],
-      required: ['state', 'storageLoaded', 'settings'],
+      required: ['state', 'storageLoaded'],
       title: 'The app schema',
       type: 'object',
       properties: {
@@ -212,36 +204,6 @@ export default {
           title: 'The storageLoaded schema',
           default: false,
           examples: [false],
-        },
-        settings: {
-          $id: '#/properties/app/properties/settings',
-          default: {},
-          examples: [
-            {
-              notifications: null,
-              backgroundGeo: null,
-            },
-          ],
-          required: ['notifications', 'backgroundGeo'],
-          title: 'The app/settings schema',
-          type: 'object',
-          properties: {
-            notifications: {
-              $id: '#/properties/app/properties/settings/properties/notifications',
-              default: null,
-              examples: [true, false, null],
-              title: 'The settings/notifications schema',
-              type: ['boolean', 'null'],
-            },
-            backgroundGeo: {
-              $id: '#/properties/app/properties/settings/properties/backgroundGeo',
-              default: null,
-              examples: [true, false, null],
-              title: 'The settings/backgroundGeo schema',
-              type: ['boolean', 'null'],
-            },
-          },
-          additionalProperties: true,
         },
       },
       additionalProperties: true,

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import { useDispatch, useSelector } from 'react-redux';
 import { goToTarget } from 'rdx/locationState';
-import { updateAppSetting } from 'rdx/appState';
 import { updateNotificationShouts } from 'rdx/shoutState';
+import { Settings } from 'context';
 import * as RootNavigation from 'screens/RootNavigation';
 import { getNotificationsPermission } from 'library/apis/notifications';
 import { getIds } from 'library/apis/auth';
@@ -13,7 +13,7 @@ import { getIds } from 'library/apis/auth';
 export default (isSignedIn) => {
   const [navIsReady, setNavIsReady] = useState(false);
   const [newNotification, setNewNotification] = useState(null);
-  const { notifications: notificationsEnabled } = useSelector((state) => state.app.settings);
+  const { settings: { notifications: notificationsEnabled }, updateSetting } = useContext(Settings.Context);
   const { user: coordinates } = useSelector((state) => state.location);
 
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export default (isSignedIn) => {
     let unsubscribeNotif = () => {};
     if (notificationsEnabled && isSignedIn) {
       initNotifications();
-    } else if (notificationsEnabled === false) {
+    } else if (notificationsEnabled === false && isSignedIn) {
       // remove token from firestore
       updateRegistrationToken(null);
     }
@@ -62,7 +62,7 @@ export default (isSignedIn) => {
       messaging().getToken()
         .then((token) => updateRegistrationToken(token));
     } else {
-      dispatch(updateAppSetting('notifications', false));
+      updateSetting('notifications', false);
     }
   };
 
@@ -77,7 +77,7 @@ export default (isSignedIn) => {
       .catch((error) => console.log(error));
 
     // store location in firestore
-    if (token) {
+    if (token && coordinates && deviceId) {
       functions().httpsCallable('storeLocation')({ deviceId, coordinates });
     }
   };

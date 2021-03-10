@@ -16,7 +16,7 @@ import { STRINGS } from 'res';
 
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const configIsReady = useContext(Config.Context);
+  const { ENV: configIsReady } = useContext(Config.Context);
   const appState = useSelector((state) => state.app.state);
   const dispatch = useDispatch();
 

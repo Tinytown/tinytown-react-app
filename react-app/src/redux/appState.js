@@ -17,8 +17,6 @@ export const appReducer = (state = null, action) => {
     return { ...state, state: action.payload };
   case APP_STORAGE:
     return { ...state, storageLoaded: action.payload };
-  case UPDATE_SETTING:
-    return { ...state,  settings: { ...action.payload } };
   default:
     return state;
   }
@@ -91,10 +89,4 @@ export const storeStateToLS = () => (dispatch, getState) => {
 
 export const updateAppState = (payload) => {
   return { type: APP_STATE, payload };
-};
-
-export const updateAppSetting = (key, value) => async (dispatch, getState) => {
-  const { app: { settings } } = getState();
-  settings[key] = value;
-  dispatch({ type: UPDATE_SETTING, payload: settings });
 };

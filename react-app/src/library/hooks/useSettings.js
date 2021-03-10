@@ -1,17 +1,12 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateAppSetting } from 'rdx/appState';
+import React, { useEffect, useContext } from 'react';
 import { getNotificationsPermission } from 'library/apis/notifications';
 import { getLocationPermission } from 'library/apis/geolocation';
+import { Settings } from 'context';
 import { FeatureCard } from 'library/components';
 import { normalizeStyles, getListContent } from 'res';
 
 export default (routeParams) => {
-  const {
-    notifications: notificationsEnabled,
-    backgroundGeo: backGeoEnabled,
-  } = useSelector((state) => state.app.settings);
-  const dispatch = useDispatch();
+  const { settings, updateSetting } = useContext(Settings.Context);
 
   const styles = normalizeStyles({
     card: {
@@ -20,8 +15,9 @@ export default (routeParams) => {
   });
 
   useEffect(() => {
+    // toggle notifications on if coming from onboarding flow
     if (routeParams?.onboarding) {
-      dispatch(updateAppSetting('notifications', true));
+      updateSetting('notifications', true);
     }
   }, []);
 
@@ -29,9 +25,9 @@ export default (routeParams) => {
   const assignState = (key, prop) => {
     switch (key) {
     case 'notifications':
-      return prop === 'toggle' ? notificationsEnabled : toggleNotifications;
+      return prop === 'toggle' ? settings.notifications : toggleNotifications;
     case 'backgroundGeo':
-      return prop === 'toggle' ? backGeoEnabled : toggleBackgroundGeo;
+      return prop === 'toggle' ? settings.backgroundGeo : toggleBackgroundGeo;
     default:
       return;
     }
@@ -39,25 +35,25 @@ export default (routeParams) => {
 
   // toggle settings
   const toggleNotifications = async () => {
-    if (notificationsEnabled) {
-      dispatch(updateAppSetting('notifications', false));
+    if (settings.notifications) {
+      updateSetting('notifications', false);
     } else {
       const hasPermission = await getNotificationsPermission();
 
       if (hasPermission) {
-        dispatch(updateAppSetting('notifications', true));
+        updateSetting('notifications', true);
       }
     }
   };
 
   const toggleBackgroundGeo = async () => {
-    if (backGeoEnabled) {
-      dispatch(updateAppSetting('backgroundGeo', false));
+    if (settings.backgroundGeo) {
+      updateSetting('backgroundGeo', false);
     } else {
       const hasPermission = await getLocationPermission('always');
 
       if (hasPermission) {
-        dispatch(updateAppSetting('backgroundGeo', true));
+        updateSetting('backgroundGeo', true);
       }
     }
   };

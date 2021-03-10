@@ -6,6 +6,7 @@ import DeviceInfo from 'react-native-device-info';
 import { SIGN_IN, SIGN_OUT, UPDATE_AUTH } from './actionTypes';
 import INITIAL_STATE from './initialState';
 import { clearStorage, storeData } from 'library/apis/storage';
+import { Settings } from 'context';
 
 export const authReducer = (state = null, action) => {
   switch (action.type) {
@@ -28,19 +29,23 @@ export const signIn = (token, secret) => async (dispatch) => {
   const photoURL = user.providerData[0].photoURL.replace(/_normal/i, '');
   storeData('user', { photoURL, displayName, uid });
 
+  const userRef = firestore().collection('users')
+    .doc(uid);
+  const deviceRef = userRef.collection('devices').doc(deviceId);
+
   // store oauth tokens
-  firestore().collection('users')
-    .doc(uid)
+  userRef
     .collection('oauth')
     .doc('twitter')
     .set({ token, secret });
 
   // create new doc for device in firestore
-  firestore().collection('users')
-    .doc(uid)
-    .collection('devices')
-    .doc(deviceId)
-    .set({ deviceId, os: Platform.OS });
+  deviceRef
+    .set({
+      deviceId,
+      os: Platform.OS,
+      settings: Settings.INITIAL_VALUE,
+    });
 
   dispatch({
     type: SIGN_IN,

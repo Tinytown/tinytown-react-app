@@ -8,7 +8,7 @@ import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-c
 import messaging from '@react-native-firebase/messaging';
 import { Provider } from 'react-redux';
 import store from 'rdx/store';
-import { Config } from 'context';
+import { Config, Settings } from 'context';
 import { name as appName } from './app.json';
 import App from './src/App';
 
@@ -17,7 +17,9 @@ const AppContainer = () => {
     <Provider store={store}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics} >
         <Config.Provider>
-          <App/>
+          <Settings.Provider>
+            <App/>
+          </Settings.Provider>
         </Config.Provider>
       </SafeAreaProvider>
     </Provider>

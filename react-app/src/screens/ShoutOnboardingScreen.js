@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { updateOnboarding } from 'rdx/shoutState';
-import { Config } from 'context';
+import { Config, Settings } from 'context';
 import { Countdown, Button, NavBar, BottomSheet, BottomSheetContainer, PromoCard } from 'library/components';
 import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
 
@@ -10,9 +10,9 @@ const ShoutOnboardingScreen = ({
   navigation,
   shoutTimestamp,
   updateOnboarding,
-  notificationsEnabled,
 }) => {
   const { STRINGS } = useContext(Config.Context);
+  const { settings: { notifications: notificationsEnabled } } = useContext(Settings.Context);
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
 
@@ -100,7 +100,6 @@ const styles = normalizeStyles({
 
 const mapStateToProps = (state) => ({
   shoutTimestamp: state.shouts.onboarding.timestamp,
-  notificationsEnabled: state.app.settings.notifications,
 });
 
 export default connect(mapStateToProps, { updateOnboarding })(ShoutOnboardingScreen);

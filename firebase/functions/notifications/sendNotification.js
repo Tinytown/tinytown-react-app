@@ -74,10 +74,10 @@ module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
         const device = await usersRef.doc(uid).collection('devices')
           .doc(deviceId)
           .get();
-        const { registrationToken } = device.data();
+        const { registrationToken, settings: { notifications } } = device.data();
 
         // check if notifications are enabled
-        if (registrationToken) {
+        if (notifications) {
           message.token = registrationToken;
           admin.messaging().send(message);
         }
