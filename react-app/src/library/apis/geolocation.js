@@ -7,13 +7,11 @@ import { getStrings } from 'res';
 
 const {
   DESIRED_ACCURACY_HIGH,
-  DESIRED_ACCURACY_LOW,
   LOG_LEVEL_VERBOSE,
-  setConfig,
+  getState,
   ready,
   start,
   stop,
-  onLocation,
   removeListeners,
 } = BackgroundGeolocation;
 
@@ -171,4 +169,44 @@ export const watchLocation = async (callback) => {
 export const stopWatchingLocation = (watchId) => {
   console.log('stopped foreground watching: ', watchId);
   clearWatch(watchId);
+};
+
+export const startBackgroundGeo = async () => {
+  try {
+    const hasBackGeoPermission = await getLocationPermission('always');
+    const { enabled } = await getState();
+
+    if (!enabled && hasBackGeoPermission) {
+      await start(() => console.log('started background service'));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const stopBackgroundGeo = async () => {
+  try {
+    const hasBackGeoPermission = await getLocationPermission('always');
+    const { enabled } = await getState();
+
+    if (enabled && hasBackGeoPermission) {
+      await stop(() => console.log('stopped background service'));
+      await removeListeners();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const startFromTerminate = async () => {
+  const { enabled, lastLocationAuthorizationStatus } = await getState();
+
+  if (enabled && lastLocationAuthorizationStatus === 3) {
+    try {
+      await ready(backgroundConfig, () => console.log('(terminated) background service is ready'));
+      await start(() => console.log('(terminated) started background service'));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };

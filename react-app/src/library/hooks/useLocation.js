@@ -7,17 +7,12 @@ import { updateAppSetting } from 'rdx/appState';
 import {
   watchLocation,
   stopWatchingLocation,
+  startBackgroundGeo,
+  stopBackgroundGeo,
+  startFromTerminate,
   getLocationPermission,
   backgroundConfig,
 } from 'library/apis/geolocation';
-
-const {
-  getState,
-  ready,
-  start,
-  stop,
-  removeListeners,
-} = BackgroundGeolocation;
 
 let watchId = null;
 
@@ -73,7 +68,7 @@ export default (callback) => {
     const hasBackGeoPermission = await getLocationPermission('always');
 
     if (hasBackGeoPermission) {
-      ready(backgroundConfig,
+      BackgroundGeolocation.ready(backgroundConfig,
         () => console.log('background service is ready'),
         (error) => {
           dispatch(updateAppSetting('backgroundGeo', false));
@@ -82,46 +77,6 @@ export default (callback) => {
       );
     } else {
       dispatch(updateAppSetting('backgroundGeo', false));
-    }
-  };
-
-  const startBackgroundGeo = async () => {
-    try {
-      const hasBackGeoPermission = await getLocationPermission('always');
-      const { enabled } = await getState();
-
-      if (!enabled && hasBackGeoPermission) {
-        await start(() => console.log('started background service'));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const stopBackgroundGeo = async () => {
-    try {
-      const hasBackGeoPermission = await getLocationPermission('always');
-      const { enabled } = await getState();
-
-      if (enabled && hasBackGeoPermission) {
-        await stop(() => console.log('stopped background service'));
-        await removeListeners();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const startFromTerminate = async () => {
-    const { enabled, lastLocationAuthorizationStatus } = await getState();
-    console.log(enabled, lastLocationAuthorizationStatus);
-    if (enabled && lastLocationAuthorizationStatus === 3) {
-      try {
-        await ready(backgroundConfig, () => console.log('(terminated) background service is ready'));
-        await start(() => console.log('(terminated) started background service'));
-      } catch (error) {
-        console.log(error);
-      }
     }
   };
 

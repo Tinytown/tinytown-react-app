@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import auth from '@react-native-firebase/auth';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
-import DeviceInfo from 'react-native-device-info';
 import { useDispatch, useSelector } from 'react-redux';
 import { goToTarget } from 'rdx/locationState';
 import { updateAppSetting } from 'rdx/appState';
 import { updateNotificationShouts } from 'rdx/shoutState';
 import * as RootNavigation from 'screens/RootNavigation';
 import { getNotificationsPermission } from 'library/apis/notifications';
+import { getIds } from 'library/apis/auth';
 
 export default (isSignedIn) => {
   const [navIsReady, setNavIsReady] = useState(false);
@@ -65,12 +64,6 @@ export default (isSignedIn) => {
     } else {
       dispatch(updateAppSetting('notifications', false));
     }
-  };
-
-  const getIds = () => {
-    const { uid } = auth().currentUser;
-    const deviceId = DeviceInfo.getUniqueId();
-    return { uid, deviceId };
   };
 
   const updateRegistrationToken = async (token) => {
