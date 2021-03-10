@@ -31,12 +31,19 @@ const foregroundConfig = {
 
 export const backgroundConfig = {
   desiredAccuracy: DESIRED_ACCURACY_LOW,
+  distanceFilter: 5,
+  debug: true,
+  logLevel: LOG_LEVEL_VERBOSE,
+  startOnBoot: true,
+  stopOnTerminate: false,
   distanceFilter: 200,
   stopOnStationary: true,
   useSignificantChangesOnly: true,
+  showsBackgroundLocationIndicator: false,
+  disableLocationAuthorizationAlert: true,
 };
 
-const showFgLocationDialog = () => {
+const showLocationPermissionDialog = () => {
   const {
     dialog: { location: { title, body } },
     navigation: { goToSettings },
@@ -51,7 +58,7 @@ const showFgLocationDialog = () => {
   );
 };
 
-const showBgLocationDialog = () => {
+export const showBackGeoPermissionDialog = () => {
   const {
     dialog: { backgroundGeo: { title, body } },
     navigation: { goToSettings },
@@ -98,6 +105,11 @@ export const getLocationPermission = async (authReq = 'wheninuse') => {
     return true;
   }
 
+  if (authReq === 'always') {
+    showBackGeoPermissionDialog();
+  } else {
+    showLocationPermissionDialog();
+  }
   return false;
 };
 
@@ -114,9 +126,7 @@ export const onLocationHandler = (location, callback) => {
 export const getLocation = async (callback) => {
   const hasPermission = await getLocationPermission();
 
-  if (!hasPermission) {
-    showFgLocationDialog();
-  } else {
+  if (hasPermission) {
     getCurrentPosition(
       (location) => onLocationHandler(location, callback),
       (error) => console.log(error.code, error.message),
@@ -132,9 +142,7 @@ export const getLocation = async (callback) => {
 export const watchLocation = async (callback) => {
   const hasPermission = await getLocationPermission();
 
-  if (!hasPermission) {
-    showFgLocationDialog();
-  } else {
+  if (hasPermission) {
     const watchId = watchPosition(
       (location) => onLocationHandler(location, callback),
       (error) => {
@@ -147,20 +155,7 @@ export const watchLocation = async (callback) => {
   }
 };
 
-export const switchToBackground = async (watchId) => {
-  console.log('stopped foreground watching: ', watchId);
-  clearWatch(watchId);
-
-  // // start location service
-  // ready(backgroundConfig);
-  // console.log('started background watching:');
-  // onLocation(
-  //   (location) => console.log(location),
-  //   (error) => console.log(error)
-  // );
-};
-
 export const stopWatchingLocation = (watchId) => {
   console.log('stopped foreground watching: ', watchId);
-  Geolocation.clearWatch(watchId);
+  clearWatch(watchId);
 };

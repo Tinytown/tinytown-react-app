@@ -41,8 +41,6 @@ export default (isSignedIn) => {
     const hasPermission = await getNotificationsPermission();
 
     if (hasPermission) {
-      dispatch(updateAppSetting('notifications', true));
-
       // listen for notifications when app is opened
       unsubscribeNotif = messaging().onMessage(({ data: { shout }, notification: { body } }) => {
         dispatch(updateNotificationShouts('add', { ...JSON.parse(shout), text: body }));
