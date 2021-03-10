@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Platform } from 'react-native';
 import CompassHeading from 'react-native-compass-heading';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,15 +12,10 @@ import {
 } from 'library/apis/geolocation';
 
 const {
-  DESIRED_ACCURACY_HIGH,
-  DESIRED_ACCURACY_LOW,
-  LOG_LEVEL_VERBOSE,
-  setConfig,
   getState,
   ready,
   start,
   stop,
-  onLocation,
   removeListeners,
 } = BackgroundGeolocation;
 
@@ -28,15 +24,21 @@ let watchId = null;
 export default (callback) => {
   const [heading, setHeading] = useState(0);
   const { hasPermission: hasLocPermission } = useSelector((state) => state.location);
-  const { active: appActive, settings: { backgroundGeo: backGeoEnabled } } = useSelector((state) => state.app);
+  const { state: appState, settings: { backgroundGeo: backGeoEnabled } } = useSelector((state) => state.app);
 
   const dispatch = useDispatch();
 
   // foreground location service
-  const shouldWatch = appActive && hasLocPermission;
   useEffect(() => {
-    shouldWatch ? startWatching() : stopWatching();
-  }, [shouldWatch]);
+    if (appState === 'active' && hasLocPermission) {
+      startWatching();
+    } else if (appState === 'inactive' && hasLocPermission) {
+      stopWatching();
+      // special case for background state on iOS
+    } else if (appState === 'inactive' && backGeoEnabled === null && Platform.OS === 'ios') {
+      startFromTerminate();
+    }
+  }, [appState, hasLocPermission]);
 
   const startWatching = async () => {
     CompassHeading.start(10, (newHeading) => {
@@ -89,10 +91,7 @@ export default (callback) => {
       const { enabled } = await getState();
 
       if (!enabled && hasBackGeoPermission) {
-        await start(
-          () => console.log('started background service'),
-          (error) => console.log(error)
-        );
+        await start(() => console.log('started background service'));
       }
     } catch (error) {
       console.log(error);
@@ -105,15 +104,24 @@ export default (callback) => {
       const { enabled } = await getState();
 
       if (enabled && hasBackGeoPermission) {
-        await stop(
-          () => console.log('stopped background service'),
-          (error) => console.log(error)
-        );
-
+        await stop(() => console.log('stopped background service'));
         await removeListeners();
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const startFromTerminate = async () => {
+    const { enabled, lastLocationAuthorizationStatus } = await getState();
+    console.log(enabled, lastLocationAuthorizationStatus);
+    if (enabled && lastLocationAuthorizationStatus === 3) {
+      try {
+        await ready(backgroundConfig, () => console.log('(terminated) background service is ready'));
+        await start(() => console.log('(terminated) started background service'));
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

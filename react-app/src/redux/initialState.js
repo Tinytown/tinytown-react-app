@@ -15,7 +15,7 @@ const INITIAL_STATE = Object.freeze({
     goToUser: false,
   },
   app: {
-    active: true,
+    state: 'inactive',
     storageLoaded: false,
     settings: {
       notifications: null,

@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import remoteConfig from '@react-native-firebase/remote-config';
 import functions from '@react-native-firebase/functions';
@@ -17,7 +17,7 @@ import { STRINGS } from 'res';
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
   const configIsReady = useContext(Config.Context);
-  const appActive = useSelector((state) => state.app.active);
+  const appState = useSelector((state) => state.app.state);
   const dispatch = useDispatch();
 
   // Initial setup / start listeners
@@ -67,15 +67,19 @@ export default (isSignedIn) => {
 
   // load / store from local storage
   useEffect(() => {
-    if (appActive) {
+    if (appState === 'active') {
       dispatch(getStateFromLS());
-    } else {
+    } else if (appState === 'inactive') {
       dispatch(storeStateToLS());
     }
-  }, [appActive]);
+  }, [appState]);
 
   const appStateHandler = (event) => {
-    event !== 'unknown' && dispatch(updateAppState(event));
+    if (Platform.OS === 'android' && event === 'background') {
+      dispatch(updateAppState('inactive'));
+    } else if (event !== 'unknown') {
+      dispatch(updateAppState(event));
+    }
   };
 
   return [appIsReady];

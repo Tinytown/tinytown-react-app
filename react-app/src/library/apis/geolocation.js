@@ -31,7 +31,7 @@ const foregroundConfig = {
 
 export const backgroundConfig = {
   desiredAccuracy: DESIRED_ACCURACY_HIGH,
-  distanceFilter: 200,
+  distanceFilter: 400,
   debug: true,
   logLevel: LOG_LEVEL_VERBOSE,
   startOnBoot: true,

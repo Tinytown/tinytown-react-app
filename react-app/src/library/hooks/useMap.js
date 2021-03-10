@@ -6,11 +6,13 @@ import { storeMultiple, getMultiple } from 'library/apis/storage';
 export default (cameraRef, updateUserVisible) => {
   const [mapRendered, setMapRendered] = useState(false);
   const [dataRetrieved, setDataRetrieved] = useState(false);
-  const userLocation = useSelector((state) => state.location.user);
-  const goToUser = useSelector((state) => state.location.goToUser);
-  const cameraTarget = useSelector((state) => state.location.cameraTarget);
-  const userVisible = useSelector((state) => state.location.userVisible);
-  const appActive = useSelector((state) => state.app.active);
+  const {
+    user: userLocation,
+    goToUser,
+    cameraTarget,
+    userVisible,
+  } = useSelector((state) => state.location);
+  const { appState } = useSelector((state) => state.app);
 
   const { INITIAL_ZOOM, DEFAULT_ZOOM, TIGHT_ZOOM, DEFAULT_COORDS } = mapConfig;
 
@@ -113,7 +115,7 @@ export default (cameraRef, updateUserVisible) => {
   }, [userLocation, dataRetrieved]);
 
   // load / store map state
-  const shouldStore = (!appActive && userLocation);
+  const shouldStore = (appState === 'inactive' && userLocation);
 
   useEffect(() => {
     let isMounted = true;

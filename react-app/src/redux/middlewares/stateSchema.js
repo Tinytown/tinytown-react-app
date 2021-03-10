@@ -21,7 +21,7 @@ export default {
         goToUser: false,
       },
       app: {
-        active: true,
+        state: null,
         storageLoaded: false,
         settings: {
           notifications: null,
@@ -185,7 +185,7 @@ export default {
       description: 'Schema for general app state.',
       examples: [
         {
-          active: true,
+          state: true,
           storageLoaded: false,
           settings: {
             notifications: false,
@@ -193,16 +193,16 @@ export default {
           },
         },
       ],
-      required: ['active', 'storageLoaded', 'settings', 'onboarding'],
+      required: ['state', 'storageLoaded', 'settings', 'onboarding'],
       title: 'The app schema',
       type: 'object',
       properties: {
-        active: {
-          $id: '#/properties/app/properties/active',
-          type: 'boolean',
-          title: 'The active schema',
-          default: false,
-          examples: [true],
+        state: {
+          $id: '#/properties/app/properties/state',
+          type: ['null', 'string'],
+          title: 'The app state schema',
+          default: 'inactive',
+          examples: ['active', 'inactive', 'background'],
         },
         storageLoaded: {
           $id: '#/properties/app/properties/storageLoaded',

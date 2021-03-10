@@ -16,7 +16,7 @@ import { getMultiple, storeMultiple } from 'library/apis/storage';
 export const appReducer = (state = null, action) => {
   switch (action.type) {
   case APP_STATE:
-    return { ...state, active: action.payload };
+    return { ...state, state: action.payload };
   case APP_STORAGE:
     return { ...state, storageLoaded: action.payload };
   case UPDATE_SETTING:
@@ -104,12 +104,8 @@ export const storeStateToLS = () => (dispatch, getState) => {
   ]);
 };
 
-export const updateAppState = (event) => {
-  if (event === 'active') {
-    return { type: APP_STATE, payload: true };
-  } else if (event === 'background' || event === 'inactive') {
-    return { type: APP_STATE, payload: false };
-  }
+export const updateAppState = (payload) => {
+  return { type: APP_STATE, payload };
 };
 
 export const updateAppSetting = (key, value) => async (dispatch, getState) => {
