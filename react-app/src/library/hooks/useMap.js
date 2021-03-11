@@ -12,7 +12,7 @@ export default (cameraRef, updateUserVisible) => {
     cameraTarget,
     userVisible,
   } = useSelector((state) => state.location);
-  const { appState } = useSelector((state) => state.app);
+  const appState = useSelector((state) => state.app.state);
 
   const { INITIAL_ZOOM, DEFAULT_ZOOM, TIGHT_ZOOM, DEFAULT_COORDS } = mapConfig;
 

@@ -279,20 +279,22 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
       setRenderedShouts([...renderedInShouts, ...renderedOutShouts]);
     } else if (zoom > ZOOM_STEP_2 && zoom <= ZOOM_STEP_1) {
-      // calculate avg center coordinates for bundle
-      const avgCoords = insideShouts.reduce((sum, { coordinates }) => (
-        [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
-        .map((coord) => coord / insideShouts.length);
+      if (insideShouts) {
+        // calculate avg center coordinates for bundle
+        const avgCoords = insideShouts.reduce((sum, { coordinates }) => (
+          [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
+          .map((coord) => coord / insideShouts.length);
 
-      setRenderedShouts(
-        <MarkerView
-          id='bundle'
-          coordinate={avgCoords}
-          anchor={Platform.OS === 'android' ? anchor : null}
-        >
-          <Shout label={insideShouts.length.toString()} showPin={false} />
-        </MarkerView>
-      );
+        setRenderedShouts(
+          <MarkerView
+            id='bundle'
+            coordinate={avgCoords}
+            anchor={Platform.OS === 'android' ? anchor : null}
+          >
+            <Shout label={insideShouts.length.toString()} showPin={false} />
+          </MarkerView>
+        );
+      }
     } else {
       setRenderedShouts(null);
     }

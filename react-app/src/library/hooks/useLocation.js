@@ -20,7 +20,7 @@ export default (callback) => {
   const [heading, setHeading] = useState(0);
   const { hasPermission: hasLocPermission } = useSelector((state) => state.location);
   const { settings: { backgroundGeo: backGeoEnabled }, updateSetting } = useContext(Settings.Context);
-  const { state: appState } = useSelector((state) => state.app);
+  const { auth: { isSignedIn }, app: { state: appState } } = useSelector((state) => state);
 
   // foreground location service
   useEffect(() => {
@@ -29,7 +29,7 @@ export default (callback) => {
     } else if (appState === 'inactive' && hasLocPermission) {
       stopWatching();
       // special case for background state on iOS
-    } else if (appState === 'inactive' && backGeoEnabled === null && Platform.OS === 'ios') {
+    } else if (appState === 'inactive' && backGeoEnabled && Platform.OS === 'ios') {
       startFromTerminate();
     }
   }, [appState, hasLocPermission]);
@@ -41,7 +41,7 @@ export default (callback) => {
     watchId = await watchLocation(callback);
 
     // stop background tracking
-    if (backGeoEnabled !== null) {
+    if (backGeoEnabled && isSignedIn) {
       stopBackgroundGeo();
     }
   };
@@ -51,7 +51,7 @@ export default (callback) => {
     stopWatchingLocation(watchId);
 
     // start background tracking
-    if (backGeoEnabled) {
+    if (backGeoEnabled && isSignedIn) {
       startBackgroundGeo();
     }
   };
