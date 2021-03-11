@@ -9,6 +9,7 @@ import {
   SIGN_OUT,
 } from './actionTypes';
 import INITIAL_STATE from './initialState';
+import { storeData } from 'library/apis/storage';
 
 export const shoutReducer = (state = null, action) => {
   switch (action.type) {
@@ -57,6 +58,7 @@ export const updateShoutsLoading = (payload) => {
 export const updateShoutsSetting = (key, value) => async (dispatch, getState) => {
   const { shouts: { settings } } = getState();
   settings[key] = value;
+  storeData('shoutSettings', settings);
   dispatch({ type: SHOUTS_SETTING, payload: settings });
 };
 
@@ -68,6 +70,7 @@ export const updateOpenedShouts = (action, shoutId) => async (dispatch, getState
     objIndex = opened.findIndex((id) => id === shoutId);
     opened.splice(objIndex, 1);
   }
+  storeData('openedShouts', opened);
   dispatch({ type: SHOUTS_OPENED, payload: opened });
 };
 
@@ -85,5 +88,6 @@ export const updateNotificationShouts = (action, shoutId) => async (dispatch, ge
 export const updateOnboarding = (key, value) => async (dispatch, getState) => {
   const { shouts: { onboarding } } = getState();
   onboarding[key] = value;
+  storeData('shoutOnboarding', onboarding);
   dispatch({ type: UPDATE_ONBOARDING, payload: onboarding });
 };

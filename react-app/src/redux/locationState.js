@@ -1,6 +1,7 @@
 import functions from '@react-native-firebase/functions';
 import DeviceInfo from 'react-native-device-info';
 import { UPDATE_LOCATION, GO_TO_USER, GO_TO_TARGET, USER_VISIBLE } from './actionTypes';
+import { storeData } from 'library/apis/storage';
 
 export const locationReducer = (state = null, action) => {
   switch (action.type) {
@@ -27,11 +28,12 @@ export const locationReducer = (state = null, action) => {
   }
 };
 
-export const goToUser = (location) => {
+export const goToUser = ({ longitude, latitude }) => {
   const payload = {
-    user: [location.longitude, location.latitude],
+    user: [longitude, latitude],
     hasPermission: true,
   };
+  storeData('userLocation', [longitude, latitude]);
   return { type: GO_TO_USER, payload };
 };
 
@@ -58,9 +60,11 @@ export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getSta
     user: coordinates,
     hasPermission: true,
   };
+  storeData('userLocation', coordinates);
   dispatch({ type: UPDATE_LOCATION, payload });
 };
 
-export const updateUserVisible = (payload) => (
-  { type: USER_VISIBLE, payload }
-);
+export const updateUserVisible = (payload) => {
+  storeData('userVisible', payload);
+  return { type: USER_VISIBLE, payload };
+};

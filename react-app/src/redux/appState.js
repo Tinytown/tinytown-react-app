@@ -3,13 +3,12 @@ import {
   APP_STATE,
   APP_STORAGE,
   UPDATE_LOCATION,
-  UPDATE_SETTING,
   UPDATE_ONBOARDING,
   SHOUTS_SETTING,
   SHOUTS_OPENED,
   SIGN_IN,
 } from './actionTypes';
-import { getMultiple, storeMultiple } from 'library/apis/storage';
+import { getMultiple } from 'library/apis/storage';
 
 export const appReducer = (state = null, action) => {
   switch (action.type) {
@@ -74,17 +73,6 @@ export const getStateFromLS = () => async (dispatch) => {
   }
 
   dispatch({ type: APP_STORAGE, payload: true });
-};
-
-export const storeStateToLS = () => (dispatch, getState) => {
-  const {
-    shouts: { settings: shoutSettings, opened: openedShouts, onboarding: shoutOnboarding  },
-  } = getState();
-  storeMultiple([
-    ['shoutOnboarding', shoutOnboarding],
-    ['shoutSettings', shoutSettings],
-    ['openedShouts', openedShouts],
-  ]);
 };
 
 export const updateAppState = (payload) => {

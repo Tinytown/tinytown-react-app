@@ -1,4 +1,5 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer, useState, useRef } from 'react';
+import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { mapConfig } from 'library/components/Map';
 import { storeMultiple, getMultiple } from 'library/apis/storage';
@@ -12,7 +13,6 @@ export default (cameraRef, updateUserVisible) => {
     cameraTarget,
     userVisible,
   } = useSelector((state) => state.location);
-  const appState = useSelector((state) => state.app.state);
 
   const { INITIAL_ZOOM, DEFAULT_ZOOM, TIGHT_ZOOM, DEFAULT_COORDS } = mapConfig;
 
@@ -38,6 +38,13 @@ export default (cameraRef, updateUserVisible) => {
     zoom: INITIAL_ZOOM,
     movedByUser: false,
   });
+
+  const debouncedStoreCamera = useRef(_.debounce((center, zoom) => {
+    storeMultiple([
+      ['cameraCenter', center],
+      ['cameraZoom', zoom],
+    ]);
+  }, 1000, { leading: false, trailing: true }));
 
   const setCamera = ({ center, bounds, zoom, movedByUser }) => {
     center && dispatch({ type: 'update_center', payload: center });
@@ -91,20 +98,26 @@ export default (cameraRef, updateUserVisible) => {
   };
 
   // handle camera change
-  const regionChangeHandler = async ({ properties, geometry }) => {
+  const regionChangeHandler = async ({
+    properties: { visibleBounds, zoomLevel, isUserInteraction },
+    geometry: { coordinates },
+  }) => {
     setCamera({
-      center: geometry.coordinates,
-      bounds: properties.visibleBounds,
-      zoom: properties.zoomLevel,
+      center: coordinates,
+      bounds: visibleBounds,
+      zoom: zoomLevel,
       movedByUser: true,
     });
-    if (properties.isUserInteraction) {
-      checkOnScreen(properties.visibleBounds);
+    debouncedStoreCamera.current(coordinates, zoomLevel);
+    if (isUserInteraction) {
+      checkOnScreen(visibleBounds);
     }
   };
 
-  // handle user location change and first launch
+  // handle user location change, first launch, and storage retrieval
   useEffect(() => {
+    let isMounted = true;
+
     if (!userLocation && dataRetrieved && userVisible === null) {
       // first launch
       updateUserVisible(false);
@@ -112,13 +125,6 @@ export default (cameraRef, updateUserVisible) => {
       // user moves
       checkOnScreen(camera.bounds);
     }
-  }, [userLocation, dataRetrieved]);
-
-  // load / store map state
-  const shouldStore = (appState === 'inactive' && userLocation);
-
-  useEffect(() => {
-    let isMounted = true;
 
     if (!dataRetrieved) {
       getMultiple(['cameraCenter', 'cameraZoom', 'userVisible']).then((data) => {
@@ -134,18 +140,12 @@ export default (cameraRef, updateUserVisible) => {
       });
     }
 
-    if (shouldStore) {
-      const data = [
-        ['userLocation', userLocation],
-        ['cameraCenter', camera.center],
-        ['cameraZoom', camera.zoom],
-        ['userVisible', userVisible],
-      ];
-      storeMultiple(data);
-    }
-
     return () => { isMounted = false; };
-  }, [shouldStore]);
+  }, [userLocation, dataRetrieved]);
+
+  useEffect(() => {
+
+  }, [camera]);
 
   return [camera, regionChangeHandler, mapRendered, setMapRendered];
 };

@@ -9,7 +9,7 @@ import BackgroundGeolocation from 'react-native-background-geolocation';
 import RNBootSplash from 'react-native-bootsplash';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAppState, getStateFromLS, storeStateToLS } from 'rdx/appState';
+import { updateAppState, getStateFromLS } from 'rdx/appState';
 import { updateAuth } from 'rdx/authState';
 import { Config } from 'context';
 import { STRINGS } from 'res';
@@ -65,12 +65,10 @@ export default (isSignedIn) => {
     }
   }, [isSignedIn, configIsReady]);
 
-  // load / store from local storage
+  // load from local storage
   useEffect(() => {
     if (appState === 'active') {
       dispatch(getStateFromLS());
-    } else if (appState === 'inactive') {
-      dispatch(storeStateToLS());
     }
   }, [appState]);
 
