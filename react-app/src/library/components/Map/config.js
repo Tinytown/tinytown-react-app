@@ -11,5 +11,6 @@ export default Object.freeze({
   PLUSCODE_PRECISION: 6,
   EXPIRATION_LENGTH: 604800000,
   DAY_IN_MS: 86400000,
+  MIN_IN_MS: 60000,
 });
 

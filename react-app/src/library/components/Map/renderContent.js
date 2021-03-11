@@ -18,7 +18,7 @@ const {
   RAFT_COORD,
   WELCOME_COORD,
   EXPIRATION_LENGTH,
-  DAY_IN_MS,
+  MIN_IN_MS,
 } = mapConfig;
 
 // adjust marker anchor for Android (this doesn't work reliably for iOS)
@@ -138,14 +138,13 @@ export const renderWelcomeSign = () => {
 };
 
 export const renderShoutOnboardingMarker = (userLocation) => {
+  const [renderedShout, setRenderedShout] = useState(null);
+  const [shoutExpired, setShoutExpired] = useState(false);
   const { STRINGS: { onboarding: { shoutIntro: { title } } } } = useContext(Config.Context);
-  const { state, location } = useSelector((state) => state.shouts.onboarding);
+  const { state, location, timestamp } = useSelector((state) => state.shouts.onboarding);
+  const isSignedIn = useSelector((state) => state.auth.isSignedIn);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
-  if (!userLocation) {
-    return;
-  }
 
   const onPressHandler = () => {
     navigation.navigate('ShoutOnboarding');
@@ -154,24 +153,37 @@ export const renderShoutOnboardingMarker = (userLocation) => {
     }
   };
 
-  if (!location) {
-    dispatch(updateOnboarding('location', [userLocation[0] - 0.005, userLocation[1] + 0.005]));
-  } else {
-    return (
-      <MarkerView
-        id='notificationMarker'
-        coordinate={location}
-        anchor={Platform.OS === 'android' ? anchor : null}
-      >
-        <Shout
-          label={title}
-          theme='lt-red-floating'
-          shake={state === 'active'}
-          onPress={onPressHandler}
-        />
-      </MarkerView>
-    );
-  }
+  useEffect(() => {
+    if (!userLocation || state === 'expired' || !isSignedIn) {
+      return;
+    }
+
+    // check if shout hasn't expired
+    const isNotExpired = (timestamp > Date.now() - EXPIRATION_LENGTH) || timestamp === null;
+
+    if (!location) {
+      dispatch(updateOnboarding('location', [userLocation[0] - 0.005, userLocation[1] + 0.005]));
+    } else if (isNotExpired) {
+      setRenderedShout(
+        <MarkerView
+          id='notificationMarker'
+          coordinate={location}
+          anchor={Platform.OS === 'android' ? anchor : null}
+        >
+          <Shout
+            label={title}
+            theme='lt-red-floating'
+            shake={state === 'active'}
+            onPress={onPressHandler}
+          />
+        </MarkerView>
+      );
+    } else {
+      dispatch(updateOnboarding('state', 'expired'));
+    }
+  }, [location, timestamp, state, shoutExpired]);
+
+  return renderedShout;
 };
 
 export const renderShouts = (remoteShouts, userLocation, zoom) => {
@@ -221,7 +233,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
     const timestamps = filteredInShouts.map(({ createdAt }) => createdAt);
     const timeToExpiration = Math.min(...timestamps) - Date.now() + EXPIRATION_LENGTH;
 
-    if (timeToExpiration <= DAY_IN_MS) {
+    if (timeToExpiration <= MIN_IN_MS) {
       setShoutExpired(false);
       setTimeout(() => {
         setShoutExpired(true);
@@ -310,7 +322,6 @@ export const renderNotificationShouts = (remoteShouts, zoom) => {
   const openedShouts = useSelector((state) => state.shouts.opened);
 
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const filtered = notificationShouts.filter((shout) => {

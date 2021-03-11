@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 import { mapConfig } from './Map';
 import Chip from './Chip';
 
 const Countdown = ({
+  timestamp = Date.now(),
   wrapperStyle,
-  timestamp,
+  onExpiration = () => console.log('Shout expired'),
 }) => {
   const { EXPIRATION_LENGTH, DAY_IN_MS } = mapConfig;
   const expirationTimestamp = timestamp + EXPIRATION_LENGTH;
@@ -25,6 +27,7 @@ const Countdown = ({
       setTimeStr(`${seconds} ${seconds === 1 ? 'second' : 'seconds'}`);
     } else {
       setTimeStr('Shout has expired');
+      onExpiration();
       navigation.goBack();
     }
   };
@@ -63,6 +66,12 @@ const Countdown = ({
       ripple={false}
     />
   );
+};
+
+Countdown.propTypes = {
+  timestamp: PropTypes.number,
+  wrapperStyle: PropTypes.object,
+  onExpiration: PropTypes.func,
 };
 
 export default Countdown;

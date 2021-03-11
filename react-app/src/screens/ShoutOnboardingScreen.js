@@ -47,7 +47,10 @@ const ShoutOnboardingScreen = ({
           <Text style={styles.title}>{shoutIntro.title}</Text>
           <Text style={styles.body}>{shoutIntro.body}</Text>
           <View style={styles.chipsContainer}>
-            <Countdown timestamp={shoutTimestamp ?? Date.now()} />
+            <Countdown
+              timestamp={shoutTimestamp}
+              onExpiration={() => updateOnboarding('state', 'expired')}
+            />
           </View>
           {!notificationsEnabled &&
             <PromoCard
