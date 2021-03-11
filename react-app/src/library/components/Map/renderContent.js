@@ -10,7 +10,7 @@ import { Config } from 'context';
 import Shout from './Shout';
 import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
 
-const { SymbolLayer, MarkerView, ShapeSource, FillLayer } = MapboxGL;
+const { SymbolLayer, MarkerView, ShapeSource, FillLayer, UserLocation } = MapboxGL;
 const {
   SIGHT_RADIUS,
   ZOOM_STEP_1,
@@ -27,18 +27,15 @@ const anchor = {
   y: 0.76,
 };
 
-export const renderUser = (userLocation, heading) => {
-  if (!userLocation) {
+export const renderUser = (location, heading) => {
+  if (!location) {
     return;
   }
 
-  user = turf.point(userLocation);
+  user = turf.point(location);
 
   return (
-    <ShapeSource
-      id='userLocation'
-      shape={user}
-    >
+    <UserLocation>
       <SymbolLayer
         id={'userMarkerImg'}
         style={{
@@ -51,7 +48,7 @@ export const renderUser = (userLocation, heading) => {
         }}
         minZoomLevel={1}
       />
-    </ShapeSource>
+    </UserLocation>
   );
 };
 
