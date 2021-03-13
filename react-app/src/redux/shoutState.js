@@ -44,6 +44,8 @@ export const updateLocalShouts = (action, shout) => async (dispatch, getState) =
   } else if (action === 'remove') {
     objIndex = local.findIndex(({ localId }) => localId === shout.localId);
     local.splice(objIndex, 1);
+  } else if (action === 'system_add') {
+    local.push(shout);
   }
   storeData('localShouts', local);
   dispatch({ type: SHOUTS_LOCAL, payload: local });
@@ -87,6 +89,6 @@ export const updateSystemShout = (tag, key, value) => async (dispatch, getState)
   const { shouts: { local } } = getState();
   objIndex = local.findIndex(({ systemTag }) => systemTag === tag);
   local[objIndex][key] = value;
-
+  storeData('localShouts', local);
   dispatch({ type: SHOUTS_LOCAL, payload: local });
 };

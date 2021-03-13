@@ -5,7 +5,9 @@ import firestore from '@react-native-firebase/firestore';
 import DeviceInfo from 'react-native-device-info';
 import { SIGN_IN, SIGN_OUT, UPDATE_AUTH } from './actionTypes';
 import INITIAL_STATE from './initialState';
+import { updateLocalShouts } from './shoutState';
 import { clearStorage, storeData } from 'library/apis/storage';
+import { getOnboardingShout } from 'library/components/Map/systemContent';
 import { Settings } from 'context';
 
 export const authReducer = (state = null, action) => {
@@ -21,7 +23,7 @@ export const authReducer = (state = null, action) => {
   }
 };
 
-export const signIn = (token, secret) => async (dispatch) => {
+export const signIn = (token, secret) => async (dispatch, getState) => {
   const deviceId = DeviceInfo.getUniqueId();
   const twitterCredential = auth.TwitterAuthProvider.credential(token, secret);
   const { user } = await auth().signInWithCredential(twitterCredential);
@@ -51,6 +53,11 @@ export const signIn = (token, secret) => async (dispatch) => {
     type: SIGN_IN,
     payload: { photoURL, displayName, uid },
   });
+
+  // add onboarding shout to local shouts
+  const { location: { user: userLocation } } = getState();
+  const shout = getOnboardingShout(userLocation);
+  dispatch(updateLocalShouts('system_add', shout));
 };
 
 export const signOut = () => async (dispatch) => {

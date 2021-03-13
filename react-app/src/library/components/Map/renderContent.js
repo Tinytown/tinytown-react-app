@@ -138,8 +138,8 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const onPressHandler = (shout) => {
     switch (shout.systemTag) {
     case 'shoutOnboarding':
-      navigation.navigate('ShoutOnboarding');
-      if (state === 'active') {
+      navigation.navigate('ShoutOnboarding', { shout });
+      if (shout.state === 'active') {
         dispatch(updateSystemShout('shoutOnboarding', 'state', 'visible'));
       }
       break;

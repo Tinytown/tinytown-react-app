@@ -6,6 +6,7 @@ import {
   UPDATE_ONBOARDING,
   SHOUTS_SETTING,
   SHOUTS_OPENED,
+  SHOUTS_LOCAL,
   SIGN_IN,
 } from './actionTypes';
 import { getMultiple } from 'library/apis/storage';
@@ -76,7 +77,7 @@ export const getStateFromLS = () => async (dispatch) => {
 
   // Local Shouts
   if (localShouts) {
-    dispatch({ type: SHOUTS_OPENED, payload: localShouts });
+    dispatch({ type: SHOUTS_LOCAL, payload: localShouts });
   }
 
   dispatch({ type: APP_STORAGE, payload: true });
