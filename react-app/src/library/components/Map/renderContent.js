@@ -1,22 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateOpenedShouts, updateOnboarding } from 'rdx/shoutState';
+import { updateOpenedShouts, updateLocalShouts } from 'rdx/shoutState';
 import * as turf from '@turf/turf';
 import mapConfig from './config';
-import { Config } from 'context';
 import Shout from './Shout';
-import { TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
+import { IMAGES } from 'res';
 
 const { SymbolLayer, MarkerView, ShapeSource, FillLayer, UserLocation } = MapboxGL;
 const {
   SIGHT_RADIUS,
   ZOOM_STEP_1,
   ZOOM_STEP_2,
-  RAFT_COORD,
-  WELCOME_COORD,
   EXPIRATION_LENGTH,
   MIN_IN_MS,
 } = mapConfig;
@@ -78,111 +75,6 @@ export const renderFog = (userLocation, zoom) => {
   );
 };
 
-export const renderWelcomeSign = () => {
-  const { COLORS, STRINGS } = useContext(Config.Context);
-  const styles = normalizeStyles({
-    welcomeSign: {
-      position: 'absolute',
-      alignItems: 'center',
-      paddingVertical: 16,
-      paddingHorizontal: 20,
-      backgroundColor: COLORS.basics.justWhite,
-      borderTopLeftRadius: SHAPES.radiusLg,
-      borderTopRightRadius: SHAPES.radiusLg,
-      borderBottomRightRadius: SHAPES.radiusSm,
-      borderBottomLeftRadius: SHAPES.radiusLg,
-      ...SHAPES.elevGray2,
-    },
-    title: {
-      color: COLORS.asphaltGray[800],
-      ...TYPOGRAPHY.display3,
-    },
-    subtitle: {
-      marginTop: 4,
-      marginBottom: 8,
-      color: COLORS.asphaltGray[300],
-      ...TYPOGRAPHY.brandedButton,
-    },
-  });
-
-  raftShape = turf.point(RAFT_COORD);
-
-  return (
-    <View>
-      <MarkerView
-        id='welcomeSign'
-        coordinate={WELCOME_COORD}
-      >
-        <View style={styles.welcomeSign} >
-          <Text style={styles.subtitle} >{STRINGS.onboarding.welcome}</Text>
-          <Text style={styles.title}>Tinytown</Text>
-        </View>
-      </MarkerView>
-      <ShapeSource
-        id="onboardingRaft"
-        shape={raftShape}
-      >
-        <SymbolLayer
-          id='onboardingRaftImg'
-          style={{
-            iconImage: IMAGES.oobRaft,
-            iconSize: 0.4,
-          }}
-        />
-      </ShapeSource>
-    </View>
-  );
-};
-
-export const renderShoutOnboardingMarker = (userLocation) => {
-  const [renderedShout, setRenderedShout] = useState(null);
-  const [shoutExpired, setShoutExpired] = useState(false);
-  const { STRINGS: { onboarding: { shoutIntro: { title } } } } = useContext(Config.Context);
-  const { state, location, timestamp } = useSelector((state) => state.shouts.onboarding);
-  const isSignedIn = useSelector((state) => state.auth.isSignedIn);
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-
-  const onPressHandler = () => {
-    navigation.navigate('ShoutOnboarding');
-    if (state === 'active') {
-      dispatch(updateOnboarding('state', 'visible'));
-    }
-  };
-
-  useEffect(() => {
-    if (!userLocation || state === 'expired' || !isSignedIn) {
-      return;
-    }
-
-    // check if shout hasn't expired
-    const isNotExpired = (timestamp > Date.now() - EXPIRATION_LENGTH) || timestamp === null;
-
-    if (!location) {
-      dispatch(updateOnboarding('location', [userLocation[0] - 0.005, userLocation[1] + 0.005]));
-    } else if (isNotExpired) {
-      setRenderedShout(
-        <MarkerView
-          id='notificationMarker'
-          coordinate={location}
-          anchor={Platform.OS === 'android' ? anchor : null}
-        >
-          <Shout
-            label={title}
-            theme='lt-red-floating'
-            shake={state === 'active'}
-            onPress={onPressHandler}
-          />
-        </MarkerView>
-      );
-    } else {
-      dispatch(updateOnboarding('state', 'expired'));
-    }
-  }, [location, timestamp, state, shoutExpired]);
-
-  return renderedShout;
-};
-
 export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [insideShouts, setInsideShouts] = useState(null);
@@ -223,6 +115,8 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
         filteredOutShouts.push(shout);
       } else if (!isNotExpired && openedShouts.includes(shout.id)) {
         dispatch(updateOpenedShouts('remove', shout.id));
+      } else if (!isNotExpired && (shout.local || shout.system)) {
+        dispatch(updateLocalShouts('remove', shout));
       }
     });
 
@@ -249,6 +143,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
       if (insideShouts) {
         renderedInShouts = insideShouts.map((shout) => {
           const { id, localId, coordinates, text, local, opened } = shout;
+          console.log(id, localId);
           return (
             <MarkerView
               key={id ?? localId}
@@ -312,7 +207,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
   return renderedShouts;
 };
 
-export const renderNotificationShouts = (remoteShouts, zoom) => {
+export const renderNotificationShouts = (remoteShouts, zoom, onboarding) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [filteredShouts, setFilteredShouts] = useState(null);
   const notificationShouts = useSelector((state) => state.shouts.notifications);
@@ -321,6 +216,10 @@ export const renderNotificationShouts = (remoteShouts, zoom) => {
   const navigation = useNavigation();
 
   useEffect(() => {
+    if (onboarding) {
+      return;
+    }
+
     const filtered = notificationShouts.filter((shout) => {
       // check if shout is already fetched
       if (remoteShouts.some((remoteShout) => remoteShout.id === shout.id)) {
@@ -336,7 +235,7 @@ export const renderNotificationShouts = (remoteShouts, zoom) => {
     });
 
     setFilteredShouts(filtered);
-  }, [notificationShouts, openedShouts]);
+  }, [notificationShouts, openedShouts, onboarding]);
 
   useEffect(() => {
     if (zoom > ZOOM_STEP_1) {

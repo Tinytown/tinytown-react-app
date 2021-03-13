@@ -28,12 +28,14 @@ export const getStateFromLS = () => async (dispatch) => {
     shoutSettings,
     shoutOnboarding,
     openedShouts,
+    localShouts,
   } = await getMultiple([
     'userLocation',
     'user',
     'shoutSettings',
     'shoutOnboarding',
     'openedShouts',
+    'localShouts',
   ]);
 
   // Location
@@ -70,6 +72,11 @@ export const getStateFromLS = () => async (dispatch) => {
   // Opened Shouts
   if (openedShouts) {
     dispatch({ type: SHOUTS_OPENED, payload: openedShouts });
+  }
+
+  // Local Shouts
+  if (localShouts) {
+    dispatch({ type: SHOUTS_OPENED, payload: localShouts });
   }
 
   dispatch({ type: APP_STORAGE, payload: true });

@@ -9,12 +9,14 @@ import { Config } from 'context';
 import { useLocation, useMap, useShouts } from 'library/hooks';
 import {
   renderUser,
-  renderWelcomeSign,
   renderShouts,
   renderNotificationShouts,
   renderFog,
-  renderShoutOnboardingMarker,
 } from './renderContent';
+import {
+  renderWelcomeSign,
+  renderShoutOnboardingMarker,
+} from './renderOnboardingContent';
 import { normalizeStyles } from 'res';
 
 const World = ({
@@ -26,6 +28,7 @@ const World = ({
   updateUserLocation,
   children,
   onTouchStart,
+  onboarding = true,
 }) => {
   const { MapView, Camera } = MapboxGL;
   const { INITIAL_ZOOM } = mapConfig;
@@ -50,13 +53,15 @@ const World = ({
   // Map Content
   const userMarker = renderUser(userLocation, heading);
   const fogOfWar = renderFog(userLocation, camera.zoom);
-  const welcomeSign = renderWelcomeSign();
-  const showWelcomeSign = !userLocation && camera.zoom === INITIAL_ZOOM;
-  const shoutOnboardingMarker = renderShoutOnboardingMarker(userLocation);
-  const showShoutOnboardingMarker = userLocation && isSignedIn && onboardingShoutState !== 'expired';
   const shoutMarkers = renderShouts(shouts, userLocation, camera.zoom);
   const notificationShoutMarkers = renderNotificationShouts(shouts, camera.zoom);
   const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
+
+  // Onboarding Content
+  const welcomeSign = renderWelcomeSign(onboarding);
+  const showWelcomeSign = onboarding && camera.zoom === INITIAL_ZOOM;
+  const shoutOnboardingMarker = renderShoutOnboardingMarker(userLocation);
+  const showShoutOnboardingMarker = userLocation && isSignedIn && onboardingShoutState !== 'expired';
 
   const onRegionDidChangeHandler = ({ properties, geometry }) => {
     // extra call for Android due to bug in onRegionIsChanging
