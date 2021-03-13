@@ -5,12 +5,18 @@ const getSurroundingCodes = require('../location/getSurroundingCodes');
 const { SIGHT_RADIUS } = require('../location/config');
 
 module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
-  const RED_COLOR = '#FF4763';
+  const config = await admin.remoteConfig().getTemplate();
+  const {
+    COLORS: { defaultValue: { value: colorValues } },
+    STRINGS: { defaultValue: { value: stringValues } },
+  } = config.parameters;
+  const COLORS = JSON.parse(colorValues);
+  const STRINGS = JSON.parse(stringValues);
 
   const message = {
     notification: {
       body: text,
-      title: 'New shout nearby',
+      title: STRINGS.notifications.newShout,
     },
     data: {
       shout: JSON.stringify({ coordinates, id, createdAt }),
@@ -26,7 +32,7 @@ module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
       priority: 'high',
       notification: {
         icon: 'ic_stat_megaphone',
-        color: RED_COLOR,
+        color: COLORS.bubblegumRed[400],
         channel_id: 'shouts',
         notification_count: 1,
         light_settings: {

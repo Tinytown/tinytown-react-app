@@ -23,7 +23,8 @@ const ShoutBox = ({
         multiline
         autoFocus
         enablesReturnKeyAutomatically
-        autoCorrect={false}
+        autoCorrect={true}
+        autoCapitalize='sentences'
         placeholder={STRINGS.shouts.shoutBox}
         placeholderTextColor={COLORS.asphaltGray200}
         textAlignVertical='top'

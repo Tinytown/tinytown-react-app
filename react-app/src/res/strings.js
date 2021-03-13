@@ -91,6 +91,10 @@ export default {
     settings: 'Settings',
   },
 
+  notifications: {
+    newShout: 'New shout nearby',
+  },
+
   auth: {
     logIn: 'Log in with Twitter',
     signOut: 'Sign Out',
@@ -99,6 +103,7 @@ export default {
   shouts: {
     shoutBox: 'What\'s happening nearby?',
     header: 'Megaphone Settings',
+    expired: 'Shout has expired',
     settingsChip: {
       default: 'Megaphone Settings',
       twitter: 'Sharing on Twitter',
@@ -115,8 +120,20 @@ export default {
       location: 'Show your location on Twitter',
     },
   },
+
   connectivity: {
     offline: 'Can\'t connect to the Internet',
+    loading: 'Loading...',
+  },
+
+  time: {
+    sec: 'second',
+    secs: 'seconds',
+    min: 'minute',
+    mins: 'minutes',
+    hr: 'hour',
+    hrs: 'hours',
+    daysLeft: 'days left',
   },
 };
 
