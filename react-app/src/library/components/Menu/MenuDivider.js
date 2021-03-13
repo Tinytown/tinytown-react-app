@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { COLORS, normalizeStyles } from 'res';
 
 const MenuDivider = ({
-  color = COLORS.asphaltGray100,
+  color = COLORS.asphaltGray[100],
   margin = 8,
 }) => {
   const styles = generateStyles({ color, margin });
