@@ -1,33 +1,22 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { updateOnboarding } from 'rdx/shoutState';
 import { Config, Settings } from 'context';
 import { Countdown, Button, NavBar, BottomSheet, BottomSheetContainer, PromoCard } from 'library/components';
 import { TYPOGRAPHY, normalizeStyles } from 'res';
 
-const ShoutOnboardingScreen = ({
-  navigation,
-  shoutTimestamp,
-  updateOnboarding,
-}) => {
+const ShoutOnboardingScreen = ({ navigation, route: { params: { shout } } }) => {
   const { COLORS, STRINGS } = useContext(Config.Context);
+  const { createdAt, text } = shout;
   const { settings: { notifications: notificationsEnabled } } = useContext(Settings.Context);
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
   const styles = generateStyles({ COLORS });
 
   const {
-    onboarding: { shoutIntro },
+    onboarding: { shoutIntro: { body } },
     features: { notifications },
     actions: { turnOn },
   } = STRINGS;
-
-  useEffect(() => {
-    if (!shoutTimestamp) {
-      updateOnboarding('timestamp', Date.now());
-    }
-  }, []);
 
   const onPressHandler = () => {
     setOpenSheet(false);
@@ -45,13 +34,10 @@ const ShoutOnboardingScreen = ({
       <BottomSheetContainer>
         <NavBar label='' onClose={() => setOpenSheet(false)}/>
         <View style={styles.container}>
-          <Text style={styles.title}>{shoutIntro.title}</Text>
-          <Text style={styles.body}>{shoutIntro.body}</Text>
+          <Text style={styles.title}>{text}</Text>
+          <Text style={styles.body}>{body}</Text>
           <View style={styles.chipsContainer}>
-            <Countdown
-              timestamp={shoutTimestamp}
-              onExpiration={() => updateOnboarding('state', 'expired')}
-            />
+            <Countdown timestamp={createdAt} />
           </View>
           {!notificationsEnabled &&
             <PromoCard
@@ -104,8 +90,4 @@ const generateStyles = ({ COLORS }) => {
   });
 };
 
-const mapStateToProps = (state) => ({
-  shoutTimestamp: state.shouts.onboarding.timestamp,
-});
-
-export default connect(mapStateToProps, { updateOnboarding })(ShoutOnboardingScreen);
+export default ShoutOnboardingScreen;

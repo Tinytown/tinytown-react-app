@@ -111,7 +111,7 @@ export default (userLocation) => {
               // check if shout came in as notification
               const notified = notifications.some((shout) => shout.id === remoteShout.id);
               if (notified) {
-                dispatch(updateNotificationShouts('remove', remoteShout.id));
+                dispatch(updateNotificationShouts('remove', remoteShout));
               }
             }
             if (type === 'modified') {

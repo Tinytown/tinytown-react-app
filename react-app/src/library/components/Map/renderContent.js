@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateOpenedShouts, updateLocalShouts } from 'rdx/shoutState';
+import { updateOpenedShouts, updateLocalShouts, updateSystemShout } from 'rdx/shoutState';
 import * as turf from '@turf/turf';
 import mapConfig from './config';
 import Shout from './Shout';
@@ -115,7 +115,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
         filteredOutShouts.push(shout);
       } else if (!isNotExpired && openedShouts.includes(shout.id)) {
         dispatch(updateOpenedShouts('remove', shout.id));
-      } else if (!isNotExpired && (shout.local || shout.system)) {
+      } else if (!isNotExpired && (shout.local || shout.systemTag)) {
         dispatch(updateLocalShouts('remove', shout));
       }
     });
@@ -135,6 +135,19 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
     setOutsideShouts(filteredOutShouts);
   }, [localShouts, remoteShouts, userLocation, shoutExpired, openedShouts]);
 
+  const onPressHandler = (shout) => {
+    switch (shout.systemTag) {
+    case 'shoutOnboarding':
+      navigation.navigate('ShoutOnboarding');
+      if (state === 'active') {
+        dispatch(updateSystemShout('shoutOnboarding', 'state', 'visible'));
+      }
+      break;
+    default:
+      navigation.navigate('OpenShout', { shout });
+    }
+  };
+
   useEffect(() => {
     if (zoom > ZOOM_STEP_1) {
       let renderedInShouts = [];
@@ -142,7 +155,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
       if (insideShouts) {
         renderedInShouts = insideShouts.map((shout) => {
-          const { id, localId, coordinates, text, local, opened } = shout;
+          const { id, localId, coordinates, text, local, opened, systemTag, state } = shout;
           console.log(id, localId);
           return (
             <MarkerView
@@ -154,8 +167,10 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
               <Shout
                 label={text}
                 local={local}
+                theme={systemTag && 'lt-red-floating'}
+                shake={state === 'active'}
                 opened={shout.uid === uid || opened || local}
-                onPress={() => navigation.navigate('OpenShout', { shout })}
+                onPress={() => onPressHandler(shout)}
               />
             </MarkerView>
           );

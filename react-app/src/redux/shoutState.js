@@ -42,7 +42,7 @@ export const updateLocalShouts = (action, shout) => async (dispatch, getState) =
     shout.local = true;
     local.push(shout);
   } else if (action === 'remove') {
-    objIndex = local.findIndex((localId) => localId === shout.localId);
+    objIndex = local.findIndex(({ localId }) => localId === shout.localId);
     local.splice(objIndex, 1);
   }
   storeData('localShouts', local);
@@ -72,20 +72,21 @@ export const updateOpenedShouts = (action, shoutId) => async (dispatch, getState
   dispatch({ type: SHOUTS_OPENED, payload: opened });
 };
 
-export const updateNotificationShouts = (action, shoutId) => async (dispatch, getState) => {
+export const updateNotificationShouts = (action, shout) => async (dispatch, getState) => {
   const { shouts: { notifications } } = getState();
   if (action === 'add') {
-    notifications.push(shoutId);
+    notifications.push(shout);
   } else if (action === 'remove') {
-    objIndex = notifications.findIndex((id) => id === shoutId);
+    objIndex = notifications.findIndex(({ id }) => id === shout.id);
     notifications.splice(objIndex, 1);
   }
   dispatch({ type: SHOUTS_NOTIFICATIONS, payload: notifications });
 };
 
-export const updateOnboarding = (key, value) => async (dispatch, getState) => {
-  const { shouts: { onboarding } } = getState();
-  onboarding[key] = value;
-  storeData('shoutOnboarding', onboarding);
-  dispatch({ type: UPDATE_ONBOARDING, payload: onboarding });
+export const updateSystemShout = (tag, key, value) => async (dispatch, getState) => {
+  const { shouts: { local } } = getState();
+  objIndex = local.findIndex(({ systemTag }) => systemTag === tag);
+  local[objIndex][key] = value;
+
+  dispatch({ type: SHOUTS_LOCAL, payload: local });
 };
