@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
 import functions from '@react-native-firebase/functions';
 import { useDispatch, useSelector } from 'react-redux';
-import { createShout, updateShoutsSetting } from 'rdx/shoutState';
+import { updateLocalShouts, updateShoutsSetting } from 'rdx/shoutState';
 import sheetConfig from 'library/components/BottomSheet/config';
 import { Config } from 'context';
 import { FeatureCard, FeatureItem } from 'library/components';
@@ -70,7 +70,7 @@ export default (sheetLayout) => {
       },
     };
 
-    dispatch(createShout(shout));
+    dispatch(updateLocalShouts('add', shout));
     onCloseHandler();
   };
 

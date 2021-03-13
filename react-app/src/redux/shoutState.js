@@ -1,6 +1,6 @@
 import functions from '@react-native-firebase/functions';
 import {
-  LOCAL_SHOUTS,
+  SHOUTS_LOCAL,
   SHOUTS_LOADING,
   SHOUTS_SETTING,
   SHOUTS_OPENED,
@@ -13,7 +13,7 @@ import { storeData } from 'library/apis/storage';
 
 export const shoutReducer = (state = null, action) => {
   switch (action.type) {
-  case LOCAL_SHOUTS:
+  case SHOUTS_LOCAL:
     return { ...state,  local: [...action.payload] };
   case SHOUTS_LOADING:
     return { ...state,  loading: action.payload };
@@ -32,23 +32,21 @@ export const shoutReducer = (state = null, action) => {
   }
 };
 
-export const createShout = (shout) => async (dispatch, getState) => {
+export const updateLocalShouts = (action, shout) => async (dispatch, getState) => {
   const { shouts: { local } } = getState();
-  shout.localId = Math.floor(Math.random() * 1000);
-  shout.local = true;
-  local.push(shout);
+  if (action === 'add') {
+    // send to firestore
+    shout.localId = Math.floor(Math.random() * 1000);
+    functions().httpsCallable('createShout')(shout);
 
-  dispatch({ type: LOCAL_SHOUTS, payload: local });
-
-  // add shout Id when successfully uploaded
-  functions().httpsCallable('createShout')(shout);
-};
-
-export const removeLocalShout = (localId) => async (dispatch, getState) => {
-  const { shouts: { local } } = getState();
-  const filteredShouts = local.filter((shout) => shout.localId !== localId);
-
-  dispatch({ type: LOCAL_SHOUTS, payload: filteredShouts });
+    shout.local = true;
+    local.push(shout);
+  } else if (action === 'remove') {
+    objIndex = local.findIndex((localId) => localId === shout.localId);
+    local.splice(objIndex, 1);
+  }
+  storeData('localShouts', local);
+  dispatch({ type: SHOUTS_LOCAL, payload: local });
 };
 
 export const updateShoutsLoading = (payload) => {

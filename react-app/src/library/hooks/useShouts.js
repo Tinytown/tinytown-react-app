@@ -4,7 +4,7 @@ import _ from 'lodash';
 import * as turf from '@turf/turf';
 import { useDispatch, useSelector } from 'react-redux';
 import store from 'rdx/store';
-import { removeLocalShout, updateNotificationShouts, updateShoutsLoading } from 'rdx/shoutState';
+import { updateLocalShouts, updateNotificationShouts, updateShoutsLoading } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
 import { mapConfig } from 'library/components/Map';
 
@@ -105,7 +105,7 @@ export default (userLocation) => {
               // check if shout was just created and remove from redux
               const sameLocalId = local.some((shout) => shout.localId === remoteShout.localId);
               if (remoteShout.uid === uid && sameLocalId) {
-                dispatch(removeLocalShout(remoteShout.localId));
+                dispatch(updateLocalShouts('remove', remoteShout));
               }
 
               // check if shout came in as notification
