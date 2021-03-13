@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import Modal from '../Modal';
 import { useAnimation } from 'library/hooks';
-import { COLORS, SHAPES, normalizeStyles } from 'res';
+import { Config } from 'context';
+import { SHAPES, normalizeStyles } from 'res';
 
 const Menu = ({
   showMenu = false,
@@ -11,6 +12,8 @@ const Menu = ({
   triggerLayout = {},
   children,
 }) => {
+  const { COLORS } = useContext(Config.Context);
+  const styles = generateStyles({ COLORS });
   const [animation, animateMenu, setTriggerLayout, setMenuLayout, containerAnimation] = useAnimation('menu');
 
   useEffect(() => {
@@ -41,15 +44,16 @@ const Menu = ({
   );
 };
 
-const styles = normalizeStyles({
-  container: {
-    position: 'absolute',
-    backgroundColor: COLORS.justWhite,
-    paddingVertical: 8,
-    borderRadius: SHAPES.radiusMd,
-    ...SHAPES.elevGray2,
-  },
-});
+const generateStyles = ({ COLORS }) => {
+  return normalizeStyles({
+    container: {
+      position: 'absolute',
+      backgroundColor: COLORS.basics.justWhite,
+      paddingVertical: 8,
+      borderRadius: SHAPES.radiusMd,
+      ...SHAPES.elevGray2,
+    },
+  }); };
 
 Menu.propTypes = {
   showMenu: PropTypes.bool,

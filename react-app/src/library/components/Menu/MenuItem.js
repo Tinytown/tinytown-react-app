@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Pressable } from 'library/components/hoc';
-import { COLORS, TYPOGRAPHY, Icon, normalizeStyles } from 'res';
+import { Config } from 'context';
+import { TYPOGRAPHY, Icon, normalizeStyles } from 'res';
 
 const MenuItem = ({
   label = 'Menu item',
@@ -12,18 +13,19 @@ const MenuItem = ({
   disabled = false,
   onPress,
 }) => {
-  const styles = generateStyles({ disabled, tall });
+  const { COLORS } = useContext(Config.Context);
+  const styles = generateStyles({ COLORS, disabled, tall });
 
   return (
     <Pressable
       containerStyle={styles.container}
       disabled={disabled}
       onPress={onPress}
-      rippleColor={COLORS.asphaltGray800}
+      rippleColor={COLORS.asphaltGray[800]}
     >
       <View style={styles.assetContainerLeft}>
         <View style={styles.iconContainer}>
-          <Icon icon={primaryIcon} color={COLORS.asphaltGray800}/>
+          <Icon icon={primaryIcon} color={COLORS.asphaltGray[800]}/>
         </View>
       </View>
       <Text
@@ -35,7 +37,7 @@ const MenuItem = ({
       {secondaryIcon &&
       <View style={styles.assetContainerRight}>
         <View style={styles.iconContainer}>
-          <Icon icon={secondaryIcon} color={COLORS.asphaltGray100}/>
+          <Icon icon={secondaryIcon} color={COLORS.asphaltGray[100]}/>
         </View>
       </View>
       }
@@ -43,7 +45,7 @@ const MenuItem = ({
   );
 };
 
-const generateStyles = ({ disabled, tall }) => (
+const generateStyles = ({ COLORS, disabled, tall }) => (
   normalizeStyles({
     container: {
       flexDirection: 'row',
@@ -69,7 +71,7 @@ const generateStyles = ({ disabled, tall }) => (
       height: 24,
     },
     label: {
-      color: COLORS.asphaltGray800,
+      color: COLORS.asphaltGray[800],
       ...TYPOGRAPHY.subheader3,
     },
   })

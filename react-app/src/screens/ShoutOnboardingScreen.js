@@ -4,17 +4,18 @@ import { connect } from 'react-redux';
 import { updateOnboarding } from 'rdx/shoutState';
 import { Config, Settings } from 'context';
 import { Countdown, Button, NavBar, BottomSheet, BottomSheetContainer, PromoCard } from 'library/components';
-import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
+import { TYPOGRAPHY, normalizeStyles } from 'res';
 
 const ShoutOnboardingScreen = ({
   navigation,
   shoutTimestamp,
   updateOnboarding,
 }) => {
-  const { STRINGS } = useContext(Config.Context);
+  const { COLORS, STRINGS } = useContext(Config.Context);
   const { settings: { notifications: notificationsEnabled } } = useContext(Settings.Context);
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
+  const styles = generateStyles({ COLORS });
 
   const {
     onboarding: { shoutIntro },
@@ -73,33 +74,35 @@ const ShoutOnboardingScreen = ({
   );
 };
 
-const styles = normalizeStyles({
-  card: {
-    marginTop: 32,
-  },
-  container: {
-    marginTop: 24,
-    marginBottom: 120,
-  },
-  title: {
-    color: COLORS.asphaltGray800,
-    ...TYPOGRAPHY.subheader1,
-  },
-  body: {
-    marginTop: 8,
-    color: COLORS.asphaltGray600,
-    ...TYPOGRAPHY.subheader3,
-  },
-  chipsContainer: {
-    flexDirection: 'row',
-    marginTop: 24,
-  },
-  turnOnbtn: {
-    alignSelf: 'flex-end',
-    marginBottom: 16,
-    marginRight: 16,
-  },
-});
+const generateStyles = ({ COLORS }) => {
+  return normalizeStyles({
+    card: {
+      marginTop: 32,
+    },
+    container: {
+      marginTop: 24,
+      marginBottom: 120,
+    },
+    title: {
+      color: COLORS.asphaltGray[800],
+      ...TYPOGRAPHY.subheader1,
+    },
+    body: {
+      marginTop: 8,
+      color: COLORS.asphaltGray[600],
+      ...TYPOGRAPHY.subheader3,
+    },
+    chipsContainer: {
+      flexDirection: 'row',
+      marginTop: 24,
+    },
+    turnOnbtn: {
+      alignSelf: 'flex-end',
+      marginBottom: 16,
+      marginRight: 16,
+    },
+  });
+};
 
 const mapStateToProps = (state) => ({
   shoutTimestamp: state.shouts.onboarding.timestamp,

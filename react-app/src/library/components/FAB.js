@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import { Pressable } from 'library/components/hoc';
 import { useAnimation } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
+import { Config } from 'context';
+import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const FAB = ({
   icon,
@@ -15,8 +16,9 @@ const FAB = ({
   disabled = false,
   onPress,
 }) => {
+  const { COLORS } = useContext(Config.Context);
   const [animation, animateOnPress] = useAnimation('jiggle');
-  const styles = generateStyles({ theme, branded, disabled });
+  const styles = generateStyles({ COLORS, theme, branded, disabled });
 
   return (
     <View style={wrapperStyle} pointerEvents='box-none'>
@@ -41,7 +43,7 @@ const FAB = ({
   );
 };
 
-const generateStyles = ({ theme, branded, disabled }) => {
+const generateStyles = ({ COLORS, theme, branded, disabled }) => {
   const ICON_SIZE = 24;
   const resolvedTheme = resolveTheme(theme,  disabled);
   const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(resolvedTheme);
@@ -76,7 +78,7 @@ const generateStyles = ({ theme, branded, disabled }) => {
         height: '100%',
         width: '80%',
         borderRadius: SHAPES.radiusMd,
-        backgroundColor: COLORS.asphaltGray800,
+        backgroundColor: COLORS.asphaltGray[800],
         ...(disabled && { opacity: 0 }),
       },
     }), iconColor, rippleColor }

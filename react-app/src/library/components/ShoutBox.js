@@ -5,16 +5,16 @@ import Animated from 'react-native-reanimated';
 import { Config } from 'context';
 import IconButton from './IconButton';
 import Chip from './Chip';
-import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
+import { TYPOGRAPHY, normalizeStyles } from 'res';
 
 const ShoutBox = ({
   shoutBoxProps,
   onSubmit = () => {},
   onFocus = () => {},
 }) => {
-  const { STRINGS } = useContext(Config.Context);
+  const { COLORS, STRINGS } = useContext(Config.Context);
   const { shoutString, setShoutString, chipString, chipAnimation, showChip, disabled } = shoutBoxProps;
-  const styles = generateStyles({ showChip });
+  const styles = generateStyles({ COLORS, showChip });
 
   return (
     <View style={styles.container} >
@@ -26,7 +26,7 @@ const ShoutBox = ({
         autoCorrect={true}
         autoCapitalize='sentences'
         placeholder={STRINGS.shouts.shoutBox}
-        placeholderTextColor={COLORS.asphaltGray200}
+        placeholderTextColor={COLORS.asphaltGray[200]}
         textAlignVertical='top'
         keyboardType='twitter'
         value={shoutString}
@@ -54,7 +54,7 @@ const ShoutBox = ({
   );
 };
 
-const generateStyles = ({ showChip }) => {
+const generateStyles = ({ COLORS, showChip }) => {
   return normalizeStyles({
     container: {
       marginTop: 16,
@@ -67,8 +67,8 @@ const generateStyles = ({ showChip }) => {
       paddingTop: 24,
       paddingBottom: 24,
       borderRadius: 8,
-      color: COLORS.asphaltGray800,
-      backgroundColor: COLORS.asphaltGray50,
+      color: COLORS.asphaltGray[800],
+      backgroundColor: COLORS.asphaltGray[50],
       ...TYPOGRAPHY.subheader2,
     },
     btnContainer: {

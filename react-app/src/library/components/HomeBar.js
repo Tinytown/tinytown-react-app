@@ -15,11 +15,11 @@ import { Menu, MenuDivider, MenuItem } from './Menu';
 import IconButton from './IconButton';
 import Chip from './Chip';
 import { useAnimation } from 'library/hooks';
-import { COLORS, SHAPES, IMAGES, normalizeStyles } from 'res';
+import { SHAPES, IMAGES, normalizeStyles } from 'res';
 
 const HomeBar = ({ signOut, goToUser, goToTarget, userVisible, photoURL, shoutNotifications }) => {
   const TRANSLATE_AMOUNT = 120;
-  const { STRINGS } = useContext(Config.Context);
+  const { COLORS, STRINGS } = useContext(Config.Context);
   const [showMenu, setShowMenu] = useState(false);
   const [triggerLayout, setTriggerLayout] = useState(null);
   const [avatarColors, setAvatarColors] = useState(null);
@@ -32,7 +32,7 @@ const HomeBar = ({ signOut, goToUser, goToTarget, userVisible, photoURL, shoutNo
   const showAlertBtn = userVisible !== null && !alertPressed && newShout;
   const [alertBtnAnimation, animateAlertBtn] = useAnimation('shake');
   const [alertChipAnimation] = useAnimation('slide', TRANSLATE_AMOUNT, showAlertBtn && showChip);
-  const styles = generateStyles({ avatarColors, TRANSLATE_AMOUNT });
+  const styles = generateStyles({ COLORS, avatarColors, TRANSLATE_AMOUNT });
 
   useEffect(() => {
     if (shoutNotifications && !newShout) {
@@ -48,7 +48,7 @@ const HomeBar = ({ signOut, goToUser, goToTarget, userVisible, photoURL, shoutNo
 
   useEffect(() => {
     if (photoURL) {
-      ImageColors.getColors(photoURL, { fallback: COLORS.asphaltGray800 })
+      ImageColors.getColors(photoURL, { fallback: COLORS.asphaltGray[800] })
         .then((colors) => setAvatarColors(colors))
         .catch((err) => console.log(err));
     }
@@ -94,7 +94,7 @@ const HomeBar = ({ signOut, goToUser, goToTarget, userVisible, photoURL, shoutNo
         <Pressable
           onPress={() => setShowMenu(true)}
           containerStyle={styles.avatar}
-          rippleColor={COLORS.skyBlue400}
+          rippleColor={COLORS.skyBlue[400]}
           onLayout={(event) => {
             event.persist();
             setTriggerLayout(event);
@@ -124,7 +124,7 @@ const HomeBar = ({ signOut, goToUser, goToTarget, userVisible, photoURL, shoutNo
   );
 };
 
-const generateStyles = ({ avatarColors, TRANSLATE_AMOUNT }) => {
+const generateStyles = ({ COLORS, avatarColors, TRANSLATE_AMOUNT }) => {
   return (
     normalizeStyles({
       bar: {
@@ -142,8 +142,8 @@ const generateStyles = ({ avatarColors, TRANSLATE_AMOUNT }) => {
         alignItems: 'center',
         borderRadius: SHAPES.radiusAll,
         borderWidth: 2,
-        borderColor: COLORS.justWhite,
-        backgroundColor: COLORS.justWhite,
+        borderColor: COLORS.basics.justWhite,
+        backgroundColor: COLORS.basics.justWhite,
         ...(avatarColors && SHAPES.elevGray5),
         shadowColor: avatarColors?.background,
       },

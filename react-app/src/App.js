@@ -26,11 +26,11 @@ const App = ({ isSignedIn }) => {
         <Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: false }} >
           {isSignedIn ? (
             <>
-              <Stack.Screen name='Root Stack' component={RootStack} />
+              <Stack.Screen name='RootStack' component={RootStack} />
             </>
           ) : (
             <>
-              <Stack.Screen name='Onboarding Stack' component={OnboardingStack} />
+              <Stack.Screen name='OnboardingStack' component={OnboardingStack} />
             </>
           )}
         </Stack.Navigator>

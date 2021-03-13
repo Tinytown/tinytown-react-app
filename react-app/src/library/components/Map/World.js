@@ -15,7 +15,7 @@ import {
   renderFog,
   renderShoutOnboardingMarker,
 } from './renderContent';
-import { COLORS, normalizeStyles } from 'res';
+import { normalizeStyles } from 'res';
 
 const World = ({
   userLocation,
@@ -29,7 +29,8 @@ const World = ({
 }) => {
   const { MapView, Camera } = MapboxGL;
   const { INITIAL_ZOOM } = mapConfig;
-  const { ENV } = useContext(Config.Context);
+  const { COLORS, ENV } = useContext(Config.Context);
+  const styles = generateStyles({ COLORS });
 
   MapboxGL.setAccessToken(ENV.MAPBOX_ACCESS_TOKEN);
 
@@ -103,22 +104,23 @@ const World = ({
   );
 };
 
-const styles = normalizeStyles({
-  landscape: {
-    flex: 1,
-    backgroundColor: COLORS.asphaltGray100,
-  },
-  safeArea: {
-    position: 'absolute',
-    width: '100%',
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-  },
-  map: {
-    flex: 1,
-  },
-});
+const generateStyles = ({ COLORS }) => {
+  return normalizeStyles({
+    landscape: {
+      flex: 1,
+      backgroundColor: COLORS.asphaltGray[100],
+    },
+    safeArea: {
+      position: 'absolute',
+      width: '100%',
+      top: 0,
+      bottom: 0,
+      alignItems: 'center',
+    },
+    map: {
+      flex: 1,
+    },
+  }); };
 
 const mapStateToProps = (state) => ({
   userLocation: state.location.user,

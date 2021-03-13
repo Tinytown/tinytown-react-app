@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, Platform, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import { Pressable } from 'library/components/hoc';
 import { useAnimation } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
+import { Config } from 'context';
+import { TYPOGRAPHY, SHAPES, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const Shout = React.memo(({
   label = 'Shout Label',
@@ -16,9 +17,10 @@ const Shout = React.memo(({
   disabled = false,
   onPress,
 }) => {
+  const { COLORS } = useContext(Config.Context);
   const [pressed, setPressed] = useState(false);
   const [animation] = useAnimation('ring', !pressed && shake);
-  const styles = generateStyles({ local, opened, theme, disabled });
+  const styles = generateStyles({ COLORS, local, opened, theme, disabled });
 
   const onPressHandler = () => {
     onPress();
@@ -34,7 +36,7 @@ const Shout = React.memo(({
           rippleColor={styles.rippleColor}
           disabled={disabled}
         >
-          {local && <ActivityIndicator size='small' color={COLORS.grassGreen400} />}
+          {local && <ActivityIndicator size='small' color={COLORS.grassGreen[400]} />}
           <Text style={styles.label} numberOfLines={1} >{label}</Text>
           {showPin && <View style={styles.pin}/>}
         </Pressable>
@@ -43,7 +45,7 @@ const Shout = React.memo(({
   );
 });
 
-const generateStyles = ({ local, opened, theme, disabled }) => {
+const generateStyles = ({ COLORS, local, opened, theme, disabled }) => {
   const WIDTH = 200;
   const PADDING = 16;
   const PIN_OFFSET = 14;
@@ -96,7 +98,7 @@ const generateStyles = ({ local, opened, theme, disabled }) => {
         borderRadius: SHAPES.radiusAll,
         borderColor: auxColor2,
         borderWidth: 2,
-        backgroundColor: opened ? auxColor1 : COLORS.bubblegumRed300,
+        backgroundColor: opened ? auxColor1 : COLORS.bubblegumRed[300],
       },
     }), rippleColor }
   );

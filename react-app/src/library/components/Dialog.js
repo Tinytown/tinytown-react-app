@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import Scrim from './Scrim';
 import { useAnimation } from 'library/hooks';
-import { SHAPES, COLORS, normalizeStyles } from 'res';
+import { Config } from 'context';
+import { SHAPES, normalizeStyles } from 'res';
 
 const Dialog = ({
   openDialog = true,
@@ -12,8 +13,9 @@ const Dialog = ({
   onClose = () => console.log('Pass an onClose callback to this component'),
   children,
 }) => {
+  const { COLORS } = useContext(Config.Context);
   const [dialogAnimation, scrimAnimation, animateOpen, animateClose] = useAnimation('dialog');
-  const styles = generateStyles();
+  const styles = generateStyles({ COLORS });
 
   useEffect(() => {
     openDialog ? animateOpen() : animateClose(onClose);
@@ -31,7 +33,7 @@ const Dialog = ({
   );
 };
 
-const generateStyles = () => {
+const generateStyles = ({ COLORS }) => {
   return (
     normalizeStyles({
       container: {
@@ -44,7 +46,7 @@ const generateStyles = () => {
       dialog: {
         padding: 12,
         borderRadius: SHAPES.radiusMd,
-        backgroundColor: COLORS.justWhite,
+        backgroundColor: COLORS.basics.justWhite,
         ...SHAPES.elevGray2,
       },
     })

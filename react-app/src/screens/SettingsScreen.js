@@ -6,8 +6,9 @@ import { NavBar } from 'library/components';
 import { COLORS, normalizeStyles } from 'res';
 
 const SettingsScreen = ({ navigation, route: { params } }) => {
-  const { STRINGS } = useContext(Config.Context);
+  const { COLORS, STRINGS } = useContext(Config.Context);
   const { renderedList } = useSettings(params);
+  const styles = generateStyles({ COLORS });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -17,12 +18,14 @@ const SettingsScreen = ({ navigation, route: { params } }) => {
   );
 };
 
-const styles = normalizeStyles({
-  container: {
-    flex: 1,
-    paddingHorizontal: 16,
-    backgroundColor: COLORS.justWhite,
-  },
-});
+const generateStyles = ({ COLORS }) => {
+  return normalizeStyles({
+    container: {
+      flex: 1,
+      paddingHorizontal: 16,
+      backgroundColor: COLORS.basics.justWhite,
+    },
+  });
+};
 
 export default SettingsScreen;

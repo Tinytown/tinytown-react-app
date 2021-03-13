@@ -8,7 +8,7 @@ import * as turf from '@turf/turf';
 import mapConfig from './config';
 import { Config } from 'context';
 import Shout from './Shout';
-import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
+import { TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
 
 const { SymbolLayer, MarkerView, ShapeSource, FillLayer, UserLocation } = MapboxGL;
 const {
@@ -79,14 +79,14 @@ export const renderFog = (userLocation, zoom) => {
 };
 
 export const renderWelcomeSign = () => {
-  const { STRINGS } = useContext(Config.Context);
+  const { COLORS, STRINGS } = useContext(Config.Context);
   const styles = normalizeStyles({
     welcomeSign: {
       position: 'absolute',
       alignItems: 'center',
       paddingVertical: 16,
       paddingHorizontal: 20,
-      backgroundColor: COLORS.justWhite,
+      backgroundColor: COLORS.basics.justWhite,
       borderTopLeftRadius: SHAPES.radiusLg,
       borderTopRightRadius: SHAPES.radiusLg,
       borderBottomRightRadius: SHAPES.radiusSm,
@@ -94,13 +94,13 @@ export const renderWelcomeSign = () => {
       ...SHAPES.elevGray2,
     },
     title: {
-      color: COLORS.asphaltGray800,
+      color: COLORS.asphaltGray[800],
       ...TYPOGRAPHY.display3,
     },
     subtitle: {
       marginTop: 4,
       marginBottom: 8,
-      color: COLORS.asphaltGray300,
+      color: COLORS.asphaltGray[300],
       ...TYPOGRAPHY.brandedButton,
     },
   });

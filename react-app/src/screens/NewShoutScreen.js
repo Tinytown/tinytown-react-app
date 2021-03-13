@@ -10,10 +10,10 @@ import {
   Chip,
 } from 'library/components';
 import { useNewShout } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, normalizeStyles } from 'res';
+import { TYPOGRAPHY, normalizeStyles } from 'res';
 
 const NewShoutScreen = () => {
-  const { STRINGS } = useContext(Config.Context);
+  const { COLORS, STRINGS } = useContext(Config.Context);
   const [sheetLayout, setSheetLayout] = useState(null);
   const [
     shoutBoxProps,
@@ -26,6 +26,7 @@ const NewShoutScreen = () => {
   const { closeConfirmed, onCloseConfirmHandler, onCloseHandler, onSubmitHandler } = eventHandlers;
   const { openSheet, setOpenSheet, showSettings, setShowSettings } = state;
   const { frontSheetAnimation, translateY, setTranslateY } = animations;
+  const styles = generateStyles({ COLORS });
 
   const onLayoutHandler = (event) => {
     event.persist();
@@ -75,24 +76,25 @@ const NewShoutScreen = () => {
   );
 };
 
-const styles = normalizeStyles({
-  settingsContainer: {
-    position: 'absolute',
-    width: '100%',
-    backgroundColor: COLORS.asphaltGray900,
-  },
-  header: {
-    marginVertical: 24,
-    textAlign: 'center',
-    color: COLORS.justWhite,
-    ...TYPOGRAPHY.subheader2,
-  },
-  chip: {
-    marginRight: 16,
-  },
-  closeBtn: {
-    alignSelf: 'center',
-  },
-});
+const generateStyles = ({ COLORS }) => {
+  return normalizeStyles({
+    settingsContainer: {
+      position: 'absolute',
+      width: '100%',
+      backgroundColor: COLORS.asphaltGray[900],
+    },
+    header: {
+      marginVertical: 24,
+      textAlign: 'center',
+      color: COLORS.basics.justWhite,
+      ...TYPOGRAPHY.subheader2,
+    },
+    chip: {
+      marginRight: 16,
+    },
+    closeBtn: {
+      alignSelf: 'center',
+    },
+  }); };
 
 export default NewShoutScreen;

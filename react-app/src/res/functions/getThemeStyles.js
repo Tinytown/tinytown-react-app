@@ -1,6 +1,7 @@
-import COLORS from '../colors';
+/* eslint-disable prefer-destructuring */
 import SHAPES from '../shapes';
 import { normalizeValue } from './normalizeStyles';
+import getColors from './getColors';
 
 const DEFAULT_THEME = 'lt-white-hairline';
 
@@ -12,178 +13,180 @@ const getLightTheme = (color, elevation) => {
   let auxColor1;
   let auxColor2;
 
+  const COLORS = getColors();
+
   switch (color) {
   // CYAN THEMES - LIGHT
   case 'cyan':
-    iconColor = COLORS.asphaltGray800;
-    labelColor = COLORS.asphaltGray800;
-    rippleColor = COLORS.justWhite;
+    iconColor = COLORS.asphaltGray[800];
+    labelColor = COLORS.asphaltGray[800];
+    rippleColor = COLORS.basics.justWhite;
 
     switch (elevation) {
     case 'floating':
       backgroundTheme = {
-        backgroundColor: COLORS.poolCyan400,
-        borderColor: COLORS.justWhite,
+        backgroundColor: COLORS.poolCyan[400],
+        borderColor: COLORS.basics.justWhite,
         borderWidth: normalizeValue(2),
         ...SHAPES.elevCyan5,
       };
       break;
     case 'raised':
       backgroundTheme = {
-        backgroundColor: COLORS.poolCyan400,
-        borderColor: COLORS.poolCyan400,
+        backgroundColor: COLORS.poolCyan[400],
+        borderColor: COLORS.poolCyan[400],
         borderWidth: normalizeValue(2),
         ...SHAPES.elevCyan2,
       };
       break;
     case 'filled':
       backgroundTheme = {
-        backgroundColor: COLORS.poolCyan400,
+        backgroundColor: COLORS.poolCyan[400],
       };
       break;
     case 'hairline':
       backgroundTheme = {
-        backgroundColor: COLORS.justWhite,
+        backgroundColor: COLORS.basics.justWhite,
         ...SHAPES.elevCyan0,
       };
-      iconColor = COLORS.poolCyan600;
-      labelColor = COLORS.asphaltGray800;
-      rippleColor = COLORS.poolCyan600;
-      auxColor1 = COLORS.asphaltGray600;
+      iconColor = COLORS.poolCyan[600];
+      labelColor = COLORS.asphaltGray[800];
+      rippleColor = COLORS.poolCyan[600];
+      auxColor1 = COLORS.asphaltGray[600];
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1 };
 
   // BLUE THEMES - LIGHT
   case 'blue':
-    iconColor = COLORS.justWhite;
-    labelColor = COLORS.justWhite;
-    rippleColor = COLORS.justWhite;
+    iconColor = COLORS.basics.justWhite;
+    labelColor = COLORS.basics.justWhite;
+    rippleColor = COLORS.basics.justWhite;
 
     switch (elevation) {
     case 'floating':
       backgroundTheme = {
-        backgroundColor: COLORS.skyBlue400,
-        borderColor: COLORS.justWhite,
+        backgroundColor: COLORS.skyBlue[400],
+        borderColor: COLORS.basics.justWhite,
         borderWidth: normalizeValue(2),
         ...SHAPES.elevBlue5,
       };
       break;
     case 'raised':
       backgroundTheme = {
-        backgroundColor: COLORS.skyBlue400,
-        borderColor: COLORS.skyBlue400,
+        backgroundColor: COLORS.skyBlue[400],
+        borderColor: COLORS.skyBlue[400],
         borderWidth: normalizeValue(2),
         ...SHAPES.elevBlue2,
       };
       break;
     case 'filled':
       backgroundTheme = {
-        backgroundColor: COLORS.skyBlue400,
+        backgroundColor: COLORS.skyBlue[400],
       };
       break;
     case 'hairline':
       backgroundTheme = {
-        backgroundColor: COLORS.justWhite,
+        backgroundColor: COLORS.basics.justWhite,
         ...SHAPES.elevLightBlue0,
       };
-      iconColor = COLORS.skyBlue400;
-      labelColor = COLORS.asphaltGray800;
-      rippleColor = COLORS.skyBlue400;
-      auxColor1 = COLORS.asphaltGray600;
+      iconColor = COLORS.skyBlue[400];
+      labelColor = COLORS.asphaltGray[800];
+      rippleColor = COLORS.skyBlue[400];
+      auxColor1 = COLORS.asphaltGray[600];
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor };
 
   // RED THEMES - LIGHT
   case 'red':
-    iconColor = COLORS.justWhite;
-    labelColor = COLORS.justWhite;
-    rippleColor = COLORS.justWhite;
+    iconColor = COLORS.basics.justWhite;
+    labelColor = COLORS.basics.justWhite;
+    rippleColor = COLORS.basics.justWhite;
 
     switch (elevation) {
     case 'floating':
       backgroundTheme = {
-        backgroundColor: COLORS.bubblegumRed400,
-        borderColor: COLORS.justWhite,
+        backgroundColor: COLORS.bubblegumRed[400],
+        borderColor: COLORS.basics.justWhite,
         borderWidth: normalizeValue(2),
         ...SHAPES.elevRed5,
       };
-      auxColor1 = COLORS.bubblegumRed400;
-      auxColor2 = COLORS.justWhite;
+      auxColor1 = COLORS.bubblegumRed[400];
+      auxColor2 = COLORS.basics.justWhite;
       break;
     case 'raised':
       backgroundTheme = {
-        backgroundColor: COLORS.bubblegumRed400,
-        borderColor: COLORS.bubblegumRed400,
+        backgroundColor: COLORS.bubblegumRed[400],
+        borderColor: COLORS.bubblegumRed[400],
         borderWidth: normalizeValue(2),
         ...SHAPES.elevRed2,
       };
       break;
     case 'filled':
       backgroundTheme = {
-        backgroundColor: COLORS.bubblegumRed400,
+        backgroundColor: COLORS.bubblegumRed[400],
       };
       break;
     case 'hairline':
       backgroundTheme = {
-        backgroundColor: COLORS.justWhite,
+        backgroundColor: COLORS.basics.justWhite,
         ...SHAPES.elevLightRed0,
       };
-      iconColor = COLORS.bubblegumRed400;
-      labelColor = COLORS.asphaltGray800;
-      rippleColor = COLORS.bubblegumRed400;
-      auxColor1 = COLORS.asphaltGray600;
+      iconColor = COLORS.bubblegumRed[400];
+      labelColor = COLORS.asphaltGray[800];
+      rippleColor = COLORS.bubblegumRed[400];
+      auxColor1 = COLORS.asphaltGray[600];
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1, auxColor2 };
 
   // WHITE THEMES - LIGHT
   case 'white':
-    iconColor = COLORS.asphaltGray800;
-    labelColor = COLORS.asphaltGray800;
-    rippleColor = COLORS.asphaltGray800;
+    iconColor = COLORS.asphaltGray[800];
+    labelColor = COLORS.asphaltGray[800];
+    rippleColor = COLORS.asphaltGray[800];
 
     switch (elevation) {
     case 'floating':
       backgroundTheme = {
-        backgroundColor: COLORS.justWhite,
-        borderColor: COLORS.asphaltGray800,
+        backgroundColor: COLORS.basics.justWhite,
+        borderColor: COLORS.asphaltGray[800],
         borderWidth: normalizeValue(2),
         ...SHAPES.elevGray5,
       };
       break;
     case 'raised':
       backgroundTheme = {
-        backgroundColor: COLORS.justWhite,
-        borderColor: COLORS.justWhite,
+        backgroundColor: COLORS.basics.justWhite,
+        borderColor: COLORS.basics.justWhite,
         borderWidth: normalizeValue(2),
         ...SHAPES.elevGray2,
       };
       break;
     case 'filled':
       backgroundTheme = {
-        backgroundColor: COLORS.justWhite,
+        backgroundColor: COLORS.basics.justWhite,
       };
       break;
     case 'hairline':
       backgroundTheme = {
-        backgroundColor: COLORS.justWhite,
+        backgroundColor: COLORS.basics.justWhite,
         ...SHAPES.elevLightGray0,
       };
-      auxColor1 = COLORS.asphaltGray600;
+      auxColor1 = COLORS.asphaltGray[600];
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1 };
 
   case 'disabled':
-    iconColor = COLORS.asphaltGray300;
-    labelColor = COLORS.asphaltGray300;
+    iconColor = COLORS.asphaltGray[300];
+    labelColor = COLORS.asphaltGray[300];
     rippleColor = 'transparent';
 
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray50,
-      borderColor: COLORS.asphaltGray100,
+      backgroundColor: COLORS.asphaltGray[50],
+      borderColor: COLORS.asphaltGray[100],
       borderWidth: 2,
     };
     return  { backgroundTheme, iconColor, labelColor, rippleColor };
@@ -196,137 +199,139 @@ const getDarkTheme = (color, elevation) => {
   let labelColor;
   let rippleColor;
 
+  const COLORS = getColors();
+
   switch (color) {
   // TWITTER THEMES - DARK
   case 'twitter':
-    iconColor = COLORS.asphaltGray900;
-    labelColor = COLORS.asphaltGray900;
-    rippleColor = COLORS.asphaltGray900;
+    iconColor = COLORS.asphaltGray[900];
+    labelColor = COLORS.asphaltGray[900];
+    rippleColor = COLORS.asphaltGray[900];
 
     switch (elevation) {
     case 'floating':
       backgroundTheme = {
-        backgroundColor: COLORS.twitter,
-        borderColor: COLORS.asphaltGray900,
+        backgroundColor: COLORS.brands.twitter,
+        borderColor: COLORS.asphaltGray[900],
         borderWidth: normalizeValue(2),
         ...SHAPES.elevTwitter5,
       };
       break;
     case 'raised':
       backgroundTheme = {
-        backgroundColor: COLORS.twitter,
-        borderColor: COLORS.twitter,
+        backgroundColor: COLORS.brands.twitter,
+        borderColor: COLORS.brands.twitter,
         borderWidth: normalizeValue(2),
         ...SHAPES.elevTwitter2,
       };
       break;
     case 'filled':
       backgroundTheme = {
-        backgroundColor: COLORS.twitter,
+        backgroundColor: COLORS.brands.twitter,
       };
       break;
     case 'hairline':
       backgroundTheme = {
-        backgroundColor: COLORS.asphaltGray900,
+        backgroundColor: COLORS.asphaltGray[900],
         ...SHAPES.elevTwitter0,
       };
-      iconColor = COLORS.twitter;
-      labelColor = COLORS.justWhite;
-      rippleColor = COLORS.twitter;
-      auxColor1 = COLORS.asphaltGray300;
+      iconColor = COLORS.brands.twitter;
+      labelColor = COLORS.basics.justWhite;
+      rippleColor = COLORS.brands.twitter;
+      auxColor1 = COLORS.asphaltGray[300];
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1 };
 
   // RED THEMES - DARK
   case 'red':
-    iconColor = COLORS.asphaltGray900;
-    labelColor = COLORS.asphaltGray900;
-    rippleColor = COLORS.asphaltGray900;
-    auxColor1 = COLORS.asphaltGray300;
+    iconColor = COLORS.asphaltGray[900];
+    labelColor = COLORS.asphaltGray[900];
+    rippleColor = COLORS.asphaltGray[900];
+    auxColor1 = COLORS.asphaltGray[300];
 
     switch (elevation) {
     case 'floating':
       backgroundTheme = {
-        backgroundColor: COLORS.bubblegumRed400,
-        borderColor: COLORS.asphaltGray900,
+        backgroundColor: COLORS.bubblegumRed[400],
+        borderColor: COLORS.asphaltGray[900],
         borderWidth: normalizeValue(2),
         ...SHAPES.elevRed5,
       };
       break;
     case 'raised':
       backgroundTheme = {
-        backgroundColor: COLORS.bubblegumRed400,
-        borderColor: COLORS.bubblegumRed400,
+        backgroundColor: COLORS.bubblegumRed[400],
+        borderColor: COLORS.bubblegumRed[400],
         borderWidth: normalizeValue(2),
         ...SHAPES.elevRed2,
       };
       break;
     case 'filled':
       backgroundTheme = {
-        backgroundColor: COLORS.bubblegumRed400,
+        backgroundColor: COLORS.bubblegumRed[400],
       };
       break;
     case 'hairline':
       backgroundTheme = {
-        backgroundColor: COLORS.asphaltGray900,
+        backgroundColor: COLORS.asphaltGray[900],
         ...SHAPES.elevDarkRed0,
       };
-      iconColor = COLORS.bubblegumRed400;
-      labelColor = COLORS.justWhite;
-      rippleColor = COLORS.bubblegumRed400;
+      iconColor = COLORS.bubblegumRed[400];
+      labelColor = COLORS.basics.justWhite;
+      rippleColor = COLORS.bubblegumRed[400];
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1 };
 
   // GRAY THEMES - DARK
   case 'gray':
-    iconColor = COLORS.justWhite;
-    labelColor = COLORS.justWhite;
-    rippleColor = COLORS.justWhite;
-    auxColor1 = COLORS.justWhite;
-    auxColor2 = COLORS.asphaltGray900;
+    iconColor = COLORS.basics.justWhite;
+    labelColor = COLORS.basics.justWhite;
+    rippleColor = COLORS.basics.justWhite;
+    auxColor1 = COLORS.basics.justWhite;
+    auxColor2 = COLORS.asphaltGray[900];
 
     switch (elevation) {
     case 'floating':
       backgroundTheme = {
-        backgroundColor: COLORS.asphaltGray900,
-        borderColor: COLORS.justWhite,
+        backgroundColor: COLORS.asphaltGray[900],
+        borderColor: COLORS.basics.justWhite,
         borderWidth: normalizeValue(2),
         ...SHAPES.elevGray5,
       };
       break;
     case 'raised':
       backgroundTheme = {
-        backgroundColor: COLORS.asphaltGray900,
-        borderColor: COLORS.asphaltGray900,
+        backgroundColor: COLORS.asphaltGray[900],
+        borderColor: COLORS.asphaltGray[900],
         borderWidth: normalizeValue(2),
         ...SHAPES.elevGray2,
       };
       break;
     case 'filled':
       backgroundTheme = {
-        backgroundColor: COLORS.asphaltGray900,
+        backgroundColor: COLORS.asphaltGray[900],
       };
       break;
     case 'hairline':
       backgroundTheme = {
-        backgroundColor: COLORS.asphaltGray900,
+        backgroundColor: COLORS.asphaltGray[900],
         ...SHAPES.elevDarkGray0,
       };
-      auxColor1 = COLORS.asphaltGray300;
+      auxColor1 = COLORS.asphaltGray[300];
       break;
     }
     return  { backgroundTheme, iconColor, labelColor, rippleColor, auxColor1, auxColor2 };
 
   case 'disabled':
-    iconColor = COLORS.asphaltGray500;
-    labelColor = COLORS.asphaltGray500;
+    iconColor = COLORS.asphaltGray[500];
+    labelColor = COLORS.asphaltGray[500];
     rippleColor = 'transparent';
 
     backgroundTheme = {
-      backgroundColor: COLORS.asphaltGray800,
-      borderColor: COLORS.asphaltGray700,
+      backgroundColor: COLORS.asphaltGray[800],
+      borderColor: COLORS.asphaltGray[700],
       borderWidth: 2,
     };
     return  { backgroundTheme, iconColor, labelColor, rippleColor };
