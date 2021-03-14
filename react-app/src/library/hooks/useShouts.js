@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import _ from 'lodash';
+import functions from '@react-native-firebase/functions';
 import * as turf from '@turf/turf';
 import { useDispatch, useSelector } from 'react-redux';
 import store from 'rdx/store';
@@ -14,7 +14,6 @@ export default (userLocation) => {
   const [shouts, setShouts] = useState([]);
   const [areas, setAreas] = useState([]);
   const [prevLocation, setPrevLocation] = useState([]);
-  const subscribers = [];
   const uid = useSelector((state) => state.auth.user.uid);
 
   const dispatch = useDispatch();
@@ -44,7 +43,7 @@ export default (userLocation) => {
     return codes;
   };
 
-  const fetchShouts = () => {
+  const fetchShouts = async (subscribers) => {
     if (!userLocation) {
       return;
     }
@@ -52,10 +51,11 @@ export default (userLocation) => {
     // generate plus codes based on user's location and surrounding areas
     const plusCodes =
     [...new Set([encode(userLocation[1], userLocation[0], PLUSCODE_PRECISION), ...getSurroundingCodes()])];
+    setAreas(plusCodes);
+    await functions().httpsCallable('createAreas')(plusCodes);
 
     // select unused codes from previous state
     const oldCodes = areas.filter((area) => !plusCodes.includes(area));
-    setAreas(plusCodes);
 
     // remove shouts from unused codes
     if (shouts.length) {
@@ -70,10 +70,6 @@ export default (userLocation) => {
 
     // start listening for changes in all areas
     const areaSubscriber = areasRef.onSnapshot((areasSnapshot) => {
-      if (!areasSnapshot || areasSnapshot?.size === 0) {
-        return;
-      }
-
       // start listening for changes in each area
       areasSnapshot.forEach((doc) => {
         const shoutSubscriber = doc.ref.collection('shouts').onSnapshot((shoutsSnapshot) => {
@@ -120,7 +116,6 @@ export default (userLocation) => {
       });
     });
     subscribers.push(areaSubscriber);
-    return subscribers;
   };
 
   useEffect(() => {
@@ -135,7 +130,7 @@ export default (userLocation) => {
       }
 
       setPrevLocation(userLocation);
-      subscribers = fetchShouts();
+      fetchShouts(subscribers);
     }
 
     return () => {

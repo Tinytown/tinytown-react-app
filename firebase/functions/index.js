@@ -8,6 +8,7 @@ const checkTwitterGeo = require('./shouts/checkTwitterGeo');
 const removeExpiredShouts = require('./shouts/removeExpiredShouts');
 const storeLocation = require('./location/storeLocation');
 const cleanLocationUpdates = require('./location/cleanLocationUpdates');
+const createAreas = require('./location/createAreas');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -21,3 +22,4 @@ exports.removeExpiredShouts = functions.pubsub.schedule('every week').onRun(remo
 exports.storeLocation = functions.https.onCall(storeLocation);
 exports.cleanLocationUpdates = functions.firestore.document('users/{uid}/devices/{deviceId}/locations/{locationId}')
   .onCreate(cleanLocationUpdates);
+exports.createAreas = functions.https.onCall(createAreas);

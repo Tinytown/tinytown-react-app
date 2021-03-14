@@ -31,7 +31,6 @@ module.exports = async (uid, deviceId, coordinates) => {
     await mapRef.set({ area: areaCoords }, { merge: true });
     await mapRef.collection('devices').doc(deviceId)
       .set({ deviceId, lastLocation: coordinates, uid });
-
     return;
   } catch (error) {
     console.log(error);
