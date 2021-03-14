@@ -40,6 +40,10 @@ allprojects {
             // react-native-background-fetch
             url("${project(':react-native-background-fetch').projectDir}/libs")
         }
+        maven {
+            //  react-native-background-geolocation-firebase
+            url("${project(':react-native-background-geolocation-firebase').projectDir}/libs")
+        }
 
         google()
         jcenter()

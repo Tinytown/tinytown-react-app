@@ -136,10 +136,10 @@ export const getLocationPermission = async (authReq = 'wheninuse') => {
 export const onLocationHandler = (location, callback) => {
   const { coords, mocked } = location;
 
-  // if (mocked) {
-  //   showMockLocationDialog();
-  //   return;
-  // }
+  if (mocked) {
+    showMockLocationDialog();
+    return;
+  }
   callback(coords);
 };
 

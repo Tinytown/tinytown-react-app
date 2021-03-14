@@ -5,7 +5,6 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
 import NetInfo from '@react-native-community/netinfo';
-import BackgroundGeolocation from 'react-native-background-geolocation';
 import RNBootSplash from 'react-native-bootsplash';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,12 +36,6 @@ export default (isSignedIn) => {
         Toast.show(STRINGS.connectivity.offline, Toast.LONG);
       }
     });
-
-    // listen for background location changes
-    BackgroundGeolocation.onLocation(
-      (location) => console.log(location),
-      (error) => console.log(error)
-    );
 
     // listen for auth changes
     const unsubscribeAuth = auth().onAuthStateChanged((user) => dispatch(updateAuth(user)));

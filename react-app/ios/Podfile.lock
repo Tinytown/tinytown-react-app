@@ -714,6 +714,10 @@ PODS:
   - RNBackgroundGeolocation (3.10.0):
     - CocoaLumberjack (~> 3.6.1)
     - React-Core
+  - RNBackgroundGeolocationFirebase (0.4.0):
+    - Firebase/Core
+    - Firebase/Firestore
+    - React
   - RNBootSplash (3.1.5):
     - React-Core
   - RNCAsyncStorage (1.13.3):
@@ -863,6 +867,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
   - RNBackgroundGeolocation (from `../node_modules/react-native-background-geolocation`)
+  - RNBackgroundGeolocationFirebase (from `../node_modules/react-native-background-geolocation-firebase`)
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
@@ -1009,6 +1014,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-background-fetch"
   RNBackgroundGeolocation:
     :path: "../node_modules/react-native-background-geolocation"
+  RNBackgroundGeolocationFirebase:
+    :path: "../node_modules/react-native-background-geolocation-firebase"
   RNBootSplash:
     :path: "../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
@@ -1127,6 +1134,7 @@ SPEC CHECKSUMS:
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
   RNBackgroundFetch: 5d7af5d9fa5f0a56a301d3124e11b25edb1995c5
   RNBackgroundGeolocation: 1184aff02a730e243785482561d0b8d9649548a3
+  RNBackgroundGeolocationFirebase: 9c11cb1c714e22c9d975069f66d2e2e4bef841bf
   RNBootSplash: c7304515f0b7502878ecc0fdcce8136134419cdc
   RNCAsyncStorage: da95b83e241a7f5efe3da1a949b3ec3175380be0
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f

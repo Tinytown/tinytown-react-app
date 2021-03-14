@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Platform } from 'react-native';
 import CompassHeading from 'react-native-compass-heading';
 import BackgroundGeolocation from 'react-native-background-geolocation';
+import BackgroundGeolocationFirebase from 'react-native-background-geolocation-firebase';
 import { useSelector } from 'react-redux';
 import { Settings } from 'context';
 import {
@@ -13,6 +14,7 @@ import {
   getLocationPermission,
   backgroundConfig,
 } from 'library/apis/geolocation';
+import { getIds } from 'library/apis/auth';
 
 let watchId = null;
 
@@ -67,6 +69,10 @@ export default (callback) => {
     const hasBackGeoPermission = await getLocationPermission('always');
 
     if (hasBackGeoPermission) {
+      const { uid, deviceId } = getIds();
+      BackgroundGeolocationFirebase.configure({
+        locationsCollection: `users/${uid}/devices/${deviceId}/locations`,
+      });
       BackgroundGeolocation.ready(backgroundConfig,
         () => console.log('background service is ready'),
         (error) => {
