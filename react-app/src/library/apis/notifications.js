@@ -3,12 +3,7 @@ import { checkNotifications, requestNotifications } from 'react-native-permissio
 import { openSetting } from './linking';
 import { getStrings } from 'res';
 
-const config = {
-  alert: true,
-  sound: true,
-  provisional: true,
-  carPlay: true,
-};
+const config = ['alert', 'sound', 'provisional', 'carPlay'];
 
 const showPermissionsDialog = () => {
   const {
