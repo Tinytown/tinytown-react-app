@@ -40,12 +40,12 @@ export const backgroundConfig = {
   showsBackgroundLocationIndicator: false,
   disableLocationAuthorizationAlert: true,
   notification: {
-    channelName: STRINGS.notifications.backgroundGeo.title,
+    channelName: STRINGS.notifications.backgroundGeo.channelName,
     priority: NOTIFICATION_PRIORITY_MIN,
     smallIcon: 'drawable/ic_stat_location',
     color: COLORS.asphaltGray[800],
     title: STRINGS.notifications.backgroundGeo.title,
-    text: STRINGS.notifications.backgroundGeo.body,
+    text: '',
   },
 };
 

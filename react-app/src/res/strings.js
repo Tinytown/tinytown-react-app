@@ -94,8 +94,8 @@ export default {
   notifications: {
     newShout: 'New shout nearby',
     backgroundGeo: {
-      title: 'Background Location',
-      body: 'Updating location in the background',
+      channelName: 'Background Location',
+      title: 'Updating location in the background...',
     },
   },
 

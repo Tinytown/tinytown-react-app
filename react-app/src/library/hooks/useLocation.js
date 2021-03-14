@@ -18,7 +18,7 @@ import { getIds } from 'library/apis/auth';
 
 let watchId = null;
 
-export default (callback) => {
+export default (callback, onboarding) => {
   const [heading, setHeading] = useState(0);
   const { hasPermission: hasLocPermission } = useSelector((state) => state.location);
   const { settings: { backgroundGeo: backGeoEnabled }, updateSetting } = useContext(Settings.Context);
@@ -26,15 +26,15 @@ export default (callback) => {
 
   // foreground location service
   useEffect(() => {
-    if (appState === 'active' && hasLocPermission) {
+    if (appState === 'active' && hasLocPermission && !onboarding) {
       startWatching();
-    } else if (appState === 'inactive' && hasLocPermission) {
+    } else if (appState === 'inactive' && hasLocPermission && !onboarding) {
       stopWatching();
       // special case for background state on iOS
     } else if (appState === 'inactive' && backGeoEnabled && Platform.OS === 'ios') {
       startFromTerminate();
     }
-  }, [appState, hasLocPermission]);
+  }, [appState, hasLocPermission, onboarding]);
 
   const startWatching = async () => {
     CompassHeading.start(10, (newHeading) => {

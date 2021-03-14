@@ -34,7 +34,7 @@ const World = ({
 
   // Custom Hooks
   const cameraRef = useRef(null);
-  const [heading] = useLocation(updateUserLocation);
+  const [heading] = useLocation(updateUserLocation, onboarding);
   const [
     camera,
     onRegionIsChangingHandler,
