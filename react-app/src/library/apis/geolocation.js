@@ -3,11 +3,12 @@ import Geolocation from 'react-native-geolocation-service';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
 import { openSetting } from './linking';
-import { getStrings } from 'res';
+import { COLORS, STRINGS, getStrings } from 'res';
 
 const {
   DESIRED_ACCURACY_HIGH,
   LOG_LEVEL_VERBOSE,
+  NOTIFICATION_PRIORITY_MIN,
   getState,
   ready,
   start,
@@ -38,6 +39,14 @@ export const backgroundConfig = {
   useSignificantChangesOnly: true,
   showsBackgroundLocationIndicator: false,
   disableLocationAuthorizationAlert: true,
+  notification: {
+    channelName: STRINGS.notifications.backgroundGeo.title,
+    priority: NOTIFICATION_PRIORITY_MIN,
+    smallIcon: 'drawable/ic_stat_location',
+    color: COLORS.asphaltGray[800],
+    title: STRINGS.notifications.backgroundGeo.title,
+    text: STRINGS.notifications.backgroundGeo.body,
+  },
 };
 
 const showLocationPermissionDialog = () => {

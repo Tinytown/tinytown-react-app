@@ -93,6 +93,10 @@ export default {
 
   notifications: {
     newShout: 'New shout nearby',
+    backgroundGeo: {
+      title: 'Background Location',
+      body: 'Updating location in the background',
+    },
   },
 
   auth: {

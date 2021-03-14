@@ -156,7 +156,6 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
       if (insideShouts) {
         renderedInShouts = insideShouts.map((shout) => {
           const { id, localId, coordinates, text, local, opened, systemTag, state } = shout;
-          console.log(id, localId);
           return (
             <MarkerView
               key={id ?? localId}
