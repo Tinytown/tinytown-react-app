@@ -13,11 +13,9 @@ export const USER_VISIBLE = 'user_visible';
 export const APP_STATE = 'app_state';
 export const APP_STORAGE = 'app_storage';
 export const UPDATE_SETTING = 'update_setting';
-export const UPDATE_ONBOARDING = 'update_onboarding';
 
 // Shout
 export const SHOUTS_LOCAL = 'local_shouts';
-export const SHOUTS_LOADING = 'shouts_loading';
 export const SHOUTS_SETTING = 'shouts_setting';
 export const SHOUTS_OPENED = 'shouts_opened';
 export const SHOUTS_NOTIFICATIONS = 'shouts_notifications';

@@ -135,9 +135,11 @@ export default (userLocation) => {
 
     return () => {
       isMounted = false;
-      subscribers.forEach((unsubscribe) => {
-        unsubscribe();
-      });
+      if (subscribers.length) {
+        subscribers.forEach((unsubscribe) => {
+          unsubscribe();
+        });
+      }
     };
   }, [userLocation]);
 

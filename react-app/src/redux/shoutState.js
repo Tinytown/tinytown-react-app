@@ -1,11 +1,9 @@
 import functions from '@react-native-firebase/functions';
 import {
   SHOUTS_LOCAL,
-  SHOUTS_LOADING,
   SHOUTS_SETTING,
   SHOUTS_OPENED,
   SHOUTS_NOTIFICATIONS,
-  UPDATE_ONBOARDING,
   SIGN_OUT,
 } from './actionTypes';
 import INITIAL_STATE from './initialState';
@@ -15,16 +13,12 @@ export const shoutReducer = (state = null, action) => {
   switch (action.type) {
   case SHOUTS_LOCAL:
     return { ...state,  local: [...action.payload] };
-  case SHOUTS_LOADING:
-    return { ...state,  loading: action.payload };
   case SHOUTS_SETTING:
     return { ...state,  settings: { ...action.payload } };
   case SHOUTS_OPENED:
     return { ...state,  opened: [...action.payload]  };
   case SHOUTS_NOTIFICATIONS:
     return { ...state,  notifications: [...action.payload]  };
-  case UPDATE_ONBOARDING:
-    return { ...state,  onboarding: { ...action.payload } };
   case SIGN_OUT:
     return { ...INITIAL_STATE.shouts };
   default:

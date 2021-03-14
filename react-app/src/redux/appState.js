@@ -3,7 +3,6 @@ import {
   APP_STATE,
   APP_STORAGE,
   UPDATE_LOCATION,
-  UPDATE_ONBOARDING,
   SHOUTS_SETTING,
   SHOUTS_OPENED,
   SHOUTS_LOCAL,
@@ -27,14 +26,12 @@ export const getStateFromLS = () => async (dispatch) => {
     userLocation,
     user,
     shoutSettings,
-    shoutOnboarding,
     openedShouts,
     localShouts,
   } = await getMultiple([
     'userLocation',
     'user',
     'shoutSettings',
-    'shoutOnboarding',
     'openedShouts',
     'localShouts',
   ]);
@@ -63,11 +60,6 @@ export const getStateFromLS = () => async (dispatch) => {
 
   if (shoutSettings) {
     dispatch({ type: SHOUTS_SETTING, payload: shoutSettings });
-  }
-
-  // Shout Onboarding
-  if (shoutOnboarding) {
-    dispatch({ type: UPDATE_ONBOARDING, payload: shoutOnboarding });
   }
 
   // Opened Shouts

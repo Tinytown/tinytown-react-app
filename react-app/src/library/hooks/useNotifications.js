@@ -19,9 +19,9 @@ export default (isSignedIn) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let unsubscribeNotif = () => {};
+    let subscribers = [];
     if (notificationsEnabled && isSignedIn) {
-      initNotifications();
+      initNotifications(subscribers);
     } else if (notificationsEnabled === false && isSignedIn) {
       // remove token from firestore
       updateRegistrationToken(null);
@@ -32,16 +32,20 @@ export default (isSignedIn) => {
       openShoutFromNotification(newNotification);
     }
     return () => {
-      unsubscribeNotif();
+      if (subscribers.length) {
+        subscribers.forEach((unsubscribe) => {
+          unsubscribe();
+        });
+      }
     };
   }, [notificationsEnabled, navIsReady, newNotification]);
 
-  const initNotifications = async () => {
+  const initNotifications = async (subscribers) => {
     const hasPermission = await getNotificationsPermission();
 
     if (hasPermission) {
       // listen for notifications when app is opened
-      unsubscribeNotif = messaging().onMessage(({ data: { shout }, notification: { body } }) => {
+      const unsubscribe = messaging().onMessage(({ data: { shout }, notification: { body } }) => {
         dispatch(updateNotificationShouts('add', { ...JSON.parse(shout), text: body }));
       });
 
@@ -61,6 +65,8 @@ export default (isSignedIn) => {
       // update token in firestore
       messaging().getToken()
         .then((token) => updateRegistrationToken(token));
+
+      subscribers.push(unsubscribe);
     } else {
       updateSetting('notifications', false);
     }
