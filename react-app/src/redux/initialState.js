@@ -31,11 +31,6 @@ const INITIAL_STATE = Object.freeze({
       },
       lann: false,
     },
-    onboarding: {
-      state: 'active',
-      timestamp: null,
-      location: null,
-    },
   },
 });
 

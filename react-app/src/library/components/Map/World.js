@@ -13,17 +13,12 @@ import {
   renderNotificationShouts,
   renderFog,
 } from './renderContent';
-import {
-  renderWelcomeSign,
-  // renderShoutOnboardingMarker,
-} from './renderOnboardingContent';
+import { renderWelcomeSign } from './renderOnboardingContent';
 import { normalizeStyles } from 'res';
 
 const World = ({
   userLocation,
-  isSignedIn,
   loadingShouts,
-  onboardingShoutState,
   updateUserVisible,
   updateUserLocation,
   children,
@@ -60,8 +55,6 @@ const World = ({
   // Onboarding Content
   const welcomeSign = renderWelcomeSign(onboarding);
   const showWelcomeSign = onboarding && camera.zoom === INITIAL_ZOOM;
-  // const shoutOnboardingMarker = renderShoutOnboardingMarker(userLocation);
-  // const showShoutOnboardingMarker = userLocation && isSignedIn && onboardingShoutState !== 'expired';
 
   const onRegionDidChangeHandler = ({ properties, geometry }) => {
     // extra call for Android due to bug in onRegionIsChanging
@@ -89,7 +82,6 @@ const World = ({
         {userLocation && userMarker}
         {userLocation && fogOfWar}
         {showWelcomeSign && welcomeSign}
-        {/* {showShoutOnboardingMarker && shoutOnboardingMarker} */}
         {showShouts && shoutMarkers}
         {showShouts && notificationShoutMarkers}
         <Camera
@@ -129,9 +121,7 @@ const generateStyles = ({ COLORS }) => {
 
 const mapStateToProps = (state) => ({
   userLocation: state.location.user,
-  isSignedIn: state.auth.isSignedIn,
   loadingShouts: state.shouts.loading,
-  onboardingShoutState: state.shouts.onboarding.state,
 });
 
 export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(World);
