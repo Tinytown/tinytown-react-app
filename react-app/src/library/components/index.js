@@ -1,5 +1,5 @@
 export { BottomSheet, BottomSheetContainer } from './BottomSheet';
-export { FeatureCard, FeatureItem } from './Feature';
+export { FeatureCard, FeatureItem, PromoCard } from './Cards';
 export { World } from './Map';
 export { Menu, MenuDivider, MenuItem } from './Menu';
 export { default as ActivityOverlay } from './ActivityOverlay';

@@ -9,17 +9,27 @@ const INITIAL_STATE = Object.freeze({
   },
   location: {
     user: null,
+    cameraTarget: null,
     userVisible: null,
     hasPermission: false,
     goToUser: false,
   },
   app: {
-    active: true,
+    state: 'inactive',
     storageLoaded: false,
   },
   shouts: {
     local: [],
-    loading: true,
+    opened: [],
+    notifications: [],
+    settings: {
+      twitter: false,
+      twitterGeo: {
+        enabled: false,
+        loading: false,
+      },
+      lann: false,
+    },
   },
 });
 

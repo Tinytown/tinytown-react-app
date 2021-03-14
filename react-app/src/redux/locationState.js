@@ -1,4 +1,7 @@
-import { UPDATE_LOCATION, GO_TO_USER, USER_VISIBLE } from './actionTypes';
+import functions from '@react-native-firebase/functions';
+import DeviceInfo from 'react-native-device-info';
+import { UPDATE_LOCATION, GO_TO_USER, GO_TO_TARGET, USER_VISIBLE } from './actionTypes';
+import { storeData } from 'library/apis/storage';
 
 export const locationReducer = (state = null, action) => {
   switch (action.type) {
@@ -16,6 +19,8 @@ export const locationReducer = (state = null, action) => {
       hasPermission: action.payload.hasPermission,
       goToUser: true,
       userVisible: true };
+  case GO_TO_TARGET:
+    return { ...state, cameraTarget: action.payload };
   case USER_VISIBLE:
     return { ...state, userVisible: action.payload, goToUser: false };
   default:
@@ -23,30 +28,43 @@ export const locationReducer = (state = null, action) => {
   }
 };
 
-export const goToUser = (location) => {
+export const goToUser = ({ longitude, latitude }) => {
   const payload = {
-    user: [location.longitude, location.latitude],
+    user: [longitude, latitude],
     hasPermission: true,
   };
+  storeData('userLocation', [longitude, latitude]);
   return { type: GO_TO_USER, payload };
 };
 
+export const goToTarget = (payload) => {
+  return { type: GO_TO_TARGET, payload };
+};
+
 export const updateUserLocation = ({ longitude, latitude }) => (dispatch, getState) => {
-  const { location } = getState();
-  const user = [longitude, latitude];
-  const sameLocation = location.user.every((val, index) => val == user[index]);
+  const { location: { user: currentLocation }, auth: { isSignedIn } } = getState();
+  const coordinates = [longitude, latitude];
+  const sameLocation = currentLocation?.every((val, index) => val == coordinates[index]);
 
   if (sameLocation) {
     return;
   }
 
+  if (isSignedIn) {
+    // store location in firestore
+    const deviceId = DeviceInfo.getUniqueId();
+    functions().httpsCallable('storeLocation')({ deviceId, coordinates });
+  }
+
   const payload = {
-    user,
+    user: coordinates,
     hasPermission: true,
   };
+  storeData('userLocation', coordinates);
   dispatch({ type: UPDATE_LOCATION, payload });
 };
 
-export const updateUserVisible = (payload) => (
-  { type: USER_VISIBLE, payload }
-);
+export const updateUserVisible = (payload) => {
+  storeData('userVisible', payload);
+  return { type: USER_VISIBLE, payload };
+};

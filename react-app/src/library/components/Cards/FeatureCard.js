@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { Config } from 'context';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { COLORS, SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { SHAPES, TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles, resolveTheme, translateElevation } from 'res';
 
 const FeatureCard = ({
   title = 'Feature Title',
   body = 'Feature description',
   icon,
-  theme = 'hairline',
-  activeColor = COLORS.justWhite,
+  theme = 'lt-white-hairline',
+  activeTheme = 'lt-red-hairline',
   wrapperStyle,
   disabled = false,
   toggle = false,
@@ -20,12 +20,13 @@ const FeatureCard = ({
   children,
 }) => {
   const { STRINGS } = useContext(Config.Context);
-  const styles = generateStyles({ theme, activeColor, disabled, toggle });
   const { on, off } = STRINGS.core;
+  const styles = generateStyles({ theme, activeTheme, disabled, toggle });
+  const translatedActiveTheme = translateElevation(activeTheme, 'raised');
 
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { theme, activeColor, disabled: !toggle });
+      return React.cloneElement(child, { theme, activeTheme, disabled: !toggle });
     }
     return child;
   });
@@ -33,24 +34,23 @@ const FeatureCard = ({
   return (
     <View style={wrapperStyle}>
       <View style={styles.card} >
-        <Pressable containerStyle={styles.content} keyColor={activeColor} onPress={onPress}>
+        <Pressable containerStyle={styles.content} rippleColor={styles.rippleColor} onPress={onPress}>
           <View style={styles.icon}>
-            <Icon icon={icon} color={activeColor}/>
+            <Icon icon={icon} color={styles.iconColor}/>
           </View>
-          <View style={styles.text}>
+          <View style={styles.textContainer}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.body}>{body}</Text>
           </View>
           <View style={styles.rightSide}>
             {loading ?
-              <ActivityIndicator size='small' color={activeColor} />
+              <ActivityIndicator size='small' color={styles.iconColor} />
               :
               <Chip
                 wrapperStyle={styles.chip}
-                theme={toggle ? 'elevated' : 'hairline dark'}
+                theme={toggle ? translatedActiveTheme : theme}
                 label={toggle ? on : off}
                 toggle={toggle}
-                activeColor={activeColor}
               />
             }
           </View>
@@ -61,16 +61,17 @@ const FeatureCard = ({
   );
 };
 
-const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
+const generateStyles = ({ theme, activeTheme, disabled, toggle }) => {
   const ICON_SIZE = 24;
-  const [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const resolvedTheme = resolveTheme(theme, disabled, activeTheme, toggle);
+  const { backgroundTheme, labelColor, auxColor1 } = getThemeStyles(resolvedTheme);
+  const { iconColor, rippleColor } = getThemeStyles(activeTheme);
 
   return (
     { ...normalizeStyles({
       card: {
         borderRadius: SHAPES.radiusMd,
         ...backgroundTheme,
-        ...(toggle && { borderColor: activeColor }),
       },
       content: {
         padding: 14,
@@ -80,17 +81,17 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         height: ICON_SIZE,
         width: ICON_SIZE,
       },
-      text: {
+      textContainer: {
         marginLeft: 12,
         marginRight: 80,
       },
       title: {
-        color: keyColor,
+        color: labelColor,
         ...TYPOGRAPHY.subheader3,
       },
       body: {
         marginTop: 2,
-        color: contentColor,
+        color: auxColor1,
         ...TYPOGRAPHY.body3,
       },
       rightSide: {
@@ -98,7 +99,7 @@ const generateStyles = ({ theme, activeColor, disabled, toggle }) => {
         top: 14,
         right: 14,
       },
-    }) }
+    }), iconColor, rippleColor }
   );
 };
 
@@ -106,8 +107,15 @@ FeatureCard.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['hairline', 'hairline dark']),
-  activeColor: PropTypes.string,
+  theme: PropTypes.oneOf([
+    'lt-white-hairline',
+    'dt-gray-hairline',
+  ]),
+  activeTheme: PropTypes.oneOf([
+    'dt-twitter-hairline',
+    'dt-red-hairline',
+    'lt-cyan-hairline',
+  ]),
   disabled: PropTypes.bool,
   toggle: PropTypes.bool,
   loading: PropTypes.bool,

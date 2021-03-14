@@ -1,15 +1,9 @@
 package com.tinytown;
-import org.devio.rn.splashscreen.SplashScreen;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
+import com.zoontek.rnbootsplash.RNBootSplash;
 
 public class MainActivity extends ReactActivity {
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    SplashScreen.show(this, R.style.SplashTheme);
-    super.onCreate(savedInstanceState);
-  }
 
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
@@ -18,5 +12,11 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "tinytown";
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    RNBootSplash.init(R.drawable.bootsplash, MainActivity.this);
   }
 }

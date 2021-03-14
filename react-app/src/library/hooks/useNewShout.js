@@ -5,8 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
 import functions from '@react-native-firebase/functions';
 import { useDispatch, useSelector } from 'react-redux';
-import { createShout } from 'rdx/shoutState';
-import { storeData, getData } from 'library/apis/storage';
+import { updateLocalShouts, updateShoutsSetting } from 'rdx/shoutState';
 import sheetConfig from 'library/components/BottomSheet/config';
 import { Config } from 'context';
 import { FeatureCard, FeatureItem } from 'library/components';
@@ -61,26 +60,28 @@ export default (sheetLayout) => {
     }
 
     const shout = {
-      text: shoutString,
-      sourcePlatform: Platform.OS,
       coordinates,
+      createdAt: Date.now(),
+      localId: Math.floor(Math.random() * 1000),
       sendTo: {
         twitter,
         twitterGeo: twitterGeo.enabled,
       },
+      sourcePlatform: Platform.OS,
+      text: shoutString,
     };
 
-    dispatch(createShout(shout));
+    dispatch(updateLocalShouts('add', shout));
     onCloseHandler();
   };
 
   // Limit indicator
   useEffect(() => {
     const charsLeft = CHAR_LIMIT - shoutString.length;
-    // Set closeConfirmed if there's content in ShoutBox
+    // set closeConfirmed if there's content in ShoutBox
     shoutString.length ? setCloseConfirmed(false) : setCloseConfirmed(true);
 
-    // Change state depending on chars left
+    // change state depending on chars left
     if (charsLeft >= 0 && charsLeft <= CHAR_WARNING) {
       setDisabled(false);
       setShowChip(true);
@@ -99,17 +100,15 @@ export default (sheetLayout) => {
   // --- SETTINGS --- //
 
   const [showSettings, setShowSettings] = useState(false);
-  const [twitter, setTwitter] = useState(false);
-  const [twitterGeo, setTwitterGeo] = useState({ enabled: false, loading: false });
-  const [lann, setLann] = useState(false);
+  const { twitter, twitterGeo, lann } = useSelector((state) => state.shouts.settings);
   const [settingsChip, setSettingsChip] = useState({
     icon: 'settings',
     label: STRINGS.shouts.settingsChip.default,
-    theme: 'hairline',
+    theme: 'lt-white-hairline',
   });
   const megaphoneList = getListContent('megaphone');
 
-  // Show and hide Megaphone Settings
+  // show and hide Megaphone Settings
   useEffect(() => {
     if (showSettings) {
       Keyboard.dismiss();
@@ -123,67 +122,67 @@ export default (sheetLayout) => {
     }
   }, [showSettings, keyboardOpen]);
 
-  // Check Twitter account location settings
+  // check Twitter account location settings
   const checkTwitterGeo = async () => {
     if (!twitterGeo.enabled) {
-      setTwitterGeo({ enabled: false, loading: true });
+      dispatch(updateShoutsSetting('twitterGeo', { enabled: false, loading: true }));
       try {
         const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
         if (geoEnabled) {
-          setTwitterGeo({ enabled: true, loading: false });
+          dispatch(updateShoutsSetting('twitterGeo', { enabled: true, loading: false }));
         } else {
-          // Open dialog to help user enable geo in Twitter
+          // open dialog to help user enable geo in Twitter
           const {
             dialog: { twitterGeo: { title, body } },
             actions: { cancel },
-            navigation: { twitterSettings },
+            navigation: { goToTwitter },
           } = STRINGS;
           Alert.alert(title, body,
             [
               { text: cancel, onPress: () => {} },
-              { text: twitterSettings, onPress: () => Linking.openURL(STRINGS.links.twitterGeo) },
+              { text: goToTwitter, onPress: () => Linking.openURL(STRINGS.links.twitterGeo) },
             ],
           );
-          setTwitterGeo({ enabled: false, loading: false });
+          dispatch(updateShoutsSetting('twitterGeo', { enabled: false, loading: false }));
         }
       } catch (error) {
         console.log(error);
-        setTwitterGeo({ enabled: false, loading: false });
+        dispatch(updateShoutsSetting('twitterGeo', { enabled: false, loading: false }));
       }
     } else {
-      setTwitterGeo({ enabled: false, loading: false });
+      dispatch(updateShoutsSetting('twitterGeo', { enabled: false, loading: false }));
     }
   };
 
-  // Assign state using list item keys
+  // assign state using list item keys
   const assignState = (key, prop) => {
     switch (key) {
     case 'twitter':
-      return prop === 'toggle' ? twitter : () => setTwitter(!twitter);
+      return prop === 'toggle' ? twitter : () => dispatch(updateShoutsSetting('twitter', !twitter));
     case 'geo':
       return prop === 'toggle' ? twitterGeo.enabled : () => checkTwitterGeo();
     case 'lann':
-      return prop === 'toggle' ? lann : () => setLann(!lann);
+      return prop === 'toggle' ? lann : () => dispatch(updateShoutsSetting('lann', !lann));
     default:
       return;
     }
   };
 
-  // Close settings when user leaves view
+  // close settings when user leaves view
   useEffect(() => {
     !openSheet && setShowSettings(false);
   }, [openSheet]);
 
-  // Change settings chip content
+  // change settings chip content
   const getChipContent = () => {
     if (twitterGeo.enabled) {
-      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitterGeo, theme: 'hairline blue' };
+      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitterGeo, theme: 'lt-blue-hairline' };
     } else if (twitter) {
-      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitter, theme: 'hairline blue' };
+      return { icon: 'twitter', label: STRINGS.shouts.settingsChip.twitter, theme: 'lt-blue-hairline' };
     } else if (lann) {
-      return { icon: 'lab', label: STRINGS.shouts.settingsChip.lann, theme: 'hairline red' };
+      return { icon: 'lab', label: STRINGS.shouts.settingsChip.lann, theme: 'lt-red-hairline' };
     } else {
-      return { icon: 'settings', label: STRINGS.shouts.settingsChip.default, theme: 'hairline' };
+      return { icon: 'settings', label: STRINGS.shouts.settingsChip.default, theme: 'lt-white-hairline' };
     }
   };
 
@@ -191,15 +190,15 @@ export default (sheetLayout) => {
     setSettingsChip(() => getChipContent());
   }, [twitter, twitterGeo, lann]);
 
-  // Render settings list
-  renderedList = megaphoneList.map(({ key, title, body, icon, theme, activeColor, children }) => (
+  // render settings list
+  renderedList = megaphoneList.map(({ key, title, body, icon, theme, activeTheme, children }) => (
     <FeatureCard
       key={key}
       title={title}
       body={body}
       icon={icon}
       theme={theme}
-      activeColor={activeColor}
+      activeTheme={activeTheme}
       wrapperStyle={styles.feature}
       toggle={assignState(key, 'toggle')}
       onPress={assignState(key, 'onPress')}
@@ -240,32 +239,13 @@ export default (sheetLayout) => {
   };
 
   const onCloseHandler = async () => {
-    await storeData('megaphone', { twitter, twitterGeo, lann });
     navigation.goBack();
   };
 
-  // First run setup
+  // first run setup
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => setKeyboardOpen(true));
     Keyboard.addListener('keyboardDidHide', () => setKeyboardOpen(false));
-
-    // Retrieve megaphone settings
-    (async function () {
-      const localSettings = await getData('megaphone');
-      if (localSettings) {
-        setTwitter(localSettings.twitter);
-        setLann(localSettings.lann);
-      }
-
-      if (localSettings?.twitterGeo.enabled) {
-        const { data: geoEnabled } = await functions().httpsCallable('checkTwitterGeo')();
-        if (geoEnabled) {
-          setTwitterGeo(localSettings.twitterGeo);
-        } else {
-          setTwitterGeo({ enabled: false, loading: false });
-        }
-      }
-    })();
 
     return () => {
       Keyboard.removeAllListeners('keyboardDidShow');

@@ -1,90 +1,118 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, Platform, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
+import Animated from 'react-native-reanimated';
 import { Pressable } from 'library/components/hoc';
-import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
+import { useAnimation } from 'library/hooks';
+import { Config } from 'context';
+import { TYPOGRAPHY, SHAPES, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const Shout = React.memo(({
   label = 'Shout Label',
+  theme = 'dt-gray-raised',
+  shake = false,
   showPin = true,
   local = false,
+  opened = false,
   disabled = false,
   onPress,
 }) => {
-  const styles = generateStyles({ local });
+  const { COLORS } = useContext(Config.Context);
+  const [pressed, setPressed] = useState(false);
+  const [animation] = useAnimation('ring', !pressed && shake);
+  const styles = generateStyles({ COLORS, local, opened, theme, disabled });
+
+  const onPressHandler = () => {
+    onPress();
+    setPressed(true);
+  };
 
   return (
     <View style={styles.wrapper} pointerEvents='box-none' >
-      <Pressable
-        containerStyle={styles.container}
-        onPress={onPress}
-        keyColor={COLORS.justWhite}
-        disabled={disabled}
-      >
-        {local && <ActivityIndicator size='small' color={COLORS.grassGreen400} />}
-        <Text style={styles.label} numberOfLines={1} >{label}</Text>
-        {showPin && <View style={styles.pin}/>}
-      </Pressable>
+      <Animated.View style={animation} >
+        <Pressable
+          containerStyle={styles.container}
+          onPress={onPressHandler}
+          rippleColor={styles.rippleColor}
+          disabled={disabled}
+        >
+          {local && <ActivityIndicator size='small' color={COLORS.grassGreen[400]} />}
+          <Text style={styles.label} numberOfLines={1} >{label}</Text>
+          {showPin && <View style={styles.pin}/>}
+        </Pressable>
+      </Animated.View>
     </View>
   );
 });
 
-const generateStyles = ({ local }) => {
+const generateStyles = ({ COLORS, local, opened, theme, disabled }) => {
   const WIDTH = 200;
-  const PADDING = 8;
+  const PADDING = 16;
   const PIN_OFFSET = 14;
   const PIN_SIZE = 10;
+  const resolvedTheme = resolveTheme(theme,  disabled);
+  const  {
+    backgroundTheme,
+    labelColor,
+    rippleColor,
+    auxColor1,
+    auxColor2,
+  }  = getThemeStyles(resolvedTheme);
 
   return (
-    normalizeStyles({
+    { ...normalizeStyles({
       wrapper: {
         width: WIDTH,
         padding: PADDING,
         backgroundColor: 'transparent', // fix Android clipping bug
-
-        // Adjust marker anchor for iOS (this doesn't work reliably for Android)
+        // adjust marker anchor for iOS (this doesn't work reliably for Android)
         ...(Platform.OS === 'ios' && {
           transform: [
             { translateX: WIDTH / 2 - PADDING - PIN_OFFSET - PIN_SIZE / 2 },
-            { translateY: -16 },
+            { translateY: -24 },
           ],
         }),
       },
       container: {
         flexDirection: 'row',
+        alignItems: 'center',
         alignSelf: 'flex-start',
         maxWidth: WIDTH,
-        paddingVertical: 8,
-        paddingHorizontal: 12,
+        paddingVertical: 7,
+        paddingHorizontal: 10,
         borderRadius: SHAPES.radiusAll,
-        backgroundColor: COLORS.asphaltGray800,
-        ...SHAPES.elevGray2,
+        ...backgroundTheme,
       },
       label: {
         flexShrink: 1,
         marginLeft: local ? PADDING : 0,
-        color: COLORS.justWhite,
+        color: labelColor,
         ...TYPOGRAPHY.overline2,
       },
       pin: {
         position: 'absolute',
         width: PIN_SIZE,
         height: PIN_SIZE,
-        bottom: -5,
+        bottom: -6,
         left: PIN_OFFSET,
         borderRadius: SHAPES.radiusAll,
-        borderColor: COLORS.asphaltGray800,
+        borderColor: auxColor2,
         borderWidth: 2,
-        backgroundColor: COLORS.justWhite,
+        backgroundColor: opened ? auxColor1 : COLORS.bubblegumRed[300],
       },
-    })
+    }), rippleColor }
   );
 };
 
 Shout.propTypes = {
   label: PropTypes.string.isRequired,
+  theme: PropTypes.oneOf([
+    'lt-red-floating',
+    'dt-gray-raised',
+  ]),
   showPin: PropTypes.bool,
   local: PropTypes.bool,
+  opened: PropTypes.bool,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
 };

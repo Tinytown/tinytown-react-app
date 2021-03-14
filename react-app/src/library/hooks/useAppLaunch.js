@@ -1,68 +1,77 @@
 import { useEffect, useState, useContext } from 'react';
-import { AppState } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
+import { AppState, Platform } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import remoteConfig from '@react-native-firebase/remote-config';
 import functions from '@react-native-firebase/functions';
 import firestore from '@react-native-firebase/firestore';
-import remoteConfig from '@react-native-firebase/remote-config';
 import NetInfo from '@react-native-community/netinfo';
+import RNBootSplash from 'react-native-bootsplash';
 import Toast from 'react-native-simple-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateAppState, getStateFromLS } from 'rdx/appState';
-import { signIn, updateAuth } from 'rdx/authState';
+import { updateAuth } from 'rdx/authState';
 import { Config } from 'context';
 import { STRINGS } from 'res';
 
 export default (isSignedIn) => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const configIsReady = useContext(Config.Context);
+  const { ENV: configIsReady } = useContext(Config.Context);
+  const appState = useSelector((state) => state.app.state);
   const dispatch = useDispatch();
 
   // Initial setup / start listeners
   useEffect(() => {
-    // Use local emulator on dev
+    // use local emulator on dev
     if (__DEV__) {
       remoteConfig().setConfigSettings({
         minimumFetchIntervalMillis: 0,
       });
       functions().useFunctionsEmulator('http://localhost:5001');
-      firestore().settings({ host: 'localhost:8080', ssl: false });
+      firestore().settings({ host: 'localhost:8080', ssl: false, persistence: false });
     }
 
-    // Check internet connection
+    // check internet connection
     NetInfo.fetch().then(({ isConnected }) => {
       if (!isConnected) {
         Toast.show(STRINGS.connectivity.offline, Toast.LONG);
       }
     });
 
-    // Restore Redux from local storage
-    dispatch(getStateFromLS());
+    // listen for auth changes
+    const unsubscribeAuth = auth().onAuthStateChanged((user) => dispatch(updateAuth(user)));
 
-    // Listen for auth changes
-    const unsubscribe = auth().onAuthStateChanged((user) =>
-      (user ? dispatch(signIn(user)) : dispatch(updateAuth(false))));
-
-    // Listen for app state changes
+    // listen for app state changes
     AppState.addEventListener('change', appStateHandler);
 
     return () => {
-      unsubscribe();
+      unsubscribeAuth();
       AppState.removeEventListener('change', appStateHandler);
+      setAppIsReady(false);
     };
   }, []);
 
-  const appStateHandler = (event) => {
-    event !== 'unknown' && dispatch(updateAppState(event));
-  };
-
-  // Hide splash screen
+  // hide splash screen
   useEffect(() => {
     if (isSignedIn !== null && configIsReady) {
-      SplashScreen.hide();
       setAppIsReady(true);
+      RNBootSplash.hide({ fade: true });
     }
   }, [isSignedIn, configIsReady]);
+
+  // load from local storage
+  useEffect(() => {
+    if (appState === 'active') {
+      dispatch(getStateFromLS());
+    }
+  }, [appState]);
+
+  const appStateHandler = (event) => {
+    if (Platform.OS === 'android' && event === 'background') {
+      dispatch(updateAppState('inactive'));
+    } else if (event !== 'unknown') {
+      dispatch(updateAppState(event));
+    }
+  };
 
   return [appIsReady];
 };

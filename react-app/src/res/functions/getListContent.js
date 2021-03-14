@@ -1,10 +1,14 @@
 import { useContext } from 'react';
 import { Config } from 'context';
-import COLORS from '../colors';
 
 export default (key) => {
   const { STRINGS } = useContext(Config.Context);
-  const { shouts, social, links } = STRINGS;
+  const {
+    shouts,
+    social,
+    links,
+    features,
+  } = STRINGS;
 
   const megaphone = [
     {
@@ -12,8 +16,8 @@ export default (key) => {
       title: shouts.twitter.title,
       body: shouts.twitter.body,
       icon: 'twitter',
-      activeColor: COLORS.twitter,
-      theme: 'hairline dark',
+      theme: 'dt-gray-hairline',
+      activeTheme: 'dt-twitter-hairline',
       children: [
         {
           key: 'geo',
@@ -27,8 +31,8 @@ export default (key) => {
       title: shouts.lannMode.title,
       body: shouts.lannMode.body,
       icon: 'lab',
-      activeColor: COLORS.bubblegumRed400,
-      theme: 'hairline dark',
+      theme: 'dt-gray-hairline',
+      activeTheme: 'dt-red-hairline',
     },
   ];
 
@@ -63,11 +67,30 @@ export default (key) => {
     },
   ];
 
+  const settings = [
+    {
+      key: 'notifications',
+      title: features.notifications.title,
+      body: features.notifications.body,
+      icon: 'notifications',
+      activeTheme: 'lt-cyan-hairline',
+    },
+    {
+      key: 'backgroundGeo',
+      title: features.backgroundGeo.title,
+      body: features.backgroundGeo.body,
+      icon: 'crosshairs',
+      activeTheme: 'lt-cyan-hairline',
+    },
+  ];
+
   switch (key) {
   case 'megaphone':
     return megaphone;
   case 'about':
     return about;
+  case 'settings':
+    return settings;
   default:
     return;
   }

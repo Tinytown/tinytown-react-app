@@ -3,11 +3,13 @@
 #import <Firebase.h>
 
 #import <TwitterKit/TWTRKit.h>
+#import "RNBootSplash.h"
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import <RNSplashScreen.h>
+#import <React/RCTLinkingManager.h>
+#import <TSBackgroundFetch/TSBackgroundFetch.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -16,6 +18,7 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -52,7 +55,9 @@ if ([FIRApp defaultApp] == nil) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  [RNSplashScreen show];
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+  
+  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
   return YES;
 }
 
@@ -65,8 +70,21 @@ if ([FIRApp defaultApp] == nil) {
 #endif
 }
 
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
-  return [[Twitter sharedInstance] application:app openURL:url options:options];
+
+- (BOOL)application:(UIApplication *)application
+    openURL:(NSURL *)url
+    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  
+  // Get absolute string
+  NSString *aStrURL = url.absoluteString;
+
+  if([aStrURL containsString:@"twitterkit"]) {
+    // App opened with Twitter scheme
+    return [[Twitter sharedInstance] application:application openURL:url options:options];
+  } else {
+    // App opened with app scheme
+    return [RCTLinkingManager application:application openURL:url options:options];
+  }
 }
 
 @end

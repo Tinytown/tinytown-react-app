@@ -7,34 +7,36 @@ import React from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { navigationRef } from 'screens/RootNavigation';
 import { connect } from 'react-redux';
 import OnboardingStack from 'screens/OnboardingStack';
 import RootStack from 'screens/RootStack';
-import { useAppLaunch } from 'library/hooks';
+import { useAppLaunch, useNotifications } from 'library/hooks';
 import { COLORS } from 'res';
 
 const Stack = createStackNavigator();
 
 const App = ({ isSignedIn }) => {
   const [appIsReady] = useAppLaunch(isSignedIn);
+  const [setNavIsReady] = useNotifications(isSignedIn);
 
   return (
     appIsReady ?
-      (<NavigationContainer>
+      (<NavigationContainer ref={navigationRef} onReady={() => setNavIsReady(true)} >
         <Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: false }} >
           {isSignedIn ? (
             <>
-              <Stack.Screen name='Root Stack' component={RootStack} />
+              <Stack.Screen name='RootStack' component={RootStack} />
             </>
           ) : (
             <>
-              <Stack.Screen name='Onboarding Stack' component={OnboardingStack} />
+              <Stack.Screen name='OnboardingStack' component={OnboardingStack} />
             </>
           )}
         </Stack.Navigator>
       </NavigationContainer>)
       :
-      <View style={{ backgroundColor: COLORS.asphaltGray100, flex: 1 }}/>
+      <View style={{ backgroundColor: COLORS.asphaltGray[100], flex: 1 }}/>
   );
 };
 

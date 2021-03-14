@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import appConfig from 'root/app.json';
 
 export default {
@@ -17,8 +18,12 @@ export default {
 
   dialog: {
     location: {
-      title: 'Turn on Location',
-      body: `The ${appConfig.displayName} app is not very useful without access to your location.`,
+      title: 'Location is not enabled',
+      body: 'To use location, you must enable it in settings.',
+    },
+    backgroundGeo: {
+      title: 'Background location is not enabled',
+      body: 'To use background location, you must select "Allow all the time" in location settings and "Allow" in physical activity settings.',
     },
     mockLocation: {
       title: 'Not So Fast, Bucko',
@@ -31,11 +36,31 @@ export default {
       title: 'Enable location on Twitter',
       body: 'Before using this feature in Tinytown, it needs to be enabled on your Twitter account.',
     },
+    notifications: {
+      title: 'Push notifications',
+      body: 'If you\'d like to enable notifications, you can do so in Settings.',
+    },
+    unableSettings: 'Unable to open settings',
   },
 
   onboarding: {
     welcome: 'Welcome to',
     goToLocation: 'Go to my location',
+    shoutIntro: {
+      title: 'LOUD NOISES!',
+      body: 'This is a shout, they help you stay in the loop on what\'s happening nearby and then dissapear after a week.',
+    },
+  },
+
+  features: {
+    notifications: {
+      title: 'Push notifications',
+      body: 'Be the first to know when there\'s a new shout near your location.',
+    },
+    backgroundGeo: {
+      title: 'Use background location',
+      body: 'Use your most recent location to receive notifications when the Tinytown app is closed.',
+    },
   },
 
   secrets: {
@@ -56,11 +81,22 @@ export default {
     cancel: 'Cancel',
     tryAgain: 'Try again',
     discard: 'Discard',
+    dismiss: 'Dismiss',
+    turnOn: 'Turn on',
   },
 
   navigation: {
-    settings: 'Go to Settings',
-    twitterSettings: 'Go to Twitter',
+    goToSettings: 'Go to Settings',
+    goToTwitter: 'Go to Twitter',
+    settings: 'Settings',
+  },
+
+  notifications: {
+    newShout: 'New shout nearby',
+    backgroundGeo: {
+      channelName: 'Background Location',
+      title: 'Updating location in the background...',
+    },
   },
 
   auth: {
@@ -71,6 +107,7 @@ export default {
   shouts: {
     shoutBox: 'What\'s happening nearby?',
     header: 'Megaphone Settings',
+    expired: 'Shout has expired',
     settingsChip: {
       default: 'Megaphone Settings',
       twitter: 'Sharing on Twitter',
@@ -87,8 +124,20 @@ export default {
       location: 'Show your location on Twitter',
     },
   },
+
   connectivity: {
     offline: 'Can\'t connect to the Internet',
+    loading: 'Loading...',
+  },
+
+  time: {
+    sec: 'second',
+    secs: 'seconds',
+    min: 'minute',
+    mins: 'minutes',
+    hr: 'hour',
+    hrs: 'hours',
+    daysLeft: 'days left',
   },
 };
 

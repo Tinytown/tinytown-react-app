@@ -7,6 +7,8 @@ export { default as IMAGES } from './img';
 export { default as Icon } from './svg';
 
 // Functions
+export { default as getColors } from './functions/getColors';
 export { default as getListContent } from './functions/getListContent';
+export { default as getStrings } from './functions/getStrings';
 export { normalizeStyles, normalizeValue } from './functions/normalizeStyles';
-export { default as getThemeStyles } from './functions/getThemeStyles';
+export { getThemeStyles, resolveTheme, translateElevation } from './functions/getThemeStyles';

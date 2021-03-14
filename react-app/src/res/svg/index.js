@@ -10,6 +10,7 @@ import InfoIcon from './ic_info_circle_24dp';
 import LabIcon from './ic_lab_24dp';
 import LightbulbIcon from './ic_lightbulb_24dp';
 import MegaphoneIcon from './ic_megaphone_24dp';
+import NotificationsIcon from './ic_notifications_24dp';
 import OpenExternalIcon from './ic_open_external_24dp';
 import OverflowDroidIcon from './ic_overflow_droid_24dp';
 import OverflowiOSIcon from './ic_overflow_ios_24dp';
@@ -30,6 +31,7 @@ const IconRepo = {
   lab: LabIcon,
   lightbulb: LightbulbIcon,
   megaphone: MegaphoneIcon,
+  notifications: NotificationsIcon,
   openExternal: OpenExternalIcon,
   overflow: Platform.OS === 'android' ? OverflowDroidIcon : OverflowiOSIcon,
   settings: SettingsIcon,

@@ -1,73 +1,139 @@
-import { useContext } from 'react';
-import { Alert, Linking, Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
+import BackgroundGeolocation from 'react-native-background-geolocation';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
-import { Config } from 'context';
+import { openSetting } from './linking';
+import { COLORS, STRINGS, getStrings } from 'res';
 
-const config = {
+const {
+  DESIRED_ACCURACY_HIGH,
+  LOG_LEVEL_VERBOSE,
+  NOTIFICATION_PRIORITY_MIN,
+  getState,
+  ready,
+  start,
+  stop,
+  removeListeners,
+} = BackgroundGeolocation;
+
+const { getCurrentPosition, watchPosition, clearWatch } = Geolocation;
+
+const foregroundConfig = {
   enableHighAccuracy: true,
   timeout: 15000,
   maximumAge: 10000,
-  distanceFilter: 100,
+  distanceFilter: 50,
   interval: Platform.OS === 'android' ? 10000 : null,
   fastestInterval: Platform.OS === 'android' ? 5000 : null,
   useSignificantChanges: Platform.OS === 'ios' ? true : null,
 };
 
-const openSetting = () => {
-  Linking.openSettings().catch(() => {
-    Alert.alert('Unable to open settings');
-  });
+export const backgroundConfig = {
+  desiredAccuracy: DESIRED_ACCURACY_HIGH,
+  distanceFilter: 400,
+  debug: false,
+  logLevel: LOG_LEVEL_VERBOSE,
+  startOnBoot: true,
+  stopOnTerminate: false,
+  stopOnStationary: true,
+  useSignificantChangesOnly: true,
+  showsBackgroundLocationIndicator: false,
+  disableLocationAuthorizationAlert: true,
+  notification: {
+    channelName: STRINGS.notifications.backgroundGeo.channelName,
+    priority: NOTIFICATION_PRIORITY_MIN,
+    smallIcon: 'drawable/ic_stat_location',
+    color: COLORS.asphaltGray[800],
+    title: STRINGS.notifications.backgroundGeo.title,
+    text: '',
+  },
 };
 
-const showPermissionsDialog = () => {
-  const { STRINGS } = useContext(Config.Context);
+const showLocationPermissionDialog = () => {
   const {
     dialog: { location: { title, body } },
-    navigation: { settings },
+    navigation: { goToSettings },
     actions: { cancel },
-  } = STRINGS;
+  } = getStrings();
 
   Alert.alert(title, body,
     [
       { text: cancel, onPress: () => {} },
-      { text: settings, onPress: openSetting },
+      { text: goToSettings, onPress: openSetting },
+    ],
+  );
+};
+
+export const showBackGeoPermissionDialog = () => {
+  const {
+    dialog: { backgroundGeo: { title, body } },
+    navigation: { goToSettings },
+    actions: { cancel },
+  } = getStrings();
+
+  Alert.alert(title, body,
+    [
+      { text: cancel, onPress: () => {} },
+      { text: goToSettings, onPress: openSetting },
     ],
   );
 };
 
 const showMockLocationDialog = () => {
-  const { STRINGS } = useContext(Config.Context);
   const {
     dialog: { mockLocation: { title, body } },
     actions: { tryAgain },
-  } = STRINGS;
+  } = getStrings();
 
   Alert.alert(title, body, [{ text: tryAgain, onPress: () => {} }]);
 };
 
-export const getLocationPermission = async () => {
-  if (Platform.OS === 'android' && Platform.Version < 23) {
-    return true;
+export const getLocationPermission = async (authReq = 'wheninuse') => {
+  if (authReq === 'wheninuse') {
+    if (Platform.OS === 'android' && Platform.Version < 23) {
+      return true;
+    }
+
+    const permissionStr = Platform.OS === 'android' ?
+      PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+
+    let hasPermission = await check(permissionStr);
+    if (hasPermission === 'granted') {
+      return true;
+    }
+
+    hasPermission = await request(permissionStr);
+    if (hasPermission === 'granted' || hasPermission === 'limited') {
+      return true;
+    }
+
+    showLocationPermissionDialog();
+    return false;
+  } else if (authReq === 'always') {
+    const geoPermissionStr = Platform.OS === 'android' ?
+      PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION : PERMISSIONS.IOS.LOCATION_ALWAYS;
+
+    const motionPermissionStr = Platform.OS === 'android' ?
+      PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION : PERMISSIONS.IOS.MOTION;
+
+    let hasGeoPermission = await check(geoPermissionStr);
+    let hasMotionPermission = await check(motionPermissionStr);
+    if (hasGeoPermission === 'granted' && hasMotionPermission === 'granted') {
+      return true;
+    }
+
+    hasGeoPermission = await request(geoPermissionStr);
+    hasMotionPermission = await request(motionPermissionStr);
+    if (hasGeoPermission === 'granted' && hasMotionPermission === 'granted') {
+      return true;
+    }
+
+    showBackGeoPermissionDialog();
+    return false;
   }
-
-  const permissionStr = Platform.OS === 'android' ?
-    PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
-
-  let hasPermission = await check(permissionStr);
-  if (hasPermission === 'granted') {
-    return true;
-  }
-
-  hasPermission = await request(permissionStr);
-  if (hasPermission === 'granted' || hasPermission === 'limited') {
-    return true;
-  }
-
-  return false;
 };
 
-const onLocationHandler = (location, callback) => {
+export const onLocationHandler = (location, callback) => {
   const { coords, mocked } = location;
 
   if (mocked) {
@@ -80,16 +146,14 @@ const onLocationHandler = (location, callback) => {
 export const getLocation = async (callback) => {
   const hasPermission = await getLocationPermission();
 
-  if (!hasPermission) {
-    showPermissionsDialog();
-  } else {
-    Geolocation.getCurrentPosition(
+  if (hasPermission) {
+    getCurrentPosition(
       (location) => onLocationHandler(location, callback),
       (error) => console.log(error.code, error.message),
       {
-        enableHighAccuracy: config.enableHighAccuracy,
-        timeout: config.timeout,
-        maximumAge: config.maximumAge,
+        enableHighAccuracy: foregroundConfig.enableHighAccuracy,
+        timeout: foregroundConfig.timeout,
+        maximumAge: foregroundConfig.maximumAge,
       }
     );
   }
@@ -98,21 +162,60 @@ export const getLocation = async (callback) => {
 export const watchLocation = async (callback) => {
   const hasPermission = await getLocationPermission();
 
-  if (!hasPermission) {
-    showPermissionsDialog();
-  } else {
-    const watchId = Geolocation.watchPosition(
+  if (hasPermission) {
+    const watchId = watchPosition(
       (location) => onLocationHandler(location, callback),
       (error) => {
         console.log(error.code, error.message);
       },
-      { config },
+      { foregroundConfig },
     );
-
+    console.log('started foreground watching: ', watchId);
     return watchId;
   }
 };
 
 export const stopWatchingLocation = (watchId) => {
-  Geolocation.clearWatch(watchId);
+  console.log('stopped foreground watching: ', watchId);
+  clearWatch(watchId);
+};
+
+export const startBackgroundGeo = async () => {
+  try {
+    const hasBackGeoPermission = await getLocationPermission('always');
+    const { enabled } = await getState();
+
+    if (!enabled && hasBackGeoPermission) {
+      await start(() => console.log('started background service'));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const stopBackgroundGeo = async () => {
+  try {
+    const hasBackGeoPermission = await getLocationPermission('always');
+    const { enabled } = await getState();
+
+    if (enabled && hasBackGeoPermission) {
+      await stop(() => console.log('stopped background service'));
+      await removeListeners();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const startFromTerminate = async () => {
+  const { enabled, lastLocationAuthorizationStatus } = await getState();
+
+  if (enabled && lastLocationAuthorizationStatus === 3) {
+    try {
+      await ready(backgroundConfig, () => console.log('(terminated) background service is ready'));
+      await start(() => console.log('(terminated) started background service'));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };

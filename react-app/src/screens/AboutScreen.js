@@ -3,13 +3,13 @@ import { Text, View, Image, Linking } from 'react-native';
 import { displayName as appName, version } from 'root/app.json';
 import { Config } from 'context';
 import { BottomSheet, BottomSheetContainer, MenuItem, MenuDivider } from 'library/components';
-import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles, getListContent } from 'res';
+import { TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles, getListContent } from 'res';
 
 const NewShoutScreen = ({ navigation }) => {
-  const { STRINGS } = useContext(Config.Context);
+  const { COLORS, STRINGS } = useContext(Config.Context);
   const [openSheet, setOpenSheet] = useState(true);
   const [translateY, setTranslateY] = useState({});
-  const styles = generateStyles();
+  const styles = generateStyles({ COLORS });
   const aboutList = getListContent('about');
 
   renderedList = aboutList.map(({ key, label, primaryIcon, secondaryIcon, url }, index) => (
@@ -49,7 +49,7 @@ const NewShoutScreen = ({ navigation }) => {
   );
 };
 
-const generateStyles = () => {
+const generateStyles = ({ COLORS }) => {
   return (
     normalizeStyles({
       appDetails: {
@@ -67,17 +67,17 @@ const generateStyles = () => {
       },
       appName: {
         marginTop: 12,
-        color: COLORS.asphaltGray800,
+        color: COLORS.asphaltGray[800],
         ...TYPOGRAPHY.subheader2,
       },
       version: {
-        color: COLORS.asphaltGray300,
+        color: COLORS.asphaltGray[300],
         ...TYPOGRAPHY.overline2,
       },
       tagline: {
         marginTop: 24,
         marginBottom: 16,
-        color: COLORS.asphaltGray900,
+        color: COLORS.asphaltGray[900],
         textAlign: 'center',
         opacity: 0.4,
         ...TYPOGRAPHY.overline3,

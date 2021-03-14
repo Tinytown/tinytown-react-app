@@ -1,8 +1,8 @@
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
-export default () => {
+export default (extraRotation = 0) => {
   const RANDOM_SIDE = Math.random() < 0.5 ? -1 : 1;
-  const ANGLE = 8 * RANDOM_SIDE;
+  const ANGLE = (8 + extraRotation) * RANDOM_SIDE ;
   const rotation = useSharedValue(ANGLE);
 
   const config = {
@@ -17,8 +17,8 @@ export default () => {
 
   const animate = (state) => {
     rotation.value = state === 'in'
-      ? withSpring(-ANGLE, config)
-      : withSpring(ANGLE, config);
+      ? withSpring(-ANGLE - extraRotation, config)
+      : withSpring(ANGLE + extraRotation, config);
   };
 
   return [animation, animate];

@@ -1,12 +1,12 @@
 import React, { useEffect, useContext } from 'react';
 import { NativeModules } from 'react-native';
 import PropTypes from 'prop-types';
-import auth from '@react-native-firebase/auth';
-import functions from '@react-native-firebase/functions';
+import { connect } from 'react-redux';
+import { signIn } from 'rdx/authState';
 import { Config } from 'context';
 import FAB from './FAB';
 
-const TwitterAuth = ({ onLoading }) => {
+const TwitterAuth = ({ setAuthLoading, signIn }) => {
   const { RNTwitterSignIn } = NativeModules;
   const { ENV, STRINGS } = useContext(Config.Context);
 
@@ -19,12 +19,10 @@ const TwitterAuth = ({ onLoading }) => {
   const onLogInPress = async () => {
     try {
       const { authToken, authTokenSecret } = await RNTwitterSignIn.logIn();
-      onLoading(true);
-      const twitterCredential = auth.TwitterAuthProvider.credential(authToken, authTokenSecret);
-      await auth().signInWithCredential(twitterCredential);
-      functions().httpsCallable('storeOauthTokens')(twitterCredential);
+      setAuthLoading(true);
+      signIn(authToken, authTokenSecret);
     } catch (err) {
-      onLoading(false);
+      setAuthLoading(false);
       console.log(err);
     }
   };
@@ -32,7 +30,7 @@ const TwitterAuth = ({ onLoading }) => {
   return (
     <FAB
       label={STRINGS.auth.logIn}
-      theme='red'
+      theme='lt-red-floating'
       icon='twitter'
       onPress={onLogInPress}
     />
@@ -47,4 +45,4 @@ TwitterAuth.defaultProps = {
   onLoading: () => console.log('Pass an onLoading callback to this component'),
 };
 
-export default TwitterAuth;
+export default connect(null, { signIn })(TwitterAuth);

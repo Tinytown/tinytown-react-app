@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import _ from 'lodash';
+import functions from '@react-native-firebase/functions';
 import * as turf from '@turf/turf';
-import { useDispatch } from 'react-redux';
-import { removeShout, updateShoutsLoading } from 'rdx/shoutState';
+import { useDispatch, useSelector } from 'react-redux';
+import store from 'rdx/store';
+import { updateLocalShouts, updateNotificationShouts } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
 import { mapConfig } from 'library/components/Map';
 
@@ -14,11 +14,11 @@ export default (userLocation) => {
   const [shouts, setShouts] = useState([]);
   const [areas, setAreas] = useState([]);
   const [prevLocation, setPrevLocation] = useState([]);
-  const subscribers = [];
-  const dispatch = useDispatch();
-  const uid = auth().currentUser?.uid;
+  const uid = useSelector((state) => state.auth.user.uid);
 
-  // Get nearby plus codes
+  const dispatch = useDispatch();
+
+  // get nearby plus codes
   const getSurroundingCodes = () => {
     const userPoint = turf.point(userLocation);
 
@@ -43,12 +43,7 @@ export default (userLocation) => {
     return codes;
   };
 
-  // Update loading state
-  const debouncedLoading = useRef(_.debounce(() => {
-    dispatch(updateShoutsLoading(false));
-  }, 500, { leading: false, trailing: true }));
-
-  const fetchShouts = () => {
+  const fetchShouts = async (subscribers) => {
     if (!userLocation) {
       return;
     }
@@ -56,10 +51,11 @@ export default (userLocation) => {
     // generate plus codes based on user's location and surrounding areas
     const plusCodes =
     [...new Set([encode(userLocation[1], userLocation[0], PLUSCODE_PRECISION), ...getSurroundingCodes()])];
+    setAreas(plusCodes);
+    await functions().httpsCallable('createAreas')(plusCodes);
 
     // select unused codes from previous state
     const oldCodes = areas.filter((area) => !plusCodes.includes(area));
-    setAreas(plusCodes);
 
     // remove shouts from unused codes
     if (shouts.length) {
@@ -74,10 +70,6 @@ export default (userLocation) => {
 
     // start listening for changes in all areas
     const areaSubscriber = areasRef.onSnapshot((areasSnapshot) => {
-      if (!areasSnapshot || areasSnapshot?.size === 0) {
-        return;
-      }
-
       // start listening for changes in each area
       areasSnapshot.forEach((doc) => {
         const shoutSubscriber = doc.ref.collection('shouts').onSnapshot((shoutsSnapshot) => {
@@ -85,30 +77,38 @@ export default (userLocation) => {
             return;
           }
 
-          shoutsSnapshot.docChanges().forEach((change) => {
-            if (change.type === 'added') {
+          shoutsSnapshot.docChanges().forEach(({ type, doc }) => {
+            if (type === 'added') {
+              const remoteShout = doc.data();
+              const { shouts: { local, notifications } } = store.getState();
+
               setShouts((currentValue) => {
                 // check if shout was already added
-                const duplicate = currentValue.some((shout) => shout.id === change.doc.id);
+                const duplicate = currentValue.some((shout) => shout.id === remoteShout.id);
                 if (duplicate) {
                   return currentValue;
                 }
 
-                debouncedLoading.current();
-                return [...currentValue, change.doc.data()];
+                return [...currentValue, remoteShout];
               });
 
               // check if shout was just created and remove from redux
-              const remoteShout = change.doc.data();
-              if (remoteShout.uid === uid) {
-                dispatch(removeShout(change.doc.data()));
+              const sameLocalId = local.some((shout) => shout.localId === remoteShout.localId);
+              if (remoteShout.uid === uid && sameLocalId) {
+                dispatch(updateLocalShouts('remove', remoteShout));
+              }
+
+              // check if shout came in as notification
+              const notified = notifications.some((shout) => shout.id === remoteShout.id);
+              if (notified) {
+                dispatch(updateNotificationShouts('remove', remoteShout));
               }
             }
-            if (change.type === 'modified') {
-              console.log('Modified shout: ', change.doc.data());
+            if (type === 'modified') {
+              console.log('Modified shout: ', doc.data());
             }
-            if (change.type === 'removed') {
-              console.log('Removed shout: ', change.doc.data());
+            if (type === 'removed') {
+              console.log('Removed shout: ', doc.data());
             }
           });
         });
@@ -116,7 +116,6 @@ export default (userLocation) => {
       });
     });
     subscribers.push(areaSubscriber);
-    return subscribers;
   };
 
   useEffect(() => {
@@ -131,14 +130,16 @@ export default (userLocation) => {
       }
 
       setPrevLocation(userLocation);
-      subscribers = fetchShouts();
+      fetchShouts(subscribers);
     }
 
     return () => {
       isMounted = false;
-      subscribers.forEach((unsubscribe) => {
-        unsubscribe();
-      });
+      if (subscribers.length) {
+        subscribers.forEach((unsubscribe) => {
+          unsubscribe();
+        });
+      }
     };
   }, [userLocation]);
 

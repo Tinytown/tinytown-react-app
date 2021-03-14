@@ -1,16 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 import { mapConfig } from './Map';
+import { Config } from 'context';
 import Chip from './Chip';
 
 const Countdown = ({
+  timestamp = Date.now(),
   wrapperStyle,
-  timestamp,
+  onExpiration = () => console.log('Shout expired'),
 }) => {
   const { EXPIRATION_LENGTH, DAY_IN_MS } = mapConfig;
   const expirationTimestamp = timestamp + EXPIRATION_LENGTH;
+  const { STRINGS } = useContext(Config.Context);
   const [timeStr, setTimeStr] = useState(null);
   const navigation = useNavigation();
+
+  const {
+    shouts: { expired },
+    connectivity: { loading },
+    time: { sec, secs, min, mins, hr, hrs, daysLeft },
+  } = STRINGS;
 
   const getRemainingTime = () => {
     const hours = Math.floor(((expirationTimestamp - Date.now()) / (1000 * 60 * 60)) % 24);
@@ -18,27 +28,28 @@ const Countdown = ({
     const seconds = Math.floor(((expirationTimestamp - Date.now()) / (1000)) % 60);
 
     if (hours >= 1) {
-      setTimeStr(`${hours + 1} ${hours + 1 === 1 ? 'hour' : 'hours'}`);
+      setTimeStr(`${hours + 1} ${hours + 1 === 1 ? hr : hrs}`);
     } else if (minutes >= 1) {
-      setTimeStr(`${minutes + 1} ${minutes + 1 === 1 ? 'minute' : 'minutes'}`);
+      setTimeStr(`${minutes + 1} ${minutes + 1 === 1 ? min : mins}`);
     } else if (seconds > 0) {
-      setTimeStr(`${seconds} ${seconds === 1 ? 'second' : 'seconds'}`);
+      setTimeStr(`${seconds} ${seconds === 1 ? sec : secs}`);
     } else {
-      setTimeStr('Shout has expired');
+      setTimeStr(expired);
+      onExpiration();
       navigation.goBack();
     }
   };
 
   const getRemainingDays = () => {
     const days = Math.floor((expirationTimestamp - Date.now()) / (1000 * 60 * 60 * 24));
-    setTimeStr(`${days + 1} days left`);
+    setTimeStr(`${days + 1} ${daysLeft}`);
   };
 
   useEffect(() => {
     let intervalId;
 
     if (expirationTimestamp <= Date.now()) {
-      setTimeStr('Shout has expired');
+      setTimeStr(expired);
       navigation.goBack();
     } else if (expirationTimestamp > Date.now() + DAY_IN_MS) {
       getRemainingDays();
@@ -55,8 +66,20 @@ const Countdown = ({
   }, []);
 
   return (
-    <Chip wrapperStyle={wrapperStyle} label={timeStr ? timeStr : 'Loading...'} icon='clock' />
+    <Chip
+      wrapperStyle={wrapperStyle}
+      label={timeStr ? timeStr : loading}
+      icon='clock'
+      animationType={null}
+      ripple={false}
+    />
   );
+};
+
+Countdown.propTypes = {
+  timestamp: PropTypes.number,
+  wrapperStyle: PropTypes.object,
+  onExpiration: PropTypes.func,
 };
 
 export default Countdown;

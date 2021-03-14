@@ -36,12 +36,12 @@ const BottomSheet = ({
     setSheetLayout({ height });
   };
 
-  // Pass animated value to parent components
+  // pass animated value to parent components
   useEffect(() => {
     setTranslateY(sheetTranslateY);
   }, []);
 
-  // Close sheet / ask for confirmation
+  // close sheet / ask for confirmation
   useEffect(() => {
     if (!openSheet) {
       if (closeConfirmed) {

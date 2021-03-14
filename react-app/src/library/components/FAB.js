@@ -1,29 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import { Pressable } from 'library/components/hoc';
 import { useAnimation } from 'library/hooks';
-import { COLORS, TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { Config } from 'context';
+import { TYPOGRAPHY, SHAPES, Icon, normalizeStyles, getThemeStyles, resolveTheme } from 'res';
 
 const FAB = ({
   icon,
   label = 'Button Label',
-  theme = null,
+  theme,
   wrapperStyle,
   branded = false,
   disabled = false,
   onPress,
 }) => {
+  const { COLORS } = useContext(Config.Context);
   const [animation, animateOnPress] = useAnimation('jiggle');
-  const styles = generateStyles({ theme, branded, disabled });
+  const styles = generateStyles({ COLORS, theme, branded, disabled });
 
   return (
     <View style={wrapperStyle} pointerEvents='box-none'>
       <Pressable
         animationType='press'
         containerStyle={styles.container}
-        keyColor={styles.keyColor}
+        rippleColor={styles.rippleColor}
         disabled={disabled}
         onPress={onPress}
         onPressIn={() => animateOnPress('in')}
@@ -32,7 +34,7 @@ const FAB = ({
         <Animated.View style={[styles.card, animation]} />
         <View style={styles.button}>
           <View style={styles.icon}>
-            <Icon icon={icon} color={styles.contentColor} />
+            <Icon icon={icon} color={styles.iconColor} />
           </View>
           <Text style={styles.label}>{label}</Text>
         </View>
@@ -41,9 +43,10 @@ const FAB = ({
   );
 };
 
-const generateStyles = ({ theme, branded, disabled }) => {
+const generateStyles = ({ COLORS, theme, branded, disabled }) => {
   const ICON_SIZE = 24;
-  const  [backgroundTheme, keyColor, contentColor]  = getThemeStyles(disabled ? 'disabled' : theme);
+  const resolvedTheme = resolveTheme(theme,  disabled);
+  const  { backgroundTheme, iconColor, labelColor, rippleColor }  = getThemeStyles(resolvedTheme);
 
   return (
     { ...normalizeStyles({
@@ -66,7 +69,7 @@ const generateStyles = ({ theme, branded, disabled }) => {
         marginRight: 12,
       },
       label: {
-        color: contentColor,
+        color: labelColor,
         ...TYPOGRAPHY.subheader3,
         ...(branded && TYPOGRAPHY.brandedButton),
       },
@@ -75,17 +78,17 @@ const generateStyles = ({ theme, branded, disabled }) => {
         height: '100%',
         width: '80%',
         borderRadius: SHAPES.radiusMd,
-        backgroundColor: COLORS.asphaltGray800,
+        backgroundColor: COLORS.asphaltGray[800],
         ...(disabled && { opacity: 0 }),
       },
-    }), keyColor, contentColor }
+    }), iconColor, rippleColor }
   );
 };
 
 FAB.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['cyan', 'blue', 'red']),
+  theme: PropTypes.oneOf(['lt-red-floating']),
   wrapperStyle: PropTypes.object,
   branded: PropTypes.bool,
   disabled: PropTypes.bool,

@@ -1,46 +1,3 @@
-/*
-JSON SOURCE
-
-{
-  "auth": {
-    "isSignedIn": null,
-    "user": {
-      "photoURL": "url",
-      "displayName": "name",
-      "uid": "id"
-    }
-  },
-  "location": {
-    "user": null,
-    "userVisible": null
-    "hasPermission": false,
-    "goToUser": false,
-  },
-  "app": {
-    "active": true,
-    "storageLoaded": false
-  },
-  "shouts": {
-    local: [],
-    loading: true,
-  }
-}
-
-REMOVED FIELDS
-Schema Title
-Extra descriptions
-
-ADDED DETAILS
-schemaDesc: "JSON Schema for Redux state validator."
-authDesc: "Schema for user's authentication state."
-locationDesc: "Schema for user's location state."
-appDesc: "Schema for general app state."
-photoURL: ["https://pbs.twimg.com/profile_images/1278735735588139009/4-DSoEkh_normal.jpg"]
-displayName: ["Tinytown_Dev"]
-uid: ["2LgMdnS879UYXTEvjDjufu4e37b2"]
-userLocation: [-93.26392, 44.98459]
-*/
-
 export default {
   $id: 'http://example.com/example.json',
   $schema: 'http://json-schema.org/draft-07/schema',
@@ -58,17 +15,27 @@ export default {
       },
       location: {
         user: null,
+        cameraTarget: null,
+        userVisible: null,
         hasPermission: false,
         goToUser: false,
-        userVisible: true,
       },
       app: {
-        active: true,
+        state: 'inactive',
         storageLoaded: false,
       },
       shouts: {
         local: [],
-        loading: true,
+        opened: [],
+        notifications: [],
+        settings: {
+          twitter: false,
+          twitterGeo: {
+            enabled: false,
+            loading: false,
+          },
+          lann: false,
+        },
       },
     },
   ],
@@ -120,21 +87,21 @@ export default {
               examples: [
                 'https://pbs.twimg.com/profile_images/1278735735588139009/4-DSoEkh_normal.jpg',
               ],
-              title: 'The photoURL schema',
+              title: 'The user/photoURL schema',
               type: 'string',
             },
             displayName: {
               $id: '#/properties/auth/properties/user/properties/displayName',
               default: '',
               examples: ['Tinytown_Dev'],
-              title: 'The displayName schema',
+              title: 'The user/displayName schema',
               type: 'string',
             },
             uid: {
               $id: '#/properties/auth/properties/user/properties/uid',
               default: '',
               examples: ['2LgMdnS879UYXTEvjDjufu4e37b2'],
-              title: 'The uid schema',
+              title: 'The user/uid schema',
               type: 'string',
             },
           },
@@ -150,13 +117,15 @@ export default {
       examples: [
         {
           user: null,
-          hasPermission: false,
+          cameraTarget: null,
+          hasPermission: null,
           goToUser: false,
           userVisible: true,
         },
       ],
       required: [
         'user',
+        'cameraTarget',
         'hasPermission',
         'goToUser',
         'userVisible',
@@ -167,8 +136,15 @@ export default {
         user: {
           $id: '#/properties/location/properties/user',
           default: null,
-          examples: [-93.26392, 44.98459],
+          examples: [null, [-93.26392, 44.98459]],
           title: 'The user schema',
+          type: ['null', 'array'],
+        },
+        cameraTarget: {
+          $id: '#/properties/location/properties/cameraTarget',
+          default: null,
+          examples: [-93.26392, 44.98459],
+          title: 'The cameraTarget schema',
           type: ['null', 'array'],
         },
         hasPermission: {
@@ -201,20 +177,20 @@ export default {
       description: 'Schema for general app state.',
       examples: [
         {
-          active: true,
+          state: true,
           storageLoaded: false,
         },
       ],
-      required: ['active', 'storageLoaded'],
+      required: ['state', 'storageLoaded'],
       title: 'The app schema',
       type: 'object',
       properties: {
-        active: {
-          $id: '#/properties/app/properties/active',
-          type: 'boolean',
-          title: 'The active schema',
-          default: false,
-          examples: [true],
+        state: {
+          $id: '#/properties/app/properties/state',
+          type: ['null', 'string'],
+          title: 'The app state schema',
+          default: 'inactive',
+          examples: ['active', 'inactive', 'background'],
         },
         storageLoaded: {
           $id: '#/properties/app/properties/storageLoaded',
@@ -229,14 +205,23 @@ export default {
     shouts: {
       $id: '#/properties/shouts',
       default: {},
-      description: 'Schema for local shouts created/edited by the user.',
+      description: 'Schema for shouts settings and data.',
       examples: [
         {
           local: [],
-          loading: true,
+          opened: [],
+          notifications: [],
+          settings: {
+            twitter: false,
+            twitterGeo: {
+              enabled: false,
+              loading: false,
+            },
+            lann: false,
+          },
         },
       ],
-      required: ['local', 'loading'],
+      required: ['local', 'opened', 'notifications', 'settings'],
       title: 'The shouts schema',
       type: 'object',
       properties: {
@@ -247,12 +232,83 @@ export default {
           default: false,
           examples: [{ id: 123, text: 'LOUD NOISES!' }],
         },
-        loading: {
-          $id: '#/properties/shouts/properties/loading',
-          type: 'boolean',
-          title: 'The loading schema',
-          default: true,
-          examples: [true],
+        opened: {
+          $id: '#/properties/shouts/properties/opened',
+          type: 'array',
+          title: 'The opened schema',
+          default: [],
+          examples: [{ id: 123 }],
+        },
+        notifications: {
+          $id: '#/properties/shouts/properties/notifications',
+          type: 'array',
+          title: 'The shouts/notifications schema',
+          default: [],
+          examples: [{ id: 123 }],
+        },
+        settings: {
+          $id: '#/properties/shouts/properties/settings',
+          default: {},
+          examples: [
+            {
+              twitter: false,
+              twitterGeo: {
+                enabled: false,
+                loading: false,
+              },
+              lann: false,
+            },
+          ],
+          required: ['twitter', 'twitterGeo', 'lann'],
+          title: 'The shouts/settings schema',
+          type: 'object',
+          properties: {
+            twitter: {
+              $id: '#/properties/shouts/properties/settings/properties/twitter',
+              default: false,
+              examples: [true, false],
+              title: 'The shouts/twitter schema',
+              type: 'boolean',
+            },
+            twitterGeo: {
+              $id: '#/properties/shouts/properties/settings/properties/twitterGeo',
+              default: {},
+              examples: [
+                {
+                  enabled: false,
+                  loading: false,
+                },
+              ],
+              required: ['enabled', 'loading'],
+              title: 'The shouts/twitterGeo schema',
+              type: 'object',
+              properties: {
+                enabled: {
+                  $id: '#/properties/shouts/properties/settings/properties/twitterGeo/properties/enabled',
+                  default: false,
+                  examples: [true, false],
+                  title: 'The twitterGeo/enabled schema',
+                  type: 'boolean',
+                },
+                loading: {
+                  $id: '#/properties/shouts/properties/settings/properties/twitterGeo/properties/loading',
+                  default: false,
+                  examples: [true, false],
+                  title: 'The twitterGeo/loading schema',
+                  type: 'boolean',
+                },
+              },
+              additionalProperties: true,
+            },
+            lann: {
+              $id: '#/properties/shouts/properties/settings/properties/lann',
+              default: false,
+              examples: [true, false],
+              title: 'The shouts/lann schema',
+              type: 'boolean',
+            },
+          },
+          additionalProperties: true,
         },
       },
       additionalProperties: true,

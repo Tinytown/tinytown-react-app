@@ -10,7 +10,6 @@
 		00E356F31AD99517003FC87E /* tinytownTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* tinytownTests.m */; };
 		11FCA13729EF488E8D992286 /* NunitoSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC4891F675A34860881207DF /* NunitoSans-Black.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		21694E4E8437405F7B7189F0 /* libPods-tinytown-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B01073228E87950CF51C296C /* libPods-tinytown-tvOSTests.a */; };
@@ -22,6 +21,7 @@
 		4F5FAA3FCA592B14B3B9FF4D /* libPods-tinytown.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 17C23285254AD2B5EB549BA8 /* libPods-tinytown.a */; };
 		8EE5323D929F40D78DBD1383 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23D525D145AD47ED9C92B871 /* Nunito-Regular.ttf */; };
 		9A461E98031B499C9846BF05 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34254B226DC246C398BC3077 /* Nunito-BlackItalic.ttf */; };
+		A6B3815C25F5B67C00F4707C /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6B3815B25F5B67C00F4707C /* BootSplash.storyboard */; };
 		B13CEEAB24DF4C2B00AB907D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */; };
 		B13CEEAC24DF4C2B00AB907D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */; };
 		B13CEEAD24DF4C2B00AB907D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */; };
@@ -56,7 +56,6 @@
 		13B07F961A680F5B00A75B9A /* tinytown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tinytown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = tinytown/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = tinytown/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = tinytown/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tinytown/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = tinytown/main.m; sourceTree = "<group>"; };
@@ -73,6 +72,8 @@
 		86265D7D45DC36238A27DAB6 /* Pods-tinytown.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown.debug.xcconfig"; path = "Target Support Files/Pods-tinytown/Pods-tinytown.debug.xcconfig"; sourceTree = "<group>"; };
 		98E1C6861E1D4E0692645157 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../src/res/fonts/Nunito/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		9CB2F28928165B6F718A307A /* Pods-tinytown-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-tinytown-tvOSTests/Pods-tinytown-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		A65171EE25EB0C06008C5F87 /* tinytown.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = tinytown.entitlements; path = tinytown/tinytown.entitlements; sourceTree = "<group>"; };
+		A6B3815B25F5B67C00F4707C /* BootSplash.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BootSplash.storyboard; sourceTree = "<group>"; };
 		B01073228E87950CF51C296C /* libPods-tinytown-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tinytown-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "tinytown/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA62BC8147477E920BCDAC31 /* Pods-tinytown-tinytownTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tinytown-tinytownTests.release.xcconfig"; path = "Target Support Files/Pods-tinytown-tinytownTests/Pods-tinytown-tinytownTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -138,14 +139,15 @@
 		13B07FAE1A68108700A75B9A /* tinytown */ = {
 			isa = PBXGroup;
 			children = (
+				A65171EE25EB0C06008C5F87 /* tinytown.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				B13CEEAA24DF4C2B00AB907D /* GoogleService-Info.plist */,
+				A6B3815B25F5B67C00F4707C /* BootSplash.storyboard */,
 			);
 			name = tinytown;
 			sourceTree = "<group>";
@@ -372,12 +374,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				B13CEEAB24DF4C2B00AB907D /* GoogleService-Info.plist in Resources */,
 				9A461E98031B499C9846BF05 /* Nunito-BlackItalic.ttf in Resources */,
 				FEA9BFA122CA45109D7FE383 /* Nunito-Bold.ttf in Resources */,
 				8EE5323D929F40D78DBD1383 /* Nunito-Regular.ttf in Resources */,
 				11FCA13729EF488E8D992286 /* NunitoSans-Black.ttf in Resources */,
+				A6B3815C25F5B67C00F4707C /* BootSplash.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,18 +715,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = tinytown;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -775,7 +765,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CODE_SIGN_ENTITLEMENTS = tinytown/tinytown.entitlements;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = X6VXZXZKQX;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -783,7 +774,7 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = tinytown/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -804,10 +795,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CODE_SIGN_ENTITLEMENTS = tinytown/tinytown.entitlements;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = X6VXZXZKQX;
 				INFOPLIST_FILE = tinytown/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

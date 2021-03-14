@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import Modal from '../Modal';
 import { useAnimation } from 'library/hooks';
-import { COLORS, SHAPES, normalizeStyles } from 'res';
+import { Config } from 'context';
+import { SHAPES, normalizeStyles } from 'res';
 
 const Menu = ({
   showMenu = false,
@@ -11,6 +12,8 @@ const Menu = ({
   triggerLayout = {},
   children,
 }) => {
+  const { COLORS } = useContext(Config.Context);
+  const styles = generateStyles({ COLORS });
   const [animation, animateMenu, setTriggerLayout, setMenuLayout, containerAnimation] = useAnimation('menu');
 
   useEffect(() => {
@@ -19,19 +22,20 @@ const Menu = ({
 
   useEffect(() => {
     if (triggerLayout) {
-      const { width, height, x, y } = triggerLayout.nativeEvent.layout;
-      setTriggerLayout({ width, height, x, y });
+      const { layout } = triggerLayout.nativeEvent;
+      setTriggerLayout(layout);
     }
   }, [triggerLayout]);
 
-  const onLayoutHandler = (menuLayout) => {
-    const { width, height } = menuLayout.nativeEvent.layout;
+  const onLayoutHandler = (event) => {
+    event.persist();
+    const { width, height } = event.nativeEvent.layout;
     setMenuLayout({ width, height });
   };
 
   return (
     <Modal visible={showMenu} setVisible={setShowMenu} >
-      <Animated.View style={animation} >
+      <Animated.View style={animation}>
         <Animated.View onLayout={onLayoutHandler} style={[styles.container, containerAnimation]}>
           {children}
         </Animated.View>
@@ -40,15 +44,16 @@ const Menu = ({
   );
 };
 
-const styles = normalizeStyles({
-  container: {
-    position: 'absolute',
-    backgroundColor: COLORS.justWhite,
-    paddingVertical: 8,
-    borderRadius: SHAPES.radiusMd,
-    ...SHAPES.elevGray2,
-  },
-});
+const generateStyles = ({ COLORS }) => {
+  return normalizeStyles({
+    container: {
+      position: 'absolute',
+      backgroundColor: COLORS.basics.justWhite,
+      paddingVertical: 8,
+      borderRadius: SHAPES.radiusMd,
+      ...SHAPES.elevGray2,
+    },
+  }); };
 
 Menu.propTypes = {
   showMenu: PropTypes.bool,

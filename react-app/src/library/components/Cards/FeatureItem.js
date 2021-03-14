@@ -4,20 +4,21 @@ import PropTypes from 'prop-types';
 import { Config } from 'context';
 import Pressable from '../hoc/Pressable';
 import Chip from '../Chip';
-import { TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles } from 'res';
+import { TYPOGRAPHY, Icon, normalizeStyles, getThemeStyles, resolveTheme, translateElevation } from 'res';
 
 const FeatureItem = ({
-  title,
+  title = 'Feature title',
   icon,
-  theme,
-  activeColor,
+  theme = 'lt-white-hairline',
+  activeTheme = 'lt-red-hairline',
   disabled = false,
   toggle = false,
   loading = false,
   onPress = () => console.log('Pass an onPress callback to this component'),
 }) => {
   const { STRINGS } = useContext(Config.Context);
-  const styles = generateStyles({ theme, disabled });
+  const styles = generateStyles({ theme, activeTheme, disabled });
+  const translatedActiveTheme = translateElevation(activeTheme, 'raised');
   const { on, off } = STRINGS.core;
 
   return (
@@ -25,24 +26,23 @@ const FeatureItem = ({
       <View style={styles.divider}/>
       <Pressable
         containerStyle={styles.content}
-        keyColor={activeColor}
+        rippleColor={styles.rippleColor}
         onPress={onPress}
         disabled={disabled}
       >
         <View style={styles.icon}>
-          <Icon icon={icon} color={activeColor}/>
+          <Icon icon={icon} color={styles.iconColor}/>
         </View>
         <Text style={styles.title}>{title}</Text>
         <View style={styles.rightSide}>
           {loading ?
-            <ActivityIndicator size='small' color={activeColor} />
+            <ActivityIndicator size='small' color={styles.iconColor} />
             :
             <Chip
               wrapperStyle={styles.chip}
-              theme={toggle ? 'elevated' : 'hairline dark'}
+              theme={toggle ? translatedActiveTheme : theme}
               label={toggle ? on : off}
               toggle={toggle}
-              activeColor={activeColor}
             />
           }
         </View>
@@ -51,12 +51,14 @@ const FeatureItem = ({
   );
 };
 
-const generateStyles = ({ theme, disabled }) => {
+const generateStyles = ({ theme, activeTheme, disabled }) => {
   const ICON_SIZE = 24;
-  const [backgroundTheme, keyColor]  = getThemeStyles(theme);
+  const resolvedTheme = resolveTheme(theme,  disabled);
+  const { backgroundTheme, labelColor } = getThemeStyles(resolvedTheme);
+  const { iconColor, rippleColor } = getThemeStyles(activeTheme);
 
   return (
-    normalizeStyles({
+    { ...normalizeStyles({
       divider: {
         height: 2,
         backgroundColor: backgroundTheme.borderColor,
@@ -74,22 +76,28 @@ const generateStyles = ({ theme, disabled }) => {
       },
       title: {
         marginLeft: 12,
-        color: keyColor,
+        color: labelColor,
         ...TYPOGRAPHY.subheader4,
       },
       rightSide: {
         position: 'absolute',
         right: 14,
       },
-    })
+    }), iconColor, rippleColor }
   );
 };
 
 FeatureItem.propTypes = {
   title: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['hairline dark', 'elevated']),
-  activeColor: PropTypes.string,
+  theme: PropTypes.oneOf([
+    'lt-white-hairline',
+    'dt-gray-hairline',
+  ]),
+  activeTheme: PropTypes.oneOf([
+    'dt-twitter-hairline',
+    'dt-red-hairline',
+  ]),
   disabled: PropTypes.bool,
   toggle: PropTypes.bool,
   loading: PropTypes.bool,

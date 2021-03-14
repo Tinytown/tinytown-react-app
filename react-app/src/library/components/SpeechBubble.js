@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import { COLORS, TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
+import { Config } from 'context';
+import { TYPOGRAPHY, SHAPES, normalizeStyles } from 'res';
 
 const SpeechBubble = ({
   content = 'Speech Bubble',
@@ -9,7 +10,8 @@ const SpeechBubble = ({
   wrapperStyle,
   flip = false,
 }) => {
-  const styles = generateStyles({ flip, elevation });
+  const { COLORS } = useContext(Config.Context);
+  const styles = generateStyles({ COLORS, flip, elevation });
 
   return (
     <View style={wrapperStyle}>
@@ -20,12 +22,12 @@ const SpeechBubble = ({
   );
 };
 
-const generateStyles = ({ flip, elevation }) => (
+const generateStyles = ({ COLORS, flip, elevation }) => (
   normalizeStyles({
     container: {
       paddingVertical: 8,
       paddingHorizontal: 12,
-      backgroundColor: COLORS.justWhite,
+      backgroundColor: COLORS.basics.justWhite,
       borderTopLeftRadius: SHAPES.radiusLg,
       borderTopRightRadius: SHAPES.radiusLg,
       borderBottomRightRadius: flip ? SHAPES.radiusSm : SHAPES.radiusLg,
@@ -33,7 +35,7 @@ const generateStyles = ({ flip, elevation }) => (
       ...elevation,
     },
     content: {
-      color: COLORS.asphaltGray800,
+      color: COLORS.asphaltGray[800],
       ...TYPOGRAPHY.subheader3,
     },
   })

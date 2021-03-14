@@ -1,37 +1,38 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateOpenedShouts, updateLocalShouts, updateSystemShout } from 'rdx/shoutState';
 import * as turf from '@turf/turf';
 import mapConfig from './config';
-import { Config } from 'context';
 import Shout from './Shout';
-import { COLORS, TYPOGRAPHY, SHAPES, IMAGES, normalizeStyles } from 'res';
+import { IMAGES } from 'res';
 
-const { SymbolLayer, MarkerView, ShapeSource, FillLayer } = MapboxGL;
+const { SymbolLayer, MarkerView, ShapeSource, FillLayer, UserLocation } = MapboxGL;
 const {
   SIGHT_RADIUS,
   ZOOM_STEP_1,
   ZOOM_STEP_2,
-  RAFT_COORD,
-  WELCOME_COORD,
   EXPIRATION_LENGTH,
-  DAY_IN_MS,
+  MIN_IN_MS,
 } = mapConfig;
 
-export const renderUser = (userLocation, heading) => {
-  if (!userLocation) {
+// adjust marker anchor for Android (this doesn't work reliably for iOS)
+const anchor = {
+  x: 0.18,
+  y: 0.76,
+};
+
+export const renderUser = (location, heading) => {
+  if (!location) {
     return;
   }
 
-  user = turf.point(userLocation);
+  user = turf.point(location);
 
   return (
-    <ShapeSource
-      id='userLocation'
-      shape={user}
-    >
+    <UserLocation>
       <SymbolLayer
         id={'userMarkerImg'}
         style={{
@@ -44,7 +45,7 @@ export const renderUser = (userLocation, heading) => {
         }}
         minZoomLevel={1}
       />
-    </ShapeSource>
+    </UserLocation>
   );
 };
 
@@ -74,70 +75,17 @@ export const renderFog = (userLocation, zoom) => {
   );
 };
 
-export const renderWelcomeSign = () => {
-  const { STRINGS } = useContext(Config.Context);
-  const styles = normalizeStyles({
-    welcomeSign: {
-      position: 'absolute',
-      alignItems: 'center',
-      paddingVertical: 16,
-      paddingHorizontal: 20,
-      backgroundColor: COLORS.justWhite,
-      borderTopLeftRadius: SHAPES.radiusLg,
-      borderTopRightRadius: SHAPES.radiusLg,
-      borderBottomRightRadius: SHAPES.radiusSm,
-      borderBottomLeftRadius: SHAPES.radiusLg,
-      ...SHAPES.elevGray2,
-    },
-    title: {
-      color: COLORS.asphaltGray800,
-      ...TYPOGRAPHY.display3,
-    },
-    subtitle: {
-      marginTop: 4,
-      marginBottom: 8,
-      color: COLORS.asphaltGray300,
-      ...TYPOGRAPHY.brandedButton,
-    },
-  });
-
-  raftShape = turf.point(RAFT_COORD);
-
-  return (
-    <View>
-      <MarkerView
-        id='welcomeSign'
-        coordinate={WELCOME_COORD}
-      >
-        <View style={styles.welcomeSign} >
-          <Text style={styles.subtitle} >{STRINGS.onboarding.welcome}</Text>
-          <Text style={styles.title}>Tinytown</Text>
-        </View>
-      </MarkerView>
-      <ShapeSource
-        id="onboardingRaft"
-        shape={raftShape}
-      >
-        <SymbolLayer
-          id='onboardingRaftImg'
-          style={{
-            iconImage: IMAGES.oobRaft,
-            iconSize: 0.4,
-          }}
-        />
-      </ShapeSource>
-    </View>
-  );
-};
-
 export const renderShouts = (remoteShouts, userLocation, zoom) => {
   const [renderedShouts, setRenderedShouts] = useState(null);
   const [insideShouts, setInsideShouts] = useState(null);
   const [outsideShouts, setOutsideShouts] = useState(null);
   const [shoutExpired, setShoutExpired] = useState(false);
   const localShouts = useSelector((state) => state.shouts.local);
+  const openedShouts = useSelector((state) => state.shouts.opened);
+  const uid = useSelector((state) => state.auth.user.uid);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!userLocation) {
@@ -156,10 +104,19 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
       // check if shout hasn't expired
       const isNotExpired = shout.createdAt > Date.now() - EXPIRATION_LENGTH;
 
+      // check if shout has been opened
+      if (openedShouts.includes(shout.id) || shout.uid === uid) {
+        shout.opened = true;
+      }
+
       if (isWithinBounds && isNotExpired) {
         return true;
-      } else if (!isWithinBounds) {
+      } else if (!isWithinBounds && isNotExpired) {
         filteredOutShouts.push(shout);
+      } else if (!isNotExpired && openedShouts.includes(shout.id)) {
+        dispatch(updateOpenedShouts('remove', shout.id));
+      } else if (!isNotExpired && (shout.local || shout.system)) {
+        dispatch(updateLocalShouts('remove', shout));
       }
     });
 
@@ -167,7 +124,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
     const timestamps = filteredInShouts.map(({ createdAt }) => createdAt);
     const timeToExpiration = Math.min(...timestamps) - Date.now() + EXPIRATION_LENGTH;
 
-    if (timeToExpiration <= DAY_IN_MS) {
+    if (timeToExpiration <= MIN_IN_MS) {
       setShoutExpired(false);
       setTimeout(() => {
         setShoutExpired(true);
@@ -176,33 +133,43 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
     setInsideShouts(filteredInShouts);
     setOutsideShouts(filteredOutShouts);
-  }, [localShouts, remoteShouts, userLocation, shoutExpired]);
+  }, [localShouts, remoteShouts, userLocation, shoutExpired, openedShouts]);
+
+  const onPressHandler = (shout) => {
+    switch (shout.id) {
+    case 'shoutOnboarding':
+      navigation.navigate('ShoutOnboarding', { shout });
+      if (shout.state === 'active') {
+        dispatch(updateSystemShout('shoutOnboarding', 'state', 'visible'));
+      }
+      break;
+    default:
+      navigation.navigate('OpenShout', { shout });
+    }
+  };
 
   useEffect(() => {
-    // Adjust marker anchor for Android (this doesn't work reliably for iOS)
-    const anchor = {
-      x: 0.13,
-      y: 0.9,
-    };
-
     if (zoom > ZOOM_STEP_1) {
       let renderedInShouts = [];
       let renderedOutShouts = [];
 
       if (insideShouts) {
         renderedInShouts = insideShouts.map((shout) => {
-          const { id, localId, coordinates, text, local } = shout;
+          const { id, localId, coordinates, text, local, opened, system, state } = shout;
           return (
             <MarkerView
-              key={id && localId}
-              id={id && localId.toString()}
+              key={id ?? localId}
+              id={id ?? localId.toString()}
               coordinate={coordinates}
               anchor={Platform.OS === 'android' ? anchor : null}
             >
               <Shout
                 label={text}
                 local={local}
-                onPress={() => navigation.navigate('Open Shout', { shout })}
+                theme={system && 'lt-red-floating'}
+                shake={state === 'active'}
+                opened={opened}
+                onPress={() => onPressHandler(shout)}
               />
             </MarkerView>
           );
@@ -213,8 +180,8 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
         renderedOutShouts = outsideShouts.map(({ id, localId, coordinates }) => {
           return (
             <MarkerView
-              key={id && localId}
-              id={id && localId.toString()}
+              key={id ?? localId}
+              id={id ?? localId.toString()}
               coordinate={coordinates}
               anchor={Platform.OS === 'android' ? anchor : null}
             >
@@ -230,24 +197,88 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
       setRenderedShouts([...renderedInShouts, ...renderedOutShouts]);
     } else if (zoom > ZOOM_STEP_2 && zoom <= ZOOM_STEP_1) {
-      // Calculate avg center coordinates for bundle
-      const avgCoords = insideShouts.reduce((sum, { coordinates }) => (
-        [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
-        .map((coord) => coord / insideShouts.length);
+      if (insideShouts) {
+        // calculate avg center coordinates for bundle
+        const avgCoords = insideShouts.reduce((sum, { coordinates }) => (
+          [sum[0] + coordinates[0], sum[1] + coordinates[1]]), [0, 0])
+          .map((coord) => coord / insideShouts.length);
 
-      setRenderedShouts(
-        <MarkerView
-          id='bundle'
-          coordinate={avgCoords}
-          anchor={Platform.OS === 'android' ? anchor : null}
-        >
-          <Shout label={insideShouts.length.toString()} showPin={false} />
-        </MarkerView>
-      );
+        setRenderedShouts(
+          <MarkerView
+            id='bundle'
+            coordinate={avgCoords}
+            anchor={Platform.OS === 'android' ? anchor : null}
+          >
+            <Shout label={insideShouts.length.toString()} showPin={false} />
+          </MarkerView>
+        );
+      }
     } else {
       setRenderedShouts(null);
     }
-  }, [insideShouts, zoom]);
+  }, [insideShouts, outsideShouts, zoom]);
 
   return renderedShouts;
 };
+
+export const renderNotificationShouts = (remoteShouts, zoom, onboarding) => {
+  const [renderedShouts, setRenderedShouts] = useState(null);
+  const [filteredShouts, setFilteredShouts] = useState(null);
+  const notificationShouts = useSelector((state) => state.shouts.notifications);
+  const openedShouts = useSelector((state) => state.shouts.opened);
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (onboarding) {
+      return;
+    }
+
+    const filtered = notificationShouts.filter((shout) => {
+      // check if shout is already fetched
+      if (remoteShouts.some((remoteShout) => remoteShout.id === shout.id)) {
+        return false;
+      }
+
+      // check if shout has been opened
+      if (openedShouts.includes(shout.id)) {
+        shout.opened = true;
+      }
+
+      return true;
+    });
+
+    setFilteredShouts(filtered);
+  }, [notificationShouts, openedShouts, onboarding]);
+
+  useEffect(() => {
+    if (zoom > ZOOM_STEP_1) {
+      let rendered = [];
+
+      if (renderedShouts) {
+        rendered = filteredShouts.map((shout) => {
+          const { id, coordinates, text, opened } = shout;
+          return (
+            <MarkerView
+              key={id}
+              id={id}
+              coordinate={coordinates}
+              anchor={Platform.OS === 'android' ? anchor : null}
+            >
+              <Shout
+                label={text}
+                opened={opened}
+                onPress={() => navigation.navigate('OpenShout', { shout })}
+              />
+            </MarkerView>
+          );
+        });
+      }
+
+      setRenderedShouts(rendered);
+    }
+  }, [filteredShouts, zoom]);
+
+  return renderedShouts;
+};
+

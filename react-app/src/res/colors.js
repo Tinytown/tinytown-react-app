@@ -1,53 +1,65 @@
 export default {
-  // GRAY
-  asphaltGray900: '#1F262E',
-  asphaltGray800: '#2D3443',
-  asphaltGray700: '#3E4A5B',
-  asphaltGray600: '#566376',
-  asphaltGray500: '#6F7E90',
-  asphaltGray400: '#8997A9',
-  asphaltGray300: '#A2B1C3',
-  asphaltGray200: '#BFCBD9',
-  asphaltGray100: '#D5E0EC',
-  asphaltGray50: '#F3F6FC',
+  asphaltGray: {
+    900: '#1F262E',
+    800: '#2D3443',
+    700: '#3E4A5B',
+    600: '#566376',
+    500: '#6F7E90',
+    400: '#8997A9',
+    300: '#A2B1C3',
+    200: '#BFCBD9',
+    100: '#D5E0EC',
+    50: '#F3F6FC',
+  },
 
-  // BLUE
-  skyBlue400: '#3891FF',
-  skyBlue300: '#70B0FF',
-  skyBlue100: '#CCE3FF',
-  skyBlue50: '#F0F7FF',
+  skyBlue: {
+    400: '#3891FF',
+    300: '#70B0FF',
+    100: '#CCE3FF',
+    50: '#F0F7FF',
+  },
 
-  // CYAN
-  poolCyan400: '#3DF5C4',
-  poolCyan100: '#CFFCF0',
-  poolCyan50: '#F0FFFB',
+  poolCyan: {
+    600: '#00CC96',
+    400: '#3DF5C4',
+    100: '#CFFCF0',
+    50: '#F0FFFB',
+  },
 
-  // GREEN
-  grassGreen400: '#71D071',
+  grassGreen: {
+    400: '#71D071',
+  },
 
-  // LIME
-  funLime400: '#E0FF14',
-  funLime100: '#F8FFCC',
+  funLime: {
+    400: '#E0FF14',
+    100: '#F8FFCC',
+  },
 
-  // ORANGE
-  trafficOrange400: '#FA8F42',
-  trafficOrange100: '#FFE1CC',
+  trafficOrange: {
+    400: '#FA8F42',
+    100: '#FFE1CC',
+  },
 
-  // RED
-  bubblegumRed600: '#CC001F',
-  bubblegumRed400: '#FF4763',
-  bubblegumRed100: '#FFCCD4',
-  bubblegumRed50: '#FFF0F2',
+  bubblegumRed: {
+    600: '#CC001F',
+    400: '#FF4763',
+    300: '#FF7086',
+    100: '#FFCCD4',
+    50: '#FFF0F2',
+  },
 
-  // PURPLE
-  flowerPurple400: '#993DF5',
-  flowerPurple100: '#E6CCFF',
+  flowerPurple: {
+    400: '#993DF5',
+    100: '#E6CCFF',
+  },
 
-  // BASIC
-  pureBlack: '#000000',
-  justWhite: '#FFFFFF',
+  basics: {
+    pureBlack: '#000000',
+    justWhite: '#FFFFFF',
+  },
 
-  // BRANDS
-  twitter: '#1DA1F2',
+  brands: {
+    twitter: '#1DA1F2',
+  },
 };
 

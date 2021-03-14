@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import sheetConfig from './config';
-import { COLORS, SHAPES, normalizeStyles } from 'res';
+import { Config } from 'context';
+import { SHAPES, normalizeStyles } from 'res';
 
 const BottomSheetContainer = ({
   style,
@@ -11,8 +12,9 @@ const BottomSheetContainer = ({
   onLayout = () => {},
   children,
 }) => {
+  const { COLORS } = useContext(Config.Context);
   const { ANIMATION_OFFSET } = sheetConfig;
-  const styles = generateStyles({ ANIMATION_OFFSET });
+  const styles = generateStyles({ COLORS, ANIMATION_OFFSET });
 
   return (
     <Animated.View style={[styles.container, style, animation]} onLayout={onLayout} >
@@ -21,7 +23,7 @@ const BottomSheetContainer = ({
   );
 };
 
-const generateStyles = ({ ANIMATION_OFFSET }) => {
+const generateStyles = ({ COLORS, ANIMATION_OFFSET }) => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -32,7 +34,7 @@ const generateStyles = ({ ANIMATION_OFFSET }) => {
         paddingBottom: insets.bottom + ANIMATION_OFFSET,
         borderTopLeftRadius: SHAPES.radiusMd,
         borderTopRightRadius: SHAPES.radiusMd,
-        backgroundColor: COLORS.justWhite,
+        backgroundColor: COLORS.basics.justWhite,
       },
     })
   ); };

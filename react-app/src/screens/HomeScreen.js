@@ -8,16 +8,16 @@ import { normalizeStyles } from 'res';
 const HomeScreen = ({ storageLoaded, navigation }) => {
   const { STRINGS } = useContext(Config.Context);
   return (
-    <World>
+    <World onboarding={false} >
       {storageLoaded &&
       <View style={styles.container} pointerEvents='box-none'>
         <HomeBar />
         <FAB
           label={STRINGS.actions.shout}
-          theme='red'
+          theme='lt-red-floating'
           icon='megaphone'
           branded
-          onPress={() => navigation.navigate('New Shout')}
+          onPress={() => navigation.navigate('NewShout')}
           wrapperStyle={styles.fab}
         />
       </View>

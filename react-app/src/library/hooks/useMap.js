@@ -1,4 +1,5 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer, useState, useRef } from 'react';
+import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { mapConfig } from 'library/components/Map';
 import { storeMultiple, getMultiple } from 'library/apis/storage';
@@ -6,12 +7,14 @@ import { storeMultiple, getMultiple } from 'library/apis/storage';
 export default (cameraRef, updateUserVisible) => {
   const [mapRendered, setMapRendered] = useState(false);
   const [dataRetrieved, setDataRetrieved] = useState(false);
-  const userLocation = useSelector((state) => state.location.user);
-  const goToUser = useSelector((state) => state.location.goToUser);
-  const userVisible = useSelector((state) => state.location.userVisible);
-  const appActive = useSelector((state) => state.app.active);
+  const {
+    user: userLocation,
+    goToUser,
+    cameraTarget,
+    userVisible,
+  } = useSelector((state) => state.location);
 
-  const { INITIAL_ZOOM, DEFAULT_ZOOM, DEFAULT_COORDS } = mapConfig;
+  const { INITIAL_ZOOM, DEFAULT_ZOOM, TIGHT_ZOOM, DEFAULT_COORDS } = mapConfig;
 
   // Map Camera
   const cameraReducer = (state, action) => {
@@ -36,6 +39,13 @@ export default (cameraRef, updateUserVisible) => {
     movedByUser: false,
   });
 
+  const debouncedStoreCamera = useRef(_.debounce((center, zoom) => {
+    storeMultiple([
+      ['cameraCenter', center],
+      ['cameraZoom', zoom],
+    ]);
+  }, 1000, { leading: false, trailing: true }));
+
   const setCamera = ({ center, bounds, zoom, movedByUser }) => {
     center && dispatch({ type: 'update_center', payload: center });
     bounds && dispatch({ type: 'update_bounds', payload: bounds });
@@ -43,7 +53,7 @@ export default (cameraRef, updateUserVisible) => {
     movedByUser !== null && dispatch({ type: 'update_moved', payload: movedByUser });
   };
 
-  // Move camera to user location
+  // move camera to user location
   useEffect(() => {
     if (goToUser) {
       cameraRef?.setCamera({
@@ -59,7 +69,23 @@ export default (cameraRef, updateUserVisible) => {
     }
   }, [goToUser]);
 
-  // Check if user is off screen
+  // move camera to target location
+  useEffect(() => {
+    if (cameraTarget) {
+      cameraRef?.setCamera({
+        centerCoordinate: cameraTarget,
+        zoomLevel: TIGHT_ZOOM,
+        animationDuration: 1000,
+        heading: 0,
+      });
+      setCamera({
+        center: cameraTarget,
+        zoom: TIGHT_ZOOM,
+        movedByUser: false });
+    }
+  }, [cameraTarget]);
+
+  // check if user is off screen
   const checkOnScreen = (bounds) => {
     if (userLocation) {
       const onScreen = (
@@ -71,35 +97,34 @@ export default (cameraRef, updateUserVisible) => {
     }
   };
 
-  // Handle camera change
-  const regionChangeHandler = async ({ properties, geometry }) => {
+  // handle camera change
+  const regionChangeHandler = async ({
+    properties: { visibleBounds, zoomLevel, isUserInteraction },
+    geometry: { coordinates },
+  }) => {
     setCamera({
-      center: geometry.coordinates,
-      bounds: properties.visibleBounds,
-      zoom: properties.zoomLevel,
+      center: coordinates,
+      bounds: visibleBounds,
+      zoom: zoomLevel,
       movedByUser: true,
     });
-    if (properties.isUserInteraction) {
-      checkOnScreen(properties.visibleBounds);
+    debouncedStoreCamera.current(coordinates, zoomLevel);
+    if (isUserInteraction) {
+      checkOnScreen(visibleBounds);
     }
   };
 
-  // Handle user location change and first launch
-  useEffect(() => {
-    if (!userLocation && dataRetrieved && userVisible === null) {
-      // First launch
-      updateUserVisible(false);
-    } else if (userLocation && camera.bounds && !goToUser) {
-      // User moves
-      checkOnScreen(camera.bounds);
-    }
-  }, [userLocation, dataRetrieved]);
-
-  // Load / store map state
-  const shouldStore = (!appActive && userLocation);
-
+  // handle user location change, first launch, and storage retrieval
   useEffect(() => {
     let isMounted = true;
+
+    if (!userLocation && dataRetrieved && userVisible === null) {
+      // first launch
+      updateUserVisible(false);
+    } else if (userLocation && camera.bounds && !goToUser) {
+      // user moves
+      checkOnScreen(camera.bounds);
+    }
 
     if (!dataRetrieved) {
       getMultiple(['cameraCenter', 'cameraZoom', 'userVisible']).then((data) => {
@@ -115,18 +140,8 @@ export default (cameraRef, updateUserVisible) => {
       });
     }
 
-    if (shouldStore) {
-      const data = [
-        ['userLocation', userLocation],
-        ['cameraCenter', camera.center],
-        ['cameraZoom', camera.zoom],
-        ['userVisible', userVisible],
-      ];
-      storeMultiple(data);
-    }
-
     return () => { isMounted = false; };
-  }, [shouldStore]);
+  }, [userLocation, dataRetrieved]);
 
   return [camera, regionChangeHandler, mapRendered, setMapRendered];
 };
