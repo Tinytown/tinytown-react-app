@@ -22,7 +22,7 @@ export default (callback, onboarding) => {
   const [heading, setHeading] = useState(0);
   const { hasPermission: hasLocPermission } = useSelector((state) => state.location);
   const { settings: { backgroundGeo: backGeoEnabled }, updateSetting } = useContext(Settings.Context);
-  const { auth: { isSignedIn }, app: { state: appState } } = useSelector((state) => state);
+  const { app: { state: appState } } = useSelector((state) => state);
 
   // foreground location service
   useEffect(() => {
@@ -43,7 +43,7 @@ export default (callback, onboarding) => {
     watchId = await watchLocation(callback);
 
     // stop background tracking
-    if (backGeoEnabled && isSignedIn) {
+    if (backGeoEnabled && !onboarding) {
       stopBackgroundGeo();
     }
   };
@@ -53,7 +53,7 @@ export default (callback, onboarding) => {
     stopWatchingLocation(watchId);
 
     // start background tracking
-    if (backGeoEnabled && isSignedIn) {
+    if (backGeoEnabled && !onboarding) {
       startBackgroundGeo();
     }
   };

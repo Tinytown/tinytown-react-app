@@ -22,7 +22,7 @@ const foregroundConfig = {
   enableHighAccuracy: true,
   timeout: 15000,
   maximumAge: 10000,
-  distanceFilter: 10,
+  distanceFilter: 50,
   interval: Platform.OS === 'android' ? 10000 : null,
   fastestInterval: Platform.OS === 'android' ? 5000 : null,
   useSignificantChanges: Platform.OS === 'ios' ? true : null,
@@ -31,7 +31,7 @@ const foregroundConfig = {
 export const backgroundConfig = {
   desiredAccuracy: DESIRED_ACCURACY_HIGH,
   distanceFilter: 400,
-  debug: true,
+  debug: false,
   logLevel: LOG_LEVEL_VERBOSE,
   startOnBoot: true,
   stopOnTerminate: false,

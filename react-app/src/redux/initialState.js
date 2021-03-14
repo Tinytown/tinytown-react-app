@@ -22,7 +22,6 @@ const INITIAL_STATE = Object.freeze({
     local: [],
     opened: [],
     notifications: [],
-    loading: true,
     settings: {
       twitter: false,
       twitterGeo: {

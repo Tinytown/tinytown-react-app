@@ -105,7 +105,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
       const isNotExpired = shout.createdAt > Date.now() - EXPIRATION_LENGTH;
 
       // check if shout has been opened
-      if (openedShouts.includes(shout.id)) {
+      if (openedShouts.includes(shout.id) || shout.uid === uid) {
         shout.opened = true;
       }
 
@@ -115,7 +115,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
         filteredOutShouts.push(shout);
       } else if (!isNotExpired && openedShouts.includes(shout.id)) {
         dispatch(updateOpenedShouts('remove', shout.id));
-      } else if (!isNotExpired && (shout.local || shout.systemTag)) {
+      } else if (!isNotExpired && (shout.local || shout.system)) {
         dispatch(updateLocalShouts('remove', shout));
       }
     });
@@ -136,7 +136,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
   }, [localShouts, remoteShouts, userLocation, shoutExpired, openedShouts]);
 
   const onPressHandler = (shout) => {
-    switch (shout.systemTag) {
+    switch (shout.id) {
     case 'shoutOnboarding':
       navigation.navigate('ShoutOnboarding', { shout });
       if (shout.state === 'active') {
@@ -155,7 +155,7 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
 
       if (insideShouts) {
         renderedInShouts = insideShouts.map((shout) => {
-          const { id, localId, coordinates, text, local, opened, systemTag, state } = shout;
+          const { id, localId, coordinates, text, local, opened, system, state } = shout;
           return (
             <MarkerView
               key={id ?? localId}
@@ -166,9 +166,9 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
               <Shout
                 label={text}
                 local={local}
-                theme={systemTag && 'lt-red-floating'}
+                theme={system && 'lt-red-floating'}
                 shake={state === 'active'}
-                opened={shout.uid === uid || opened || local}
+                opened={opened}
                 onPress={() => onPressHandler(shout)}
               />
             </MarkerView>
@@ -180,8 +180,8 @@ export const renderShouts = (remoteShouts, userLocation, zoom) => {
         renderedOutShouts = outsideShouts.map(({ id, localId, coordinates }) => {
           return (
             <MarkerView
-              key={id && localId}
-              id={id && localId.toString()}
+              key={id ?? localId}
+              id={id ?? localId.toString()}
               coordinate={coordinates}
               anchor={Platform.OS === 'android' ? anchor : null}
             >

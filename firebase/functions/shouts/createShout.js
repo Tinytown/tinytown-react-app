@@ -5,8 +5,7 @@ const sendNotification = require('../notifications/sendNotification');
 const { PLUSCODE_PRECISION } = require('../location/config');
 
 module.exports = async (data, context) => {
-  const createdAt = Date.now();
-  const { text, sourcePlatform, coordinates, localId, sendTo } = data;
+  const { createdAt, text, sourcePlatform, coordinates, localId, sendTo } = data;
   const { auth: { uid } } = context;
   const db = admin.firestore();
 

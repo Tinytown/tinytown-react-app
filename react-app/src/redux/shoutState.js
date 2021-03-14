@@ -35,12 +35,17 @@ export const shoutReducer = (state = null, action) => {
 export const updateLocalShouts = (action, shout) => async (dispatch, getState) => {
   const { shouts: { local } } = getState();
   if (action === 'add') {
-    // send to firestore
-    shout.localId = Math.floor(Math.random() * 1000);
-    functions().httpsCallable('createShout')(shout);
+    if (__DEV__) {
+      // simulate real-world delay
+      setTimeout(() => {
+        functions().httpsCallable('createShout')(shout);
+      }, 2000);
+    } else {
+      // send to firestore
+      functions().httpsCallable('createShout')(shout);
+    }
 
-    shout.local = true;
-    local.push(shout);
+    local.push({ ...shout, local: true, opened: true });
   } else if (action === 'remove') {
     objIndex = local.findIndex(({ localId }) => localId === shout.localId);
     local.splice(objIndex, 1);
@@ -49,10 +54,6 @@ export const updateLocalShouts = (action, shout) => async (dispatch, getState) =
   }
   storeData('localShouts', local);
   dispatch({ type: SHOUTS_LOCAL, payload: local });
-};
-
-export const updateShoutsLoading = (payload) => {
-  return { type: SHOUTS_LOADING, payload };
 };
 
 export const updateShoutsSetting = (key, value) => async (dispatch, getState) => {
@@ -85,9 +86,9 @@ export const updateNotificationShouts = (action, shout) => async (dispatch, getS
   dispatch({ type: SHOUTS_NOTIFICATIONS, payload: notifications });
 };
 
-export const updateSystemShout = (tag, key, value) => async (dispatch, getState) => {
+export const updateSystemShout = (targetId, key, value) => async (dispatch, getState) => {
   const { shouts: { local } } = getState();
-  objIndex = local.findIndex(({ systemTag }) => systemTag === tag);
+  objIndex = local.findIndex(({ id }) => id === targetId);
   local[objIndex][key] = value;
   storeData('localShouts', local);
   dispatch({ type: SHOUTS_LOCAL, payload: local });

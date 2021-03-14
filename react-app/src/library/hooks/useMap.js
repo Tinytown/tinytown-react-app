@@ -143,9 +143,5 @@ export default (cameraRef, updateUserVisible) => {
     return () => { isMounted = false; };
   }, [userLocation, dataRetrieved]);
 
-  useEffect(() => {
-
-  }, [camera]);
-
   return [camera, regionChangeHandler, mapRendered, setMapRendered];
 };

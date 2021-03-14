@@ -7,10 +7,11 @@ export const getOnboardingShout = (userLocation) => {
   return {
     coordinates: [userLocation[0] - 0.005, userLocation[1] + 0.005],
     createdAt: Date.now(),
+    id: 'shoutOnboarding',
     localId: 1000,
     text: STRINGS.onboarding.shoutIntro.title,
     sourcePlatform: Platform.OS,
-    systemTag: 'shoutOnboarding',
+    system: true,
     state: 'active',
   };
 };

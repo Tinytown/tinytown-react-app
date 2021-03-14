@@ -60,14 +60,15 @@ export default (sheetLayout) => {
     }
 
     const shout = {
-      createdAt: Date.now(),
-      text: shoutString,
-      sourcePlatform: Platform.OS,
       coordinates,
+      createdAt: Date.now(),
+      localId: Math.floor(Math.random() * 1000),
       sendTo: {
         twitter,
         twitterGeo: twitterGeo.enabled,
       },
+      sourcePlatform: Platform.OS,
+      text: shoutString,
     };
 
     dispatch(updateLocalShouts('add', shout));

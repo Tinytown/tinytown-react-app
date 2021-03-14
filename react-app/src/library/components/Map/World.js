@@ -18,7 +18,6 @@ import { normalizeStyles } from 'res';
 
 const World = ({
   userLocation,
-  loadingShouts,
   updateUserVisible,
   updateUserLocation,
   children,
@@ -50,7 +49,7 @@ const World = ({
   const fogOfWar = renderFog(userLocation, camera.zoom);
   const shoutMarkers = renderShouts(shouts, userLocation, camera.zoom);
   const notificationShoutMarkers = renderNotificationShouts(shouts, camera.zoom);
-  const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true) && !loadingShouts;
+  const showShouts = userLocation && (Platform.OS === 'android' ? !hideMarkers : true);
 
   // Onboarding Content
   const welcomeSign = renderWelcomeSign(onboarding);
@@ -121,7 +120,6 @@ const generateStyles = ({ COLORS }) => {
 
 const mapStateToProps = (state) => ({
   userLocation: state.location.user,
-  loadingShouts: state.shouts.loading,
 });
 
 export default connect(mapStateToProps, { updateUserVisible, updateUserLocation })(World);

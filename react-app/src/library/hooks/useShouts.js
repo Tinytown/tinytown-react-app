@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import _ from 'lodash';
 import * as turf from '@turf/turf';
 import { useDispatch, useSelector } from 'react-redux';
 import store from 'rdx/store';
-import { updateLocalShouts, updateNotificationShouts, updateShoutsLoading } from 'rdx/shoutState';
+import { updateLocalShouts, updateNotificationShouts } from 'rdx/shoutState';
 import { encode } from 'library/apis/openlocationcode';
 import { mapConfig } from 'library/components/Map';
 
@@ -43,11 +43,6 @@ export default (userLocation) => {
 
     return codes;
   };
-
-  // update loading state
-  const debouncedLoading = useRef(_.debounce(() => {
-    dispatch(updateShoutsLoading(false));
-  }, 500, { leading: false, trailing: true }));
 
   const fetchShouts = () => {
     if (!userLocation) {
@@ -98,7 +93,6 @@ export default (userLocation) => {
                   return currentValue;
                 }
 
-                debouncedLoading.current();
                 return [...currentValue, remoteShout];
               });
 

@@ -28,7 +28,6 @@ export default {
         local: [],
         opened: [],
         notifications: [],
-        loading: true,
         settings: {
           twitter: false,
           twitterGeo: {
@@ -212,7 +211,6 @@ export default {
           local: [],
           opened: [],
           notifications: [],
-          loading: true,
           settings: {
             twitter: false,
             twitterGeo: {
@@ -223,7 +221,7 @@ export default {
           },
         },
       ],
-      required: ['local', 'opened', 'notifications', 'loading', 'settings'],
+      required: ['local', 'opened', 'notifications', 'settings'],
       title: 'The shouts schema',
       type: 'object',
       properties: {
@@ -247,13 +245,6 @@ export default {
           title: 'The shouts/notifications schema',
           default: [],
           examples: [{ id: 123 }],
-        },
-        loading: {
-          $id: '#/properties/shouts/properties/loading',
-          type: 'boolean',
-          title: 'The loading schema',
-          default: true,
-          examples: [true],
         },
         settings: {
           $id: '#/properties/shouts/properties/settings',

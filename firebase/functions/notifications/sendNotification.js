@@ -58,6 +58,11 @@ module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
 
   try {
     const areasSnapshot = await areasRef.get();
+
+    if (!areasSnapshot || areasSnapshot.size === 0) {
+      return;
+    }
+
     areasSnapshot.docs.forEach(async ({ id }) => {
       const devicesSnapshot = await mapRef.doc(id).collection('devices')
         .get();
