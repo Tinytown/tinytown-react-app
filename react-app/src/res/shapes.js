@@ -12,6 +12,28 @@ const elev5 = {
   elevation: 12,
 };
 
+const elev4 = {
+  shadowOffset: {
+    width: 0,
+    height: 4,
+  },
+  shadowOpacity: 0.4,
+  shadowRadius: 5.46,
+
+  elevation: 9,
+};
+
+const elev3 = {
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.35,
+  shadowRadius: 4.65,
+
+  elevation: 7,
+};
+
 const elev2 = {
   shadowOffset: {
     width: 0,
@@ -21,6 +43,17 @@ const elev2 = {
   shadowRadius: 3.84,
 
   elevation: 5,
+};
+
+const elev1 = {
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.3,
+  shadowRadius: 2.22,
+
+  elevation: 3,
 };
 
 export default {
@@ -37,14 +70,7 @@ export default {
 
   elevGray1: {
     shadowColor: COLORS.asphaltGray[800],
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 2.22,
-
-    elevation: 3,
+    ...elev1,
   },
 
   elevGray2: {
@@ -54,25 +80,12 @@ export default {
 
   elevGray3: {
     shadowColor: COLORS.asphaltGray[800],
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.35,
-    shadowRadius: 4.65,
-
-    elevation: 7,
+    ...elev3,
   },
 
   elevGray4: {
     shadowColor: COLORS.asphaltGray[800],
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 5.46,
-    elevation: 9,
+    ...elev4,
   },
 
   elevGray5: {
@@ -94,6 +107,16 @@ export default {
   elevRed2: {
     shadowColor: COLORS.bubblegumRed[400],
     ...elev2,
+  },
+
+  elevRed3: {
+    shadowColor: COLORS.bubblegumRed[400],
+    ...elev3,
+  },
+
+  elevRed4: {
+    shadowColor: COLORS.bubblegumRed[400],
+    ...elev4,
   },
 
   elevRed5: {
