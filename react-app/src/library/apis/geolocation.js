@@ -3,7 +3,7 @@ import Geolocation from 'react-native-geolocation-service';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
 import { openSetting } from './linking';
-import { COLORS, STRINGS, getStrings } from 'res';
+import { STRINGS, getStrings } from 'res';
 
 const {
   DESIRED_ACCURACY_HIGH,
@@ -135,10 +135,10 @@ export const getLocationPermission = async (authReq = 'wheninuse') => {
 export const onLocationHandler = (location, callback) => {
   const { coords, mocked } = location;
 
-  // if (mocked) {
-  //   showMockLocationDialog();
-  //   return;
-  // }
+  if (mocked) {
+    showMockLocationDialog();
+    return;
+  }
   callback(coords);
 };
 
