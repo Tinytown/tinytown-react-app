@@ -4,6 +4,15 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '10.0'
 
 target 'tinytown' do
+
+  config = use_native_modules!
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # to enable hermes on iOS, change `false` to `true` and then install pods
+    :hermes_enabled => false
+  )
+
   # Pods for tinytown
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
@@ -26,23 +35,13 @@ target 'tinytown' do
     # Pods for testing
   end
 
-  use_native_modules!
-
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable these next few lines.
-  use_flipper!({ 'Flipper-Folly' => '2.3.0' })
+  # you should disable the next line.
+  use_flipper!()
+
   post_install do |installer|
-    flipper_post_install(installer)
-  end
-end
-
-target 'tinytown-tvOS' do
-  # Pods for tinytown-tvOS
-
-  target 'tinytown-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
+    react_native_post_install(installer)
   end
 end
