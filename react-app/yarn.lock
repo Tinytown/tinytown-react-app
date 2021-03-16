@@ -1693,7 +1693,7 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-11.1.0.tgz#28b260563fe2521fd8d016f7f1740db351c762d6"
   integrity sha512-ChBPVqmGQxalYhC4FDqd5nDwNyI8OpofBmFsm22IaQMJYXdv6n4JRok+qZx4fOKMDZb2YJo8dy031a3IYngVpQ==
 
-"@react-native-mapbox-gl/maps@^8.1.0-rc.1":
+"@react-native-mapbox-gl/maps@^8.1.0":
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/@react-native-mapbox-gl/maps/-/maps-8.1.0.tgz#671bc3cebcde763948ac9681a920d393f500ef0e"
   integrity sha512-0UqiAbs7Ex4k1JodSR7nuXSmzjHUabX0xtskJz+PbsfW/JRMd5VV3yP7G8oNlRMVqknf/cp4NW2OHZ7d9E8htg==
@@ -4295,9 +4295,9 @@ dayjs@^1.8.15, dayjs@^1.8.29:
   integrity sha512-/2fdLN987N8Ki7Id8BUN2nhuiRyxTLumQnSQf9CNncFCyqFsSKb9TNhzRYcC8K8eJSJOKvbvkImo/MKKhNi4iw==
 
 debounce@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
-  integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.1.tgz#38881d8f4166a5c5848020c11827b834bcb3e0a5"
+  integrity sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"

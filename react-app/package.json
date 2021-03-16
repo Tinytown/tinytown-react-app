@@ -23,7 +23,7 @@
     "@react-native-firebase/functions": "^11.1.0",
     "@react-native-firebase/messaging": "^11.1.0",
     "@react-native-firebase/remote-config": "^11.1.0",
-    "@react-native-mapbox-gl/maps": "^8.1.0-rc.1",
+    "@react-native-mapbox-gl/maps": "^8.1.0",
     "@react-navigation/native": "^5.7.4",
     "@react-navigation/stack": "^5.9.1",
     "@turf/turf": "^6.3.0",
