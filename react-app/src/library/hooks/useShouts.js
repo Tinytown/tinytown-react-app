@@ -13,7 +13,6 @@ export default (userLocation) => {
 
   const [shouts, setShouts] = useState([]);
   const [areas, setAreas] = useState([]);
-  const [prevLocation, setPrevLocation] = useState([]);
   const uid = useSelector((state) => state.auth.user.uid);
 
   const dispatch = useDispatch();
@@ -44,10 +43,6 @@ export default (userLocation) => {
   };
 
   const fetchShouts = async (subscribers) => {
-    if (!userLocation) {
-      return;
-    }
-
     // generate plus codes based on user's location and surrounding areas
     const plusCodes =
     [...new Set([encode(userLocation[1], userLocation[0], PLUSCODE_PRECISION), ...getSurroundingCodes()])];
@@ -123,13 +118,6 @@ export default (userLocation) => {
     let subscribers = [];
 
     if (isMounted && userLocation) {
-      // return early if location is the same
-      const sameLocation = userLocation.every((val, index) => val == prevLocation[index]);
-      if (sameLocation) {
-        return;
-      }
-
-      setPrevLocation(userLocation);
       fetchShouts(subscribers);
     }
 

@@ -3,7 +3,7 @@ import Geolocation from 'react-native-geolocation-service';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 import { check, request, PERMISSIONS } from 'react-native-permissions';
 import { openSetting } from './linking';
-import { COLORS, STRINGS, getStrings } from 'res';
+import { STRINGS, getStrings } from 'res';
 
 const {
   DESIRED_ACCURACY_HIGH,
@@ -42,10 +42,9 @@ export const backgroundConfig = {
   notification: {
     channelName: STRINGS.notifications.backgroundGeo.channelName,
     priority: NOTIFICATION_PRIORITY_MIN,
+    layout: 'geo_notification_layout',
     smallIcon: 'drawable/ic_stat_location',
-    color: COLORS.asphaltGray[800],
     title: STRINGS.notifications.backgroundGeo.title,
-    text: '',
   },
 };
 
