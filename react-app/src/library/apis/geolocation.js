@@ -42,10 +42,9 @@ export const backgroundConfig = {
   notification: {
     channelName: STRINGS.notifications.backgroundGeo.channelName,
     priority: NOTIFICATION_PRIORITY_MIN,
+    layout: 'geo_notification_layout',
     smallIcon: 'drawable/ic_stat_location',
-    color: COLORS.asphaltGray[800],
     title: STRINGS.notifications.backgroundGeo.title,
-    text: '',
   },
 };
 
@@ -136,10 +135,10 @@ export const getLocationPermission = async (authReq = 'wheninuse') => {
 export const onLocationHandler = (location, callback) => {
   const { coords, mocked } = location;
 
-  if (mocked) {
-    showMockLocationDialog();
-    return;
-  }
+  // if (mocked) {
+  //   showMockLocationDialog();
+  //   return;
+  // }
   callback(coords);
 };
 
