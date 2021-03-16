@@ -1,5 +1,4 @@
 PODS:
-  - "@react-native-mapbox-gl-mapbox-static (5.9.0)"
   - abseil/algorithm (0.20200225.0):
     - abseil/algorithm/algorithm (= 0.20200225.0)
     - abseil/algorithm/container (= 0.20200225.0)
@@ -660,19 +659,11 @@ PODS:
     - React
     - TwitterKit5
   - react-native-mapbox-gl (8.1.0):
-    - "@react-native-mapbox-gl-mapbox-static (~> 5.9.0)"
     - Mapbox-iOS-SDK (~> 5.9.0)
     - React
     - React-Core
     - react-native-mapbox-gl/DynamicLibrary (= 8.1.0)
-    - react-native-mapbox-gl/StaticLibraryFixer (= 8.1.0)
   - react-native-mapbox-gl/DynamicLibrary (8.1.0):
-    - "@react-native-mapbox-gl-mapbox-static (~> 5.9.0)"
-    - Mapbox-iOS-SDK (~> 5.9.0)
-    - React
-    - React-Core
-  - react-native-mapbox-gl/StaticLibraryFixer (8.1.0):
-    - "@react-native-mapbox-gl-mapbox-static (~> 5.9.0)"
     - Mapbox-iOS-SDK (~> 5.9.0)
     - React
     - React-Core
@@ -933,7 +924,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - "@react-native-mapbox-gl-mapbox-static"
     - abseil
     - boost-for-react-native
     - BoringSSL-GRPC
@@ -1104,7 +1094,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  "@react-native-mapbox-gl-mapbox-static": 83c0e0ba33597bb694735ffb136d3d96780af37d
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
@@ -1167,7 +1156,7 @@ SPEC CHECKSUMS:
   react-native-flipper: 5a9d5959364fca6a8a9658d941343774cb197857
   react-native-geolocation-service: f33626f1ae12381ca2ae60f98b2f5edd676bf95a
   react-native-login-twitter: f0f71fa99f7ec2cd7578b0982c2ef11a4cc90a03
-  react-native-mapbox-gl: eec7e5be5b874cfceb79fcfe24d595411015153a
+  react-native-mapbox-gl: b5331005305d6779b7e2f9444b5169c12b82b863
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
@@ -1210,6 +1199,6 @@ SPEC CHECKSUMS:
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: f2a550a0f66fa7eeeaf83579198b36924dc6ad37
+PODFILE CHECKSUM: fd80e3ba7c8b5dda18bafe16bdaea404f070bbc4
 
 COCOAPODS: 1.10.1

@@ -41,6 +41,21 @@ target 'tinytown' do
   # you should disable the next line.
   use_flipper!()
 
+  # workaround for cocoapods / mapbox bug https://github.com/react-native-mapbox-gl/maps/issues/1097#issuecomment-781647269
+  pre_install do |installer|
+    fix_mapbox_events(installer)
+  end
+
+  def fix_mapbox_events(installer)
+    installer.pod_targets.each do |pod|
+      if pod.name == 'MapboxMobileEvents'
+        def pod.build_type;
+          Pod::BuildType.dynamic_framework
+        end
+      end
+    end
+  end
+
   post_install do |installer|
     react_native_post_install(installer)
   end
