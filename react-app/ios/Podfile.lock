@@ -652,8 +652,8 @@ PODS:
   - React-jsinspector (0.64.0)
   - react-native-compass-heading (1.0.2):
     - React
-  - react-native-flipper (0.71.0):
-    - React
+  - react-native-flipper (0.80.0):
+    - React-Core
   - react-native-geolocation-service (5.1.1):
     - React
   - react-native-login-twitter (3.0.4):
@@ -749,7 +749,7 @@ PODS:
     - React-perflogger (= 0.64.0)
   - RNBackgroundFetch (4.0.1):
     - React-Core
-  - RNBackgroundGeolocation (3.10.0):
+  - RNBackgroundGeolocation (4.0.0):
     - CocoaLumberjack (~> 3.6.1)
     - React-Core
   - RNBackgroundGeolocationFirebase (0.4.0):
@@ -1164,7 +1164,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 06a9c77b56902ae7ffcdd7a4905f664adc5d237b
   React-jsinspector: 0ae35a37b20d5e031eb020a69cc5afdbd6406301
   react-native-compass-heading: 18742617bdb9e06ce104bd3b90f0dc700b791fd1
-  react-native-flipper: 4d3780a76fbffce4706a21df75573e02b82ca6b6
+  react-native-flipper: 5a9d5959364fca6a8a9658d941343774cb197857
   react-native-geolocation-service: f33626f1ae12381ca2ae60f98b2f5edd676bf95a
   react-native-login-twitter: f0f71fa99f7ec2cd7578b0982c2ef11a4cc90a03
   react-native-mapbox-gl: eec7e5be5b874cfceb79fcfe24d595411015153a
@@ -1184,7 +1184,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: cad74a1eaa53ee6e7a3620231939d8fe2c6afcf0
   ReactCommon: cfe2b7fd20e0dbd2d1185cd7d8f99633fbc5ff05
   RNBackgroundFetch: 5d7af5d9fa5f0a56a301d3124e11b25edb1995c5
-  RNBackgroundGeolocation: 1184aff02a730e243785482561d0b8d9649548a3
+  RNBackgroundGeolocation: 2461cd39cd688148131a66d79d7c7cd921ee3a4f
   RNBackgroundGeolocationFirebase: 9c11cb1c714e22c9d975069f66d2e2e4bef841bf
   RNBootSplash: c7304515f0b7502878ecc0fdcce8136134419cdc
   RNCAsyncStorage: da95b83e241a7f5efe3da1a949b3ec3175380be0

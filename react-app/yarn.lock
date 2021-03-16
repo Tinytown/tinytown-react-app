@@ -7748,19 +7748,10 @@ react-is@^16.13.0, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-native-background-fetch@^4.0.1:
+react-native-background-fetch@^4.0.1, react-native-background-fetch@~4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/react-native-background-fetch/-/react-native-background-fetch-4.0.1.tgz#dbb59c8f31ece8af6eff6d552c4ce00f6c1653dd"
   integrity sha512-dUhAU7qfSDPdTSg7E6CZ6RhdhxCt9dZAdtoKTvOnpMNxubW+DrPca1oisCML/GatNwVWCJgvLMxuA9I1oonmrQ==
-  dependencies:
-    fast-plist "^0.1.2"
-    plist "^3.0.1"
-    xcode "^2.0.0"
-
-react-native-background-fetch@~3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-background-fetch/-/react-native-background-fetch-3.1.0.tgz#5ec182662e76bd8257f21c6f65cdcb73e87a0708"
-  integrity sha512-dnrfX3Od4r3aKuRSwDkpaPFXc3dYD5DbIW7CWC41M1CdEZEXNIWfZRvJPMVa72iflOzAh68ZTfZ3PgBK/NDtsQ==
   dependencies:
     fast-plist "^0.1.2"
     plist "^3.0.1"
@@ -7771,14 +7762,14 @@ react-native-background-geolocation-firebase@^0.4.0:
   resolved "https://registry.yarnpkg.com/react-native-background-geolocation-firebase/-/react-native-background-geolocation-firebase-0.4.0.tgz#7d4cc156634f38c795880c3dac8ddac8534e25cc"
   integrity sha512-73ccs8jmC/LfZJrthmaYiZgzioFptYxdM2X37tFZ334Hs01pSICInKdBWuRJ2ihIXeXVJSKOzj1O+Pi9wHKqbA==
 
-react-native-background-geolocation@^3.10.0:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/react-native-background-geolocation/-/react-native-background-geolocation-3.10.0.tgz#68ef0ccd88d3979cfde0fafe86c52b4238dc42ef"
-  integrity sha512-fWlUEaxys5BT9OMNg5iAMJXPzcJ6btoi5sYBcmPKP2bHwIO1Q4JLKEpaFF63HlnY7k46Fla3XW2q3HP/9iagEg==
+react-native-background-geolocation@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-background-geolocation/-/react-native-background-geolocation-4.0.0.tgz#0dc09f63ad618c3629de33b2b40b44e283269902"
+  integrity sha512-5RzrfpKr5PhOwnOnyLSid/9rIkcLMmZ+MtlOzCrSUjzT4bkbZx06h0uEYVqf+LUiRfnnOmwDyu0dPVul/7l5Qw==
   dependencies:
     fast-plist "^0.1.2"
     plist "^2.0.1"
-    react-native-background-fetch "~3.1.0"
+    react-native-background-fetch "~4.0.1"
     xcode "^0.9.1"
 
 react-native-bootsplash@^3.1.5:
@@ -7814,10 +7805,10 @@ react-native-device-info@^8.0.2:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-8.0.2.tgz#edefb8538412bf33e12a7ba1b80fbd804f69580b"
   integrity sha512-5X5sMO2N9WpnqA4BXHlby0ml0WKlHconLhgf8fCiXDELf7DIjOMX8z6iYZ7WDgmn0E/6Psubq9yb5D2Qdc30Wg==
 
-react-native-flipper@^0.71.0:
-  version "0.71.0"
-  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.71.0.tgz#5fefaf702b2e12e6e0ec4721fe276a6904789517"
-  integrity sha512-ITTgmxopMYilr0AJbApmqrV7boOelqctGE2GpOf+lMhUunCMiplbkrtWRSPPunw046VmXpEk5FX55QA0975ovA==
+react-native-flipper@^0.80.0:
+  version "0.80.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.80.0.tgz#ac576ccbb5b0babf926d450d8f0689b59cff2d20"
+  integrity sha512-D9IUOY3wCjVupbQS9uWEgUdwO9DD11aOSjxswOeDNozB2GG2xI1iKSeGqNuFFq7Gr522yWVCmjNGpTbjEonPQQ==
 
 react-native-geolocation-service@^5.0.0:
   version "5.1.1"
