@@ -1,6 +1,7 @@
 import functions from '@react-native-firebase/functions';
 import DeviceInfo from 'react-native-device-info';
-import { UPDATE_LOCATION, GO_TO_USER, GO_TO_TARGET, USER_VISIBLE } from './actionTypes';
+import { UPDATE_LOCATION, GO_TO_USER, GO_TO_TARGET, USER_VISIBLE, SIGN_OUT } from './actionTypes';
+import INITIAL_STATE from './initialState';
 import { storeData } from 'library/apis/storage';
 
 export const locationReducer = (state = null, action) => {
@@ -23,6 +24,8 @@ export const locationReducer = (state = null, action) => {
     return { ...state, cameraTarget: action.payload };
   case USER_VISIBLE:
     return { ...state, userVisible: action.payload, goToUser: false };
+  case SIGN_OUT:
+    return { ...state, ...INITIAL_STATE.location };
   default:
     return state;
   }

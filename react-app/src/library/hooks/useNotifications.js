@@ -20,11 +20,11 @@ export default (isSignedIn) => {
 
   useEffect(() => {
     let subscribers = [];
+
     if (notificationsEnabled && isSignedIn) {
-      initNotifications(subscribers);
+      enableNotifications(subscribers);
     } else if (notificationsEnabled === false && isSignedIn) {
-      // remove token from firestore
-      updateRegistrationToken(null);
+      disableNotifications(subscribers);
     }
 
     // navigate to shout from cold start after nav stack is ready
@@ -40,12 +40,12 @@ export default (isSignedIn) => {
     };
   }, [notificationsEnabled, navIsReady, newNotification]);
 
-  const initNotifications = async (subscribers) => {
+  const enableNotifications = async (subscribers) => {
     const hasPermission = await getNotificationsPermission();
 
     if (hasPermission) {
       // listen for notifications when app is opened
-      const unsubscribe = messaging().onMessage(({ data: { shout }, notification: { body } }) => {
+      const unsubOnMessage = messaging().onMessage(({ data: { shout }, notification: { body } }) => {
         dispatch(updateNotificationShouts('add', { ...JSON.parse(shout), text: body }));
       });
 
@@ -64,11 +64,21 @@ export default (isSignedIn) => {
 
       // update token in firestore
       messaging().getToken()
-        .then((token) => updateRegistrationToken(token));
+        .then(updateRegistrationToken);
 
-      subscribers.push(unsubscribe);
+      // listen for token refresh when app is opened
+      const unsubOnTokenRefresh = messaging().onTokenRefresh(updateRegistrationToken);
+
+      subscribers.push(unsubOnMessage, unsubOnTokenRefresh);
     } else {
       updateSetting('notifications', false);
+    }
+  };
+  const disableNotifications = async (subscribers) => {
+    if (subscribers.length) {
+      subscribers.forEach((unsubscribe) => {
+        unsubscribe();
+      });
     }
   };
 
