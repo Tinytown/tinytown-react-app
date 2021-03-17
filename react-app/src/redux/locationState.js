@@ -28,13 +28,15 @@ export const locationReducer = (state = null, action) => {
   }
 };
 
-export const goToUser = ({ longitude, latitude }) => {
-  const payload = {
-    user: [longitude, latitude],
-    hasPermission: true,
-  };
+export const goToUser = ({ longitude, latitude }) => (dispatch) => {
+  dispatch({
+    type: GO_TO_USER,
+    payload: {
+      user: [longitude, latitude],
+      hasPermission: true,
+    },
+  });
   storeData('userLocation', [longitude, latitude]);
-  return { type: GO_TO_USER, payload };
 };
 
 export const goToTarget = (payload) => {
