@@ -5,7 +5,8 @@ const getSurroundingCodes = require('../location/getSurroundingCodes');
 const { SIGHT_RADIUS } = require('../location/config');
 
 module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
-  const config = await admin.remoteConfig().getTemplate();
+  const config = await admin.remoteConfig().getTemplate()
+    .catch((e) => console.log(e));;
   const {
     COLORS: { defaultValue: { value: colorValues } },
     STRINGS: { defaultValue: { value: stringValues } },
@@ -59,7 +60,7 @@ module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
   try {
     const areasSnapshot = await areasRef.get();
 
-    if (!areasSnapshot || areasSnapshot.size === 0) {
+    if (!areasSnapshot || areasSnapshot.empty) {
       return;
     }
 
@@ -67,7 +68,7 @@ module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
       const devicesSnapshot = await mapRef.doc(id).collection('devices')
         .get();
 
-      if (!devicesSnapshot || devicesSnapshot.size === 0) {
+      if (!devicesSnapshot || devicesSnapshot.empty) {
         return;
       }
 
@@ -89,8 +90,8 @@ module.exports = async ({ text, coordinates, id, createdAt }, senderId) => {
 
         // check if notifications are enabled
         if (notifications) {
-          message.token = registrationToken;
-          admin.messaging().send(message);
+          await admin.messaging().send({ ...message, token: registrationToken })
+            .catch((e) => console.log(e));;
         }
       });
     });

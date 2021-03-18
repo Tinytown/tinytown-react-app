@@ -60,10 +60,9 @@ export default (isSignedIn) => {
 
   // load from local storage
   useEffect(() => {
-    if (appState === 'active') {
-      dispatch(getStateFromLS());
-    }
-  }, [appState]);
+    appStateHandler(AppState.currentState);
+    dispatch(getStateFromLS());
+  }, []);
 
   const appStateHandler = (event) => {
     if (Platform.OS === 'android' && event === 'background') {

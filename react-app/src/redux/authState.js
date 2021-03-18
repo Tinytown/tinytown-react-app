@@ -35,6 +35,9 @@ export const signIn = (token, secret) => async (dispatch, getState) => {
     .doc(uid);
   const deviceRef = userRef.collection('devices').doc(deviceId);
 
+  // store uid
+  userRef.set({ uid });
+
   // store oauth tokens
   userRef
     .collection('oauth')

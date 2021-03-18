@@ -17,7 +17,7 @@ module.exports = async (uid, deviceId, coordinates) => {
     // remove from previous area
     const device = await deviceRef.get();
     const data = device.data();
-    if (data.lastArea) {
+    if (data && data.lastArea) {
       await db.collection('map').doc(data.lastArea)
         .collection('devices')
         .doc(deviceId)
@@ -25,7 +25,7 @@ module.exports = async (uid, deviceId, coordinates) => {
     }
 
     // store in users collection
-    await deviceRef.update({ lastLocation: coordinates, lastArea: plusCode });
+    await deviceRef.set({ lastLocation: coordinates, lastArea: plusCode }, { merge: true });
 
     // store in map collection
     await mapRef.set({ area: areaCoords }, { merge: true });

@@ -18,7 +18,7 @@ admin.initializeApp({
 exports.signOut = functions.https.onCall(signOut);
 exports.createShout = functions.https.onCall(createShout);
 exports.checkTwitterGeo = functions.https.onCall(checkTwitterGeo);
-exports.removeExpiredShouts = functions.pubsub.schedule('every week').onRun(removeExpiredShouts);
+exports.removeExpiredShouts = functions.pubsub.schedule('0 0 * * 7').onRun(removeExpiredShouts);
 exports.storeLocation = functions.https.onCall(storeLocation);
 exports.cleanLocationUpdates = functions.firestore.document('users/{uid}/devices/{deviceId}/locations/{locationId}')
   .onCreate(cleanLocationUpdates);

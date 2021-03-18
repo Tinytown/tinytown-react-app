@@ -230,6 +230,7 @@ export default (sheetLayout) => {
       actions: { cancel, discard },
     } = STRINGS;
 
+    setShowSettings(false);
     Alert.alert(title, '',
       [
         { text: cancel, onPress: () => setOpenSheet(true) },

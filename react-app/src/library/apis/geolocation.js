@@ -13,7 +13,6 @@ const {
   ready,
   start,
   stop,
-  removeListeners,
 } = BackgroundGeolocation;
 
 const { getCurrentPosition, watchPosition, clearWatch } = Geolocation;
@@ -199,7 +198,6 @@ export const stopBackgroundGeo = async () => {
 
     if (enabled && hasBackGeoPermission) {
       await stop(() => console.log('stopped background service'));
-      await removeListeners();
     }
   } catch (error) {
     console.log(error);

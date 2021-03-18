@@ -68,7 +68,7 @@ export default (userLocation) => {
       // start listening for changes in each area
       areasSnapshot.forEach((doc) => {
         const shoutSubscriber = doc.ref.collection('shouts').onSnapshot((shoutsSnapshot) => {
-          if (!shoutsSnapshot || shoutsSnapshot?.size === 0) {
+          if (!shoutsSnapshot || shoutsSnapshot.empty) {
             return;
           }
 
