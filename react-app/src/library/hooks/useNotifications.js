@@ -89,7 +89,7 @@ export default (isSignedIn) => {
       .doc(uid)
       .collection('devices')
       .doc(deviceId)
-      .update({ registrationToken: token })
+      .set({ registrationToken: token }, { merge: true })
       .catch((error) => console.log(error));
 
     // store location in firestore
