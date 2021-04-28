@@ -1,3 +1,5 @@
+![App Screenshots](https://miro.medium.com/max/1925/1*JWKSSToekACEy2ksndW0gg.png)
+
 # Tinytown
 The main codebase for the Tinytown React Native app.
 
